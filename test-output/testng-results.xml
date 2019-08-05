@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="19782" started-at="2019-08-05T09:56:02Z" finished-at="2019-08-05T09:56:22Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="19782" started-at="2019-08-05T09:56:02Z" finished-at="2019-08-05T09:56:22Z">
+      <class name="com.leanplum.AppTest">
+        <test-method status="PASS" signature="setupTest()[pri:0, instance:com.leanplum.AppTest@26aa12dd]" name="setupTest" is-config="true" duration-ms="15644" started-at="2019-08-05T12:56:02Z" finished-at="2019-08-05T12:56:18Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setupTest -->
+        <test-method status="PASS" signature="open()[pri:0, instance:com.leanplum.AppTest@26aa12dd]" name="open" duration-ms="4051" started-at="2019-08-05T12:56:18Z" finished-at="2019-08-05T12:56:22Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- open -->
+      </class> <!-- com.leanplum.AppTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
