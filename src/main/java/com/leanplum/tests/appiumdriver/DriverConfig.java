@@ -24,5 +24,4 @@ public interface DriverConfig {
 
     @BoundProperty("chromedriverExecutableDirRemote")
     public String getChromeDriverExecutablePathRemote();
-
 }

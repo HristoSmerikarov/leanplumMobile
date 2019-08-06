@@ -10,6 +10,7 @@ public class DriverFactory {
     private static String DRIVER_CONFIG_FILE = "resources/driver.properties";
 
     public static AppiumDriver<MobileElement> createDriver(DeviceProperties deviceProperties) {
+
         DriverConfig driverConfig = (DriverConfig) PropertiesUtils.loadProperties(DRIVER_CONFIG_FILE,
                 DriverConfig.class);
         PlatformEnum platform = PlatformEnum.valueOfEnum(driverConfig.getTargetPlatform()).get();
@@ -23,8 +24,7 @@ public class DriverFactory {
             url = driverConfig.getAppiumServerUrl();
         }
 
-        DesiredCapabilitiesUtils desiredCapabilitiesUtils = new DesiredCapabilitiesUtils(driverConfig,
-                deviceProperties);
+        DesiredCapabilitiesUtils desiredCapabilitiesUtils = new DesiredCapabilitiesUtils(deviceProperties);
 
         return platform.initializeDriver(url, desiredCapabilitiesUtils.getDesiredCapabilities());
     }

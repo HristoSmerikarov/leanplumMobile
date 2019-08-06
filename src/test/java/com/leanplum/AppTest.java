@@ -8,15 +8,15 @@ import org.testng.annotations.Test;
 
 import com.leanplum.tests.base.BaseTest;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
 
 public class AppTest extends BaseTest {
 
     @Test
     public void open() {
-        AppiumDriver<MobileElement> driver = getAppiumDriver();
-
+        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
+        
         WebDriverWait wait = new WebDriverWait(driver, 20);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("android:id/button1")));
 
@@ -29,6 +29,9 @@ public class AppTest extends BaseTest {
         String buttonText = getAppiumDriver().findElementById("com.leanplum.rondo:id/buttonTrack").getText();
 
         Assert.assertTrue(buttonText.equals("SEND TRACK EVENT"));
+        
+        driver.closeApp();
+        
+        driver.quit();
     }
-
 }

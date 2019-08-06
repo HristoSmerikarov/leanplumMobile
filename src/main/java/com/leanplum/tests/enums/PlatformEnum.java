@@ -18,9 +18,9 @@ public enum PlatformEnum {
     ANDROID_APP("Android") {
         @Override
         public AppiumDriver<MobileElement> initializeDriver(String url, DesiredCapabilities caps) {
-            AppiumDriver<MobileElement> driver = null;
+            AndroidDriver<MobileElement> driver = null;
             try {
-                driver = new AndroidDriver<>(new URL(url), caps);
+                driver = new AndroidDriver<MobileElement>(new URL(url), caps);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 fail(e.getMessage());
