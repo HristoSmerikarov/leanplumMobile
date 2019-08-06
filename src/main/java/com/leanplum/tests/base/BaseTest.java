@@ -24,7 +24,7 @@ public class BaseTest {
 
     @BeforeTest(dependsOnMethods = "setupAppiumService")
     public void setupTest() {
-        driver = DriverFactory.createDriver(DevicePropertiesUtils.getDeviceProperties("android", "emulator"));
+        driver = DriverFactory.createDriver(DevicePropertiesUtils.getDeviceProperties("ios", "device"));
     }
 
     public AppiumDriver<MobileElement> getAppiumDriver() {

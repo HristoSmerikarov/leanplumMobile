@@ -21,5 +21,11 @@ public interface DeviceProperties {
     
     @BoundProperty("noreset")
     public String getNoReset();
+    
+    @BoundProperty("app")
+    public String getApp();
+    
+    @BoundProperty("bundleId")
+    public String getBundleId();
 
 }
