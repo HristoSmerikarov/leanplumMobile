@@ -1,6 +1,7 @@
 package com.leanplum.tests.base;
 
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 
 import com.leanplum.tests.appiumdriver.AppiumServiceUtils;
@@ -9,30 +10,35 @@ import com.leanplum.tests.appiumdriver.DriverFactory;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.pagefactory.AndroidBy;
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 
 public class BaseTest {
+	
+	private AppiumDriver<MobileElement> driver = null;
+	private AppiumDriverLocalService service = null;
 
-    private AppiumDriver<MobileElement> driver = null;
-    private AppiumDriverLocalService service = null;
+//	@BeforeTest
+//	public void setupAppiumService() {
+//		service = AppiumServiceUtils.setupAppiumService();
+//		service.start();
+//	}
+//dependsOnMethods = "setupAppiumService"
+	
+	@BeforeTest()
+	public void setupTest() {
+		this.driver = DriverFactory.createDriver(
+				DevicePropertiesUtils.getDeviceProperties(System.getProperty("os"), System.getProperty("deviceType")));
+	}
 
-    @BeforeTest
-    public void setupAppiumService() {
-        service = AppiumServiceUtils.setupAppiumService();
-        service.start();
-    }
+	public AppiumDriver<MobileElement> getAppiumDriver() {
+		return this.driver;
+	}
 
-    @BeforeTest(dependsOnMethods = "setupAppiumService")
-    public void setupTest() {
-        driver = DriverFactory.createDriver(DevicePropertiesUtils.getDeviceProperties("ios", "device"));
-    }
-
-    public AppiumDriver<MobileElement> getAppiumDriver() {
-        return this.driver;
-    }
-
-    @AfterTest
-    public void stopAppiumService() {
-        service.stop();
-    }
+//	@AfterTest
+//	public void stopAppiumService() {
+//		service.stop();
+//	}
 }

@@ -24,5 +24,4 @@ public class AppiumServiceUtils {
         // your test scripts logic...
         // service.stop();
     }
-
 }

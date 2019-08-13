@@ -23,10 +23,7 @@ public class DriverFactory {
         } else {
             url = driverConfig.getAppiumServerUrl();
         }
-
-        DesiredCapabilitiesUtils desiredCapabilitiesUtils = new DesiredCapabilitiesUtils(deviceProperties);
-
-        return platform.initializeDriver(url, desiredCapabilitiesUtils.getDesiredCapabilities());
+        
+        return platform.initializeDriver(url, platform.loadDesiredCapabilities(deviceProperties));
     }
-
 }
