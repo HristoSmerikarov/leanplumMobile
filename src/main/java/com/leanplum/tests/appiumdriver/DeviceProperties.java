@@ -27,5 +27,17 @@ public interface DeviceProperties {
     
     @BoundProperty("bundleId")
     public String getBundleId();
-
+    
+    @BoundProperty("automationName")
+    public String getAutomationName();
+    
+    @BoundProperty("udid")
+    public String getUdid();
+    
+    @BoundProperty("xcodeOrgId")
+	public String getXcodeOrgId();
+    
+    @BoundProperty("xcodeSigningId")
+	public String getXcodeSigningId();
+    
 }
