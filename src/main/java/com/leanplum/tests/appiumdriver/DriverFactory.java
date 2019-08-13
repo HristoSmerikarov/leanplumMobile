@@ -9,7 +9,7 @@ public class DriverFactory {
 
     private static String DRIVER_CONFIG_FILE = "resources/driver.properties";
 
-    public static AppiumDriver<MobileElement> createDriver(DeviceProperties deviceProperties) {
+    public AppiumDriver<MobileElement> createDriver(DeviceProperties deviceProperties) {
 
         DriverConfig driverConfig = (DriverConfig) PropertiesUtils.loadProperties(DRIVER_CONFIG_FILE,
                 DriverConfig.class);

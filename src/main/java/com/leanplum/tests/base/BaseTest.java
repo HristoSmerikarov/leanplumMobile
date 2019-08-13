@@ -12,7 +12,6 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidBy;
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 
 public class BaseTest {
@@ -27,9 +26,10 @@ public class BaseTest {
 //	}
 //dependsOnMethods = "setupAppiumService"
 	
-	@BeforeTest()
+	@BeforeTest
 	public void setupTest() {
-		this.driver = DriverFactory.createDriver(
+	    DriverFactory df = new DriverFactory();
+		this.driver = df.createDriver(
 				DevicePropertiesUtils.getDeviceProperties(System.getProperty("os"), System.getProperty("deviceType")));
 	}
 
