@@ -72,11 +72,12 @@ public enum PlatformEnum {
 			capabilities.setCapability(MobileCapabilityType.UDID, deviceProperties.getUdid());
 			capabilities.setCapability(MobileCapabilityType.NO_RESET, deviceProperties.getNoReset());
 			
+			capabilities.setCapability("wdaLocalPort", deviceProperties.getWdaLocalPort());
+            capabilities.setCapability("webkitDebugProxyPort", deviceProperties.getDebugProxyPort());
+			
 			capabilities.setCapability(IOSMobileCapabilityType.BUNDLE_ID, deviceProperties.getBundleId());
 			capabilities.setCapability(IOSMobileCapabilityType.XCODE_ORG_ID, deviceProperties.getXcodeOrgId());
 			capabilities.setCapability(IOSMobileCapabilityType.XCODE_SIGNING_ID, deviceProperties.getXcodeSigningId());
-
-			
 			
 			return capabilities;
 		}

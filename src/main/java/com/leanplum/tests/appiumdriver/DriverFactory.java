@@ -13,7 +13,7 @@ public class DriverFactory {
 
         DriverConfig driverConfig = (DriverConfig) PropertiesUtils.loadProperties(DRIVER_CONFIG_FILE,
                 DriverConfig.class);
-        PlatformEnum platform = PlatformEnum.valueOfEnum(driverConfig.getTargetPlatform()).get();
+        PlatformEnum platform = PlatformEnum.valueOfEnum(System.getProperty("os")).get();
         boolean useSeleniumGrid = driverConfig.isSeleniumGrid();
 
         String url;

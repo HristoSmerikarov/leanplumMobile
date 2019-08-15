@@ -21,12 +21,13 @@ public class BaseTest {
 
 //	@BeforeTest
 //	public void setupAppiumService() {
-//		service = AppiumServiceUtils.setupAppiumService();
+//		 service = AppiumServiceUtils.setupAppiumService();		
 //		service.start();
 //	}
-//dependsOnMethods = "setupAppiumService"
 	
-	@BeforeTest
+	//dependsOnMethods = "setupAppiumService"
+	
+	@BeforeTest()
 	public void setupTest() {
 	    DriverFactory df = new DriverFactory();
 		this.driver = df.createDriver(

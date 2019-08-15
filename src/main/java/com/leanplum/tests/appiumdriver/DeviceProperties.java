@@ -39,5 +39,11 @@ public interface DeviceProperties {
     
     @BoundProperty("xcodeSigningId")
 	public String getXcodeSigningId();
+
+    @BoundProperty("wdaLocalPort")
+	public String getWdaLocalPort();
+    
+    @BoundProperty("debugProxyPort")
+	public String getDebugProxyPort();
     
 }
