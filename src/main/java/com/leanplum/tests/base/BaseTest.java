@@ -15,31 +15,33 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 
 public class BaseTest {
-	
-	private AppiumDriver<MobileElement> driver = null;
-	private AppiumDriverLocalService service = null;
 
-//	@BeforeTest
-//	public void setupAppiumService() {
-//		 service = AppiumServiceUtils.setupAppiumService();		
-//		service.start();
-//	}
-	
-	//dependsOnMethods = "setupAppiumService"
-	
-	@BeforeTest()
-	public void setupTest() {
-	    DriverFactory df = new DriverFactory();
-		this.driver = df.createDriver(
-				DevicePropertiesUtils.getDeviceProperties(System.getProperty("os"), System.getProperty("deviceType")));
-	}
+    private AppiumDriver<MobileElement> driver = null;
+    private AppiumDriverLocalService service = null;
 
-	public AppiumDriver<MobileElement> getAppiumDriver() {
-		return this.driver;
-	}
+    @BeforeTest
+    public void setupAppiumService() {
+        if (System.getProperty("os").toLowerCase().equals("android")) {
+            service = AppiumServiceUtils.setupAppiumService();
+            service.start();
+        }
+    }
 
-//	@AfterTest
-//	public void stopAppiumService() {
-//		service.stop();
-//	}
+    @BeforeTest(dependsOnMethods = "setupAppiumService")
+    public void setupTest() {
+        DriverFactory df = new DriverFactory();
+        this.driver = df.createDriver(
+                DevicePropertiesUtils.getDeviceProperties(System.getProperty("os"), System.getProperty("deviceType")));
+    }
+
+    public AppiumDriver<MobileElement> getAppiumDriver() {
+        return this.driver;
+    }
+
+    @AfterTest
+    public void stopAppiumService() {
+        if (System.getProperty("os").toLowerCase().equals("android")) {
+            service.stop();
+        }
+    }
 }
