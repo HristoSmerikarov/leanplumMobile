@@ -7,6 +7,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
@@ -60,11 +61,17 @@ public class BaseTest {
             ExtentTestManager.getTest().log(LogStatus.PASS, stepDescription, takeScreenshot());
         } else {
             ExtentTestManager.getTest().log(LogStatus.FAIL, stepDescription, takeScreenshot());
+            hasFailedStep = true;
         }
     }
 
     public AppiumDriver<MobileElement> getAppiumDriver() {
         return this.driver;
+    }
+
+    @AfterMethod
+    public boolean hasFailedSteps() {
+        return hasFailedStep;
     }
 
     @AfterTest(alwaysRun = true)
@@ -74,7 +81,7 @@ public class BaseTest {
         }
     }
 
-    private String takeScreenshot() {
+    protected String takeScreenshot() {
         return ExtentTestManager.getTest().addBase64ScreenShot(
                 "data:image/png;base64," + ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64));
     }
