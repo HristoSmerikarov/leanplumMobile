@@ -21,12 +21,17 @@ public class MobileDriverUtils {
         return matchAnyElements;
     }
 
-    public static <T> T waitForExpectedCondition(MobileDriver<MobileElement> driver,
+    public static <T> T waitForExpectedCondition(MobileDriver<MobileElement> driver, int waitTimeout,
             ExpectedCondition<T> expectedCondition) {
-        WebDriverWait wait = new WebDriverWait(driver, WAIT_TAIMEOUT);
+        WebDriverWait wait = new WebDriverWait(driver, waitTimeout);
         T result;
         result = wait.until(expectedCondition);
         return result;
+    }
+
+    public static <T> T waitForExpectedCondition(MobileDriver<MobileElement> driver,
+            ExpectedCondition<T> expectedCondition) {
+        return waitForExpectedCondition(driver, WAIT_TAIMEOUT, expectedCondition);
     }
 
     /**

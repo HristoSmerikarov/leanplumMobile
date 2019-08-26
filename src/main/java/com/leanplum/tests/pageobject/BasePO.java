@@ -24,7 +24,7 @@ public class BasePO {
     
     @AndroidFindBy(id = "android:id/button1")
     // @iOSXCUITFindBy(xpath = ""]")
-    public MobileElement confirmAlert;
+    public MobileElement confirmAlertButton;
     
     @AndroidFindBy(id = "com.android.packageinstaller:id/permission_message")
     // @iOSXCUITFindBy(xpath = ""]")

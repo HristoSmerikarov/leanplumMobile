@@ -72,7 +72,7 @@ public class InAppMessagesPO extends BasePO {
             return false;
         }
         
-        click(confirmAlert);
+        click(confirmAlertButton);
         return true;
     }
     

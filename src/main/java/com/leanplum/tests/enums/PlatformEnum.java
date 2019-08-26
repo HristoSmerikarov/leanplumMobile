@@ -46,7 +46,6 @@ public enum PlatformEnum {
 			capabilities.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
 			return capabilities;
 		}
-
 	},
 	IOS_APP("iOS") {
 		@Override
