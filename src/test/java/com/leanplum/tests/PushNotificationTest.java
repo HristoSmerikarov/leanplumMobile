@@ -11,6 +11,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.aventstack.extentreports.ExtentTest;
 import com.leanplum.base.BaseTest;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
@@ -21,8 +22,8 @@ import com.leanplum.tests.pageobject.AndroidPushNotification;
 import com.leanplum.tests.pageobject.BasePO;
 import com.leanplum.tests.pageobject.CenterPopupPO;
 import com.leanplum.tests.pageobject.MobileBrowserPO;
+import com.leanplum.utils.extentreport.ExtentManager;
 import com.leanplum.utils.extentreport.ExtentTestManager;
-import com.relevantcodes.extentreports.LogStatus;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -48,35 +49,33 @@ public class PushNotificationTest extends BaseTest {
     }
 
     @Test(description="Push Notification's open action is New Action")
-    public void pushNotOpenActionWNewAction(Method method) {
-        ExtentTestManager.startTest(method.getName(), "Push Notification's open action is New Action");
-        
+    public void pushNotOpenActionWNewAction() {
         AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
-
+        
+       ExtentTest test = ExtentManager.createInstance().createTest("Push Notification's open action is New Action");
+        
         BasePO basePO = new BasePO(driver);
         basePO.click(basePO.confirmAlertButton);
-        step("Confirm alert");
+        step(test, "Confirm alert");
         
         AdHocPO adHocPO = new AdHocPO(driver);
         adHocPO.click(adHocPO.adhoc);
-        step("Click on Ad-Hoc");
+        step(test, "Click on Ad-Hoc");
 
         adHocPO.sendTrackEvent(LOCAL_TRIGGER);
-        step("Send track evetn: "+LOCAL_TRIGGER);
+        step(test, "Send track evetn: "+LOCAL_TRIGGER);
         
         AndroidPushNotification pushNotification = new AndroidPushNotification(driver, RONDO_PUSH_NOTIFICATION);
-        openNotificationsAndOpenByMessage(driver, pushNotification);
+        openNotificationsAndOpenByMessage(test, driver, pushNotification);
         
         AlertPO alertPO = new AlertPO(driver);
-        step("Verification of alert", alertPO.isAlertCorrect("Rondo Alert123", "Warning this is a Rondo Alert!!"));
+        step(test, "Verification of alert", alertPO.isAlertCorrect("Rondo Alert123", "Warning this is a Rondo Alert!!"));
 
         alertPO.click(alertPO.confirmAlertButton);
-        step("Confirm alert");
+        step(test, "Confirm alert");
         
         adHocPO.sendTrackEvent(END_TRIGGER);
-        step("Send track evetn: "+END_TRIGGER);
-        
-        ExtentTestManager.endTest();
+        step(test, "Send track evetn: "+END_TRIGGER);
     }
     
 //    @Test
@@ -196,16 +195,16 @@ public class PushNotificationTest extends BaseTest {
         driver.openNotifications();
     }
 
-    private void openNotificationsAndOpenByMessage(AndroidDriver<MobileElement> driver,
+    private void openNotificationsAndOpenByMessage(ExtentTest test, AndroidDriver<MobileElement> driver,
             AndroidPushNotification pushNotification) {
         openAndroidNotifications(driver);
-        step("Open notifications");
+        step(test, "Open notifications");
         
         pushNotification.waitForPresence();
-        step("Wait for presence of notification");
+        step(test, "Wait for presence of notification");
         
         pushNotification.open();
-        step("Open notification");
+        step(test, "Open notification");
     }
 
     private boolean verifyCorrectURLIsOpened(AndroidDriver<MobileElement> driver) {

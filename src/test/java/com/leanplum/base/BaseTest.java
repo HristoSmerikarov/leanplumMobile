@@ -1,25 +1,32 @@
 package com.leanplum.base;
 
+import java.io.IOException;
 import java.util.function.Function;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
+import com.aventstack.extentreports.MediaEntityModelProvider;
+import com.aventstack.extentreports.model.Media;
 import com.leanplum.tests.appiumdriver.AppiumServiceUtils;
 import com.leanplum.tests.appiumdriver.DevicePropertiesUtils;
 import com.leanplum.tests.appiumdriver.DriverFactory;
+import com.leanplum.utils.extentreport.ExtentManager;
 import com.leanplum.utils.extentreport.ExtentTestManager;
 import com.leanplum.utils.listeners.AnnotationTransformer;
 import com.leanplum.utils.listeners.TestListener;
-import com.relevantcodes.extentreports.LogStatus;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -31,7 +38,8 @@ public class BaseTest {
 
     private AppiumDriver<MobileElement> driver = null;
     private AppiumDriverLocalService service = null;
-    private boolean hasFailedStep = false;
+    private ExtentTest test;
+    private boolean hasFailedSteps = true;
     private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
     @BeforeMethod
@@ -50,16 +58,17 @@ public class BaseTest {
     }
 
     @Step()
-    public <T> void step(String stepDescription) {
-        ExtentTestManager.getTest().log(LogStatus.PASS, stepDescription, takeScreenshot());
+    public <T> void step(ExtentTest test, String stepDescription) {
+        test.pass(stepDescription, getMedia());
     }
 
     @Step()
-    public void step(String stepDescription, boolean condition) {
+    public void step(ExtentTest test, String stepDescription, boolean condition) {
         if (condition) {
-            ExtentTestManager.getTest().log(LogStatus.PASS, stepDescription, takeScreenshot());
+            test.pass(stepDescription, getMedia());
         } else {
-            ExtentTestManager.getTest().log(LogStatus.FAIL, stepDescription, takeScreenshot());
+            test.fail(stepDescription, getMedia());
+            hasFailedSteps = true;
         }
     }
 
@@ -67,15 +76,32 @@ public class BaseTest {
         return this.driver;
     }
 
+    @AfterMethod()
+    public void hasFailedSteps() {
+        Assert.assertFalse(hasFailedSteps);
+    }
+
     @AfterTest(alwaysRun = true)
     public void stopAppiumService() {
+        if (driver != null) {
+            driver.quit();
+        }
+
         if (System.getProperty("os").toLowerCase().equals("android")) {
             service.stop();
         }
     }
 
-    private String takeScreenshot() {
-        return ExtentTestManager.getTest().addBase64ScreenShot(
-                "data:image/png;base64," + ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64));
+    private MediaEntityModelProvider getMedia() {
+        MediaEntityModelProvider m = new MediaEntityModelProvider(new Media());
+        try {
+            m = MediaEntityBuilder
+                    .createScreenCaptureFromBase64String(
+                            "data:image/png;base64," + ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64))
+                    .build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return m;
     }
 }

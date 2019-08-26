@@ -2,7 +2,6 @@ package com.leanplum.utils.listeners;
 
 import com.leanplum.base.BaseTest;
 import com.leanplum.utils.extentreport.ExtentTestManager;
-import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -33,7 +32,7 @@ public class Retry implements IRetryAnalyzer {
         WebDriver webDriver = ((BaseTest) testClass).getAppiumDriver();
         String base64Screenshot = "data:image/png;base64,"
                 + ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BASE64);
-        ExtentTestManager.getTest().log(LogStatus.FAIL, "Test Failed",
-                ExtentTestManager.getTest().addBase64ScreenShot(base64Screenshot));
+//        ExtentTestManager.getTest().log(LogStatus.FAIL, "Test Failed",
+//                ExtentTestManager.getTest().addBase64ScreenShot(base64Screenshot));
     }
 }
