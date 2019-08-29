@@ -16,11 +16,11 @@ import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.AlertPO;
 import com.leanplum.tests.pageobject.AndroidPushNotification;
 import com.leanplum.tests.pageobject.BasePO;
-import com.leanplum.tests.pageobject.CenterPopupPO;
 import com.leanplum.tests.pageobject.MobileBrowserPO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
+import com.leanplum.tests.pageobject.inapp.CenterPopupPO;
 import com.leanplum.utils.extentreport.ExtentTestManager;
 import com.relevantcodes.extentreports.LogStatus;
 
@@ -68,7 +68,7 @@ public class PushNotificationTest extends BaseTest {
         openNotificationsAndOpenByMessage(driver, pushNotification);
         
         AlertPO alertPO = new AlertPO(driver);
-        step("Verification of alert", alertPO.isAlertCorrect("Rondo Alert123", "Warning this is a Rondo Alert!!"));
+        step("Verification of alert", alertPO.verifyAlertLayout("Rondo Alert123", "Warning this is a Rondo Alert!!"));
 
         alertPO.click(alertPO.confirmAlertButton);
         step("Confirm alert");
@@ -93,12 +93,12 @@ public class PushNotificationTest extends BaseTest {
 //
 //        AndroidPushNotification pushNotification = new AndroidPushNotification(driver, RONDO_PUSH_NOTIFICATION);
 //        openAndroidNotifications(driver);
-//        pushNotification.waitForPresense();
+//        pushNotification.waitForPresence();
 //        Assert.assertTrue(pushNotification.doesContainImage());
 //        pushNotification.open();
 //
 //        CenterPopupPO centerPopupPO = new CenterPopupPO(driver);
-//        centerPopupPO.isCenterPopup("Rondo Center Popup", "Rondo is ready!", "Start now!");
+//        centerPopupPO.verifyCenterPopup("Rondo Center Popup", "Rondo is ready!", "Start now!");
 //
 //        centerPopupPO.clickAcceptButton();
 //        adHocPO.sendTrackEvent(END_TRIGGER);

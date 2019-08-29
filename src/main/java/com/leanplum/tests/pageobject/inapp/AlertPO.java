@@ -1,10 +1,11 @@
-package com.leanplum.tests.pageobject;
+package com.leanplum.tests.pageobject.inapp;
 
 import java.time.Duration;
 
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import com.google.common.collect.ImmutableMap;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 
 import io.appium.java_client.AppiumDriver;
@@ -12,14 +13,16 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
-public class AlertPO extends BasePO {
+public class AlertPO extends InAppPopupPO {
+
+    private static final String ANDROID_ALERT_TITLE_XPATH = "//*[@resource-id='android:id/alertTitle']";
 
     // @iOSXCUITFindBy(xpath = "")
-    @AndroidFindBy(xpath = "//*[@resource-id='android:id/alertTitle']")
+    @AndroidFindBy(xpath = ANDROID_ALERT_TITLE_XPATH)
     public MobileElement alertPopup;
 
     // @iOSXCUITFindBy(xpath = "")
-    @AndroidFindBy(xpath = "//*[@resource-id='android:id/alertTitle']")
+    @AndroidFindBy(xpath = ANDROID_ALERT_TITLE_XPATH)
     public MobileElement alertTitle;
 
     // @iOSXCUITFindBy(xpath = "")
@@ -34,12 +37,10 @@ public class AlertPO extends BasePO {
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
     }
 
-    public boolean isAlertCorrect(String expectedTitle, String expectedMessage) {
+    public boolean verifyAlertLayout(String expectedTitle, String expectedMessage) {
         MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(alertPopup));
-        
-        String actualTitle = alertTitle.getAttribute("text");
-        String actualMessage = alertMessage.getAttribute("text");
 
-        return actualTitle.equals(expectedTitle) && actualMessage.equals(expectedMessage);
+        return MobileDriverUtils.doesSelectorMatchAnyElements(driver, CONFIRM_ALERT_BUTTON_XPATH)
+                && verifyInAppPopup(ImmutableMap.of(alertTitle, expectedTitle, alertMessage, expectedMessage));
     }
 }

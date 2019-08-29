@@ -20,7 +20,7 @@ public class MobileDriverUtils {
         turnOnImplicitWaits(driver);
         return matchAnyElements;
     }
-
+    
     public static <T> T waitForExpectedCondition(MobileDriver<MobileElement> driver, int waitTimeout,
             ExpectedCondition<T> expectedCondition) {
         WebDriverWait wait = new WebDriverWait(driver, waitTimeout);

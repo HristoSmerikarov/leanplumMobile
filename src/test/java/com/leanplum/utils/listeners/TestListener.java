@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+import org.testng.annotations.AfterTest;
 
 import com.leanplum.base.BaseTest;
 import com.leanplum.utils.extentreport.ExtentManager;
@@ -41,9 +42,9 @@ public class TestListener extends BaseTest implements ITestListener {
     public void onTestSuccess(ITestResult iTestResult) {
         System.out.println("I am in onTestSuccess method " + getTestMethodName(iTestResult) + " succeed");
         // ExtentReports log operation for passed tests.
-        if(hasFailedSteps()) {
+        if (hasFailedSteps()) {
             ExtentTestManager.getTest().log(LogStatus.FAIL, "Test has failed verification steps!");
-        }else {
+        } else {
             ExtentTestManager.getTest().log(LogStatus.PASS, "Test passed!");
         }
     }
@@ -56,9 +57,13 @@ public class TestListener extends BaseTest implements ITestListener {
         Object testClass = iTestResult.getInstance();
         WebDriver webDriver = ((BaseTest) testClass).getAppiumDriver();
 
+        // Take base64Screenshot screenshot.
+        String base64Screenshot = "data:image/png;base64,"
+                + ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BASE64);
+
         // ExtentReports log and screenshot operations for failed tests.
         ExtentTestManager.getTest().log(LogStatus.FAIL, "Test Failed",
-                ExtentTestManager.getTest().addBase64ScreenShot(takeScreenshot()));
+                ExtentTestManager.getTest().addBase64ScreenShot(base64Screenshot));
     }
 
     @Override

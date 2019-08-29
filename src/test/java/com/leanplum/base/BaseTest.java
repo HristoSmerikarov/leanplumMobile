@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -74,7 +75,7 @@ public class BaseTest {
         return hasFailedStep;
     }
 
-    @AfterTest(alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void stopAppiumService() {
         if (System.getProperty("os").toLowerCase().equals("android")) {
             service.stop();

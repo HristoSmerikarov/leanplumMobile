@@ -1,6 +1,6 @@
 package com.leanplum.tests.helpers;
 
-import java.util.*;
+import java.util.Random;
 
 public class Utils {
 
