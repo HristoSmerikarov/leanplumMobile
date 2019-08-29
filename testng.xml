@@ -6,7 +6,13 @@
 		<listener class-name="com.leanplum.utils.listeners.AnnotationTransformer" />
 	</listeners>
 
-	<test name="PushNotification">
+	<test name="InAppTemplates">
+		<classes>
+			<class name="com.leanplum.tests.InAppTemplateTest"></class>
+		</classes>
+	</test> <!-- Test -->
+	
+	<test name="PushNotifications">
 		<classes>
 			<class name="com.leanplum.tests.PushNotificationTest"></class>
 		</classes>

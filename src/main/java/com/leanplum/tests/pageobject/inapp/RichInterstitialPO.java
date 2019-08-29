@@ -54,7 +54,7 @@ public class RichInterstitialPO extends InAppPopupPO {
 
     public boolean verifyRichInterstitial(String title, String message, String leftButtonText, String rightButtonText) {
         MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(richInterstitial));
-
+        
         return MobileDriverUtils.doesSelectorMatchAnyElements(driver, RICH_INTERSTITIAL_ANDROID_CLOSE_BUTTON_XPATH)
                 && verifyInAppPopup(ImmutableMap.of(richInterstitialTitle, title, richInterstitialMessage, message,
                         richInterstitialLeftButton, leftButtonText, richInterstitialRightButton, rightButtonText));

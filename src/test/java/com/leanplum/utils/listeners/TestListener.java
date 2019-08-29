@@ -42,8 +42,8 @@ public class TestListener extends BaseTest implements ITestListener {
     public void onTestSuccess(ITestResult iTestResult) {
         System.out.println("I am in onTestSuccess method " + getTestMethodName(iTestResult) + " succeed");
         // ExtentReports log operation for passed tests.
-        if (hasFailedSteps()) {
-            ExtentTestManager.getTest().log(LogStatus.FAIL, "Test has failed verification steps!");
+        if (hasFailedSteps() && getThrowable(iTestResult)!=null) {
+            ExtentTestManager.getTest().log(LogStatus.FAIL, "Test has failed steps!");
         } else {
             ExtentTestManager.getTest().log(LogStatus.PASS, "Test passed!");
         }
@@ -77,4 +77,8 @@ public class TestListener extends BaseTest implements ITestListener {
     public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
         System.out.println("Test failed but it is in defined success ratio " + getTestMethodName(iTestResult));
     }
+    
+    private Throwable getThrowable(ITestResult iTestResult) {
+        return iTestResult.getThrowable();
+ }
 }

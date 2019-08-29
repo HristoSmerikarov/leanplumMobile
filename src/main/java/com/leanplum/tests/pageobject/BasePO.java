@@ -40,7 +40,11 @@ public class BasePO {
 
     public BasePO(AppiumDriver<MobileElement> driver) {
         this.driver = driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
+        try {
+            PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
+        } catch (Exception e) {
+            PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
+        }
     }
 
     public AppiumDriver<MobileElement> getDriver() {

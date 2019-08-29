@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import com.leanplum.base.BaseTest;
 import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.AndroidPushNotification;
 import com.leanplum.tests.pageobject.BasePO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pageobject.inapp.BannerPO;
@@ -33,79 +32,78 @@ public class InAppTemplateTest extends BaseTest {
         driver.resetApp();
     }
 
-//     @Test(description = "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup")
-//     public void confirmRichInterstitialStarRatingCenterPopupTemplates(Method method) {
-//     ExtentTestManager.startTest(method.getName(),
-//     "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup");
-//    
-//     AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
-//     AdHocPO adHocPO = sendMessage(driver);
-//    
-//     ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
-//     verifyConfirmPopupLayout(driver, confirmInApp);
-//    
-//     clickAccept(confirmInApp);
-//    
-//     RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);
-//     verifyRichInterstitialLayout(driver, richInterstitial);
-//    
-//     richInterstitial.clickRightButton();
-//     step("Click rate our app button");
-//    
-//    
-//     //Star rating not visible in dom
-//     StarRatingPO starRating = new StarRatingPO(driver);
-//     step("Verify star rating popup layout",
-//     starRating.verifyStarRating("Is our app useful?", 3, "Not at all", "Yes, I like it!"));
-//    
-//     starRating.submitRating(2);
-//     step("Submit 2 star rating");
-//    
-//     CenterPopupPO centerPopup = new CenterPopupPO(driver);
-//     step("Verify center popup layout",
-//     centerPopup.verifyCenterPopup("Thanks for your feedback!", "Much appreciated!", "No problem.."));
-//    
-//     centerPopup.clickAcceptButton();
-//     step("Accept center popup");
-//    
-//     adHocPO.sendTrackEvent(END_EVENT);
-//     step("Send track evetn: " + END_EVENT);
-//     }
+    @Test(description = "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup")
+    public void confirmRichInterstitialStarRatingCenterPopupTemplates(Method method) {
+        ExtentTestManager.startTest(method.getName(),
+                "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup");
 
-    // @Test(description = "In-App Templates - Confirm, RichInterstitial, WebInterstitial")
-    // public void confirmRichInterstitialWebInterstitialTemplates(Method method) {
-    // ExtentTestManager.startTest(method.getName(), "In-App Templates - Confirm, RichInterstitial, WebInterstitial");
-    //
-    // AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
-    // AdHocPO adHocPO = sendMessage(driver);
-    //
-    // ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
-    // verifyConfirmPopupLayout(driver, confirmInApp);
-    //
-    // clickAccept(confirmInApp);
-    //
-    // RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);
-    // verifyRichInterstitialLayout(driver, richInterstitial);
-    //
-    // richInterstitial.clickLeftButton();
-    // step("Click read release notes button");
-    //
-    // WebInterstitialPO webInterstitial = new WebInterstitialPO(driver);
-    // step("Verify web interstitial popup layout", webInterstitial.verifyWebInterstitial());
-    //
-    // webInterstitial.closeWebInterstitial();
-    // step("Close web interstitial");
-    //
-    // adHocPO.sendTrackEvent(END_EVENT);
-    // step("Send track evetn: " + END_EVENT);
-    // }
-//
+        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
+        AdHocPO adHocPO = sendMessage(driver, START_EVENT);
+
+        ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+        verifyConfirmPopupLayout(driver, confirmInApp);
+
+        clickAccept(confirmInApp);
+
+        RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);
+        verifyRichInterstitialLayout(driver, richInterstitial);
+
+        richInterstitial.clickRightButton();
+        step("Click rate our app button");
+
+        CenterPopupPO centerPopup = new CenterPopupPO(driver);
+        step("Verify center popup layout",
+                centerPopup.verifyCenterPopup("Downloaded!", "Please leave us your feedback!", "No problem.."));
+
+        centerPopup.clickAcceptButton();
+        step("Accept center popup");
+
+        // Star rating not visible in dom
+        StarRatingPO starRating = new StarRatingPO(driver);
+        step("Verify star rating popup layout",
+                starRating.verifyStarRating("Do you like the new update?", 3, "I hate it!", "I love it!"));
+
+        starRating.submitRating(2);
+        step("Submit 2 star rating");
+
+        adHocPO.sendTrackEvent(END_EVENT);
+        step("Send track evetn: " + END_EVENT);
+    }
+
+    @Test(description = "In-App Templates - Confirm, RichInterstitial, WebInterstitial")
+    public void confirmRichInterstitialWebInterstitialTemplates(Method method) {
+        ExtentTestManager.startTest(method.getName(), "In-App Templates - Confirm, RichInterstitial, WebInterstitial");
+
+        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
+        AdHocPO adHocPO = sendMessage(driver, START_EVENT);
+
+        ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+        verifyConfirmPopupLayout(driver, confirmInApp);
+
+        clickAccept(confirmInApp);
+
+        RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);
+        verifyRichInterstitialLayout(driver, richInterstitial);
+
+        richInterstitial.clickLeftButton();
+        step("Click read release notes button");
+
+        WebInterstitialPO webInterstitial = new WebInterstitialPO(driver);
+        step("Verify web interstitial popup layout", webInterstitial.verifyWebInterstitial());
+
+        webInterstitial.closeWebInterstitial();
+        step("Close web interstitial");
+
+        adHocPO.sendTrackEvent(END_EVENT);
+        step("Send track evetn: " + END_EVENT);
+    }
+
     @Test(description = "In-App Templates - Confirm, Interstitial, Alert, Banner")
     public void confirmInterstitialAlertBannerTemplates(Method method) {
         ExtentTestManager.startTest(method.getName(), "In-App Templates - Confirm, Interstitial, Alert, Banner");
 
         AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
-        AdHocPO adHocPO = sendMessage(driver);
+        AdHocPO adHocPO = sendMessage(driver, START_EVENT);
 
         ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
         verifyConfirmPopupLayout(driver, confirmInApp);
@@ -157,7 +155,7 @@ public class InAppTemplateTest extends BaseTest {
                 ".. from the app store", "Read realease notes", "Rate our app"));
     }
 
-    private AdHocPO sendMessage(AndroidDriver<MobileElement> driver) {
+    private AdHocPO sendMessage(AndroidDriver<MobileElement> driver, String message) {
         BasePO basePO = new BasePO(driver);
         basePO.click(basePO.confirmAlertButton);
         step("Confirm alert");
@@ -166,8 +164,8 @@ public class InAppTemplateTest extends BaseTest {
         adHocPO.click(adHocPO.adhoc);
         step("Click on Ad-Hoc");
 
-        adHocPO.sendTrackEvent(START_EVENT);
-        step("Send track evetn: " + START_EVENT);
+        adHocPO.sendTrackEvent(message);
+        step("Send track evetn: " + message);
 
         return adHocPO;
     }

@@ -1,18 +1,13 @@
 package com.leanplum.base;
 
-import java.util.function.Function;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 
 import com.leanplum.tests.appiumdriver.AppiumServiceUtils;
@@ -36,7 +31,7 @@ public class BaseTest {
     private boolean hasFailedStep = false;
     private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
-    @BeforeMethod
+    @BeforeClass
     public void setupAppiumService() {
         if (System.getProperty("os").toLowerCase().equals("android")) {
             service = AppiumServiceUtils.setupAppiumService();
@@ -44,7 +39,7 @@ public class BaseTest {
         }
     }
 
-    @BeforeMethod(dependsOnMethods = "setupAppiumService")
+    @BeforeClass(dependsOnMethods = "setupAppiumService")
     public void setupTest() {
         DriverFactory df = new DriverFactory();
         this.driver = df.createDriver(
@@ -70,16 +65,14 @@ public class BaseTest {
         return this.driver;
     }
 
-    @AfterMethod
+    @AfterTest
     public boolean hasFailedSteps() {
         return hasFailedStep;
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass
     public void stopAppiumService() {
-        if (System.getProperty("os").toLowerCase().equals("android")) {
-            service.stop();
-        }
+        service.stop();
     }
 
     protected String takeScreenshot() {
