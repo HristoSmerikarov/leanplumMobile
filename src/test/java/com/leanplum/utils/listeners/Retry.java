@@ -1,13 +1,14 @@
 package com.leanplum.utils.listeners;
 
-import com.leanplum.base.BaseTest;
-import com.leanplum.utils.extentreport.ExtentTestManager;
-import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
+
+import com.leanplum.base.BaseTest;
+import com.leanplum.utils.extentreport.ExtentTestManager;
+import com.relevantcodes.extentreports.LogStatus;
 
 public class Retry implements IRetryAnalyzer {
     private int count = 0;

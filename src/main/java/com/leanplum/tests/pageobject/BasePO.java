@@ -13,25 +13,25 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
 public class BasePO {
-    
+
     public static final String CONFIRM_ALERT_BUTTON_XPATH = "//*[@resource-id='android:id/button1']";
 
     @AndroidFindBy(id = "android:id/alertTitle")
     // @iOSXCUITFindBy(xpath = ""]")
     public MobileElement alertTitle;
-    
+
     @AndroidFindBy(id = "android:id/message")
     // @iOSXCUITFindBy(xpath = ""]")
     public MobileElement alertMessage;
-    
+
     @AndroidFindBy(xpath = CONFIRM_ALERT_BUTTON_XPATH)
     // @iOSXCUITFindBy(xpath = ""]")
     public MobileElement confirmAlertButton;
-    
+
     @AndroidFindBy(id = "com.android.packageinstaller:id/permission_message")
     // @iOSXCUITFindBy(xpath = ""]")
     public MobileElement permissionMessage;
-    
+
     @AndroidFindBy(id = "com.android.packageinstaller:id/permission_allow_button")
     // @iOSXCUITFindBy(xpath = ""]")
     public MobileElement allowPermissionButton;
@@ -40,11 +40,7 @@ public class BasePO {
 
     public BasePO(AppiumDriver<MobileElement> driver) {
         this.driver = driver;
-        try {
-            PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
-        } catch (Exception e) {
-            PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
-        }
+        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
     }
 
     public AppiumDriver<MobileElement> getDriver() {
@@ -59,7 +55,7 @@ public class BasePO {
     public boolean verifyText(MobileElement element, String expectedText) {
         return element.getText().equals(expectedText);
     }
-    
+
     public void allowPermission() {
         MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(permissionMessage));
         click(allowPermissionButton);

@@ -37,7 +37,7 @@ public class ConfirmInAppPO extends InAppPopupPO {
 
     // @iOSXCUITFindBy(xpath = "")
     @AndroidFindBy(xpath = "//*[@resource-id='android:id/button1']")
-    public MobileElement cancelAcceptButton;
+    public MobileElement confirmAcceptButton;
 
     AppiumDriver<MobileElement> driver;
 
@@ -50,14 +50,6 @@ public class ConfirmInAppPO extends InAppPopupPO {
     public boolean verifyConfirmInApp(String title, String message, String acceptButtonText, String cancelButtonText) {
         MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(confirmInApp));
         return verifyInAppPopup(ImmutableMap.of(confirmInAppTitle, title, confirmInAppMessage, message,
-                confirmCancelButton, acceptButtonText, cancelAcceptButton, cancelButtonText));
-    }
-
-    public void clickAcceptButton() {
-        cancelAcceptButton.click();
-    }
-
-    public void clickCancelButton() {
-        confirmCancelButton.click();
+                confirmCancelButton, acceptButtonText, confirmAcceptButton, cancelButtonText));
     }
 }

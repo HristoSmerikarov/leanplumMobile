@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.google.common.collect.ImmutableMap;
 import com.leanplum.tests.helpers.MobileDriverUtils;
-import com.leanplum.tests.pageobject.BasePO;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;

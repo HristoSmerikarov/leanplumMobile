@@ -1,6 +1,5 @@
 package com.leanplum.tests.pageobject;
 
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -54,7 +53,7 @@ public class AndroidPushNotification {
                 ExpectedConditions.visibilityOfElementLocated(By.xpath(formattedNotificationXpath)));
     }
 
-    public boolean confirmAnbsence() {
+    public boolean confirmAbsence() {
         try {
             MobileDriverUtils.waitForExpectedCondition(driver, 15, ExpectedConditions
                     .visibilityOfElementLocated(By.xpath(String.format(PUSH_NOTIFICATION_MESSAGE_XPATH, message))));

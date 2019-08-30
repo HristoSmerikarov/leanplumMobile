@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 
 import com.leanplum.tests.appiumdriver.AppiumServiceUtils;
@@ -20,6 +21,7 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import ru.yandex.qatools.allure.annotations.Step;
 
@@ -31,6 +33,12 @@ public class BaseTest {
     private boolean hasFailedStep = false;
     private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
+    @BeforeMethod
+    public void setUpApp() {
+        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
+        driver.resetApp();
+    }
+    
     @BeforeClass
     public void setupAppiumService() {
         if (System.getProperty("os").toLowerCase().equals("android")) {
@@ -49,6 +57,26 @@ public class BaseTest {
     @Step()
     public <T> void step(String stepDescription) {
         ExtentTestManager.getTest().log(LogStatus.PASS, stepDescription, takeScreenshot());
+    }
+    
+    @Step()
+    public <T> void startStep(String stepDescription) {
+        log(LogStatus.INFO, stepDescription);
+    }
+    
+    @Step()
+    public <T> void endStep() {
+        log(LogStatus.INFO, takeScreenshot());
+    }
+    
+    @Step()
+    public <T> void endStep(boolean condition) {
+        if (condition) {
+            log(LogStatus.PASS, takeScreenshot());
+        } else {
+            log(LogStatus.FAIL, takeScreenshot());
+            hasFailedStep = true;
+        }
     }
 
     @Step()
@@ -78,5 +106,14 @@ public class BaseTest {
     protected String takeScreenshot() {
         return ExtentTestManager.getTest().addBase64ScreenShot(
                 "data:image/png;base64," + ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64));
+    }
+    
+    /**
+     * 
+     * @param logStatus - @LogStatus
+     * @param stepInfo - screenshot string or step description
+     */
+    private void log(LogStatus logStatus, String stepInfo) {
+        ExtentTestManager.getTest().log(logStatus, stepInfo);
     }
 }
