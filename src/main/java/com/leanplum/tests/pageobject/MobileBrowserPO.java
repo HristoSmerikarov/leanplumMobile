@@ -2,6 +2,7 @@ package com.leanplum.tests.pageobject;
 
 import java.time.Duration;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -14,6 +15,8 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
 public class MobileBrowserPO extends BasePO {
 
+    private static final String BROWSER_PROGRESS_BAR_XPATH = "//*[@class='android.widget.ProgressBar']";
+    
     // @iOSXCUITFindBy(xpath = "")
     @AndroidFindBy(id = "com.android.chrome:id/action_bar_root")
     public MobileElement browser;
@@ -34,7 +37,7 @@ public class MobileBrowserPO extends BasePO {
 
     public boolean isCorrectURLOpened(String url) {
         MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(browser));
-
+        MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.invisibilityOfElementLocated(By.xpath(BROWSER_PROGRESS_BAR_XPATH)));
         return url.contains(browserUrlBar.getAttribute("text"));
     }
 

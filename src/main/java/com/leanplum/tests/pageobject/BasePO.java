@@ -13,21 +13,6 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
 public class BasePO {
-
-    public static final String CONFIRM_ALERT_BUTTON_XPATH = "//*[@resource-id='android:id/button1']";
-
-    @AndroidFindBy(id = "android:id/alertTitle")
-    // @iOSXCUITFindBy(xpath = ""]")
-    public MobileElement alertTitle;
-
-    @AndroidFindBy(id = "android:id/message")
-    // @iOSXCUITFindBy(xpath = ""]")
-    public MobileElement alertMessage;
-
-    @AndroidFindBy(xpath = CONFIRM_ALERT_BUTTON_XPATH)
-    // @iOSXCUITFindBy(xpath = ""]")
-    public MobileElement confirmAlertButton;
-
     @AndroidFindBy(id = "com.android.packageinstaller:id/permission_message")
     // @iOSXCUITFindBy(xpath = ""]")
     public MobileElement permissionMessage;

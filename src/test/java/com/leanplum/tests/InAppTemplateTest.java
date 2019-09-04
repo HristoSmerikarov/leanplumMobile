@@ -2,6 +2,7 @@ package com.leanplum.tests;
 
 import java.lang.reflect.Method;
 
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
@@ -16,10 +17,12 @@ import com.leanplum.tests.pageobject.inapp.RichInterstitialPO;
 import com.leanplum.tests.pageobject.inapp.StarRatingPO;
 import com.leanplum.tests.pageobject.inapp.WebInterstitialPO;
 import com.leanplum.utils.extentreport.ExtentTestManager;
+import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 
+@Listeners(TestListener.class)
 public class InAppTemplateTest extends CommonTestSteps {
 
     private static final String START_EVENT = "templates";
@@ -32,7 +35,7 @@ public class InAppTemplateTest extends CommonTestSteps {
     private static final String VERIFY_RICH_INTERSTITIAL = "Verify rich interstitial popup layout";
     private static final String RICH_INTERSTITIAL_TITLE = "Download now..";
     private static final String RICH_INTERSTITIAL_MESSAGE = ".. from the app store";
-    private static final String RICH_INTERSTITIAL_LEFT_BUTTON = "Read realease notes";
+    private static final String RICH_INTERSTITIAL_LEFT_BUTTON = "Read release notes";
     private static final String RICH_INTERSTITIAL_RIGHT_BUTTON = "Rate our app";
     private static final String VERIFY_CENTER_POPUP_LAYOUT = "Verify center popup layout";
     private static final String CENTER_POPUP_TITLE = "Downloaded!";
@@ -48,7 +51,7 @@ public class InAppTemplateTest extends CommonTestSteps {
         AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
 
         // Track event
-        AdHocPO adHocPO = sendMessage(driver, stepHelper, START_EVENT);
+        AdHocPO adHocPO = sendEvent(driver, stepHelper, START_EVENT);
 
         // Verify Confirm popup
         ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
@@ -95,7 +98,7 @@ public class InAppTemplateTest extends CommonTestSteps {
         AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
 
         // Track event
-        AdHocPO adHocPO = sendMessage(driver, stepHelper, START_EVENT);
+        AdHocPO adHocPO = sendEvent(driver, stepHelper, START_EVENT);
 
         // Verify Confirm popup
         ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
@@ -109,7 +112,7 @@ public class InAppTemplateTest extends CommonTestSteps {
         verifyRichInterstitialLayout(driver, stepHelper, richInterstitial);
 
         // Click left button
-        stepHelper.clickElement(richInterstitial, richInterstitial.richInterstitialRightButton,
+        stepHelper.clickElement(richInterstitial, richInterstitial.richInterstitialLeftButton,
                 "left button - " + RICH_INTERSTITIAL_LEFT_BUTTON);
 
         // Verify web interstitial layout
@@ -132,7 +135,7 @@ public class InAppTemplateTest extends CommonTestSteps {
         AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
 
         // Track event
-        AdHocPO adHocPO = sendMessage(driver, stepHelper, START_EVENT);
+        AdHocPO adHocPO = sendEvent(driver, stepHelper, START_EVENT);
 
         // Verify Confirm popup
         ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
@@ -152,7 +155,7 @@ public class InAppTemplateTest extends CommonTestSteps {
         // Verify alert layout
         AlertPO alert = new AlertPO(driver);
         stepHelper.verifyCondition("Verify alert layout",
-                alert.verifyAlertLayout("Banner will be shown..", ".. as a reminder!"));
+                alert.verifyAlertLayout("Banner will be shown..", ".. as a reminder!", "Okay"));
 
         // Confrim alert
         stepHelper.clickElement(alert, alert.confirmAlertButton, "Okay");
@@ -179,7 +182,7 @@ public class InAppTemplateTest extends CommonTestSteps {
     }
 
     private void clickCancel(TestStepHelper stepHelper, ConfirmInAppPO confirmInApp) {
-        stepHelper.clickElement(confirmInApp, confirmInApp.confirmAcceptButton,
+        stepHelper.clickElement(confirmInApp, confirmInApp.confirmCancelButton,
                 "Confirm popup cancel button - " + CONFIRM_CANCEL);
     }
 

@@ -50,6 +50,6 @@ public class ConfirmInAppPO extends InAppPopupPO {
     public boolean verifyConfirmInApp(String title, String message, String acceptButtonText, String cancelButtonText) {
         MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(confirmInApp));
         return verifyInAppPopup(ImmutableMap.of(confirmInAppTitle, title, confirmInAppMessage, message,
-                confirmCancelButton, acceptButtonText, confirmAcceptButton, cancelButtonText));
+                confirmAcceptButton, acceptButtonText, confirmCancelButton, cancelButtonText));
     }
 }

@@ -30,13 +30,14 @@ public class BaseTest {
 
     private AppiumDriver<MobileElement> driver = null;
     private AppiumDriverLocalService service = null;
-    private boolean hasFailedStep = false;
+    public boolean hasFailedStep = false;
     private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
     @BeforeMethod
     public void setUpApp() {
         AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
-        driver.resetApp();
+        driver.closeApp();
+        driver.launchApp();
     }
     
     @BeforeClass
@@ -75,6 +76,7 @@ public class BaseTest {
             log(LogStatus.PASS, takeScreenshot());
         } else {
             log(LogStatus.FAIL, takeScreenshot());
+            
             hasFailedStep = true;
         }
     }
@@ -87,16 +89,18 @@ public class BaseTest {
             ExtentTestManager.getTest().log(LogStatus.FAIL, stepDescription, takeScreenshot());
             hasFailedStep = true;
         }
+        
+        
     }
 
     public AppiumDriver<MobileElement> getAppiumDriver() {
         return this.driver;
     }
 
-    @AfterTest
-    public boolean hasFailedSteps() {
-        return hasFailedStep;
-    }
+//    @AfterTest
+//    public boolean hasFailedSteps() {
+//        return hasFailedStep;
+//    }
 
     @AfterClass
     public void stopAppiumService() {

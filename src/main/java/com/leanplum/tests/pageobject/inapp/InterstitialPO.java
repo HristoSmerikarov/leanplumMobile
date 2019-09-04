@@ -19,9 +19,9 @@ public class InterstitialPO extends InAppPopupPO {
     private static final String ANDROID_INTERSTITIAL_ACCEPT_BUTTON_XPATH = ANDROID_INTERSTITIAL_XPATH
             + "//*[@resource-id='com.leanplum.rondo:id/accept_button']";
     private static final String ANDROID_INTERSTITIAL_CLOSE_BUTTON_XPATH = ANDROID_INTERSTITIAL_XPATH
-            + "/*[@resource-id='close-button']";
+            + "//*[@resource-id='com.leanplum.rondo:id/close_button']";
     private static final String ANDROID_INTERSTITIAL_IMAGE_XPATH = ANDROID_INTERSTITIAL_XPATH
-            + "/*[@resource-id='close-button']";
+            + "//*[@class='android.widget.ImageView']";
 
     // @iOSXCUITFindBy(xpath = "")
     @AndroidFindBy(xpath = ANDROID_INTERSTITIAL_XPATH)
@@ -33,7 +33,7 @@ public class InterstitialPO extends InAppPopupPO {
 
     // @iOSXCUITFindBy(xpath = "")
     @AndroidFindBy(xpath = ANDROID_INTERSTITIAL_XPATH
-            + "/*[@resource-id='title_view']/*[@class='android.widget.TextView']")
+            + "//*[@resource-id='com.leanplum.rondo:id/title_view']/*[@class='android.widget.TextView']")
     public MobileElement interstitialTitleElement;
 
     // @iOSXCUITFindBy(xpath = "")
@@ -58,7 +58,6 @@ public class InterstitialPO extends InAppPopupPO {
 
     public boolean verifyInterstitialLayout(String interstitialTitle, String interstitialMessage, String acceptButton) {
         MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(interstitial));
-
         return MobileDriverUtils.doesSelectorMatchAnyElements(driver, ANDROID_INTERSTITIAL_CLOSE_BUTTON_XPATH)
                 && MobileDriverUtils.doesSelectorMatchAnyElements(driver, ANDROID_INTERSTITIAL_ACCEPT_BUTTON_XPATH)
                 && MobileDriverUtils.doesSelectorMatchAnyElements(driver, ANDROID_INTERSTITIAL_IMAGE_XPATH)

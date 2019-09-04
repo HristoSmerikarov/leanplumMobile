@@ -33,6 +33,14 @@ public class MobileDriverUtils {
             ExpectedCondition<T> expectedCondition) {
         return waitForExpectedCondition(driver, WAIT_TAIMEOUT, expectedCondition);
     }
+    
+    public static void waitInMs(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Turn off Implicit Waits

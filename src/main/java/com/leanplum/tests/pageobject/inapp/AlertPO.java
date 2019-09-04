@@ -16,6 +16,11 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 public class AlertPO extends InAppPopupPO {
 
     private static final String ANDROID_ALERT_TITLE_XPATH = "//*[@resource-id='android:id/alertTitle']";
+    public static final String CONFIRM_ALERT_BUTTON_XPATH = "//*[@resource-id='android:id/button1']";
+
+    @AndroidFindBy(xpath = CONFIRM_ALERT_BUTTON_XPATH)
+    // @iOSXCUITFindBy(xpath = ""]")
+    public MobileElement confirmAlertButton;
 
     // @iOSXCUITFindBy(xpath = "")
     @AndroidFindBy(xpath = ANDROID_ALERT_TITLE_XPATH)
@@ -37,10 +42,10 @@ public class AlertPO extends InAppPopupPO {
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
     }
 
-    public boolean verifyAlertLayout(String expectedTitle, String expectedMessage) {
+    public boolean verifyAlertLayout(String expectedTitle, String expectedMessage, String confirmAlertButtonText) {
         MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(alertPopup));
 
         return MobileDriverUtils.doesSelectorMatchAnyElements(driver, CONFIRM_ALERT_BUTTON_XPATH)
-                && verifyInAppPopup(ImmutableMap.of(alertTitle, expectedTitle, alertMessage, expectedMessage));
+                && verifyInAppPopup(ImmutableMap.of(alertTitle, expectedTitle, alertMessage, expectedMessage, confirmAlertButton, confirmAlertButtonText));
     }
 }

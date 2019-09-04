@@ -55,23 +55,23 @@ public class InAppMessagesPO extends BasePO {
         super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
     }
-    
-    /**
-     * Confirms alert message and closes alert
-     * @return
-     */
-    public boolean isAlertMessageCorrect() {
-        if(!alertTitle.isDisplayed()) {
-            return false;
-        }
-       
-        if(!alertMessage.isDisplayed()) {
-            return false;
-        }
-        
-        click(confirmAlertButton);
-        return true;
-    }
+//    
+//    /**
+//     * Confirms alert message and closes alert
+//     * @return
+//     */
+//    public boolean isAlertMessageCorrect() {
+//        if(!alertTitle.isDisplayed()) {
+//            return false;
+//        }
+//       
+//        if(!alertMessage.isDisplayed()) {
+//            return false;
+//        }
+//        
+//        click(confirmAlertButton);
+//        return true;
+//    }
     
     public boolean isCenterPopupCorrect() {
         if(!centerPopupTitle.isDisplayed()) {

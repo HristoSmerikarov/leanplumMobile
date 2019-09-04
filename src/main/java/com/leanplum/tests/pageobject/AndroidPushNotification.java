@@ -1,5 +1,8 @@
 package com.leanplum.tests.pageobject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -55,7 +58,7 @@ public class AndroidPushNotification {
 
     public boolean confirmAbsence() {
         try {
-            MobileDriverUtils.waitForExpectedCondition(driver, 15, ExpectedConditions
+            MobileDriverUtils.waitForExpectedCondition(driver, 10, ExpectedConditions
                     .visibilityOfElementLocated(By.xpath(String.format(PUSH_NOTIFICATION_MESSAGE_XPATH, message))));
             return false;
         } catch (Exception e) {

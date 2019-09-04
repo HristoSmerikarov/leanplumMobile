@@ -1,8 +1,13 @@
 package com.leanplum.base;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
+
+import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.AndroidPushNotification;
 import com.leanplum.tests.pageobject.BasePO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -37,6 +42,7 @@ public class TestStepHelper {
 
     public void verifyCondition(String conditionDescription, boolean condition) {
         test.startStep(conditionDescription);
+        //Assert.assertTrue(condition);
         test.endStep(condition);
     }
 
@@ -60,14 +66,23 @@ public class TestStepHelper {
 
     public void confirmNotificationAbsence(AndroidPushNotification pushNotification) {
         test.startStep("Confirm notification absence");
-        pushNotification.confirmAbsence();
-        test.endStep();
+        test.endStep(pushNotification.confirmAbsence());
     }
 
     public void clickAndroidKey(AndroidKey key) {
         test.startStep("Press android key: " + key.name());
         ((AndroidDriver<MobileElement>) test.getAppiumDriver()).pressKey(new KeyEvent().withKey(key));
         test.endStep();
+    }
+
+    public void acceptAllAlertsOnAppStart(AlertPO page) {
+        MobileDriverUtils.waitForExpectedCondition(test.getAppiumDriver(),
+                ExpectedConditions.visibilityOf(page.alertPopup));
+        while (MobileDriverUtils.doesSelectorMatchAnyElements(test.getAppiumDriver(),
+                AlertPO.CONFIRM_ALERT_BUTTON_XPATH)) {
+            clickElement(page, page.confirmAlertButton, "Confirm Alert button");
+            MobileDriverUtils.waitInMs(500);
+        }
     }
 
 }

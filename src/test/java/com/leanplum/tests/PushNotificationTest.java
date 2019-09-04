@@ -39,7 +39,7 @@ public class PushNotificationTest extends CommonTestSteps {
         AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
 
         // Track event
-        AdHocPO adHocPO = sendMessage(driver, stepHelper, LOCAL_TRIGGER);
+        AdHocPO adHocPO = sendEvent(driver, stepHelper, LOCAL_TRIGGER);
 
         // Open push notification
         AndroidPushNotification pushNotification = new AndroidPushNotification(driver, RONDO_PUSH_NOTIFICATION);
@@ -48,13 +48,15 @@ public class PushNotificationTest extends CommonTestSteps {
         // Verify alert layout
         AlertPO alertPO = new AlertPO(driver);
         stepHelper.verifyCondition("Verification of alert",
-                alertPO.verifyAlertLayout("Rondo Alert123", "Warning this is a Rondo Alert!!"));
+                alertPO.verifyAlertLayout("Rondo Alert", "Warning this is a Rondo Alert!!", "Okay, calm down!"));
 
         // Confirm alert
         stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, "Confirm alert");
 
         // Send end event
         stepHelper.sendEvent(adHocPO, END_TRIGGER);
+
+        stepHelper.clickAndroidKey(AndroidKey.HOME);
     }
 
     @Test(description = "Push Notification's open action is Existing action")
@@ -75,7 +77,7 @@ public class PushNotificationTest extends CommonTestSteps {
 
         stepHelper.verifyCondition("Verify that notification contains image", pushNotification.doesContainImage());
 
-        stepHelper.openAndroidNotifications();
+        stepHelper.openPushNotification(pushNotification);
 
         // Verify center popup
         CenterPopupPO centerPopupPO = new CenterPopupPO(driver);
@@ -87,6 +89,8 @@ public class PushNotificationTest extends CommonTestSteps {
 
         // Send end event
         stepHelper.sendEvent(adHocPO, END_TRIGGER);
+
+        stepHelper.clickAndroidKey(AndroidKey.HOME);
     }
 
     @Test(description = "Push Notification's open action is Open URL")
@@ -97,7 +101,7 @@ public class PushNotificationTest extends CommonTestSteps {
         AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
 
         // Track event
-        AdHocPO adHocPO = sendMessage(driver, stepHelper, OPEN_LEANPLUM_URL);
+        AdHocPO adHocPO = sendEvent(driver, stepHelper, OPEN_LEANPLUM_URL);
 
         AndroidPushNotification pushNotification = new AndroidPushNotification(driver, RONDO_PUSH_NOTIFICATION);
         openNotificationsAndOpenByMessage(driver, stepHelper, pushNotification);
@@ -109,10 +113,13 @@ public class PushNotificationTest extends CommonTestSteps {
         // Confirm on resume app
         stepHelper.clickAndroidKey(AndroidKey.BACK);
 
-        stepHelper.clickElement(adHocPO, adHocPO.confirmAlertButton, "Confirm alert");
+        // Uncomment maybe
+        // stepHelper.clickElement(adHocPO, adHocPO.confirmAlertButton, "Confirm alert");
 
         // Send end event
         stepHelper.sendEvent(adHocPO, END_TRIGGER);
+
+        stepHelper.clickAndroidKey(AndroidKey.HOME);
     }
 
     @Test(description = "Push Notification's open action is Muted Inside App")
@@ -123,11 +130,11 @@ public class PushNotificationTest extends CommonTestSteps {
         AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
 
         // Track event
-        AdHocPO adHocPO = sendMessage(driver, stepHelper, OUTSIDE_APP_TRIGGER);
+        AdHocPO adHocPO = sendEvent(driver, stepHelper, OUTSIDE_APP_TRIGGER);
 
         // Open notification and confirm that notification is not present
         AndroidPushNotification pushNotification = new AndroidPushNotification(driver, RONDO_PUSH_NOTIFICATION);
-        stepHelper.openPushNotification(pushNotification);
+        stepHelper.openAndroidNotifications();
 
         stepHelper.confirmNotificationAbsence(pushNotification);
 
@@ -143,16 +150,19 @@ public class PushNotificationTest extends CommonTestSteps {
         // Confirm on resume app
         stepHelper.clickAndroidKey(AndroidKey.BACK);
 
-        // Start app alert
-        stepHelper.clickElement(adHocPO, adHocPO.confirmAlertButton, " start alert confirmation");
-
-        // Resume app alert
-        stepHelper.clickElement(adHocPO, adHocPO.confirmAlertButton, " resume alert confirmation");
+        // Uncomment if needed
+        // // Start app alert
+        // stepHelper.clickElement(adHocPO, adHocPO.confirmAlertButton, " start alert confirmation");
+        //
+        // // Resume app alert
+        // stepHelper.clickElement(adHocPO, adHocPO.confirmAlertButton, " resume alert confirmation");
 
         stepHelper.clickElement(adHocPO, adHocPO.adhoc, " Ad-Hoc button");
 
         // Send end event
         stepHelper.sendEvent(adHocPO, END_TRIGGER);
+
+        stepHelper.clickAndroidKey(AndroidKey.HOME);
     }
 
     @Test(description = "Push Notification's open action is with disabled notification channel")
@@ -164,11 +174,11 @@ public class PushNotificationTest extends CommonTestSteps {
         AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
 
         // Track event
-        AdHocPO adHocPO = sendMessage(driver, stepHelper, CHANNEL_DISABLED);
+        AdHocPO adHocPO = sendEvent(driver, stepHelper, CHANNEL_DISABLED);
 
         // Open notification and confirm that notification is not present
         AndroidPushNotification pushNotification = new AndroidPushNotification(driver, RONDO_PUSH_NOTIFICATION);
-        stepHelper.openPushNotification(pushNotification);
+        stepHelper.openAndroidNotifications();
 
         stepHelper.confirmNotificationAbsence(pushNotification);
 
@@ -179,6 +189,8 @@ public class PushNotificationTest extends CommonTestSteps {
 
         // Send end event
         stepHelper.sendEvent(adHocPO, END_TRIGGER);
+
+        stepHelper.clickAndroidKey(AndroidKey.HOME);
     }
 
     private void openNotificationsAndOpenByMessage(AndroidDriver<MobileElement> driver, TestStepHelper stepHelper,

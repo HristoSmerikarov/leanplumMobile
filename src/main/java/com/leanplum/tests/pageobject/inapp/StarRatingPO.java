@@ -15,7 +15,7 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
 public class StarRatingPO extends InAppPopupPO {
 
-    private static final String ANDROID_RATING_STAR_XPATH = "//*[contains(@resource-id,'rating')]";
+    private static final String ANDROID_RATING_STAR_XPATH = "//*[contains(@resource-id,'rating') and not(contains(@resource-id,'text'))]";
     private static final String ANDROID_RATING_STAR_BY_NUMBER_XPATH = "//*[contains(@resource-id,'rating-%s')]";
     private static final String ANDROID_STAR_RATING_POPUP_XPATH = ANDROID_RATING_STAR_XPATH
             + "//ancestor::*[@resource-id='view']";
@@ -52,7 +52,6 @@ public class StarRatingPO extends InAppPopupPO {
     public boolean verifyStarRating(String surveyQuestion, int numberOfRatingStars, String lowRatingText,
             String highRatingText) {
         MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(starRatingPopupXpath));
-        
         return doesRatingPopupContainStars(numberOfRatingStars)
                 && verifyInAppPopup(ImmutableMap.of(starRatingSurveyQuestion, surveyQuestion, lowRatingTextElement,
                         lowRatingText, highRatingTextElement, highRatingText))

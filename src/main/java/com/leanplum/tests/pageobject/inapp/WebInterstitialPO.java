@@ -15,13 +15,14 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 public class WebInterstitialPO extends InAppPopupPO {
 
     private static final String WEB_INTERSTITIAL_CLOSE_BUTTON = "//*[@resource-id='com.leanplum.rondo:id/close_button']";
-    
+    private static final String WEB_INTERSTITIAL_CONTENT_XPATH = "//*[@class='android.webkit.WebView']//ancestor::*[@resource-id='android:id/content']";
+
     // @iOSXCUITFindBy(xpath = "")
-    @AndroidFindBy(xpath = "//*[@class='android.webkit.WebView']/ancestor::*")
+    @AndroidFindBy(xpath = WEB_INTERSTITIAL_CONTENT_XPATH)
     public MobileElement webInterstitialWindow;
-    
- // @iOSXCUITFindBy(xpath = "")
-    @AndroidFindBy(xpath = WEB_INTERSTITIAL_CLOSE_BUTTON)
+
+    // @iOSXCUITFindBy(xpath = "")
+    @AndroidFindBy(xpath = WEB_INTERSTITIAL_CONTENT_XPATH + WEB_INTERSTITIAL_CLOSE_BUTTON)
     public MobileElement webInterstitialCloseButton;
 
     AppiumDriver<MobileElement> driver;
@@ -36,7 +37,7 @@ public class WebInterstitialPO extends InAppPopupPO {
         MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(webInterstitialWindow));
         return MobileDriverUtils.doesSelectorMatchAnyElements(driver, WEB_INTERSTITIAL_CLOSE_BUTTON);
     }
-    
+
     public void closeWebInterstitial() {
         webInterstitialCloseButton.click();
     }

@@ -2,18 +2,19 @@ package com.leanplum.base;
 
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.BasePO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 
 public class CommonTestSteps extends BaseTest{
 
-    public AdHocPO sendMessage(AndroidDriver<MobileElement> driver, TestStepHelper stepHelper, String message) {
-        BasePO basePO = new BasePO(driver);
-        stepHelper.clickElement(basePO, basePO.confirmAlertButton, "Confirm Alert button");
+    public AdHocPO sendEvent(AndroidDriver<MobileElement> driver, TestStepHelper stepHelper, String message) {
+        AlertPO alertPO = new AlertPO(driver);
+        stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
         AdHocPO adHocPO = new AdHocPO(driver);
-        stepHelper.clickElement(basePO, basePO.confirmAlertButton, "Ad-Hoc button");
+        stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
         stepHelper.sendEvent(adHocPO, message);
 
@@ -21,11 +22,11 @@ public class CommonTestSteps extends BaseTest{
     }
     
     public AdHocPO sendUserAttribute(AndroidDriver<MobileElement> driver, TestStepHelper stepHelper, String attributeName, String attributeValue) {
-        BasePO basePO = new BasePO(driver);
-        stepHelper.clickElement(basePO, basePO.confirmAlertButton, "Confirm Alert button");
+        AlertPO alertPO = new AlertPO(driver);
+        stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
         AdHocPO adHocPO = new AdHocPO(driver);
-        stepHelper.clickElement(basePO, basePO.confirmAlertButton, "Ad-Hoc button");
+        stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
         stepHelper.sendUserAttribute(adHocPO, attributeName, attributeValue);
 
