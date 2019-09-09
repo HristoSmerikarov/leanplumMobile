@@ -58,6 +58,6 @@ public class SdkQaPO extends BasePO {
 
     public SdkQaPO(AppiumDriver<MobileElement> driver) {
         super(driver);
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }
 }

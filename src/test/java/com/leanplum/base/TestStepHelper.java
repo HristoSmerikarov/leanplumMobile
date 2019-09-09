@@ -1,6 +1,8 @@
 package com.leanplum.base;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
 import com.leanplum.tests.helpers.MobileDriverUtils;
@@ -17,6 +19,7 @@ import io.appium.java_client.android.nativekey.KeyEvent;
 public class TestStepHelper {
 
     private BaseTest test;
+    private static final Logger logger = LoggerFactory.getLogger(TestStepHelper.class);
 
     public TestStepHelper(BaseTest test) {
         this.test = test;
@@ -42,7 +45,6 @@ public class TestStepHelper {
 
     public void verifyCondition(String conditionDescription, boolean condition) {
         test.startStep(conditionDescription);
-        //Assert.assertTrue(condition);
         test.endStep(condition);
     }
 
@@ -76,13 +78,16 @@ public class TestStepHelper {
     }
 
     public void acceptAllAlertsOnAppStart(AlertPO page) {
-        MobileDriverUtils.waitForExpectedCondition(test.getAppiumDriver(),
-                ExpectedConditions.visibilityOf(page.alertPopup));
+        try {
+            MobileDriverUtils.waitForExpectedCondition(test.getAppiumDriver(), 10,
+                    ExpectedConditions.visibilityOf(page.alertPopup));
+        } catch (Exception e) {
+            logger.info("No alerts were detected on app start");
+        }
         while (MobileDriverUtils.doesSelectorMatchAnyElements(test.getAppiumDriver(),
                 AlertPO.CONFIRM_ALERT_BUTTON_XPATH)) {
             clickElement(page, page.confirmAlertButton, "Confirm Alert button");
             MobileDriverUtils.waitInMs(500);
         }
     }
-
 }

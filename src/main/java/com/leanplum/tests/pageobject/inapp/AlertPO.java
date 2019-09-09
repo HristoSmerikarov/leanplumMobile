@@ -39,7 +39,7 @@ public class AlertPO extends InAppPopupPO {
     public AlertPO(AppiumDriver<MobileElement> driver) {
         super(driver);
         this.driver = driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }
 
     public boolean verifyAlertLayout(String expectedTitle, String expectedMessage, String confirmAlertButtonText) {

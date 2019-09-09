@@ -27,7 +27,7 @@ public class Locators {
     
     public Locators(WebDriver driver) {
         try {
-            PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
+            PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());

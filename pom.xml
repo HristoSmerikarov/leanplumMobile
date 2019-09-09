@@ -14,6 +14,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<aspectj.version>1.9.1</aspectj.version>
+		<os>android</os>
+		<deviceType>phone</deviceType>
 	</properties>
 
 	<dependencies>

@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
+import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pageobject.inapp.BannerPO;
@@ -21,6 +22,7 @@ import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
 
 @Listeners(TestListener.class)
 public class InAppTemplateTest extends CommonTestSteps {
@@ -125,6 +127,8 @@ public class InAppTemplateTest extends CommonTestSteps {
 
         // Send end event
         stepHelper.sendEvent(adHocPO, END_EVENT);
+
+        stepHelper.clickAndroidKey(AndroidKey.HOME);
     }
 
     @Test(description = "In-App Templates - Confirm, Interstitial, Alert, Banner")

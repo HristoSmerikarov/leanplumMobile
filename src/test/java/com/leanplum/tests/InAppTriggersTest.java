@@ -54,17 +54,22 @@ public class InAppTriggersTest extends CommonTestSteps {
         stepHelper.acceptAllAlertsOnAppStart(alert);
 
         // Track event
-        AdHocPO adHocPO = sendEvent(driver, stepHelper, TRIGGER_EVENT);
-
+        AdHocPO adHocPO = new AdHocPO(driver);
+        stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+        
         BannerPO banner = new BannerPO(driver);
         for (int i = 0; i < LIMIT_PER_SESSION; i++) {
+            stepHelper.sendEvent(adHocPO, TRIGGER_EVENT);
+            
             stepHelper.verifyCondition("Verify banner popup layout", banner.verifyBannerLayout("Center bottom banner",
                     "This banner message is here to remind you something!"));
 
             stepHelper.clickElement(banner, banner.bannerCloseButton, "banner close icon");
             
-            stepHelper.sendEvent(adHocPO, TRIGGER_EVENT);
+            MobileDriverUtils.waitInMs(100);
         }
+        
+        stepHelper.sendEvent(adHocPO, TRIGGER_EVENT);
         
         startStep("Verify banner is not shown");
         endStep(!MobileDriverUtils.doesSelectorMatchAnyElements(driver, BannerPO.POPUP_CONTAINER_XPATH));

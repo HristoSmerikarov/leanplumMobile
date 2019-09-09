@@ -44,7 +44,7 @@ public class ConfirmInAppPO extends InAppPopupPO {
     public ConfirmInAppPO(AppiumDriver<MobileElement> driver) {
         super(driver);
         this.driver = driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }
 
     public boolean verifyConfirmInApp(String title, String message, String acceptButtonText, String cancelButtonText) {

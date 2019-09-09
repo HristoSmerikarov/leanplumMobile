@@ -66,7 +66,7 @@ public class AdHocPO extends BasePO {
     public AdHocPO(AppiumDriver<MobileElement> driver) {
         super(driver);
         this.driver = driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }
 
     public void sendTrackEvent(String eventName) {

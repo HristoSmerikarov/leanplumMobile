@@ -39,7 +39,7 @@ public class CenterPopupPO extends InAppPopupPO {
     public CenterPopupPO(AppiumDriver<MobileElement> driver) {
         super(driver);
         this.driver = driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }
 
     public boolean verifyCenterPopup(String title, String message, String buttonText) {

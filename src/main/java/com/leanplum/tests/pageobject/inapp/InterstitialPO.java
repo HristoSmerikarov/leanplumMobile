@@ -15,11 +15,11 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
 public class InterstitialPO extends InAppPopupPO {
 
-    private static final String ANDROID_INTERSTITIAL_XPATH = "//*[@resource-id='com.leanplum.rondo:id/container_view']/ancestor::*[@resource-id='android:id/content']";
+    private static final String ANDROID_INTERSTITIAL_XPATH = "//*[@resource-id='com.leanplum.rondo:id/container_view']";
     private static final String ANDROID_INTERSTITIAL_ACCEPT_BUTTON_XPATH = ANDROID_INTERSTITIAL_XPATH
             + "//*[@resource-id='com.leanplum.rondo:id/accept_button']";
     private static final String ANDROID_INTERSTITIAL_CLOSE_BUTTON_XPATH = ANDROID_INTERSTITIAL_XPATH
-            + "//*[@resource-id='com.leanplum.rondo:id/close_button']";
+            + "/ancestor::*[@resource-id='android:id/content']//*[@resource-id='com.leanplum.rondo:id/close_button']";
     private static final String ANDROID_INTERSTITIAL_IMAGE_XPATH = ANDROID_INTERSTITIAL_XPATH
             + "//*[@class='android.widget.ImageView']";
 
@@ -41,7 +41,7 @@ public class InterstitialPO extends InAppPopupPO {
     public MobileElement interstitialMessageImage;
 
     // @iOSXCUITFindBy(xpath = "")
-    @AndroidFindBy(xpath = ANDROID_INTERSTITIAL_XPATH + "//*[@class='android.widget.TextView' and not(@recource-id)]")
+    @AndroidFindBy(xpath = ANDROID_INTERSTITIAL_XPATH + "/*[@class='android.widget.TextView' and not(@recource-id)]")
     public MobileElement interstitialMessageElement;
 
     // @iOSXCUITFindBy(xpath = "")
@@ -53,7 +53,7 @@ public class InterstitialPO extends InAppPopupPO {
     public InterstitialPO(AppiumDriver<MobileElement> driver) {
         super(driver);
         this.driver = driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }
 
     public boolean verifyInterstitialLayout(String interstitialTitle, String interstitialMessage, String acceptButton) {

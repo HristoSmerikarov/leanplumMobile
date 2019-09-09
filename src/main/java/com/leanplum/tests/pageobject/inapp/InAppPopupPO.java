@@ -10,7 +10,7 @@ import io.appium.java_client.MobileElement;
 
 public class InAppPopupPO extends BasePO {
 
-    public static final String POPUP_CONTAINER_XPATH = "//*[contains(@resource-id,'com.leanplum.rondo:id/container_view']";
+    public static final String POPUP_CONTAINER_XPATH = "//*[@resource-id='com.leanplum.rondo:id/container_view']";
     AppiumDriver<MobileElement> driver;
 
     public InAppPopupPO(AppiumDriver<MobileElement> driver) {
@@ -27,6 +27,9 @@ public class InAppPopupPO extends BasePO {
         for (Entry<MobileElement, String> entry : elementTextMap.entrySet()) {
             String actual = entry.getKey().getAttribute("text");
             String expected = entry.getValue();
+            System.out.println("Actual: "+actual);
+            System.out.println("Expected: "+expected);
+            
             if (!actual.equalsIgnoreCase(expected)) {
                 return false;
             }

@@ -13,7 +13,11 @@ import org.testng.annotations.Listeners;
 
 import com.leanplum.tests.appiumdriver.AppiumServiceUtils;
 import com.leanplum.tests.appiumdriver.DevicePropertiesUtils;
+import com.leanplum.tests.appiumdriver.DriverConfig;
 import com.leanplum.tests.appiumdriver.DriverFactory;
+import com.leanplum.tests.appiumdriver.PropertiesUtils;
+import com.leanplum.tests.appiumdriver.TestConfig;
+import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.utils.extentreport.ExtentTestManager;
 import com.leanplum.utils.listeners.AnnotationTransformer;
 import com.leanplum.utils.listeners.TestListener;
@@ -31,18 +35,24 @@ public class BaseTest {
     private AppiumDriver<MobileElement> driver = null;
     private AppiumDriverLocalService service = null;
     public boolean hasFailedStep = false;
+    private static final String TEST_CONFIG_FILE = "resources/test.properties";
+    private static TestConfig testConfig;
     private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
     @BeforeMethod
     public void setUpApp() {
         AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
         driver.closeApp();
+        MobileDriverUtils.waitInMs(500);
         driver.launchApp();
     }
     
     @BeforeClass
     public void setupAppiumService() {
-        if (System.getProperty("os").toLowerCase().equals("android")) {
+        testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE,
+                TestConfig.class);
+        
+        if (testConfig.getOS().toLowerCase().equals("android")) {
             service = AppiumServiceUtils.setupAppiumService();
             service.start();
         }
@@ -52,7 +62,7 @@ public class BaseTest {
     public void setupTest() {
         DriverFactory df = new DriverFactory();
         this.driver = df.createDriver(
-                DevicePropertiesUtils.getDeviceProperties(System.getProperty("os"), System.getProperty("deviceType")));
+                DevicePropertiesUtils.getDeviceProperties(testConfig.getOS(), testConfig.getDeviceType()));
     }
 
     @Step()
@@ -81,26 +91,9 @@ public class BaseTest {
         }
     }
 
-    @Step()
-    public void step(String stepDescription, boolean condition) {
-        if (condition) {
-            ExtentTestManager.getTest().log(LogStatus.PASS, stepDescription, takeScreenshot());
-        } else {
-            ExtentTestManager.getTest().log(LogStatus.FAIL, stepDescription, takeScreenshot());
-            hasFailedStep = true;
-        }
-        
-        
-    }
-
     public AppiumDriver<MobileElement> getAppiumDriver() {
         return this.driver;
     }
-
-//    @AfterTest
-//    public boolean hasFailedSteps() {
-//        return hasFailedStep;
-//    }
 
     @AfterClass
     public void stopAppiumService() {

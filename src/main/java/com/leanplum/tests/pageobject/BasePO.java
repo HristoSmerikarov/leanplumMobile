@@ -25,7 +25,7 @@ public class BasePO {
 
     public BasePO(AppiumDriver<MobileElement> driver) {
         this.driver = driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }
 
     public AppiumDriver<MobileElement> getDriver() {

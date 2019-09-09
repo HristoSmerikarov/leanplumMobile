@@ -45,6 +45,7 @@ public class AndroidPushNotification {
     }
 
     public boolean doesContainImage() {
+        expand();
         String pictureInPushNotificationFormattedXpath = String.format(PICTURE_IN_PUSH_NOTIFICATION_XPATH, message);
         return MobileDriverUtils.doesSelectorMatchAnyElements(driver, pictureInPushNotificationFormattedXpath);
     }
