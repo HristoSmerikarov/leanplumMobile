@@ -5,8 +5,11 @@
     <classes>
       <class name="com.leanplum.AppTest">
         <methods>
+          <include name="setupAppiumService"/>
+          <include name="test"/>
           <include name="setupTest"/>
-          <include name="open"/>
+          <include name="stopAppiumService"/>
+          <include name="setUpApp"/>
         </methods>
       </class> <!-- com.leanplum.AppTest -->
     </classes>

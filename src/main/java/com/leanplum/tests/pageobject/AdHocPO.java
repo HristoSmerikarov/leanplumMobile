@@ -21,7 +21,7 @@ public class AdHocPO extends BasePO {
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"Adhoc\"]")
     public MobileElement adhoc;
 
-    // @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Send track Event:\"]//following-sibling::XCUIElementTypeTextField")
     @AndroidFindBy(id = "com.leanplum.rondo:id/trackName")
     public MobileElement trackEventField;
 
