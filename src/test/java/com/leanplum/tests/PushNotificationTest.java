@@ -145,7 +145,7 @@ public class PushNotificationTest extends CommonTestSteps {
 
         openNotificationsAndOpenByMessage(driver, stepHelper, pushNotification);
 
-        stepHelper.verifyCondition("Verify opened URL is correct", verifyCorrectURLIsOpened(driver));
+        stepHelper.verifyCondition("Verify opened URL is correct", verifyCorrectURLIsOpened(driver, "http://www.leanplum.com/"));
 
         // Confirm on resume app
         stepHelper.clickAndroidKey(AndroidKey.BACK);
@@ -200,11 +200,6 @@ public class PushNotificationTest extends CommonTestSteps {
         stepHelper.waitForNotificationPresence(pushNotification);
 
         stepHelper.openPushNotification(pushNotification);
-    }
-
-    private boolean verifyCorrectURLIsOpened(AndroidDriver<MobileElement> driver) {
-        MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
-        return mobileBrowserPO.isCorrectURLOpened("http://www.leanplum.com/");
     }
 
 }

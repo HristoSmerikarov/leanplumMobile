@@ -2,6 +2,7 @@ package com.leanplum.base;
 
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.BasePO;
+import com.leanplum.tests.pageobject.MobileBrowserPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 
 import io.appium.java_client.MobileElement;
@@ -31,5 +32,10 @@ public class CommonTestSteps extends BaseTest{
         stepHelper.sendUserAttribute(adHocPO, attributeName, attributeValue);
 
         return adHocPO;
+    }
+    
+    public boolean verifyCorrectURLIsOpened(AndroidDriver<MobileElement> driver, String url) {
+        MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
+        return mobileBrowserPO.isCorrectURLOpened(url);
     }
 }

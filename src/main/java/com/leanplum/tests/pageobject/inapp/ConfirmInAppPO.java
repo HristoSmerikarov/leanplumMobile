@@ -16,9 +16,9 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 public class ConfirmInAppPO extends InAppPopupPO {
 
     private static final String CONFIRM_IN_APP_TITLE = "//*[@resource-id='android:id/title_template']";
-    private static final String CONFIRM_IN_APP = "*[@resource-id='android:id/parentPanel']";
     private static final String CONFIRM_IN_APP_ALERT_TITLE = "/*[@resource-id='android:id/alertTitle']";
-
+    public static final String CONFIRM_IN_APP = "*[@resource-id='android:id/parentPanel']";
+    
     // @iOSXCUITFindBy(xpath = "")
     @AndroidFindBy(xpath = CONFIRM_IN_APP_TITLE + CONFIRM_IN_APP_ALERT_TITLE + "//ancestor::" + CONFIRM_IN_APP)
     public MobileElement confirmInApp;
