@@ -7,11 +7,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.leanplum.tests.helpers.MobileDriverUtils;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 
 public class BasePO {
     @AndroidFindBy(id = "com.android.packageinstaller:id/permission_message")
@@ -19,9 +19,18 @@ public class BasePO {
     public MobileElement permissionMessage;
 
     @AndroidFindBy(id = "com.android.packageinstaller:id/permission_allow_button")
-    // @iOSXCUITFindBy(xpath = ""]")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"Allow\"]")
     public MobileElement allowPermissionButton;
-
+    
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"iOS Push Permission\"]")
+    public MobileElement iosPushPermissionButton;
+    
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"App Picker\"]")
+    public MobileElement appPicker;
+    
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"New App\"]")
+    public MobileElement newApp;
+    
     private MobileDriver<MobileElement> driver;
 
     public BasePO(MobileDriver<MobileElement> driver) {
@@ -43,7 +52,14 @@ public class BasePO {
     }
 
     public void allowPermission() {
-        MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(permissionMessage));
+     MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(permissionMessage));
         click(allowPermissionButton);
+    }
+    
+    public void allowIosPushPermission() {
+    	MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(iosPushPermissionButton));
+        click(iosPushPermissionButton);
+        
+        allowPermission();
     }
 }

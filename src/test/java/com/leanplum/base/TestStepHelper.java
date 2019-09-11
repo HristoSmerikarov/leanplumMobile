@@ -17,76 +17,77 @@ import io.appium.java_client.android.nativekey.KeyEvent;
 
 public class TestStepHelper {
 
-    private BaseTest test;
-    private static final Logger logger = LoggerFactory.getLogger(TestStepHelper.class);
+	private BaseTest test;
+	private static final Logger logger = LoggerFactory.getLogger(TestStepHelper.class);
 
-    public TestStepHelper(BaseTest test) {
-        this.test = test;
-    }
+	public TestStepHelper(BaseTest test) {
+		this.test = test;
+	}
 
-    public void clickElement(BasePO page, MobileElement element, String elementDescription) {
-        test.startStep("Click " + elementDescription);
-        page.click(element);
-        test.endStep();
-    }
+	public void clickElement(BasePO page, MobileElement element, String elementDescription) {
+		test.startStep("Click " + elementDescription);
+		page.click(element);
+		test.endStep();
+	}
 
-    public void sendEvent(AdHocPO adHocPO, String message) {
-        test.startStep("Send track event: " + message);
-        adHocPO.sendTrackEvent(message);
-        test.endStep();
-    }
+	public void sendEvent(AdHocPO adHocPO, String message) {
+		test.startStep("Send track event: " + message);
+		adHocPO.sendTrackEvent(message);
+		test.endStep();
+	}
 
-    public void sendUserAttribute(AdHocPO adHocPO, String attributeName, String attributeValue) {
-        test.startStep("Send user attribute: " + attributeName + " with value: " + attributeValue);
-        adHocPO.sendUserAttribute(attributeName, attributeValue);
-        test.endStep();
-    }
+	public void sendUserAttribute(AdHocPO adHocPO, String attributeName, String attributeValue) {
+		test.startStep("Send user attribute: " + attributeName + " with value: " + attributeValue);
+		adHocPO.sendUserAttribute(attributeName, attributeValue);
+		test.endStep();
+	}
 
-    public void verifyCondition(String conditionDescription, boolean condition) {
-        test.startStep(conditionDescription);
-        test.endStep(condition);
-    }
+	public void verifyCondition(String conditionDescription, boolean condition) {
+		test.startStep(conditionDescription);
+		test.endStep(condition);
+	}
 
-    public void openAndroidNotifications() {
-        test.startStep("Open notifications");
-        ((AndroidDriver<MobileElement>) test.getDriver()).openNotifications();
-        test.endStep();
-    }
+	public void openAndroidNotifications() {
+		test.startStep("Open notifications");
+		((AndroidDriver<MobileElement>) test.getDriver()).openNotifications();
+		test.endStep();
+	}
 
-    public void waitForNotificationPresence(PushNotification pushNotification) {
-        test.startStep("Wait for notification presence");
-        pushNotification.waitForPresence();
-        test.endStep();
-    }
+	public void waitForNotificationPresence(PushNotification pushNotification) {
+		test.startStep("Wait for notification presence");
+		pushNotification.waitForPresence();
+		test.endStep();
+	}
 
-    public void openPushNotification(PushNotification pushNotification) {
-        test.startStep("Open push notification");
-        pushNotification.view();
-        test.endStep();
-    }
+	public void openPushNotification(PushNotification pushNotification) {
+		test.startStep("Open push notification");
+		pushNotification.view();
+		test.endStep();
+	}
 
-    public void confirmNotificationAbsence(PushNotification pushNotification) {
-        test.startStep("Confirm notification absence");
-        test.endStep(pushNotification.isAbsent());
-    }
+	public void confirmNotificationAbsence(PushNotification pushNotification) {
+		test.startStep("Confirm notification absence");
+		test.endStep(pushNotification.isAbsent());
+	}
 
-    public void clickAndroidKey(AndroidKey key) {
-        test.startStep("Press android key: " + key.name());
-        ((AndroidDriver<MobileElement>) test.getDriver()).pressKey(new KeyEvent().withKey(key));
-        test.endStep();
-    }
+	public void clickAndroidKey(AndroidKey key) {
+		test.startStep("Press android key: " + key.name());
+		((AndroidDriver<MobileElement>) test.getDriver()).pressKey(new KeyEvent().withKey(key));
+		test.endStep();
+	}
 
-    public void acceptAllAlertsOnAppStart(AlertPO page) {
-        try {
-            MobileDriverUtils.waitForExpectedCondition(test.getDriver(), 10,
-                    ExpectedConditions.visibilityOf(page.alertPopup));
-        } catch (Exception e) {
-            logger.info("No alerts were detected on app start");
-        }
-        while (MobileDriverUtils.doesSelectorMatchAnyElements(test.getDriver(),
-                AlertPO.CONFIRM_ALERT_BUTTON_XPATH)) {
-            clickElement(page, page.confirmAlertButton, "Confirm Alert button");
-            MobileDriverUtils.waitInMs(500);
-        }
-    }
+	public void acceptAllAlertsOnAppStart(AlertPO page) {
+		try {
+			MobileDriverUtils.waitForExpectedCondition(test.getDriver(), 10,
+					ExpectedConditions.visibilityOf(page.alertPopup));
+		} catch (Exception e) {
+			logger.info("No alerts were detected on app start");
+		}
+		while (MobileDriverUtils.doesSelectorMatchAnyElements(test.getDriver(), AlertPO.CONFIRM_ALERT_BUTTON_XPATH)
+				|| MobileDriverUtils.doesSelectorMatchAnyElements(test.getDriver(),
+						AlertPO.IOS_CONFIRM_ALERT_BUTTON_XPATH)) {
+			clickElement(page, page.confirmAlertButton, "Confirm Alert button");
+			MobileDriverUtils.waitInMs(500);
+		}
+	}
 }

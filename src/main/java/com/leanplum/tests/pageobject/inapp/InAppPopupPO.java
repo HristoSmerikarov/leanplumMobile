@@ -8,6 +8,7 @@ import com.leanplum.tests.pageobject.BasePO;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
 
 public class InAppPopupPO extends BasePO {
 
@@ -26,7 +27,13 @@ public class InAppPopupPO extends BasePO {
      */
     protected boolean verifyInAppPopup(Map<MobileElement, String> elementTextMap) {
         for (Entry<MobileElement, String> entry : elementTextMap.entrySet()) {
-            String actual = entry.getKey().getAttribute("text");
+        	String actual;
+        	if(driver instanceof AndroidDriver) {
+        		actual = entry.getKey().getAttribute("text");
+        	}else {
+        		actual = entry.getKey().getAttribute("name");
+        	}
+           // String actual = entry.getKey().getAttribute("text");
             String expected = entry.getValue();
             System.out.println("Actual: "+actual);
             System.out.println("Expected: "+expected);

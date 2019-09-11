@@ -42,15 +42,4 @@ public class CommonTestSteps extends BaseTest{
         MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
         return mobileBrowserPO.isCorrectURLOpened(url);
     }
-    
-    public void openNotifications() {
-    	MobileDriver<MobileElement> driver = getDriver();
-    	if (getDriver() instanceof AndroidDriver) {
-    		((AndroidDriver<MobileElement>)driver).openNotifications();
-		}else {
-			AdHocPO adHocPO = new AdHocPO(driver);
-			MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(adHocPO.iosPushNotifications));
-			adHocPO.viewIOSPushNotifications.click();
-		}
-    }
 }
