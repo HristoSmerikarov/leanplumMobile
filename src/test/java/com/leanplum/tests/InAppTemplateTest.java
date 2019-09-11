@@ -50,7 +50,7 @@ public class InAppTemplateTest extends CommonTestSteps {
                 "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup");
 
         TestStepHelper stepHelper = new TestStepHelper(this);
-        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
+        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getDriver();
 
         // Track event
         AdHocPO adHocPO = sendEvent(driver, stepHelper, START_EVENT);
@@ -97,7 +97,7 @@ public class InAppTemplateTest extends CommonTestSteps {
         ExtentTestManager.startTest(method.getName(), "In-App Templates - Confirm, RichInterstitial, WebInterstitial");
 
         TestStepHelper stepHelper = new TestStepHelper(this);
-        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
+        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getDriver();
 
         // Track event
         AdHocPO adHocPO = sendEvent(driver, stepHelper, START_EVENT);
@@ -136,7 +136,7 @@ public class InAppTemplateTest extends CommonTestSteps {
         ExtentTestManager.startTest(method.getName(), "In-App Templates - Confirm, Interstitial, Alert, Banner");
 
         TestStepHelper stepHelper = new TestStepHelper(this);
-        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
+        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getDriver();
 
         // Track event
         AdHocPO adHocPO = sendEvent(driver, stepHelper, START_EVENT);

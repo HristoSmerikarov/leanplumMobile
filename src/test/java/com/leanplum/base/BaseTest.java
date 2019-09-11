@@ -24,6 +24,7 @@ import com.leanplum.utils.listeners.TestListener;
 import com.relevantcodes.extentreports.LogStatus;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -41,7 +42,7 @@ public class BaseTest {
 
     @BeforeMethod
     public void setUpApp() {
-        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
+        MobileDriver<MobileElement> driver = getDriver();
         driver.closeApp();
         MobileDriverUtils.waitInMs(500);
         driver.launchApp();
@@ -91,13 +92,15 @@ public class BaseTest {
         }
     }
 
-    public AppiumDriver<MobileElement> getAppiumDriver() {
+    public MobileDriver<MobileElement> getDriver() {
         return this.driver;
     }
 
     @AfterClass
     public void stopAppiumService() {
-        service.stop();
+    	if (testConfig.getOS().toLowerCase().equals("android")) {
+    		service.stop();
+        }
     }
 
     protected String takeScreenshot() {

@@ -1,16 +1,20 @@
 package com.leanplum.base;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.BasePO;
 import com.leanplum.tests.pageobject.MobileBrowserPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 
+import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 
 public class CommonTestSteps extends BaseTest{
 
-    public AdHocPO sendEvent(AndroidDriver<MobileElement> driver, TestStepHelper stepHelper, String message) {
+    public AdHocPO sendEvent(MobileDriver<MobileElement> driver, TestStepHelper stepHelper, String message) {
         AlertPO alertPO = new AlertPO(driver);
         stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
@@ -37,5 +41,16 @@ public class CommonTestSteps extends BaseTest{
     public boolean verifyCorrectURLIsOpened(AndroidDriver<MobileElement> driver, String url) {
         MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
         return mobileBrowserPO.isCorrectURLOpened(url);
+    }
+    
+    public void openNotifications() {
+    	MobileDriver<MobileElement> driver = getDriver();
+    	if (getDriver() instanceof AndroidDriver) {
+    		((AndroidDriver<MobileElement>)driver).openNotifications();
+		}else {
+			AdHocPO adHocPO = new AdHocPO(driver);
+			MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(adHocPO.iosPushNotifications));
+			adHocPO.viewIOSPushNotifications.click();
+		}
     }
 }

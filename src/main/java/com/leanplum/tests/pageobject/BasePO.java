@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -21,14 +22,14 @@ public class BasePO {
     // @iOSXCUITFindBy(xpath = ""]")
     public MobileElement allowPermissionButton;
 
-    private AppiumDriver<MobileElement> driver;
+    private MobileDriver<MobileElement> driver;
 
-    public BasePO(AppiumDriver<MobileElement> driver) {
+    public BasePO(MobileDriver<MobileElement> driver) {
         this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }
 
-    public AppiumDriver<MobileElement> getDriver() {
+    public MobileDriver<MobileElement> getDriver() {
         return this.driver;
     }
 

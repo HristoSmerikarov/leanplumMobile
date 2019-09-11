@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableMap;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -34,9 +35,9 @@ public class AlertPO extends InAppPopupPO {
     @AndroidFindBy(xpath = "//*[@resource-id='android:id/message']")
     public MobileElement alertMessage;
 
-    AppiumDriver<MobileElement> driver;
+    MobileDriver<MobileElement> driver;
 
-    public AlertPO(AppiumDriver<MobileElement> driver) {
+    public AlertPO(MobileDriver<MobileElement> driver) {
         super(driver);
         this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);

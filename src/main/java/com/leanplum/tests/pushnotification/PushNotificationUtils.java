@@ -1,4 +1,4 @@
-package com.leanplum.tests.pageobject;
+package com.leanplum.tests.pushnotification;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -8,10 +8,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.leanplum.tests.helpers.MobileDriverUtils;
 
+import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 
-public class AndroidPushNotification {
+public class PushNotificationUtils {
 
     private static final String PUSH_NOTIFICATION_MESSAGE_XPATH = "//*[contains(@resource-id,'text') and contains(@text,'%s')]";
     private static final String PUSH_NOTIFICATION_BY_MESSAGE_XPATH = PUSH_NOTIFICATION_MESSAGE_XPATH
@@ -21,7 +24,7 @@ public class AndroidPushNotification {
     private static final String PICTURE_IN_PUSH_NOTIFICATION_XPATH = PUSH_NOTIFICATION_BY_MESSAGE_XPATH
             + "//*[@resource-id='android:id/big_picture']";
 
-    private AndroidDriver<MobileElement> driver;
+    private MobileDriver<MobileElement> driver;
     private String message;
 
     /**
@@ -29,7 +32,7 @@ public class AndroidPushNotification {
      * @param driver
      * @param message
      */
-    public AndroidPushNotification(AndroidDriver<MobileElement> driver, String message) {
+    public PushNotificationUtils(MobileDriver<MobileElement> driver, String message) {
         this.driver = driver;
         this.message = message;
     }
@@ -72,5 +75,11 @@ public class AndroidPushNotification {
                 .waitForExpectedCondition(driver, ExpectedConditions
                         .visibilityOfElementLocated(By.xpath(String.format(PUSH_NOTIFICATION_MESSAGE_XPATH, message))))
                 .click();
+    }
+    
+    public enum PushNotificationType{
+    	ANDROID, IOS;
+    	
+    	
     }
 }

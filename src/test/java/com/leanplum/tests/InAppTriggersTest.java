@@ -85,7 +85,7 @@ public class InAppTriggersTest extends CommonTestSteps {
         ExtentTestManager.startTest(method.getName(), "Confirm in-app on attribute change every two times");
 
         TestStepHelper stepHelper = new TestStepHelper(this);
-        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getAppiumDriver();
+        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getDriver();
 
         AlertPO alert = new AlertPO(driver);
         stepHelper.acceptAllAlertsOnAppStart(alert);

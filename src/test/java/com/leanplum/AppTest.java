@@ -15,7 +15,7 @@ public class AppTest extends BaseTest {
 
     @Test
     public void test() {
-        AppiumDriver<MobileElement> driver = (AppiumDriver<MobileElement>) getAppiumDriver();
+        AppiumDriver<MobileElement> driver = (AppiumDriver<MobileElement>) getDriver();
         Locators loc = new Locators(driver);
 
         WebDriverWait wait = new WebDriverWait(driver, 20);

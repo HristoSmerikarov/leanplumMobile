@@ -21,7 +21,7 @@ public class TestListener extends BaseTest implements ITestListener {
     @Override
     public void onStart(ITestContext iTestContext) {
         System.out.println("I am in onStart method " + iTestContext.getName());
-        iTestContext.setAttribute("WebDriver", getAppiumDriver());
+        iTestContext.setAttribute("WebDriver", getDriver());
     }
 
     @Override
@@ -56,7 +56,7 @@ public class TestListener extends BaseTest implements ITestListener {
 
         // Get driver from BaseTest and assign to local webDriver variable.
         Object testClass = iTestResult.getInstance();
-        WebDriver webDriver = ((BaseTest) testClass).getAppiumDriver();
+        WebDriver webDriver = ((BaseTest) testClass).getDriver();
 
         // Take base64Screenshot screenshot.
         String base64Screenshot = "data:image/png;base64,"
