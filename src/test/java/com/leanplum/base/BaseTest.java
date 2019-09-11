@@ -96,6 +96,10 @@ public class BaseTest {
         return this.driver;
     }
 
+    public TestConfig getTestConfig() {
+        return this.testConfig;
+    }
+
     @AfterClass
     public void stopAppiumService() {
     	if (testConfig.getOS().toLowerCase().equals("android")) {

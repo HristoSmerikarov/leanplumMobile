@@ -3,13 +3,12 @@ package com.leanplum.base;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.BasePO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
-import com.leanplum.tests.pushnotification.PushNotificationUtils;
+import com.leanplum.tests.pushnotification.PushNotification;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -54,21 +53,21 @@ public class TestStepHelper {
         test.endStep();
     }
 
-    public void waitForAndroidNotificationPresence(PushNotificationUtils pushNotification) {
+    public void waitForNotificationPresence(PushNotification pushNotification) {
         test.startStep("Wait for notification presence");
         pushNotification.waitForPresence();
         test.endStep();
     }
 
-    public void openAndroidPushNotification(PushNotificationUtils pushNotification) {
+    public void openPushNotification(PushNotification pushNotification) {
         test.startStep("Open push notification");
-        pushNotification.open();
+        pushNotification.view();
         test.endStep();
     }
 
-    public void confirmAndroidNotificationAbsence(PushNotificationUtils pushNotification) {
+    public void confirmNotificationAbsence(PushNotification pushNotification) {
         test.startStep("Confirm notification absence");
-        test.endStep(pushNotification.confirmAbsence());
+        test.endStep(pushNotification.isAbsent());
     }
 
     public void clickAndroidKey(AndroidKey key) {
