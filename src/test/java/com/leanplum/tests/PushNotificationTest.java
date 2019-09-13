@@ -249,6 +249,7 @@ public class PushNotificationTest extends CommonTestSteps {
 		}
 	}
 
+	//Temporary
 	private void createApp(MobileDriver<MobileElement> driver) {
 		BasePO basePO = new BasePO(driver);
 //		MobileDriverUtils
