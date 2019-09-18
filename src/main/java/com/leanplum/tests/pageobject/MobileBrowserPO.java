@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -27,9 +28,9 @@ public class MobileBrowserPO extends BasePO {
 
     // com.android.chrome:id/url_bar
 
-    AppiumDriver<MobileElement> driver;
+    MobileDriver<MobileElement> driver;
 
-    public MobileBrowserPO(AppiumDriver<MobileElement> driver) {
+    public MobileBrowserPO(MobileDriver<MobileElement> driver) {
         super(driver);
         this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);

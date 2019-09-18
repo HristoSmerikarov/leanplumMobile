@@ -13,8 +13,12 @@ public class TemporaryAPI {
     private static String testAppKey = "app_ve9UCNlqI8dy6Omzfu1rEh6hkWonNHVZJIWtLLt6aLs";
     private static String apiVersion = "1.0.6";
     private static String testProdKey = "prod_D5ECYBLrRrrOYaFZvAFFHTg1JyZ2Llixe5s077Lw3rM";
-    private static String trackPath = "api?action=track&appId=%s&apiVersion=%s&clientKey=%s";
-    private static String parameters = "&userId=%s&event=%s";
+    private static String exportKey = "exp_1HmWvROd2413fJ791WHtSLKkhAleXvExbphku8M9zpI";
+    private static String path = "api?action=%s&appId=%s&apiVersion=%s&clientKey=%s";
+    private static String trackAction = "track";
+    private static String exportUserAction = "exportUser";
+    private static String userIdParameter = "&userId=%s";
+    private static String eventParameter = "&event=%s";
 
     static {
         RestAssured.baseURI = "https://www.leanplum.com";
@@ -23,12 +27,22 @@ public class TemporaryAPI {
         // System.out.println("PATH: " + RestAssured.basePath);
     }
 
-    public static Response post(String userId, String trackEvent) {
-        String formattedEndpoint = String.format(trackPath, testAppKey, apiVersion, testProdKey)
-                + String.format(parameters, userId, trackEvent);
+    public static Response track(String userId, String trackEvent) {
+        String formattedEndpoint = String.format(path, trackAction, testAppKey, apiVersion, testProdKey)
+                + String.format(userIdParameter, userId) + String.format(eventParameter, trackEvent);
         System.out.println("FORMATTED: " + formattedEndpoint);
 
         Response response = RestAssured.given().contentType(ContentType.JSON).log().all().post(formattedEndpoint);
+        LOGGER.info("Post Response:" + response.getBody().asString());
+        return response;
+    }
+
+    public static Response getUser(String userId) {
+        String formattedEndpoint = String.format(path, exportUserAction, testAppKey, apiVersion, exportKey)
+                + String.format(userIdParameter, userId);
+        System.out.println("FORMATTED: " + formattedEndpoint);
+
+        Response response = RestAssured.given().contentType(ContentType.JSON).log().all().get(formattedEndpoint);
         LOGGER.info("Post Response:" + response.getBody().asString());
         return response;
     }

@@ -26,7 +26,7 @@ public class CommonTestSteps extends BaseTest{
         return adHocPO;
     }
     
-    public AdHocPO sendUserAttribute(AndroidDriver<MobileElement> driver, TestStepHelper stepHelper, String attributeName, String attributeValue) {
+    public AdHocPO sendUserAttribute(MobileDriver<MobileElement> driver, TestStepHelper stepHelper, String attributeName, String attributeValue) {
         AlertPO alertPO = new AlertPO(driver);
         stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
@@ -38,7 +38,7 @@ public class CommonTestSteps extends BaseTest{
         return adHocPO;
     }
     
-    public boolean verifyCorrectURLIsOpened(AndroidDriver<MobileElement> driver, String url) {
+    public boolean verifyCorrectURLIsOpened(MobileDriver<MobileElement> driver, String url) {
         MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
         return mobileBrowserPO.isCorrectURLOpened(url);
     }
