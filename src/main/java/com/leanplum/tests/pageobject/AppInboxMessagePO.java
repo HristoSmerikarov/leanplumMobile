@@ -15,6 +15,14 @@ import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 
 public class AppInboxMessagePO extends BasePO {
 
+    @AndroidFindBy(id = "com.leanplum.rondo:id/app_inbox")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"AppInbox\"]")
+    public MobileElement appinbox;
+    
+    @AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/listview']")
+    // @iOSXCUITFindBy(xpath = "com.leanplum.rondo:id/trackName")
+    public MobileElement appInboxList;
+    
     @AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/title']")
     // @iOSXCUITFindBy(xpath = "com.leanplum.rondo:id/trackName")
     public MobileElement appInboxMessageByTitle;
@@ -38,7 +46,11 @@ public class AppInboxMessagePO extends BasePO {
         this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }
-
+    
+    public void waitForInboxMessage() {
+        MobileDriverUtils.waitForExpectedCondition(driver, 30, ExpectedConditions.visibilityOf(appInboxList));
+    }
+    
     public boolean isTitleCorrect(String title) {
         return MobileDriverUtils
                 .waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(appInboxMessageByTitle))
