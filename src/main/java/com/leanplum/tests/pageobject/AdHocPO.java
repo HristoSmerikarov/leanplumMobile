@@ -128,7 +128,6 @@ public class AdHocPO extends BasePO {
         boolean isVisible = false;
         while(!isVisible) {
             try {
-                System.out.println("Counting");
                 MobileDriverUtils.waitForExpectedCondition(driver, 1, ExpectedConditions.visibilityOf(element));
                 isVisible = true;
             } catch (Exception e) {
