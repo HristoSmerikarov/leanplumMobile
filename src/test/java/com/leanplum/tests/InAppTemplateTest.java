@@ -80,6 +80,7 @@ public class InAppTemplateTest extends CommonTestSteps {
         stepHelper.clickElement(centerPopup, centerPopup.centerPopupButton, "Accept center popup");
 
         // Star rating not visible in dom
+      //TODO - hard to get iOS locators done
         StarRatingPO starRating = new StarRatingPO(driver);
         stepHelper.verifyCondition("Verify star rating popup layout",
                 starRating.verifyStarRating("Do you like the new update?", 3, "I hate it!", "I love it!"));
@@ -91,6 +92,8 @@ public class InAppTemplateTest extends CommonTestSteps {
 
         // Send end event
         stepHelper.sendEvent(adHocPO, END_EVENT);
+        
+        driver.closeApp();
     }
 
 //    @Test(description = "In-App Templates - Confirm, RichInterstitial, WebInterstitial")
@@ -98,7 +101,7 @@ public class InAppTemplateTest extends CommonTestSteps {
 //        ExtentTestManager.startTest(method.getName(), "In-App Templates - Confirm, RichInterstitial, WebInterstitial");
 //
 //        TestStepHelper stepHelper = new TestStepHelper(this);
-//        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getDriver();
+//        MobileDriver<MobileElement> driver = getDriver();
 //
 //        // Track event
 //        AdHocPO adHocPO = sendEvent(driver, stepHelper, START_EVENT);
@@ -129,7 +132,7 @@ public class InAppTemplateTest extends CommonTestSteps {
 //        // Send end event
 //        stepHelper.sendEvent(adHocPO, END_EVENT);
 //
-//        stepHelper.clickAndroidKey(AndroidKey.HOME);
+//        driver.closeApp();
 //    }
 //
 //    @Test(description = "In-App Templates - Confirm, Interstitial, Alert, Banner")
@@ -137,7 +140,7 @@ public class InAppTemplateTest extends CommonTestSteps {
 //        ExtentTestManager.startTest(method.getName(), "In-App Templates - Confirm, Interstitial, Alert, Banner");
 //
 //        TestStepHelper stepHelper = new TestStepHelper(this);
-//        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getDriver();
+//        MobileDriver<MobileElement> driver = getDriver();
 //
 //        // Track event
 //        AdHocPO adHocPO = sendEvent(driver, stepHelper, START_EVENT);
@@ -173,6 +176,8 @@ public class InAppTemplateTest extends CommonTestSteps {
 //
 //        // Send end event
 //        stepHelper.sendEvent(adHocPO, END_EVENT);
+//        
+//        driver.closeApp();
 //    }
 
     private void verifyConfirmPopupLayout(MobileDriver<MobileElement> driver, TestStepHelper stepHelper,

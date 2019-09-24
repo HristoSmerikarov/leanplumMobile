@@ -12,30 +12,33 @@ import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 
 public class ConfirmInAppPO extends InAppPopupPO {
 
     private static final String CONFIRM_IN_APP_TITLE = "//*[@resource-id='android:id/title_template']";
     private static final String CONFIRM_IN_APP_ALERT_TITLE = "/*[@resource-id='android:id/alertTitle']";
     public static final String CONFIRM_IN_APP = "*[@resource-id='android:id/parentPanel']";
+    private static final String IOS_CONFIRM_IN_APP_XPATH = "//XCUIElementTypeAlert[@name]";
+    private static final String IOS_CONFIRM_IN_APP_CONFIRM_BUTTON = "("+IOS_CONFIRM_IN_APP_XPATH+"//XCUIElementTypeButton)"; 
     
-    // @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_XPATH)
     @AndroidFindBy(xpath = CONFIRM_IN_APP_TITLE + CONFIRM_IN_APP_ALERT_TITLE + "//ancestor::" + CONFIRM_IN_APP)
     public MobileElement confirmInApp;
 
-    // @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText/preceding-sibling::XCUIElementTypeStaticText")
     @AndroidFindBy(xpath = CONFIRM_IN_APP_TITLE + CONFIRM_IN_APP_ALERT_TITLE)
     public MobileElement confirmInAppTitle;
 
-    // @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText/following-sibling::XCUIElementTypeStaticText")
     @AndroidFindBy(xpath = "//" + CONFIRM_IN_APP + "//*[@resource-id='android:id/message']")
     public MobileElement confirmInAppMessage;
 
-    // @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_CONFIRM_BUTTON+"[1]")
     @AndroidFindBy(xpath = "//*[@resource-id='android:id/button2']")
     public MobileElement confirmCancelButton;
 
-    // @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_CONFIRM_BUTTON+"[2]")
     @AndroidFindBy(xpath = "//*[@resource-id='android:id/button1']")
     public MobileElement confirmAcceptButton;
 
