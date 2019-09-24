@@ -20,12 +20,14 @@ public class MobileDriverUtils {
         turnOnImplicitWaits(driver);
         return matchAnyElements;
     }
-    
+
     public static <T> T waitForExpectedCondition(MobileDriver<MobileElement> driver, int waitTimeout,
             ExpectedCondition<T> expectedCondition) {
         WebDriverWait wait = new WebDriverWait(driver, waitTimeout);
-        T result;
+        turnOffImplicitWaits(driver);
+        T result = null;
         result = wait.until(expectedCondition);
+        turnOnImplicitWaits(driver);
         return result;
     }
 
@@ -33,7 +35,7 @@ public class MobileDriverUtils {
             ExpectedCondition<T> expectedCondition) {
         return waitForExpectedCondition(driver, WAIT_TAIMEOUT, expectedCondition);
     }
-    
+
     public static void waitInMs(long millis) {
         try {
             Thread.sleep(millis);

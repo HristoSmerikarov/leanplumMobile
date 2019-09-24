@@ -31,6 +31,18 @@ public class BasePO {
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"New App\"]")
     public MobileElement newApp;
     
+    @AndroidFindBy(id = "com.leanplum.rondo:id/userId")
+    // @iOSXCUITFindBy(xpath = ""]")
+    public MobileElement userId;
+    
+    @AndroidFindBy(id = "com.leanplum.rondo:id/deviceId")
+    // @iOSXCUITFindBy(xpath = ""]")
+    public MobileElement deviceId;
+    
+    @AndroidFindBy(id = "com.leanplum.rondo:id/app_setup")
+    // @iOSXCUITFindBy(xpath = ""]")
+    public MobileElement appSetup;
+    
     private MobileDriver<MobileElement> driver;
 
     public BasePO(MobileDriver<MobileElement> driver) {
