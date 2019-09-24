@@ -83,9 +83,8 @@ public class TestStepHelper {
 		} catch (Exception e) {
 			logger.info("No alerts were detected on app start");
 		}
-		while (MobileDriverUtils.doesSelectorMatchAnyElements(test.getDriver(), AlertPO.CONFIRM_ALERT_BUTTON_XPATH)
-				|| MobileDriverUtils.doesSelectorMatchAnyElements(test.getDriver(),
-						AlertPO.IOS_CONFIRM_ALERT_BUTTON_XPATH)) {
+
+		while (page.isAlertPresent()) {
 			clickElement(page, page.confirmAlertButton, "Confirm Alert button");
 			MobileDriverUtils.waitInMs(500);
 		}

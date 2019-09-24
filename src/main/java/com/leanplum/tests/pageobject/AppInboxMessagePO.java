@@ -15,64 +15,62 @@ import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 
 public class AppInboxMessagePO extends BasePO {
 
-    @AndroidFindBy(id = "com.leanplum.rondo:id/app_inbox")
-    @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"AppInbox\"]")
-    public MobileElement appinbox;
-    
-    @AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/listview']")
-    // @iOSXCUITFindBy(xpath = "com.leanplum.rondo:id/trackName")
-    public MobileElement appInboxList;
-    
-    @AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/title']")
-    // @iOSXCUITFindBy(xpath = "com.leanplum.rondo:id/trackName")
-    public MobileElement appInboxMessageByTitle;
+	private static final String IOS_IN_APP_XPATH = "//XCUIElementTypeCell";
 
-    @AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/subtitle']")
-    // @iOSXCUITFindBy(xpath = "com.leanplum.rondo:id/trackName")
-    public MobileElement appInboxMessageBySubTitle;
+	@AndroidFindBy(id = "com.leanplum.rondo:id/app_inbox")
+	@iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"App Inbox\"]")
+	public MobileElement appinbox;
 
-    @AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/image']")
-    // @iOSXCUITFindBy(xpath = "com.leanplum.rondo:id/trackName")
-    public MobileElement appInboxImage;
+	@AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/listview']")
+	@iOSXCUITFindBy(xpath = IOS_IN_APP_XPATH)
+	public MobileElement appInboxList;
 
-    @AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/button']")
-    // @iOSXCUITFindBy(xpath = "com.leanplum.rondo:id/trackName")
-    public MobileElement performReadActionButton;
+	@AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/title']")
+	@iOSXCUITFindBy(xpath = IOS_IN_APP_XPATH + "//XCUIElementTypeStaticText[@label][1]")
+	public MobileElement appInboxMessageTitle;
 
-    private MobileDriver<MobileElement> driver;
+	@AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/subtitle']")
+	@iOSXCUITFindBy(xpath = IOS_IN_APP_XPATH + "//XCUIElementTypeStaticText[@label][2]")
+	public MobileElement appInboxMessageSubTitle;
 
-    public AppInboxMessagePO(MobileDriver<MobileElement> driver) {
-        super(driver);
-        this.driver = driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
-    }
-    
-    public void waitForInboxMessage() {
-        MobileDriverUtils.waitForExpectedCondition(driver, 30, ExpectedConditions.visibilityOf(appInboxList));
-    }
-    
-    public boolean isTitleCorrect(String title) {
-        return MobileDriverUtils
-                .waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(appInboxMessageByTitle))
-                .getAttribute("text").equals(title);
-    }
+	@AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/image']")
+	@iOSXCUITFindBy(xpath = IOS_IN_APP_XPATH + "//XCUIElementTypeImage")
+	public MobileElement appInboxImage;
 
-    public boolean isSubTitleCorrect(String subtitle) {
-        return MobileDriverUtils
-                .waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(appInboxMessageBySubTitle))
-                .getAttribute("text").equals(subtitle);
-    }
+	@AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/button']")
+	@iOSXCUITFindBy(xpath = IOS_IN_APP_XPATH + "//XCUIElementTypeButton[@label='Perform Read Action']")
+	public MobileElement performReadActionButton;
 
-    public boolean doesContainImage() {
-        try {
-            MobileDriverUtils.waitForExpectedCondition(driver, 5, ExpectedConditions.visibilityOf(appInboxImage));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
+	private MobileDriver<MobileElement> driver;
 
-    public void performReadAction() {
-        performReadActionButton.click();
-    }
+	public AppInboxMessagePO(MobileDriver<MobileElement> driver) {
+		super(driver);
+		this.driver = driver;
+		PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
+	}
+
+	public void waitForInboxMessage() {
+		MobileDriverUtils.waitForExpectedCondition(driver, 10, ExpectedConditions.visibilityOf(appInboxList));
+	}
+
+	public boolean isTitleCorrect(String title) {
+		return getTextFromElement(appInboxMessageTitle).equals(title);
+	}
+
+	public boolean isSubTitleCorrect(String subtitle) {
+		return getTextFromElement(appInboxMessageSubTitle).equals(subtitle);
+	}
+
+	public boolean doesContainImage() {
+		try {
+			return appInboxImage.isEnabled();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public void performReadAction() {
+		performReadActionButton.click();
+	}
 }

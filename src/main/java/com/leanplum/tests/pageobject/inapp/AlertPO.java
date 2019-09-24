@@ -13,6 +13,7 @@ import com.leanplum.tests.pushnotification.PushNotification;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
@@ -33,7 +34,7 @@ public class AlertPO extends InAppPopupPO {
 	@AndroidFindBy(xpath = ANDROID_ALERT_TITLE_XPATH)
 	@iOSXCUITFindBy(xpath = IOS_ALERT_TITLE_XPATH)
 	public MobileElement alertPopup;
-	
+
 	@AndroidFindBy(xpath = ANDROID_ALERT_TITLE_XPATH)
 	@iOSXCUITFindBy(xpath = IOS_ALERT_TITLE_XPATH)
 	public MobileElement alertTitle;
@@ -58,5 +59,13 @@ public class AlertPO extends InAppPopupPO {
 
 		return confirmAlertButton.isDisplayed() && verifyInAppPopup(ImmutableMap.of(alertTitle, expectedTitle,
 				alertMessage, expectedMessage, confirmAlertButton, confirmAlertButtonText));
+	}
+
+	public boolean isAlertPresent() {
+		if (driver instanceof AndroidDriver) {
+			return MobileDriverUtils.doesSelectorMatchAnyElements(driver, AlertPO.CONFIRM_ALERT_BUTTON_XPATH);
+		} else {
+			return MobileDriverUtils.doesSelectorMatchAnyElements(driver, AlertPO.IOS_CONFIRM_ALERT_BUTTON_XPATH);
+		}
 	}
 }

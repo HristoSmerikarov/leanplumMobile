@@ -18,99 +18,107 @@ import com.leanplum.utils.extentreport.ExtentTestManager;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
 import io.restassured.response.Response;
 
 public class AppInboxTest extends CommonTestSteps {
 
-    private static final String APP_INBOX_EVENT = "appinbox";
+	private static final String APP_INBOX_EVENT = "appinbox";
 
-    @Test(description = "App Inbox message verifiation")
-    public void confirmWithTriggerEveryTwoTimes(Method method) {
-        ExtentTestManager.startTest(method.getName(), "App Inbox message verifiation");
+	@Test(description = "App Inbox message verifiation")
+	public void confirmWithTriggerEveryTwoTimes(Method method) {
+		ExtentTestManager.startTest(method.getName(), "App Inbox message verifiation");
 
-        TestStepHelper stepHelper = new TestStepHelper(this);
-        MobileDriver<MobileElement> driver = getDriver();
+		TestStepHelper stepHelper = new TestStepHelper(this);
+		MobileDriver<MobileElement> driver = getDriver();
 
-        AlertPO alert = new AlertPO(driver);
-        stepHelper.acceptAllAlertsOnAppStart(alert);
+		AlertPO alert = new AlertPO(driver);
+		stepHelper.acceptAllAlertsOnAppStart(alert);
 
-        BasePO basePage = new BasePO(driver);
-        String deviceId = getDeviceId(basePage);
-        String userId = getUserId(basePage);
+		BasePO basePage = new BasePO(driver);
+		String deviceId = getDeviceId(basePage);
+		String userId = getUserId(basePage);
 
-        Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
+		Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
 
-        Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
-        newsfeedIds.forEach(newsfeedId -> {
-            TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId);
-        });
+		Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
+		newsfeedIds.forEach(newsfeedId -> {
+			TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId);
+		});
 
-        AdHocPO adHocPO = new AdHocPO(driver);
-        stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+		AdHocPO adHocPO = new AdHocPO(driver);
+		stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-        stepHelper.sendEvent(adHocPO, APP_INBOX_EVENT);
+		stepHelper.sendEvent(adHocPO, APP_INBOX_EVENT);
 
-        driver.closeApp();
-        MobileDriverUtils.waitInMs(30000);
-        driver.launchApp();
+		MobileDriverUtils.waitInMs(45000);
 
-        stepHelper.acceptAllAlertsOnAppStart(alert);
+		driver.closeApp();
+		MobileDriverUtils.waitInMs(1000);
+		driver.launchApp();
 
-        AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);
-        stepHelper.clickElement(appInbox, appInbox.appinbox, "App Inbox button");
+		stepHelper.acceptAllAlertsOnAppStart(alert);
 
-        startStep("Wait for app inbox message");
-        appInbox.waitForInboxMessage();
-        endStep();
+		AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);
+		stepHelper.clickElement(appInbox, appInbox.appinbox, "App Inbox button");
 
-        startStep("Verify app inbox message title is correct");
-        endStep(appInbox.isTitleCorrect("Update your profile!"));
+		startStep("Wait for app inbox message");
+		appInbox.waitForInboxMessage();
+		endStep();
 
-        startStep("Verify app inbox message subtitle is correct");
-        endStep(appInbox.isSubTitleCorrect("Please add more info.."));
+		startStep("Verify app inbox message title is correct");
+		endStep(appInbox.isTitleCorrect("Update your profile!"));
 
-        startStep("Verify app inbox message does contain image");
-        endStep(appInbox.doesContainImage());
+		startStep("Verify app inbox message subtitle is correct");
+		endStep(appInbox.isSubTitleCorrect("Please add more info.."));
 
-        startStep("Perform read action");
-        appInbox.performReadAction();
-        endStep();
+		startStep("Verify app inbox message does contain image");
+		endStep(appInbox.doesContainImage());
 
-        // Verify alert layout
-        alert = new AlertPO(driver);
-        stepHelper.verifyCondition("Verify alert layout",
-                alert.verifyAlertLayout("AlertMessage", "Alert message after opening app inbox message", "It's here!"));
+		startStep("Perform read action");
+		appInbox.performReadAction();
+		endStep();
 
-        // Confrim alert
-        stepHelper.clickElement(alert, alert.confirmAlertButton, "It's here!");
+		// Verify alert layout
+		alert = new AlertPO(driver);
+		stepHelper.verifyCondition("Verify alert layout",
+				alert.verifyAlertLayout("AlertMessage", "Alert message after opening app inbox message", "It's here!"));
 
-        driver.closeApp();
-    }
+		// Confrim alert
+		stepHelper.clickElement(alert, alert.confirmAlertButton, "It's here!");
 
-    private Set<String> getNewsfeedMessageIds(Response response) {
-        return new JSONObject(response.body().asString()).getJSONArray("response").getJSONObject(0)
-                .getJSONObject("newsfeedMessages").keySet();
-    }
+		driver.closeApp();
+	}
 
-    private String getUserId(BasePO basePage) {
-        String userId = basePage.userId.getAttribute("text");
+	private Set<String> getNewsfeedMessageIds(Response response) {
+		return new JSONObject(response.body().asString()).getJSONArray("response").getJSONObject(0)
+				.getJSONObject("newsfeedMessages").keySet();
+	}
 
-        if (userId == null || userId.isEmpty()) {
-            String deviceId = getDeviceId(basePage);
+	/**
+	 * On Android there is a chance not to have userId, logic to set one is added
+	 * 
+	 * @param basePage
+	 * @return
+	 */
+	private String getUserId(BasePO basePage) {
+		String userId = basePage.getTextFromElement(basePage.userId);
 
-            AdHocPO adHocPO = new AdHocPO(getDriver());
-            adHocPO.click(adHocPO.adhoc);
+		if (userId == null || userId.isEmpty()) {
+			String deviceId = getDeviceId(basePage);
 
-            adHocPO.setUserId(deviceId);
-        }
+			AdHocPO adHocPO = new AdHocPO(getDriver());
+			adHocPO.click(adHocPO.adhoc);
 
-        basePage.click(basePage.appSetup);
+			adHocPO.setUserId(deviceId);
 
-        return userId;
-    }
+			basePage.click(basePage.appSetup);
+		}
 
-    private String getDeviceId(BasePO basePage) {
-        String deviceId = basePage.deviceId.getAttribute("text");
-        return deviceId;
-    }
+		return userId;
+	}
+
+	private String getDeviceId(BasePO basePage) {
+		return basePage.getTextFromElement(basePage.deviceId);
+	}
 }
