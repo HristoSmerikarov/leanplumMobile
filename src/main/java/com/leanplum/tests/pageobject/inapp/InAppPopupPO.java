@@ -31,9 +31,8 @@ public class InAppPopupPO extends BasePO {
         	if(driver instanceof AndroidDriver) {
         		actual = entry.getKey().getAttribute("text");
         	}else {
-        		actual = entry.getKey().getAttribute("name");
+        		actual = entry.getKey().getAttribute("label");
         	}
-           // String actual = entry.getKey().getAttribute("text");
             String expected = entry.getValue();
             System.out.println("Actual: "+actual);
             System.out.println("Expected: "+expected);

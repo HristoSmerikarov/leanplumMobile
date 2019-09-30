@@ -21,10 +21,10 @@ import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 public class AlertPO extends InAppPopupPO {
 
 	private static final String ANDROID_ALERT_TITLE_XPATH = "//*[@resource-id='android:id/alertTitle']";
-	private static final String IOS_ALERT_MESSAGE_XPATH = "//XCUIElementTypeAlert//XCUIElementTypeOther/XCUIElementTypeStaticText[2]";
+	private static final String IOS_ALERT_MESSAGE_XPATH = "//XCUIElementTypeAlert[@visible='true']//XCUIElementTypeOther[@visible='true']/XCUIElementTypeStaticText[@visible='true'][2]";
 	private static final String IOS_ALERT_TITLE_XPATH = IOS_ALERT_MESSAGE_XPATH
-			+ "/preceding-sibling::XCUIElementTypeStaticText";
-	public static final String IOS_CONFIRM_ALERT_BUTTON_XPATH = "//XCUIElementTypeAlert//XCUIElementTypeButton";
+			+ "/preceding-sibling::XCUIElementTypeStaticText[@visible='true']";
+	public static final String IOS_CONFIRM_ALERT_BUTTON_XPATH = "//XCUIElementTypeAlert[@visible='true']//XCUIElementTypeButton[@visible='true']";
 	public static final String CONFIRM_ALERT_BUTTON_XPATH = "//*[@resource-id='android:id/button1']";
 
 	@AndroidFindBy(xpath = CONFIRM_ALERT_BUTTON_XPATH)

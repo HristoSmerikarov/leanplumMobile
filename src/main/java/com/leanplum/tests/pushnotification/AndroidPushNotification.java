@@ -72,7 +72,8 @@ public class AndroidPushNotification implements PushNotification{
         // TODO to be defined
     }
     
-    public void openAndroidNotifications() {
+    @Override
+    public void openNotifications() {
         ((AndroidDriver<MobileElement>) driver).openNotifications();
     }
     

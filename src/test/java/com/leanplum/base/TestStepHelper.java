@@ -47,9 +47,9 @@ public class TestStepHelper {
 		test.endStep(condition);
 	}
 
-	public void openAndroidNotifications() {
+	public void openNotifications(PushNotification pushNotification) {
 		test.startStep("Open notifications");
-		((AndroidDriver<MobileElement>) test.getDriver()).openNotifications();
+		pushNotification.openNotifications();
 		test.endStep();
 	}
 
