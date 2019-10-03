@@ -6,14 +6,12 @@ import org.openqa.selenium.TakesScreenshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 
 import com.leanplum.tests.appiumdriver.AppiumServiceUtils;
 import com.leanplum.tests.appiumdriver.DevicePropertiesUtils;
-import com.leanplum.tests.appiumdriver.DriverConfig;
 import com.leanplum.tests.appiumdriver.DriverFactory;
 import com.leanplum.tests.appiumdriver.PropertiesUtils;
 import com.leanplum.tests.appiumdriver.TestConfig;
@@ -26,7 +24,6 @@ import com.relevantcodes.extentreports.LogStatus;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import ru.yandex.qatools.allure.annotations.Step;
 

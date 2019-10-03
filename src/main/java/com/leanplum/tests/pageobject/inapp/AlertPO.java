@@ -7,10 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.google.common.collect.ImmutableMap;
 import com.leanplum.tests.helpers.MobileDriverUtils;
-import com.leanplum.tests.pushnotification.AndroidPushNotification;
-import com.leanplum.tests.pushnotification.PushNotification;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;

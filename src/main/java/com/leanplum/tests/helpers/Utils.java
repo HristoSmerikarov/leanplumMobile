@@ -27,16 +27,15 @@ public class Utils {
         return Integer.toString(randomNumber);
     }
 
-    public void swipeDownToElement(MobileDriver<MobileElement> driver) throws Exception {
+    public void swipeDownToElement(MobileDriver<MobileElement> driver) {
         swipeVertical(driver, 0.7, 0.1, 0.5, 1000);
     }
 
-    public void swipeUpToElement(MobileDriver<MobileElement> driver) throws Exception {
+    public void swipeUpToElement(MobileDriver<MobileElement> driver) {
         swipeVertical(driver, 0.2, 0.7, 0.5, 1000);
     }
 
-    public boolean swipeToElement(MobileDriver<MobileElement> driver, MobileElement element, SwipeDirection direction)
-            throws Exception {
+    public boolean swipeToElement(MobileDriver<MobileElement> driver, MobileElement element, SwipeDirection direction) {
         boolean isVisible = false;
         int tries = 0;
         while (!isVisible) {
@@ -63,7 +62,7 @@ public class Utils {
     }
 
     private void swipeVertical(MobileDriver<MobileElement> driver, double startPercentage, double finalPercentage,
-            double anchorPercentage, int duration) throws Exception {
+            double anchorPercentage, int duration) {
         Dimension size = driver.manage().window().getSize();
         int anchor = (int) (size.width * anchorPercentage);
         int startPoint = (int) (size.height * startPercentage);

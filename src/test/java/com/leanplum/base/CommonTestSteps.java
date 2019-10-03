@@ -1,16 +1,11 @@
 package com.leanplum.base;
 
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.BasePO;
 import com.leanplum.tests.pageobject.MobileBrowserPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 
 public class CommonTestSteps extends BaseTest{
 

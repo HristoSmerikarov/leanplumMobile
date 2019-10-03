@@ -3,8 +3,6 @@ package com.leanplum.tests.api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.JsonElement;
-
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -52,6 +50,7 @@ public class TemporaryAPI {
         System.out.println("FORMATTED: " + formattedEndpoint);
 
         Response response = RestAssured.given().contentType(ContentType.JSON).log().all().get(formattedEndpoint);
+        System.out.println("Post Response:" + response.getBody().asString());
         LOGGER.info("Post Response:" + response.getBody().asString());
         return response;
     }
@@ -62,6 +61,7 @@ public class TemporaryAPI {
         System.out.println("FORMATTED: " + formattedEndpoint);
 
         Response response = RestAssured.given().contentType(ContentType.JSON).log().all().post(formattedEndpoint);
+        System.out.println("Post Response:" + response.getBody().asString());
         LOGGER.info("Post Response:" + response.getBody().asString());
 
         return response;
@@ -92,7 +92,7 @@ public class TemporaryAPI {
         System.out.println("Post Response:" + response.getBody().asString());
         LOGGER.info("Post Response:" + response.getBody().asString());
 
-        return null;
+        return response;
     }
 
 }

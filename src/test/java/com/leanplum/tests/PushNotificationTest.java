@@ -4,32 +4,26 @@ import java.lang.reflect.Method;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.google.common.base.Strings;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
-import com.leanplum.tests.appiumdriver.TestConfig;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.BasePO;
+import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.MobileBrowserPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pageobject.inapp.CenterPopupPO;
-import com.leanplum.tests.pushnotification.AndroidPushNotification;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.extentreport.ExtentTestManager;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
-import io.appium.java_client.ios.IOSDriver;
-import io.restassured.response.Response;
 
 public class PushNotificationTest extends CommonTestSteps {
 
@@ -159,8 +153,9 @@ public class PushNotificationTest extends CommonTestSteps {
 		AlertPO alertPO = new AlertPO(driver);
 		stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
-		String userId = alertPO.getTextFromElement(alertPO.userId);
-		String deviceId = alertPO.getTextFromElement(alertPO.deviceId);
+		AppSetupPO appSetupPO = new AppSetupPO(driver);
+		String userId = alertPO.getTextFromElement(appSetupPO.userId);
+		String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
 		AdHocPO adHocPO = new AdHocPO(driver);
 		stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
@@ -249,23 +244,23 @@ public class PushNotificationTest extends CommonTestSteps {
 
 	private void allowIOSPushPermission(MobileDriver<MobileElement> driver, PushNotifiationType pn) {
 		if (pn == PushNotifiationType.IOS) {
-			BasePO basePO = new BasePO(driver);
-			basePO.allowIosPushPermission();
+		    AppSetupPO appSetupPO = new AppSetupPO(driver);
+		    appSetupPO.allowIosPushPermission();
 		}
 	}
 
 	// Temporary
 	private void createApp(MobileDriver<MobileElement> driver) {
-		BasePO basePO = new BasePO(driver);
+		AppSetupPO appSetupPO = new AppSetupPO(driver);
 		// MobileDriverUtils
 		// .waitForExpectedCondition(driver, ExpectedConditions
 		// .visibilityOfElementLocated(By.xpath("//XCUIElementTypeButton[@name=\"Always
 		// Allow\"]")))
 		// .click();
 
-		basePO.appPicker.click();
+		appSetupPO.appPicker.click();
 
-		MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(basePO.newApp)).click();
+		MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(appSetupPO.newApp)).click();
 
 		driver.findElement(By.xpath("//XCUIElementTypeTextField[1]")).sendKeys("testRondo");
 		driver.findElement(By.xpath("//XCUIElementTypeTextField[2]"))

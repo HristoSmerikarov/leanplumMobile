@@ -3,22 +3,21 @@ package com.leanplum.tests;
 import java.lang.reflect.Method;
 import java.util.Set;
 
+import org.json.JSONObject;
 import org.testng.annotations.Test;
 
-import org.json.JSONObject;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.AppInboxMessagePO;
-import com.leanplum.tests.pageobject.BasePO;
+import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.utils.extentreport.ExtentTestManager;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 import io.restassured.response.Response;
 
 public class AppInboxTest extends CommonTestSteps {
@@ -35,9 +34,9 @@ public class AppInboxTest extends CommonTestSteps {
 		AlertPO alert = new AlertPO(driver);
 		stepHelper.acceptAllAlertsOnAppStart(alert);
 
-		BasePO basePage = new BasePO(driver);
-		String deviceId = getDeviceId(basePage);
-		String userId = getUserId(basePage);
+		AppSetupPO appSetupPO = new AppSetupPO(driver);
+		String deviceId = getDeviceId(appSetupPO);
+		String userId = getUserId(appSetupPO);
 
 		Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
 
@@ -101,24 +100,24 @@ public class AppInboxTest extends CommonTestSteps {
 	 * @param basePage
 	 * @return
 	 */
-	private String getUserId(BasePO basePage) {
-		String userId = basePage.getTextFromElement(basePage.userId);
+	private String getUserId(AppSetupPO appSetupPO) {
+		String userId = appSetupPO.getTextFromElement(appSetupPO.userId);
 
 		if (userId == null || userId.isEmpty()) {
-			String deviceId = getDeviceId(basePage);
+			String deviceId = getDeviceId(appSetupPO);
 
 			AdHocPO adHocPO = new AdHocPO(getDriver());
 			adHocPO.click(adHocPO.adhoc);
 
 			adHocPO.setUserId(deviceId);
 
-			basePage.click(basePage.appSetup);
+			appSetupPO.click(appSetupPO.appSetup);
 		}
 
 		return userId;
 	}
 
-	private String getDeviceId(BasePO basePage) {
-		return basePage.getTextFromElement(basePage.deviceId);
+	private String getDeviceId(AppSetupPO appSetupPO) {
+		return appSetupPO.getTextFromElement(appSetupPO.deviceId);
 	}
 }

@@ -51,7 +51,6 @@ public class MobileDriverUtils {
 
 	public static void swipeTopToBottom(MobileDriver<MobileElement> driver) {
 		Dimension screenSize = driver.manage().window().getSize();
-
 		int yMargin = 5;
 		int xMid = screenSize.width / 2;
 		PointOption top = PointOption.point(xMid, yMargin);
@@ -63,7 +62,6 @@ public class MobileDriverUtils {
 
 	public static void swipeBottomToTop(MobileDriver<MobileElement> driver) {
 		Dimension screenSize = driver.manage().window().getSize();
-
 		int yMargin = 5;
 		int xMid = screenSize.width / 2;
 		PointOption top = PointOption.point(xMid, yMargin);
