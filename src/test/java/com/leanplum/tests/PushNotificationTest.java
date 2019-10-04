@@ -53,7 +53,7 @@ public class PushNotificationTest extends CommonTestSteps {
 		AdHocPO adHocPO = new AdHocPO(driver);
 		stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-		stepHelper.sendEvent(adHocPO, LOCAL_TRIGGER);
+		stepHelper.sendTrackEvent(adHocPO, LOCAL_TRIGGER);
 
 		// Open push notification
 		openNotificationsAndOpenByMessage(stepHelper, pn.initialize(driver, RONDO_PUSH_NOTIFICATION));
@@ -67,7 +67,7 @@ public class PushNotificationTest extends CommonTestSteps {
 		stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
 		// Send end event
-		stepHelper.sendEvent(adHocPO, END_TRIGGER);
+		stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
 
 		driver.closeApp();
 	}
@@ -101,13 +101,13 @@ public class PushNotificationTest extends CommonTestSteps {
 				centerPopupPO.verifyCenterPopup("Rondo Center Popup", "Rondo is ready!", "Start now!"));
 
 		// Click center popup accept button
-		stepHelper.clickElement(centerPopupPO, centerPopupPO.centerPopupButton, "Accept button");
+		stepHelper.clickElement(centerPopupPO, centerPopupPO.centerPopupAcceptButton, "Accept button");
 
 		AlertPO alertPO = new AlertPO(driver);
 		stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
 		// Send end event
-		stepHelper.sendEvent(adHocPO, END_TRIGGER);
+		stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
 
 		driver.closeApp();
 	}
@@ -137,7 +137,7 @@ public class PushNotificationTest extends CommonTestSteps {
 		stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
 		// Send end event
-		stepHelper.sendEvent(adHocPO, END_TRIGGER);
+		stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
 
 		driver.closeApp();
 	}
@@ -164,7 +164,7 @@ public class PushNotificationTest extends CommonTestSteps {
 			userId = deviceId;
 		}
 
-		stepHelper.sendEvent(adHocPO, OUTSIDE_APP_TRIGGER);
+		stepHelper.sendTrackEvent(adHocPO, OUTSIDE_APP_TRIGGER);
 
 		// Open notification and confirm that notification is not present
 		PushNotifiationType pn = PushNotifiationType.valueOfEnum(getTestConfig().getOS()).get();
@@ -199,7 +199,7 @@ public class PushNotificationTest extends CommonTestSteps {
 		stepHelper.clickElement(adHocPO, adHocPO.adhoc, " Ad-Hoc button");
 
 		// Send end event
-		stepHelper.sendEvent(adHocPO, END_TRIGGER);
+		stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
 
 		driver.closeApp();
 	}
@@ -230,7 +230,7 @@ public class PushNotificationTest extends CommonTestSteps {
 		stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
 		// Send end event
-		stepHelper.sendEvent(adHocPO, END_TRIGGER);
+		stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
 
 		driver.closeApp();
 		// stepHelper.clickAndroidKey(AndroidKey.HOME);
@@ -244,8 +244,8 @@ public class PushNotificationTest extends CommonTestSteps {
 
 	private void allowIOSPushPermission(MobileDriver<MobileElement> driver, PushNotifiationType pn) {
 		if (pn == PushNotifiationType.IOS) {
-		    AppSetupPO appSetupPO = new AppSetupPO(driver);
-		    appSetupPO.allowIosPushPermission();
+			AppSetupPO appSetupPO = new AppSetupPO(driver);
+			appSetupPO.allowIosPushPermission();
 		}
 	}
 

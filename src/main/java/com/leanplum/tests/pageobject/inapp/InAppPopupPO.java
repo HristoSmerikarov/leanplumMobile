@@ -11,35 +11,36 @@ import io.appium.java_client.android.AndroidDriver;
 
 public class InAppPopupPO extends BasePO {
 
-    public static final String POPUP_CONTAINER_XPATH = "//*[@resource-id='com.leanplum.rondo:id/container_view']";
-    private MobileDriver<MobileElement> driver;
+	public static final String POPUP_CONTAINER_XPATH = "//*[@resource-id='com.leanplum.rondo:id/container_view']";
+	private MobileDriver<MobileElement> driver;
 
-    public InAppPopupPO(MobileDriver<MobileElement> driver) {
-        super(driver);
-        this.driver = driver;
-    }
+	public InAppPopupPO(MobileDriver<MobileElement> driver) {
+		super(driver);
+		this.driver = driver;
+	}
 
-    /**
-     * Confirms that all texts displayed in app are correct
-     * @param elementTextMap
-     * @return 
-     */
-    protected boolean verifyInAppPopup(Map<MobileElement, String> elementTextMap) {
-        for (Entry<MobileElement, String> entry : elementTextMap.entrySet()) {
-            String actual;
-            if (driver instanceof AndroidDriver) {
-                actual = entry.getKey().getAttribute("text");
-            } else {
-                actual = entry.getKey().getAttribute("label");
-            }
-            String expected = entry.getValue();
-            System.out.println("Actual: " + actual);
-            System.out.println("Expected: " + expected);
+	/**
+	 * Confirms that all texts displayed in app are correct
+	 * 
+	 * @param elementTextMap
+	 * @return
+	 */
+	protected boolean verifyInAppPopup(Map<MobileElement, String> elementTextMap) {
+		for (Entry<MobileElement, String> entry : elementTextMap.entrySet()) {
+			String actual;
+			if (driver instanceof AndroidDriver) {
+				actual = entry.getKey().getAttribute("text");
+			} else {
+				actual = entry.getKey().getAttribute("label");
+			}
+			String expected = entry.getValue();
+			System.out.println("Actual: " + actual);
+			System.out.println("Expected: " + expected);
 
-            if (!actual.equalsIgnoreCase(expected)) {
-                return false;
-            }
-        }
-        return true;
-    }
+			if (!actual.equalsIgnoreCase(expected)) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

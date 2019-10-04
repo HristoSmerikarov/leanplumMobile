@@ -26,29 +26,31 @@ public class StarRatingPO extends InAppPopupPO {
 	private static final String IOS_STAR_RATING_XPATH = "//XCUIElementTypeWebView[@visible='true']";
 	private static final String IOS_STAR_RATING_TEXT_XPATH = "(" + IOS_STAR_RATING_XPATH
 			+ "//XCUIElementTypeStaticText)";
-	private static final String IOS_RATING_STAR_BY_NUMBER_XPATH = "("+IOS_STAR_RATING_XPATH+"//XCUIElementTypeOther[not(*)])[%s]";
+	private static final String IOS_RATING_STAR_BY_NUMBER_XPATH = "(" + IOS_STAR_RATING_XPATH
+			+ "//XCUIElementTypeOther[not(*)])[%s]";
+	private static final String IOS_STAR_RATING_SUBMIT_BUTTON_XPATH = IOS_STAR_RATING_TEXT_XPATH + "[4]";
 
 	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_XPATH)
 	@AndroidFindBy(xpath = ANDROID_STAR_RATING_POPUP_XPATH)
 	public MobileElement starRatingPopupXpath;
 
-	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_TEXT_XPATH+"[1]")
+	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_TEXT_XPATH + "[1]")
 	@AndroidFindBy(xpath = ANDROID_STAR_RATING_POPUP_XPATH + "//*[@resource-id='survey-question']")
 	public MobileElement starRatingSurveyQuestion;
 
-	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_TEXT_XPATH+"[2]")
+	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_TEXT_XPATH + "[2]")
 	@AndroidFindBy(xpath = "//*[@resource-id='low-rating-text']")
 	public MobileElement lowRatingTextElement;
 
-	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_TEXT_XPATH+"[3]")
+	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_TEXT_XPATH + "[3]")
 	@AndroidFindBy(xpath = "//*[@resource-id='high-rating-text']")
 	public MobileElement highRatingTextElement;
 
-	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_TEXT_XPATH+"[4]")
+	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_SUBMIT_BUTTON_XPATH)
 	@AndroidFindBy(xpath = ANDROID_STAR_RATING_SUBMIT_BUTTON_XPATH)
 	public MobileElement ratingSubmitButton;
-	
-	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_XPATH+"//XCUIElementTypeOther[not(*)]")
+
+	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_XPATH + "//XCUIElementTypeOther[not(*)]")
 	@AndroidFindBy(xpath = ANDROID_RATING_STAR_XPATH)
 	public List<MobileElement> ratingStars;
 
@@ -63,10 +65,11 @@ public class StarRatingPO extends InAppPopupPO {
 	public boolean verifyStarRating(String surveyQuestion, int numberOfRatingStars, String lowRatingText,
 			String highRatingText) {
 		MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(starRatingPopupXpath));
+
 		return doesRatingPopupContainStars(numberOfRatingStars)
 				&& verifyInAppPopup(ImmutableMap.of(starRatingSurveyQuestion, surveyQuestion, lowRatingTextElement,
 						lowRatingText, highRatingTextElement, highRatingText))
-				&& MobileDriverUtils.doesSelectorMatchAnyElements(driver, ANDROID_STAR_RATING_SUBMIT_BUTTON_XPATH);
+				&& isSubmitButtonPresent();
 	}
 
 	/**
@@ -86,29 +89,39 @@ public class StarRatingPO extends InAppPopupPO {
 	public void submitRating() {
 		ratingSubmitButton.click();
 	}
-	
+
+	private boolean isSubmitButtonPresent() {
+		if (driver instanceof AndroidDriver) {
+			return MobileDriverUtils.doesSelectorMatchAnyElements(driver, ANDROID_STAR_RATING_SUBMIT_BUTTON_XPATH);
+		} else {
+			return MobileDriverUtils.doesSelectorMatchAnyElements(driver, IOS_STAR_RATING_SUBMIT_BUTTON_XPATH);
+		}
+	}
+
 	/**
 	 * String.format cannot be used with FindBy annotation
+	 * 
 	 * @param rating
 	 * @return
 	 */
 	private String constructRatingStarXpath(int rating) {
-		if(this.driver instanceof AndroidDriver) {
+		if (this.driver instanceof AndroidDriver) {
 			return String.format(ANDROID_RATING_STAR_BY_NUMBER_XPATH, String.valueOf(rating));
-		}else {
-			return String.format(IOS_RATING_STAR_BY_NUMBER_XPATH, String.valueOf(rating+1));
+		} else {
+			return String.format(IOS_RATING_STAR_BY_NUMBER_XPATH, String.valueOf(rating + 1));
 		}
 	}
 
 	/**
 	 * For locators simplification a driver type check is introduced
+	 * 
 	 * @param numberOfRatingStars
 	 * @return
 	 */
 	private boolean doesRatingPopupContainStars(int numberOfRatingStars) {
-		if(this.driver instanceof AndroidDriver) {
+		if (this.driver instanceof AndroidDriver) {
 			return ratingStars.size() == numberOfRatingStars;
-		}else {
+		} else {
 			return ratingStars.size() - 1 == numberOfRatingStars;
 		}
 	}

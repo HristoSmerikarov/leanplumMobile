@@ -16,7 +16,7 @@ public class CommonTestSteps extends BaseTest{
         AdHocPO adHocPO = new AdHocPO(driver);
         stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-        stepHelper.sendEvent(adHocPO, message);
+        stepHelper.sendTrackEvent(adHocPO, message);
 
         return adHocPO;
     }

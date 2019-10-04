@@ -19,10 +19,11 @@ public class CenterPopupPO extends InAppPopupPO {
 	private static final String CENTER_POPUP_TITLE_XPATH = "//*[@resource-id='com.leanplum.rondo:id/title_view']";
 	private static final String CENTER_POPUP_XPATH = "*[@resource-id='com.leanplum.rondo:id/container_view']";
 	private static final String IOS_STATIC_TEXT_XPATH = "XCUIElementTypeStaticText";
-	private static final String IOS_BUTTON_XPATH = "XCUIElementTypeButton";
-	private static final String IOS_CENTER_POPUP_BUTTON = "//" + IOS_STATIC_TEXT_XPATH + "/following-sibling::"
-			+ IOS_STATIC_TEXT_XPATH + "/following-sibling::" + IOS_BUTTON_XPATH;
-	private static final String IOS_CENTER_POPUP_XPATH = IOS_CENTER_POPUP_BUTTON + "/ancestor::XCUIElementTypeOther[2]";
+	private static final String IOS_CENTER_POPUP_XPATH = "//XCUIElementTypeButton[@visible='true']/following-sibling::XCUIElementTypeOther";
+	private static final String IOS_CENTER_POPUP_ACCEPT_BUTTON_XPATH = IOS_CENTER_POPUP_XPATH
+			+ "/XCUIElementTypeButton[@name]";
+	private static final String IOS_CENTER_POPUP_CLOSE_BUTTON_XPATH = IOS_CENTER_POPUP_XPATH
+			+ "/preceding-sibling::XCUIElementTypeButton[1]";
 
 	@iOSXCUITFindBy(xpath = IOS_CENTER_POPUP_XPATH)
 	@AndroidFindBy(xpath = CENTER_POPUP_TITLE_XPATH + "/*[@text]/ancestor::" + CENTER_POPUP_XPATH)
@@ -36,9 +37,13 @@ public class CenterPopupPO extends InAppPopupPO {
 	@AndroidFindBy(xpath = "//" + CENTER_POPUP_XPATH + "/*[@class='android.widget.TextView']")
 	public MobileElement centerPopupMessage;
 
-	@iOSXCUITFindBy(xpath = IOS_CENTER_POPUP_BUTTON)
+	@iOSXCUITFindBy(xpath = IOS_CENTER_POPUP_ACCEPT_BUTTON_XPATH)
 	@AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/accept_button']")
-	public MobileElement centerPopupButton;
+	public MobileElement centerPopupAcceptButton;
+	
+	@iOSXCUITFindBy(xpath = IOS_CENTER_POPUP_CLOSE_BUTTON_XPATH)
+	@AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/accept_button']")
+	public MobileElement centerPopupCloseButton;
 
 	MobileDriver<MobileElement> driver;
 
@@ -51,10 +56,10 @@ public class CenterPopupPO extends InAppPopupPO {
 	public boolean verifyCenterPopup(String title, String message, String buttonText) {
 		MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(centerPopup));
 		return verifyInAppPopup(
-				ImmutableMap.of(centerPopupTitle, title, centerPopupMessage, message, centerPopupButton, buttonText));
+				ImmutableMap.of(centerPopupTitle, title, centerPopupMessage, message, centerPopupAcceptButton, buttonText));
 	}
 
 	public void clickAcceptButton() {
-		centerPopupButton.click();
+		centerPopupAcceptButton.click();
 	}
 }

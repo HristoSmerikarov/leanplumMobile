@@ -76,10 +76,12 @@ public class IOSPushNotification implements PushNotification {
 
 	@Override
 	public void openNotifications() {
+		System.out.println("Is unlocked "+!((IOSDriver) driver).isDeviceLocked());
 		if(!((IOSDriver) driver).isDeviceLocked()) {
 			((IOSDriver) driver).lockDevice();
 		}
 		MobileDriverUtils.waitInMs(15000);
+		System.out.println("Is locked "+((IOSDriver) driver).isDeviceLocked());
 		if(((IOSDriver) driver).isDeviceLocked()) {
 			((IOSDriver) driver).unlockDevice();
 		}

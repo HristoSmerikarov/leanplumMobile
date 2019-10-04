@@ -48,7 +48,7 @@ public class AppInboxTest extends CommonTestSteps {
 		AdHocPO adHocPO = new AdHocPO(driver);
 		stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-		stepHelper.sendEvent(adHocPO, APP_INBOX_EVENT);
+		stepHelper.sendTrackEvent(adHocPO, APP_INBOX_EVENT);
 
 		MobileDriverUtils.waitInMs(45000);
 

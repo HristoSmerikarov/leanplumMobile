@@ -31,9 +31,15 @@ public class TestStepHelper {
         test.endStep();
     }
 
-    public void sendEvent(AdHocPO adHocPO, String message) {
+    public void sendTrackEvent(AdHocPO adHocPO, String message) {
         test.startStep("Send track event: " + message);
         adHocPO.sendTrackEvent(message);
+        test.endStep();
+    }
+    
+    public void sendStateEvent(AdHocPO adHocPO, String state) {
+        test.startStep("Advance to state: " + state);
+        adHocPO.sendStateEvent(state);
         test.endStep();
     }
 
@@ -45,6 +51,7 @@ public class TestStepHelper {
 
     public void verifyCondition(String conditionDescription, boolean condition) {
         test.startStep(conditionDescription);
+        System.out.println("Condition "+conditionDescription+ ": "+condition);
         test.endStep(condition);
     }
 

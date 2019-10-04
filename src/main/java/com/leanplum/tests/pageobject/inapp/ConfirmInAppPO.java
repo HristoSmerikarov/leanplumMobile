@@ -20,25 +20,25 @@ public class ConfirmInAppPO extends InAppPopupPO {
     private static final String CONFIRM_IN_APP_ALERT_TITLE = "/*[@resource-id='android:id/alertTitle']";
     public static final String CONFIRM_IN_APP = "*[@resource-id='android:id/parentPanel']";
     private static final String IOS_CONFIRM_IN_APP_XPATH = "//XCUIElementTypeAlert[@name]";
-    private static final String IOS_CONFIRM_IN_APP_CONFIRM_BUTTON = "("+IOS_CONFIRM_IN_APP_XPATH+"//XCUIElementTypeButton)"; 
+    private static final String IOS_CONFIRM_IN_APP_BUTTON = "("+IOS_CONFIRM_IN_APP_XPATH+"//XCUIElementTypeButton)"; 
     
     @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_XPATH)
     @AndroidFindBy(xpath = CONFIRM_IN_APP_TITLE + CONFIRM_IN_APP_ALERT_TITLE + "//ancestor::" + CONFIRM_IN_APP)
     public MobileElement confirmInApp;
 
-    @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText/preceding-sibling::XCUIElementTypeStaticText")
+    @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_XPATH+"//XCUIElementTypeStaticText/preceding-sibling::XCUIElementTypeStaticText")
     @AndroidFindBy(xpath = CONFIRM_IN_APP_TITLE + CONFIRM_IN_APP_ALERT_TITLE)
     public MobileElement confirmInAppTitle;
 
-    @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText/following-sibling::XCUIElementTypeStaticText")
+    @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_XPATH+"//XCUIElementTypeStaticText/following-sibling::XCUIElementTypeStaticText")
     @AndroidFindBy(xpath = "//" + CONFIRM_IN_APP + "//*[@resource-id='android:id/message']")
     public MobileElement confirmInAppMessage;
 
-    @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_CONFIRM_BUTTON+"[1]")
+    @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_BUTTON+"[2]")
     @AndroidFindBy(xpath = "//*[@resource-id='android:id/button2']")
     public MobileElement confirmCancelButton;
 
-    @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_CONFIRM_BUTTON+"[2]")
+    @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_BUTTON+"[1]")
     @AndroidFindBy(xpath = "//*[@resource-id='android:id/button1']")
     public MobileElement confirmAcceptButton;
 

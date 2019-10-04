@@ -7,36 +7,44 @@ import org.testng.annotations.Test;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.pageobject.AdHocPO;
+import com.leanplum.tests.pageobject.MobileBrowserPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.utils.extentreport.ExtentTestManager;
 
+import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 
 public class InAppActionsTest extends CommonTestSteps {
 
-    @Test(description = "Open URL action")
-    public void confirmWithTriggerEveryTwoTimes(Method method) {
-        ExtentTestManager.startTest(method.getName(), "Confirm in-app on attribute change every two times");
+	@Test(description = "Open URL action")
+	public void openUrlAction(Method method) {
+		ExtentTestManager.startTest(method.getName(), "Open URL action");
 
-        TestStepHelper stepHelper = new TestStepHelper(this);
-        AndroidDriver<MobileElement> driver = (AndroidDriver<MobileElement>) getDriver();
+		TestStepHelper stepHelper = new TestStepHelper(this);
+		MobileDriver<MobileElement> driver = getDriver();
 
-        AlertPO alert = new AlertPO(driver);
-        stepHelper.acceptAllAlertsOnAppStart(alert);
+		AlertPO alert = new AlertPO(driver);
+		stepHelper.acceptAllAlertsOnAppStart(alert);
 
-        // Track event
-        AdHocPO adHocPO = new AdHocPO(driver);
-        stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+		// Track event
+		AdHocPO adHocPO = new AdHocPO(driver);
+		stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-        // First trigger
-        stepHelper.sendEvent(adHocPO, "request");
+		// First trigger
+		stepHelper.sendStateEvent(adHocPO, "request");
 
-        verifyCorrectURLIsOpened(driver, "http://www.leanplum.com/");
-        
-        stepHelper.clickAndroidKey(AndroidKey.BACK);
-        
-        stepHelper.sendEvent(adHocPO, "end");
-    }
+		MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
+		startStep("Verify correct URL is opened");
+		endStep(mobileBrowserPO.isCorrectURLOpened("leanplum.com"));
+
+		// Confirm on resume app
+		startStep("Go back to Rondo app");
+		mobileBrowserPO.goBack();
+		endStep();
+
+		stepHelper.acceptAllAlertsOnAppStart(alert);
+		
+		stepHelper.sendTrackEvent(adHocPO, "end");
+	}
 }
