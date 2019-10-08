@@ -36,7 +36,19 @@ public class TestStepHelper {
         adHocPO.sendTrackEvent(message);
         test.endStep();
     }
-    
+
+    public void sendTrackEventWithParameters(AdHocPO adHocPO, String message, String paramKey, String paramValue) {
+        test.startStep("Send track event: " + message);
+        adHocPO.sendTrackEventWithParameter(message, paramKey, paramValue);
+        test.endStep();
+    }
+
+    public void sendDeviceLocation(AdHocPO adHocPO, String latitude, String longitude) {
+        test.startStep("Send location coordinates: " + latitude + " and " + longitude);
+        adHocPO.sendDeviceLocation(latitude, longitude);
+        test.endStep();
+    }
+
     public void sendStateEvent(AdHocPO adHocPO, String state) {
         test.startStep("Advance to state: " + state);
         adHocPO.sendStateEvent(state);
@@ -51,7 +63,6 @@ public class TestStepHelper {
 
     public void verifyCondition(String conditionDescription, boolean condition) {
         test.startStep(conditionDescription);
-        System.out.println("Condition "+conditionDescription+ ": "+condition);
         test.endStep(condition);
     }
 
