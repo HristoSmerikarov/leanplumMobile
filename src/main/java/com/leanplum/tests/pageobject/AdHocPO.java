@@ -35,13 +35,11 @@ public class AdHocPO extends BasePO {
     @AndroidFindBy(id = "com.leanplum.rondo:id/trackName")
     public MobileElement trackEventField;
 
-    // @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Send track
-    // Event:\"]//following-sibling::XCUIElementTypeTextField")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeTextField[@value=\"Key\"]")
     @AndroidFindBy(id = "com.leanplum.rondo:id/paramKey")
     public MobileElement trackEventParamKey;
 
-    // @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Send track
-    // Event:\"]//following-sibling::XCUIElementTypeTextField")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeTextField[@value=\"Value\"]")
     @AndroidFindBy(id = "com.leanplum.rondo:id/paramValue")
     public MobileElement trackEventParamValue;
 

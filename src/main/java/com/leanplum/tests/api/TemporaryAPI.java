@@ -8,7 +8,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 public class TemporaryAPI {
-
+	
     public static final Logger LOGGER = LoggerFactory.getLogger(TemporaryAPI.class);
     private static String testAppKey = "app_ve9UCNlqI8dy6Omzfu1rEh6hkWonNHVZJIWtLLt6aLs";
     private static String apiVersion = "1.0.6";
