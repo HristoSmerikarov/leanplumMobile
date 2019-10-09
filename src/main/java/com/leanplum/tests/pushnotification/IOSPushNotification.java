@@ -22,6 +22,9 @@ public class IOSPushNotification implements PushNotification {
 	private static final String PUSH_NOTIFICATION_MESSAGE_XPATH = PUSH_NOTIFICATION_XPATH + "[contains(@label,'%s')]";
 	private static final String PICTURE_IN_PUSH_NOTIFICATION_XPATH = PUSH_NOTIFICATION_XPATH
 			+ "[contains(@label,'%s') and contains(@label,'Attachment')]";
+	private static final String PUSH_NOTIFIcATION_SUB_TITLE_XPATH = "";
+	private static final String PUSH_NOTIFICATION_TITLE_XPATH = "";
+	
 	private MobileDriver<MobileElement> driver;
 	private String message;
 

@@ -33,6 +33,18 @@ public class CommonTestSteps extends BaseTest{
         return adHocPO;
     }
     
+    public AdHocPO sendState(MobileDriver<MobileElement> driver, TestStepHelper stepHelper, String state) {
+        AlertPO alertPO = new AlertPO(driver);
+        stepHelper.acceptAllAlertsOnAppStart(alertPO);
+
+        AdHocPO adHocPO = new AdHocPO(driver);
+        stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+
+        stepHelper.sendStateEvent(adHocPO, state);
+
+        return adHocPO;
+    }
+    
     public AdHocPO sendUserAttribute(MobileDriver<MobileElement> driver, TestStepHelper stepHelper, String attributeName, String attributeValue) {
         AlertPO alertPO = new AlertPO(driver);
         stepHelper.acceptAllAlertsOnAppStart(alertPO);
