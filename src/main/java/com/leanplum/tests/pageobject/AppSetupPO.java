@@ -40,11 +40,11 @@ public class AppSetupPO extends BasePO {
     public MobileElement newApp;
 
     @AndroidFindBy(id = "com.leanplum.rondo:id/userId")
-    @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@label='User ID:']/following-sibling::XCUIElementTypeStaticText")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@label='User ID:']/following-sibling::XCUIElementTypeButton")
     public MobileElement userId;
 
     @AndroidFindBy(id = "com.leanplum.rondo:id/deviceId")
-    @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@label='Device ID:']/following-sibling::XCUIElementTypeStaticText")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@label='Device ID:']/following-sibling::XCUIElementTypeButton")
     public MobileElement deviceId;
 
     @AndroidFindBy(id = "com.leanplum.rondo:id/app_setup")

@@ -18,13 +18,11 @@ import io.appium.java_client.touch.offset.PointOption;
 
 public class IOSPushNotification implements PushNotification {
 
-	private static final String PUSH_NOTIFICATION_XPATH = "//XCUIElementTypeCell";
+	private static final String PUSH_NOTIFICATION_XPATH = "//XCUIElementTypeScrollView";
 	private static final String PUSH_NOTIFICATION_MESSAGE_XPATH = PUSH_NOTIFICATION_XPATH + "[contains(@label,'%s')]";
-	private static final String PICTURE_IN_PUSH_NOTIFICATION_XPATH = PUSH_NOTIFICATION_XPATH
-			+ "[contains(@label,'%s') and contains(@label,'Attachment')]";
-	private static final String PUSH_NOTIFIcATION_SUB_TITLE_XPATH = "";
-	private static final String PUSH_NOTIFICATION_TITLE_XPATH = "";
-	
+	private static final String CONTENT_IN_PUSH_NOTIFICATION_XPATH = PUSH_NOTIFICATION_XPATH
+			+ "[contains(@label,'%s') and contains(@label,'%s')]";
+
 	private MobileDriver<MobileElement> driver;
 	private String message;
 
@@ -42,7 +40,11 @@ public class IOSPushNotification implements PushNotification {
 
 	@Override
 	public boolean doesContainImage() {
-		String pictureInPushNotificationFormattedXpath = String.format(PICTURE_IN_PUSH_NOTIFICATION_XPATH, message);
+		return doesContainContent("Attachment");
+	}
+
+	public boolean doesContainContent(String content) {
+		String pictureInPushNotificationFormattedXpath = String.format(CONTENT_IN_PUSH_NOTIFICATION_XPATH, message, content);
 		return MobileDriverUtils.doesSelectorMatchAnyElements(driver, pictureInPushNotificationFormattedXpath);
 	}
 
@@ -79,13 +81,13 @@ public class IOSPushNotification implements PushNotification {
 
 	@Override
 	public void openNotifications() {
-		System.out.println("Is unlocked "+!((IOSDriver) driver).isDeviceLocked());
-		if(!((IOSDriver) driver).isDeviceLocked()) {
+		System.out.println("Is unlocked " + !((IOSDriver) driver).isDeviceLocked());
+		if (!((IOSDriver) driver).isDeviceLocked()) {
 			((IOSDriver) driver).lockDevice();
 		}
 		MobileDriverUtils.waitInMs(15000);
-		System.out.println("Is locked "+((IOSDriver) driver).isDeviceLocked());
-		if(((IOSDriver) driver).isDeviceLocked()) {
+		System.out.println("Is locked " + ((IOSDriver) driver).isDeviceLocked());
+		if (((IOSDriver) driver).isDeviceLocked()) {
 			((IOSDriver) driver).unlockDevice();
 		}
 		MobileDriverUtils.swipeTopToBottom(driver);
