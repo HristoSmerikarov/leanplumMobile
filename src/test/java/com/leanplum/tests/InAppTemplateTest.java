@@ -35,7 +35,7 @@ public class InAppTemplateTest extends CommonTestSteps {
     private static final String CONFIRM_ACCEPT = "Download now!";
     private static final String CONFIRM_CANCEL = "Maybe later..";
     private static final String VERIFY_RICH_INTERSTITIAL = "Verify rich interstitial popup layout";
-    private static final String RICH_INTERSTITIAL_TITLE = "Download now..";
+    private static final String RICH_INTERSTITIAL_TITLE = "Свали сега..";
     private static final String RICH_INTERSTITIAL_MESSAGE = ".. from the app store";
     private static final String RICH_INTERSTITIAL_LEFT_BUTTON = "Read release notes";
     private static final String RICH_INTERSTITIAL_RIGHT_BUTTON = "Rate our app";
