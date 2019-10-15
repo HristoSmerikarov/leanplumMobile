@@ -20,7 +20,7 @@ public class InAppActionsTest extends CommonTestSteps {
     /**
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186445">C186445</a>
      */
-	@Test(description = "Open URL action")
+    @Test(groups = { "android", "ios", "openaction" }, description = "Open URL action")
 	public void openUrlAction(Method method) {
 		ExtentTestManager.startTest(method.getName(), "Open URL action");
 

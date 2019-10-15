@@ -26,7 +26,7 @@ public class VariablesTest extends CommonTestSteps {
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186440">C186440</a>
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186441">C186441</a>
      */
-    @Test(description = "Verification of IOS variables")
+    @Test(groups = { "android", "ios", "pushNotifications"}, description = "Verification of IOS variables")
     public void variableSync(Method method) {
         ExtentTestManager.startTest(method.getName(), "Verification of IOS variables");
 

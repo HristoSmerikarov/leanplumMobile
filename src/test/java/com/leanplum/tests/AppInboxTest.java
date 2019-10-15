@@ -29,7 +29,7 @@ public class AppInboxTest extends CommonTestSteps {
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186443">C186443</a>
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186444">C186444</a>
     */
-    @Test(description = "App Inbox message verifiation")
+    @Test(groups = { "android", "ios", "appinbox" }, description = "App Inbox message verifiation")
     public void confirmWithTriggerEveryTwoTimes(Method method) {
         ExtentTestManager.startTest(method.getName(), "App Inbox message verifiation");
 

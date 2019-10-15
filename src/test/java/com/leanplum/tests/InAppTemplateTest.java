@@ -53,7 +53,8 @@ public class InAppTemplateTest extends CommonTestSteps {
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186466">C186466</a>
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
      */
-    @Test(description = "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup")
+    @Test(groups = { "android", "ios",
+            "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup")
     public void confirmRichInterstitialStarRatingCenterPopupTemplates(Method method) {
         ExtentTestManager.startTest(method.getName(),
                 "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup");

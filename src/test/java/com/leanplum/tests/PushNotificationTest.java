@@ -43,7 +43,8 @@ public class PushNotificationTest extends CommonTestSteps {
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186428">C186428</a>
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186436">C186436</a>
     */
-    @Test(description = "Push Notification's open action is New Action")
+    @Test(groups = { "android", "ios",
+            "pushNotifications" }, description = "Push Notification's open action is New Action")
     public void pushNotOpenActionWNewAction(Method method) {
         ExtentTestManager.startTest(method.getName(), "Push Notification's open action is New Action");
 
@@ -82,7 +83,8 @@ public class PushNotificationTest extends CommonTestSteps {
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186429">C186429</a>
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186433">C186433</a>
      */
-    @Test(description = "Push Notification's open action is Existing action")
+    @Test(groups = { "android", "ios",
+            "pushNotifications" }, description = "Push Notification's open action is Existing action")
     public void pushNotOpenActionWExistingAction(Method method) {
         ExtentTestManager.startTest(method.getName(), "Push Notification's open action is Existing action");
 
@@ -125,7 +127,8 @@ public class PushNotificationTest extends CommonTestSteps {
     /**
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186430">C186430</a>
      */
-    @Test(description = "Push Notification's open action is Open URL")
+    @Test(groups = { "android", "ios",
+            "pushNotifications" }, description = "Push Notification's open action is Open URL")
     public void pushNotOpenURL(Method method) {
         ExtentTestManager.startTest(method.getName(), "Push Notification's open action is Open URL");
 
@@ -158,7 +161,8 @@ public class PushNotificationTest extends CommonTestSteps {
     /**
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186431">C186431</a>
      */
-    @Test(description = "Push Notification's open action is Muted Inside App")
+    @Test(groups = { "android", "ios",
+            "pushNotifications" }, description = "Push Notification's open action is Muted Inside App")
     public void pushNotMuteInsideApp(Method method) {
         ExtentTestManager.startTest(method.getName(), "Push Notification's open action is Muted Inside App");
 
@@ -211,54 +215,53 @@ public class PushNotificationTest extends CommonTestSteps {
         driver.closeApp();
     }
 
-    // // Only for iOS
-//    /**
- //   * @see <a href=" https://teamplumqa.testrail.com/index.php?/cases/view/186434">C186434</a>
-//     */
-    // @Test(description = "Push Notification's with iOS options")
-    // public void pushNotWithIOSOptions(Method method) {
-    // ExtentTestManager.startTest(method.getName(), "Push Notification's with iOS options");
-    //
-    // TestStepHelper stepHelper = new TestStepHelper(this);
-    // MobileDriver<MobileElement> driver = getDriver();
-    //
-    // // Track event
-    // AdHocPO adHocPO = sendEvent(driver, stepHelper, IOS_OPTIONS);
-    //
-    // // Open notification and confirm that notification is not present
-    // PushNotifiationType pn = PushNotifiationType.valueOfEnum(getTestConfig().getOS()).get();
-    // IOSPushNotification pushNotification = (IOSPushNotification) pn.initialize(driver, RONDO_PUSH_NOTIFICATION);
-    //
-    // stepHelper.openNotifications(pushNotification);
-    //
-    // stepHelper.waitForNotificationPresence(pushNotification);
-    //
-    // stepHelper.verifyCondition("Verify that notification contains image", pushNotification.doesContainImage());
-    //
-    // stepHelper.verifyCondition("Verify that notification contains subtitle",
-    // pushNotification.doesContainContent("Push notification with iOS options subtitle"));
-    //
-    // stepHelper.verifyCondition("Verify that notification contains title",
-    // pushNotification.doesContainContent("Push notification with iOS options title"));
-    //
-    // stepHelper.openPushNotification(pushNotification);
-    //
-    // AlertPO alertPO = new AlertPO(driver);
-    // stepHelper.acceptAllAlertsOnAppStart(alertPO);
-    //
-    // stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-    //
-    // // Send end event
-    // stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
-    //
-    // driver.closeApp();
-    // }
+    /**
+    * @see <a href=" https://teamplumqa.testrail.com/index.php?/cases/view/186434">C186434</a>
+    */
+    @Test(groups = { "android", "pushNotifications" }, description = "Push Notification's with iOS options")
+    public void pushNotWithIOSOptions(Method method) {
+        ExtentTestManager.startTest(method.getName(), "Push Notification's with iOS options");
 
-    // Only for Android
+        TestStepHelper stepHelper = new TestStepHelper(this);
+        MobileDriver<MobileElement> driver = getDriver();
+
+        // Track event
+        AdHocPO adHocPO = sendEvent(driver, stepHelper, IOS_OPTIONS);
+
+        // Open notification and confirm that notification is not present
+        PushNotifiationType pn = PushNotifiationType.valueOfEnum(getTestConfig().getOS()).get();
+        IOSPushNotification pushNotification = (IOSPushNotification) pn.initialize(driver, RONDO_PUSH_NOTIFICATION);
+
+        stepHelper.openNotifications(pushNotification);
+
+        stepHelper.waitForNotificationPresence(pushNotification);
+
+        stepHelper.verifyCondition("Verify that notification contains image", pushNotification.doesContainImage());
+
+        stepHelper.verifyCondition("Verify that notification contains subtitle",
+                pushNotification.doesContainContent("Push notification with iOS options subtitle"));
+
+        stepHelper.verifyCondition("Verify that notification contains title",
+                pushNotification.doesContainContent("Push notification with iOS options title"));
+
+        stepHelper.openPushNotification(pushNotification);
+
+        AlertPO alertPO = new AlertPO(driver);
+        stepHelper.acceptAllAlertsOnAppStart(alertPO);
+
+        stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+
+        // Send end event
+        stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
+
+        driver.closeApp();
+    }
+
     /**
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186432">C186432</a>
      */
-    @Test(description = "Push Notification's open action is with disabled notification channel")
+    @Test(groups = { "android",
+            "pushNotifications" }, description = "Push Notification's open action is with disabled notification channel")
     public void pushNotWithDisabledChannel(Method method) {
         ExtentTestManager.startTest(method.getName(),
                 "Push Notification's open action is with disabled notification channel");

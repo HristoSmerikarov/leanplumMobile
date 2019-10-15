@@ -132,7 +132,8 @@ public class InAppTriggersTest extends CommonTestSteps {
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/190770">C190770</a>
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186460">C186460</a>
      */
-    @Test(description = "Confirm in-app on attribute change every two times")
+    @Test(groups = { "android", "ios",
+    "inAppTriggers" }, description = "Confirm in-app on attribute change every two times")
     public void confirmWithTriggerEveryTwoTimes(Method method) {
         ExtentTestManager.startTest(method.getName(), "Confirm in-app on attribute change every two times");
 
