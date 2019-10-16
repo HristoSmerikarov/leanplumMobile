@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Suite">
-	<listeners>
-		<listener class-name="com.leanplum.utils.listeners.TestListener" />
-		<listener class-name="com.leanplum.utils.listeners.AnnotationTransformer" />
-	</listeners>
+<suite name="Android">
+	<test name="Android" group-by-instances="true"
+		preserve-order="true">
+		<!--<groups> <run> <include name="inAppTemplates" /> </run> </groups> -->
+		<classes>
+		<class name="com.leanplum.tests.InAppTemplateTest">
+			<class name="com.leanplum.tests.InAppTemplateTest">
 
-	<test name="InAppTemplates">
-		<classes>
-			<class name="com.leanplum.tests.InAppTemplateTest"></class>
+			 <!--	<methods>
+					<include
+						name=".*confirmRichInterstitialStarRatingCenterPopupTemplates.*" />
+						<include
+						name=".*confirmRichInterstitialWebInterstitialTemplates.*" />
+						<include
+						name=".*confirmInterstitialAlertBannerTemplates.*" />
+						
+				</methods>-->
+			</class>
 		</classes>
-	</test> <!-- Test -->
-	
-	<test name="PushNotifications">
-		<classes>
-			<class name="com.leanplum.tests.PushNotificationTest"></class>
-		</classes>
-	</test> <!-- Test -->
+	</test>
 </suite> <!-- Suite -->
