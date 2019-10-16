@@ -26,6 +26,8 @@ public class Utils {
         int randomNumber = random.nextInt(max - min + 1) + min;
         return Integer.toString(randomNumber);
     }
+    
+    
 
     public void swipeDownToElement(MobileDriver<MobileElement> driver) {
         swipeVertical(driver, 0.7, 0.1, 0.5, 1000);
