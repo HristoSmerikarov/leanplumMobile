@@ -1,6 +1,5 @@
 package com.leanplum.base;
 
-
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.slf4j.Logger;
@@ -44,12 +43,11 @@ public class BaseTest {
         MobileDriverUtils.waitInMs(500);
         driver.launchApp();
     }
-    
+
     @BeforeClass
     public void setupAppiumService() {
-        testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE,
-                TestConfig.class);
-        
+        testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
+
         if (testConfig.getOS().toLowerCase().equals("android")) {
             service = AppiumServiceUtils.setupAppiumService();
             service.start();
@@ -67,24 +65,24 @@ public class BaseTest {
     public <T> void step(String stepDescription) {
         ExtentTestManager.getTest().log(LogStatus.PASS, stepDescription, takeScreenshot());
     }
-    
+
     @Step()
     public <T> void startStep(String stepDescription) {
         log(LogStatus.INFO, stepDescription);
     }
-    
+
     @Step()
     public <T> void endStep() {
         log(LogStatus.INFO, takeScreenshot());
     }
-    
+
     @Step()
     public <T> void endStep(boolean condition) {
         if (condition) {
             log(LogStatus.PASS, takeScreenshot());
         } else {
             log(LogStatus.FAIL, takeScreenshot());
-            
+
             hasFailedStep = true;
         }
     }
@@ -97,10 +95,10 @@ public class BaseTest {
         return this.testConfig;
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void stopAppiumService() {
-    	if (testConfig.getOS().toLowerCase().equals("android")) {
-    		service.stop();
+        if (testConfig.getOS().toLowerCase().equals("android")) {
+            service.stop();
         }
     }
 
@@ -108,7 +106,7 @@ public class BaseTest {
         return ExtentTestManager.getTest().addBase64ScreenShot(
                 "data:image/png;base64," + ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64));
     }
-    
+
     /**
      * 
      * @param logStatus - @LogStatus

@@ -36,7 +36,7 @@ public class InAppTemplateTest extends CommonTestSteps {
     private static final String CONFIRM_CANCEL = "Maybe later..";
     private static final String VERIFY_RICH_INTERSTITIAL = "Verify rich interstitial popup layout";
     private static final String RICH_INTERSTITIAL_TITLE = "Свали сега..";
-    private static final String RICH_INTERSTITIAL_MESSAGE = ".. from the app store";
+    private static final String RICH_INTERSTITIAL_MESSAGE = ".. from the app store :)";
     private static final String RICH_INTERSTITIAL_LEFT_BUTTON = "Read release notes";
     private static final String RICH_INTERSTITIAL_RIGHT_BUTTON = "Rate our app";
     private static final String VERIFY_CENTER_POPUP_LAYOUT = "Verify center popup layout";
@@ -53,7 +53,7 @@ public class InAppTemplateTest extends CommonTestSteps {
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186466">C186466</a>
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
      */
-    @Test(groups = { "android", "ios",
+    @Test(groups = { "android", "ios", "andr",
             "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup")
     public void confirmRichInterstitialStarRatingCenterPopupTemplates(Method method) {
         ExtentTestManager.startTest(method.getName(),
@@ -112,7 +112,8 @@ public class InAppTemplateTest extends CommonTestSteps {
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/190758">C190758</a>
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
      */
-    @Test(description = "In-App Templates - Confirm, RichInterstitial, WebInterstitial")
+    @Test(groups = { "android", "ios",
+            "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, WebInterstitial")
     public void confirmRichInterstitialWebInterstitialTemplates(Method method) {
         ExtentTestManager.startTest(method.getName(), "In-App Templates - Confirm, RichInterstitial, WebInterstitial");
 
@@ -159,7 +160,8 @@ public class InAppTemplateTest extends CommonTestSteps {
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/190758">C190758</a>
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
      */
-    @Test(description = "In-App Templates - Confirm, Interstitial, Alert, Banner")
+    @Test(groups = { "android", "ios",
+            "inAppTemplates" }, description = "In-App Templates - Confirm, Interstitial, Alert, Banner")
     public void confirmInterstitialAlertBannerTemplates(Method method) {
         ExtentTestManager.startTest(method.getName(), "In-App Templates - Confirm, Interstitial, Alert, Banner");
 
