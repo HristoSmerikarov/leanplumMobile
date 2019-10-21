@@ -39,7 +39,7 @@ public class BasePO {
 		if (driver instanceof AndroidDriver) {
 			return el.getAttribute("text");
 		} else {
-			return el.getAttribute("label");
+			return el.getAttribute("value");
 		}
 	}
 }

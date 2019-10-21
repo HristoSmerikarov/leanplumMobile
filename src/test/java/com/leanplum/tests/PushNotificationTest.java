@@ -218,81 +218,81 @@ public class PushNotificationTest extends CommonTestSteps {
      driver.closeApp();
      }
 
-    // /**
-    // * @see <a href=" https://teamplumqa.testrail.com/index.php?/cases/view/186434">C186434</a>
-    // */
-    // @Test(groups = { "ios", "pushNotifications" }, description = "Push Notification's with iOS options")
-    // public void pushNotWithIOSOptions(Method method) {
-    // ExtentTestManager.startTest(method.getName(), "Push Notification's with iOS options");
-    //
-    // TestStepHelper stepHelper = new TestStepHelper(this);
-    // MobileDriver<MobileElement> driver = getDriver();
-    //
-    // // Track event
-    // AdHocPO adHocPO = sendEvent(driver, stepHelper, IOS_OPTIONS);
-    //
-    // // Open notification and confirm that notification is not present
-    // PushNotifiationType pn = PushNotifiationType.valueOfEnum(getTestConfig().getOS()).get();
-    // IOSPushNotification pushNotification = (IOSPushNotification) pn.initialize(driver, RONDO_PUSH_NOTIFICATION);
-    //
-    // stepHelper.openNotifications(pushNotification);
-    //
-    // stepHelper.waitForNotificationPresence(pushNotification);
-    //
-    // stepHelper.verifyCondition("Verify that notification contains image", pushNotification.doesContainImage());
-    //
-    // stepHelper.verifyCondition("Verify that notification contains subtitle",
-    // pushNotification.doesContainContent("Push notification with iOS options subtitle"));
-    //
-    // stepHelper.verifyCondition("Verify that notification contains title",
-    // pushNotification.doesContainContent("Push notification with iOS options title"));
-    //
-    // stepHelper.openPushNotification(pushNotification);
-    //
-    // AlertPO alertPO = new AlertPO(driver);
-    // stepHelper.acceptAllAlertsOnAppStart(alertPO);
-    //
-    // stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-    //
-    // // Send end event
-    // stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
-    //
-    // driver.closeApp();
-    // }
+     /**
+     * @see <a href=" https://teamplumqa.testrail.com/index.php?/cases/view/186434">C186434</a>
+     */
+     @Test(groups = { "ios", "pushNotifications" }, description = "Push Notification's with iOS options")
+     public void pushNotWithIOSOptions(Method method) {
+     ExtentTestManager.startTest(method.getName(), "Push Notification's with iOS options");
+    
+     TestStepHelper stepHelper = new TestStepHelper(this);
+     MobileDriver<MobileElement> driver = getDriver();
+    
+     // Track event
+     AdHocPO adHocPO = sendEvent(driver, stepHelper, IOS_OPTIONS);
+    
+     // Open notification and confirm that notification is not present
+     PushNotifiationType pn = PushNotifiationType.valueOfEnum(getTestConfig().getOS()).get();
+     IOSPushNotification pushNotification = (IOSPushNotification) pn.initialize(driver, RONDO_PUSH_NOTIFICATION);
+    
+     stepHelper.openNotifications(pushNotification);
+    
+     stepHelper.waitForNotificationPresence(pushNotification);
+    
+     stepHelper.verifyCondition("Verify that notification contains image", pushNotification.doesContainImage());
+    
+     stepHelper.verifyCondition("Verify that notification contains subtitle",
+     pushNotification.doesContainContent("Push notification with iOS options subtitle"));
+    
+     stepHelper.verifyCondition("Verify that notification contains title",
+     pushNotification.doesContainContent("Push notification with iOS options title"));
+    
+     stepHelper.openPushNotification(pushNotification);
+    
+     AlertPO alertPO = new AlertPO(driver);
+     stepHelper.acceptAllAlertsOnAppStart(alertPO);
+    
+     stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+    
+     // Send end event
+     stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
+    
+     driver.closeApp();
+     }
 
-    /**
-    * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186432">C186432</a>
-    */
-    @Test(groups = { "android",
-            "pushNotifications" }, description = "Push Notification's open action is with disabled notification channel")
-    public void pushNotWithDisabledChannel(Method method) {
-        ExtentTestManager.startTest(method.getName(),
-                "Push Notification's open action is with disabled notification channel");
-
-        TestStepHelper stepHelper = new TestStepHelper(this);
-        MobileDriver<MobileElement> driver = getDriver();
-
-        // Track event
-        AdHocPO adHocPO = sendEvent(driver, stepHelper, CHANNEL_DISABLED);
-
-        // Open notification and confirm that notification is not present
-        PushNotifiationType pn = PushNotifiationType.valueOfEnum(getTestConfig().getOS()).get();
-        PushNotification pushNotification = pn.initialize(driver, RONDO_PUSH_NOTIFICATION);
-
-        stepHelper.openNotifications(pushNotification);
-
-        stepHelper.confirmNotificationAbsence(pushNotification);
-
-        // Confirm on resume app
-        stepHelper.clickAndroidKey(AndroidKey.BACK);
-
-        stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-
-        // Send end event
-        stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
-
-        driver.closeApp();
-    }
+//    /**
+//    * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186432">C186432</a>
+//    */
+//    @Test(groups = { "android",
+//            "pushNotifications" }, description = "Push Notification's open action is with disabled notification channel")
+//    public void pushNotWithDisabledChannel(Method method) {
+//        ExtentTestManager.startTest(method.getName(),
+//                "Push Notification's open action is with disabled notification channel");
+//
+//        TestStepHelper stepHelper = new TestStepHelper(this);
+//        MobileDriver<MobileElement> driver = getDriver();
+//
+//        // Track event
+//        AdHocPO adHocPO = sendEvent(driver, stepHelper, CHANNEL_DISABLED);
+//
+//        // Open notification and confirm that notification is not present
+//        PushNotifiationType pn = PushNotifiationType.valueOfEnum(getTestConfig().getOS()).get();
+//        PushNotification pushNotification = pn.initialize(driver, RONDO_PUSH_NOTIFICATION);
+//
+//        stepHelper.openNotifications(pushNotification);
+//
+//        stepHelper.confirmNotificationAbsence(pushNotification);
+//
+//        // Confirm on resume app
+//        stepHelper.clickAndroidKey(AndroidKey.BACK);
+//
+//        stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+//
+//        // Send end event
+//        stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
+//
+//        driver.closeApp();
+//    }
 
     private void openNotificationsAndOpenByMessage(TestStepHelper stepHelper, PushNotification pushNotification) {
         stepHelper.openNotifications(pushNotification);
