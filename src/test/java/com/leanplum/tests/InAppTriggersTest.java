@@ -165,6 +165,8 @@ public class InAppTriggersTest extends CommonTestSteps {
 
         stepHelper.clickElement(confirmInApp, confirmInApp.confirmAcceptButton,
                 "Confirm popup accept button - " + CONFIRM_ACCEPT);
+        
+        stepHelper.endTest();
     }
 
     // //TODO exit/enter region not working through the app

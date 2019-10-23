@@ -91,7 +91,7 @@ public class AppInboxTest extends CommonTestSteps {
         // Confrim alert
         stepHelper.clickElement(alert, alert.confirmAlertButton, "It's here!");
 
-        driver.closeApp();
+        stepHelper.endTest();
     }
 
     private Set<String> getNewsfeedMessageIds(Response response) {

@@ -49,5 +49,7 @@ public class InAppActionsTest extends CommonTestSteps {
         stepHelper.acceptAllAlertsOnAppStart(alert);
 
         stepHelper.sendTrackEvent(adHocPO, "end");
+        
+        stepHelper.endTest();
     }
 }
