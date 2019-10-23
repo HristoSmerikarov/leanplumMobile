@@ -10,6 +10,7 @@ import com.leanplum.tests.pageobject.BasePO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pushnotification.PushNotification;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
@@ -109,15 +110,22 @@ public class TestStepHelper {
         }
     }
 
+    public void closeAppAndReturnToHome(BasePO basePage) {
+        if (basePage.getDriver() instanceof IOSDriver) {
+            basePage.getDriver().closeApp();
+        } else {
+            basePage.getDriver().closeApp();
+            clickAndroidKey(AndroidKey.HOME);
+        }
+    }
+
     public void acceptAllAlertsOnAppStart(AlertPO page) {
         try {
-            System.out.println("Trying to find: " + System.currentTimeMillis());
             MobileDriverUtils.waitForExpectedCondition(test.getDriver(), 5,
                     ExpectedConditions.visibilityOf(page.alertPopup));
         } catch (Exception e) {
             System.out.println("Exception found: " + System.currentTimeMillis());
             System.out.println("Is alert present: " + page.isAlertPresent());
-            // System.out.println("No alerts were detected on app start");
             logger.info("No alerts were detected on app start");
         }
 
@@ -125,5 +133,26 @@ public class TestStepHelper {
             clickElement(page, page.confirmAlertButton, "Confirm Alert button");
             MobileDriverUtils.waitInMs(500);
         }
+    }
+    
+    public void endTest() {
+        if(test.getDriver() instanceof AppiumDriver) {
+            uninstallApp();
+        }else {
+            test.getDriver().closeApp();
+        }
+    }
+
+    public void uninstallApp() {
+        test.getDriver().closeApp();
+        test.getDriver().removeApp("com.leanplum.rondo");
+    }
+    
+    public void installApp() {
+       if(test.getDriver() instanceof AppiumDriver) {
+           test.getDriver().installApp("C:\\Leanplum-Mobile-Automation\\resources\\RondoApp-debug.apk");
+       }else {
+           //TODO find way to fresh install from TestFlight
+       }
     }
 }
