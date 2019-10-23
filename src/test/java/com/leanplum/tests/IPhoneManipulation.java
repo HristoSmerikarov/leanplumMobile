@@ -23,17 +23,9 @@ public class IPhoneManipulation extends CommonTestSteps {
 		TestStepHelper stepHelper = new TestStepHelper(this);
 		MobileDriver<MobileElement> driver = getDriver();
 
-		// Track event
-		AlertPO alertPO = new AlertPO(driver);
-		stepHelper.acceptAllAlertsOnAppStart(alertPO);
-
-		((IOSDriver) driver).lockDevice();
-
-		MobileDriverUtils.waitInMs(20000);
-
-		((IOSDriver) driver).unlockDevice();
-
-		MobileDriverUtils.swipeTopToBottom(driver);
-
+		driver.removeApp("com.leanplum.Rondo-iOS");
+		
+		System.out.println("stop");
+		
 	}
 }

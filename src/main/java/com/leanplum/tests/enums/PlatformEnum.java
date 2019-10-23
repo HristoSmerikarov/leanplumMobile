@@ -67,7 +67,7 @@ public enum PlatformEnum {
 			capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceProperties.getPlatformVersion());
 			capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceProperties.getDeviceName());
 			capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, deviceProperties.getAutomationName());
-			capabilities.setCapability(MobileCapabilityType.APP, deviceProperties.getApp());
+			capabilities.setCapability(MobileCapabilityType.APP, "https://testflight.apple.com/join/9Uu7fOSQ");
 			capabilities.setCapability(MobileCapabilityType.UDID, deviceProperties.getUdid());
 			capabilities.setCapability(MobileCapabilityType.NO_RESET, deviceProperties.getNoReset());
 			
