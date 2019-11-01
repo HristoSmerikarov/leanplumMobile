@@ -2,14 +2,12 @@ package com.leanplum.tests;
 
 import java.lang.reflect.Method;
 
-import org.openqa.selenium.html5.Location;
 import org.testng.annotations.Test;
 
 import com.google.common.base.Strings;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
-import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;

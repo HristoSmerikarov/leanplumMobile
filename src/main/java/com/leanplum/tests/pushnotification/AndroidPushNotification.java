@@ -60,10 +60,7 @@ public class AndroidPushNotification implements PushNotification{
 
     @Override
     public void view() {
-        MobileDriverUtils
-        .waitForExpectedCondition(driver, ExpectedConditions
-                .visibilityOfElementLocated(By.xpath(String.format(PUSH_NOTIFICATION_MESSAGE_XPATH, message))))
-        .click();
+        driver.findElement(By.xpath(String.format(PUSH_NOTIFICATION_MESSAGE_XPATH, message))).click();
     }
 
     @Override

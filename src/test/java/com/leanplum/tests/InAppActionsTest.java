@@ -13,7 +13,6 @@ import com.leanplum.utils.extentreport.ExtentTestManager;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.nativekey.AndroidKey;
 
 public class InAppActionsTest extends CommonTestSteps {
 

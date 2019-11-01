@@ -7,13 +7,9 @@ import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
-import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.VariablesPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
-import com.leanplum.tests.pushnotification.IOSPushNotification;
-import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.utils.extentreport.ExtentTestManager;
 
 import io.appium.java_client.MobileDriver;

@@ -42,6 +42,7 @@ public class BaseTest {
         driver.closeApp();
         MobileDriverUtils.waitInMs(500);
         driver.launchApp();
+        hasFailedStep = false;
     }
 
     @BeforeClass
@@ -85,7 +86,6 @@ public class BaseTest {
             log(LogStatus.PASS, takeScreenshot());
         } else {
             log(LogStatus.FAIL, takeScreenshot());
-
             hasFailedStep = true;
         }
     }

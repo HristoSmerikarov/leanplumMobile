@@ -1,11 +1,8 @@
 package com.leanplum.tests;
 
 import java.lang.reflect.Method;
-import java.util.Set;
 
-import org.json.JSONObject;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import com.google.common.base.Strings;
@@ -15,13 +12,10 @@ import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.AppInboxMessagePO;
 import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.MobileBrowserPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pageobject.inapp.CenterPopupPO;
-import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
-import com.leanplum.tests.pushnotification.IOSPushNotification;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.extentreport.ExtentTestManager;
@@ -29,7 +23,7 @@ import com.leanplum.utils.extentreport.ExtentTestManager;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.nativekey.AndroidKey;
-import io.restassured.response.Response;
+import io.appium.java_client.ios.IOSDriver;
 
 public class PushNotificationTest extends CommonTestSteps {
 
@@ -127,39 +121,39 @@ public class PushNotificationTest extends CommonTestSteps {
         stepHelper.closeAppAndReturnToHome(adHocPO);
     }
 
-    // /**
-    // * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186430">C186430</a>
-    // */
-    // @Test(groups = { "android", "ios",
-    // "pushNotifications" }, description = "Push Notification's open action is Open URL")
-    // public void pushNotOpenURL(Method method) {
-    // ExtentTestManager.startTest(method.getName(), "Push Notification's open action is Open URL");
-    //
-    // TestStepHelper stepHelper = new TestStepHelper(this);
-    // MobileDriver<MobileElement> driver = getDriver();
-    //
-    // // Track state
-    // AdHocPO adHocPO = sendState(driver, stepHelper, OPEN_LEANPLUM_URL);
-    //
-    // PushNotifiationType pn = PushNotifiationType.valueOfEnum(getTestConfig().getOS()).get();
-    // openNotificationsAndOpenByMessage(stepHelper, pn.initialize(driver, RONDO_PUSH_NOTIFICATION));
-    //
-    // MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
-    // stepHelper.verifyCondition("Verify opened URL is correct", mobileBrowserPO.isCorrectURLOpened("leanplum.com"));
-    //
-    // // Confirm on resume app
-    // startStep("Go back to Rondo app");
-    // mobileBrowserPO.goBack();
-    // endStep();
-    //
-    // AlertPO alertPO = new AlertPO(driver);
-    // stepHelper.acceptAllAlertsOnAppStart(alertPO);
-    //
-    // // Send end event
-    // stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
-    //
-    // stepHelper.closeAppAndReturnToHome(adHocPO);
-    // }
+//    /**
+//    * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186430">C186430</a>
+//    */
+//    @Test(groups = { "android", "ios",
+//            "pushNotifications" }, description = "Push Notification's open action is Open URL")
+//    public void pushNotOpenURL(Method method) {
+//        ExtentTestManager.startTest(method.getName(), "Push Notification's open action is Open URL");
+//
+//        TestStepHelper stepHelper = new TestStepHelper(this);
+//        MobileDriver<MobileElement> driver = getDriver();
+//
+//        // Track state
+//        AdHocPO adHocPO = sendState(driver, stepHelper, OPEN_LEANPLUM_URL);
+//
+//        PushNotifiationType pn = PushNotifiationType.valueOfEnum(getTestConfig().getOS()).get();
+//        openNotificationsAndOpenByMessage(stepHelper, pn.initialize(driver, RONDO_PUSH_NOTIFICATION));
+//
+//        MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
+//        stepHelper.verifyCondition("Verify opened URL is correct", mobileBrowserPO.isCorrectURLOpened("leanplum.com"));
+//
+//        // Confirm on resume app
+//        startStep("Go back to Rondo app");
+//        mobileBrowserPO.goBack();
+//        endStep();
+//
+//        AlertPO alertPO = new AlertPO(driver);
+//        stepHelper.acceptAllAlertsOnAppStart(alertPO);
+//
+//        // Send end event
+//        stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
+//
+//        stepHelper.closeAppAndReturnToHome(adHocPO);
+//    }
 
     /**
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186431">C186431</a>
