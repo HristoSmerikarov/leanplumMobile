@@ -45,5 +45,8 @@ public interface DeviceProperties {
     
     @BoundProperty("debugProxyPort")
 	public String getDebugProxyPort();
+
+    @BoundProperty("useNewWDA")
+	public String getUseNewWda();
     
 }

@@ -26,8 +26,12 @@ public class BasePO {
 	}
 
 	public void click(MobileElement element) {
-		MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(element));
+		long startTime = System.currentTimeMillis();
+		//MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(element));
 		element.click();
+		long stopTime = System.currentTimeMillis();
+		long elapsedTime = stopTime - startTime;
+		System.out.println("I spent " + elapsedTime + " seconds to click");
 	}
 
 	public boolean verifyText(MobileElement element, String expectedText) {
@@ -35,11 +39,12 @@ public class BasePO {
 	}
 
 	public String getTextFromElement(MobileElement el) {
-		MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(el));
+		//MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(el));
 		if (driver instanceof AndroidDriver) {
 			return el.getAttribute("text");
 		} else {
-			return el.getAttribute("value");
+			String value = el.getAttribute("value");
+			return value != null ? value : el.getAttribute("label");
 		}
 	}
 }

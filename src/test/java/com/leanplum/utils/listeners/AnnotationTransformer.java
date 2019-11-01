@@ -3,7 +3,6 @@ package com.leanplum.utils.listeners;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import org.apache.tools.ant.taskdefs.Retry;
 import org.testng.IAnnotationTransformer;
 import org.testng.IRetryAnalyzer;
 import org.testng.annotations.ITestAnnotation;

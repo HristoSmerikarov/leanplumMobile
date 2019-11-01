@@ -161,6 +161,7 @@ public class AdHocPO extends BasePO {
 	}
 
 	public void setUserId(String userId) {
+		System.out.println("User ID: " + userId);
 		sendAdHocProperties(setUserIdButton, userIdLabel, ImmutableMap.of(userIdField, userId));
 	}
 
@@ -180,13 +181,12 @@ public class AdHocPO extends BasePO {
 			} else {
 				populateAndoridFields(entry.getKey(), entry.getValue());
 			}
-
 		});
 		label.click();
 
 		driver.hideKeyboard();
 
-		MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(button)).click();
+		button.click();
 
 		try {
 			utils.swipeToElement(this.driver, descriptionText, SwipeDirection.UP);

@@ -67,6 +67,8 @@ public class TestStepHelper {
         test.endStep(condition);
     }
 
+    //TODO
+    //Clear all push notifications before
     public void openNotifications(PushNotification pushNotification) {
         test.startStep("Open notifications");
         pushNotification.openNotifications();

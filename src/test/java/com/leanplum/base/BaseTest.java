@@ -51,6 +51,9 @@ public class BaseTest {
         if (testConfig.getOS().toLowerCase().equals("android")) {
             service = AppiumServiceUtils.setupAppiumService();
             service.start();
+        }else {
+        	service = AppiumServiceUtils.setupAppiumService();
+            service.start();
         }
     }
 
@@ -99,6 +102,8 @@ public class BaseTest {
     public void stopAppiumService() {
         if (testConfig.getOS().toLowerCase().equals("android")) {
             service.stop();
+        }else {
+        	service.stop();
         }
     }
 

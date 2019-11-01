@@ -17,7 +17,5 @@ public class AppiumServiceUtils {
         builder.withIPAddress(appiumServiceConfig.getAppiumServiceIp());
         builder.usingPort(Integer.valueOf(appiumServiceConfig.getAppiumServicePort()));
         return AppiumDriverLocalService.buildService(builder);
-        // your test scripts logic...
-        // service.stop();
     }
 }
