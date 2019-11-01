@@ -43,7 +43,7 @@ public class AndroidPushNotification implements PushNotification{
     public void waitForPresence() {
         String formattedNotificationXpath = String.format(PUSH_NOTIFICATION_MESSAGE_XPATH, message);
 
-        MobileDriverUtils.waitForExpectedCondition(driver, 300,
+        MobileDriverUtils.waitForExpectedCondition(driver, 30,
                 ExpectedConditions.visibilityOfElementLocated(By.xpath(formattedNotificationXpath)));
     }
 

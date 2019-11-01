@@ -20,6 +20,7 @@ public class TemporaryAPI {
     private static String getNewsfeedMessages = "getNewsfeedMessages";
     private static String deleteNewsfeedMessage = "deleteNewsfeedMessage";
     private static String pauseSession = "pauseSession";
+    private static String deleteUser = "deleteUser";
     private static String userIdParameter = "&userId=%s";
     private static String eventParameter = "&event=%s";
     private static String deviceIdParameter = "&deviceId=%s";
@@ -83,6 +84,20 @@ public class TemporaryAPI {
 
     public static Response pauseSession(String userId) {
         String formattedEndpoint = String.format(path, pauseSession, testAppKey, apiVersion, testProdKey)
+                + String.format(userIdParameter, userId);
+
+        System.out.println("FORMATTED: " + formattedEndpoint);
+
+        Response response = RestAssured.given().contentType(ContentType.JSON).log().all().post(formattedEndpoint);
+
+        System.out.println("Post Response:" + response.getBody().asString());
+        LOGGER.info("Post Response:" + response.getBody().asString());
+
+        return response;
+    }
+    
+    public static Response deleteUser(String userId) {
+        String formattedEndpoint = String.format(path, deleteUser, testAppKey, apiVersion, testProdKey)
                 + String.format(userIdParameter, userId);
 
         System.out.println("FORMATTED: " + formattedEndpoint);

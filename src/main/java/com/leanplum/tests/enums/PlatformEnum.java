@@ -40,11 +40,11 @@ public enum PlatformEnum {
 			capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, deviceProperties.getPlatformName());
 			capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceProperties.getPlatformVersion());
 			capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceProperties.getDeviceName());
-			File rondoAppFile = new File("./resources/RondoApp-debug.apk");
-			System.out.println(rondoAppFile.getAbsolutePath());
-	        capabilities.setCapability(MobileCapabilityType.APP, rondoAppFile.getAbsolutePath());
-//			capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, deviceProperties.getAppPackage());
-//			capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, deviceProperties.getAppActivity());
+//			File rondoAppFile = new File("./resources/RondoApp-debug.apk");
+//			System.out.println(rondoAppFile.getAbsolutePath());
+//	        capabilities.setCapability(MobileCapabilityType.APP, rondoAppFile.getAbsolutePath());
+            capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, deviceProperties.getAppPackage());
+    		capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, deviceProperties.getAppActivity());
 			//capabilities.setCapability("bundleId", deviceProperties.getBundleId());
 			capabilities.setCapability(MobileCapabilityType.NO_RESET, deviceProperties.getNoReset());
 			capabilities.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);

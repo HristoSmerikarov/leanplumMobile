@@ -223,6 +223,106 @@ public class InAppTemplateTest extends CommonTestSteps {
 //        stepHelper.endTest();
 //    }
 
+        TestStepHelper stepHelper = new TestStepHelper(this);
+        MobileDriver<MobileElement> driver = getDriver();
+
+        // Track event
+        AdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
+
+        // Verify Confirm popup
+        ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+        verifyConfirmPopupLayout(driver, stepHelper, confirmInApp);
+
+        // Click Accept button
+        clickAccept(stepHelper, confirmInApp);
+
+        // Verify rich interstitial
+        RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);
+        verifyRichInterstitialLayout(driver, stepHelper, richInterstitial);
+
+        // Click left button
+        stepHelper.clickElement(richInterstitial, richInterstitial.richInterstitialLeftButton,
+                "left button - " + RICH_INTERSTITIAL_LEFT_BUTTON);
+
+        // Verify web interstitial layout
+        WebInterstitialPO webInterstitial = new WebInterstitialPO(driver);
+        stepHelper.verifyCondition("Verify web interstitial popup layout", webInterstitial.verifyWebInterstitial());
+
+        // Close webInterstitial
+        stepHelper.clickElement(webInterstitial, webInterstitial.webInterstitialCloseButton,
+                "Web Interstitial's close icon");
+
+        // Send end event
+        stepHelper.sendTrackEvent(adHocPO, END_EVENT);
+
+        stepHelper.endTest();
+    }
+
+    /**
+     * @see <a href=
+     *      "https://teamplumqa.testrail.com/index.php?/cases/view/186450">C186450</a>
+     * @see <a href=
+     *      "https://teamplumqa.testrail.com/index.php?/cases/view/186451">C186451</a>
+     * @see <a href=
+     *      "https://teamplumqa.testrail.com/index.php?/cases/view/186448">C186448</a>
+     * @see <a href=
+     *      "https://teamplumqa.testrail.com/index.php?/cases/view/186455">C186455</a>
+     * @see <a href=
+     *      "https://teamplumqa.testrail.com/index.php?/cases/view/190758">C190758</a>
+     * @see <a href=
+     *      "https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
+     */
+    @Test(groups = { "android", "ios",
+            "inAppTemplates" }, description = "In-App Templates - Confirm, Interstitial, Alert, Banner")
+    public void confirmInterstitialAlertBannerTemplates(Method method) {
+        ExtentTestManager.startTest(method.getName(), "In-App Templates - Confirm, Interstitial, Alert, Banner");
+
+        TestStepHelper stepHelper = new TestStepHelper(this);
+        MobileDriver<MobileElement> driver = getDriver();
+
+        // Track event
+        sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
+
+        // Verify Confirm popup
+        ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+        verifyConfirmPopupLayout(driver, stepHelper, confirmInApp);
+
+        // Click cancel
+        clickCancel(stepHelper, confirmInApp);
+
+        // Verify interstitial layout
+        InterstitialPO interstitial = new InterstitialPO(driver);
+        stepHelper.verifyCondition("Verify interstitial layout",
+                interstitial.verifyInterstitialLayout("Reminder", "Ще ти сетнем banner за напомняне!", "Okay.."));
+
+        // Click accept button
+        stepHelper.clickElement(interstitial, interstitial.interstitialAcceptButton, "Interstitial's Accept button");
+
+        // Verify alert layout
+        AlertPO alert = new AlertPO(driver);
+        stepHelper.verifyCondition("Verify alert layout",
+                alert.verifyAlertLayout("Banner will be shown..", ".. as a reminder!", "Okay"));
+
+        // Confrim alert
+        stepHelper.clickElement(alert, alert.confirmAlertButton, "Okay");
+
+        // TODO Cannot be located on Android
+        // BannerPO banner = new BannerPO(driver);
+        // stepHelper.verifyCondition("Verify banner popup layout",
+        // banner.verifyBannerLayout("New version of the app available!", "Download when
+        // you can!"));
+        //
+        // banner.clickOnBanner();
+
+        // stepHelper.clickElement(banner, banner.bannerCloseButton, "banner close
+        // icon");
+
+        // Send end event
+        // stepHelper.sendEvent(adHocPO, END_EVENT);
+
+        stepHelper.endTest();
+    }
+
     private void verifyConfirmPopupLayout(MobileDriver<MobileElement> driver, TestStepHelper stepHelper,
             ConfirmInAppPO confirmInApp) {
         stepHelper.verifyCondition(VERIFY_CONFIRM_POPUP_LAYOUT,

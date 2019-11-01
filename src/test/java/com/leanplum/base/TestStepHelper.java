@@ -123,7 +123,7 @@ public class TestStepHelper {
 
     public void acceptAllAlertsOnAppStart(AlertPO page) {
         try {
-            MobileDriverUtils.waitForExpectedCondition(test.getDriver(), 5,
+            MobileDriverUtils.waitForExpectedCondition(test.getDriver(), 10,
                     ExpectedConditions.visibilityOf(page.alertPopup));
         } catch (Exception e) {
             System.out.println("Exception found: " + System.currentTimeMillis());
@@ -136,25 +136,21 @@ public class TestStepHelper {
             MobileDriverUtils.waitInMs(500);
         }
     }
-    
+
     public void endTest() {
-        if(test.getDriver() instanceof AppiumDriver) {
-            uninstallApp();
-        }else {
-            test.getDriver().closeApp();
-        }
+        test.getDriver().closeApp();
     }
 
     public void uninstallApp() {
         test.getDriver().closeApp();
         test.getDriver().removeApp("com.leanplum.rondo");
     }
-    
+
     public void installApp() {
-       if(test.getDriver() instanceof AppiumDriver) {
-           test.getDriver().installApp("C:\\Leanplum-Mobile-Automation\\resources\\RondoApp-debug.apk");
-       }else {
-           //TODO find way to fresh install from TestFlight
-       }
+        if (test.getDriver() instanceof AppiumDriver) {
+            test.getDriver().installApp("C:\\Leanplum-Mobile-Automation\\resources\\RondoApp-debug.apk");
+        } else {
+            // TODO find way to fresh install from TestFlight
+        }
     }
 }

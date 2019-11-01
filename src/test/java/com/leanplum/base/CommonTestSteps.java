@@ -5,6 +5,7 @@ import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.MobileBrowserPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
+import com.leanplum.tests.pushnotification.PushNotification;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
@@ -99,6 +100,12 @@ public class CommonTestSteps extends BaseTest {
         stepHelper.sendUserAttribute(adHocPO, attributeName, attributeValue);
 
         return adHocPO;
+    }
+    
+    public void openNotificationsAndOpenByMessage(TestStepHelper stepHelper, PushNotification pushNotification) {
+        stepHelper.openNotifications(pushNotification);
+        stepHelper.waitForNotificationPresence(pushNotification);
+        stepHelper.openPushNotification(pushNotification);
     }
 
     public boolean verifyCorrectURLIsOpened(MobileDriver<MobileElement> driver, String url) {
