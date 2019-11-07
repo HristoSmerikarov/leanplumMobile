@@ -103,7 +103,7 @@ public class CommonTestSteps extends BaseTest {
     }
     
     public void openNotificationsAndOpenByMessage(TestStepHelper stepHelper, PushNotification pushNotification) {
-        stepHelper.openNotifications(pushNotification);
+        stepHelper.openNotifications();
         stepHelper.waitForNotificationPresence(pushNotification);
         stepHelper.openPushNotification(pushNotification);
     }

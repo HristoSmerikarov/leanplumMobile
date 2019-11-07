@@ -52,10 +52,6 @@ public class BannerPO extends InAppPopupPO {
     public boolean verifyBannerLayout(String bannerTitle, String bannerMessage) {
 		MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(banner));
 
-		System.out.println("Close button present: "+isCloseButtonPresent());
-		System.out.println("Close button present: "+verifyInAppPopup(
-                ImmutableMap.of(bannerTitleElement, bannerTitle, bannerMessageElement, bannerMessage)));
-		
 		return isCloseButtonPresent() && verifyInAppPopup(
 				ImmutableMap.of(bannerTitleElement, bannerTitle, bannerMessageElement, bannerMessage));
 	}

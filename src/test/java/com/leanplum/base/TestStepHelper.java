@@ -1,5 +1,6 @@
 package com.leanplum.base;
 
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.BasePO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pushnotification.PushNotification;
+import com.leanplum.tests.pushnotification.PushNotificationUtils;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -69,9 +71,10 @@ public class TestStepHelper {
 
     //TODO
     //Clear all push notifications before
-    public void openNotifications(PushNotification pushNotification) {
+    public void openNotifications() {
         test.startStep("Open notifications");
-        pushNotification.openNotifications();
+        PushNotificationUtils pushNotificationUtils = new PushNotificationUtils(test.getDriver());
+        pushNotificationUtils.openNotifications();
         test.endStep();
     }
 

@@ -45,7 +45,7 @@ public class CenterPopupPO extends InAppPopupPO {
 	@AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/accept_button']")
 	public MobileElement centerPopupCloseButton;
 
-	MobileDriver<MobileElement> driver;
+	private MobileDriver<MobileElement> driver;
 
 	public CenterPopupPO(MobileDriver<MobileElement> driver) {
 		super(driver);

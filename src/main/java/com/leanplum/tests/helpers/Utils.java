@@ -27,7 +27,27 @@ public class Utils {
         return Integer.toString(randomNumber);
     }
     
-    
+    public static void swipeTopToBottom(MobileDriver<MobileElement> driver) {
+		Dimension screenSize = driver.manage().window().getSize();
+		int yMargin = 5;
+		int xMid = screenSize.width / 2;
+		PointOption top = PointOption.point(xMid, yMargin);
+		PointOption bottom = PointOption.point(xMid, screenSize.height - yMargin);
+
+		new TouchAction(driver).press(top).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(bottom)
+				.perform();
+	}
+
+	public static void swipeBottomToTop(MobileDriver<MobileElement> driver) {
+		Dimension screenSize = driver.manage().window().getSize();
+		int yMargin = 5;
+		int xMid = screenSize.width / 2;
+		PointOption top = PointOption.point(xMid, yMargin);
+		PointOption bottom = PointOption.point(xMid, screenSize.height - yMargin);
+
+		new TouchAction(driver).press(bottom).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1))).moveTo(top)
+				.perform();
+	}
 
     public void swipeDownToElement(MobileDriver<MobileElement> driver) {
         swipeVertical(driver, 0.7, 0.1, 0.5, 1000);

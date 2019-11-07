@@ -27,7 +27,6 @@ public class BasePO {
 
 	public void click(MobileElement element) {
 		long startTime = System.currentTimeMillis();
-		//MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(element));
 		element.click();
 		long stopTime = System.currentTimeMillis();
 		long elapsedTime = stopTime - startTime;
@@ -39,7 +38,6 @@ public class BasePO {
 	}
 
 	public String getTextFromElement(MobileElement el) {
-		//MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(el));
 		if (driver instanceof AndroidDriver) {
 			return el.getAttribute("text");
 		} else {

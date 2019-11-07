@@ -15,11 +15,8 @@ public class PropertiesUtils {
         try {
             Properties prop = new Properties();
             FileInputStream in = new FileInputStream(file);
-
             prop.load(in);
-
             in.close();
-
             return prop;
         } catch (Exception e) {
             fail("Could not load properties '" + file + "'");

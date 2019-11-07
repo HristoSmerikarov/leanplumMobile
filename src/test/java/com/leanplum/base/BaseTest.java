@@ -24,100 +24,95 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import ru.yandex.qatools.allure.annotations.Step;
 
 @Listeners({ TestListener.class, AnnotationTransformer.class })
 public class BaseTest {
 
-    private AppiumDriver<MobileElement> driver = null;
-    private AppiumDriverLocalService service = null;
-    public boolean hasFailedStep = false;
-    private static final String TEST_CONFIG_FILE = "resources/test.properties";
-    private static TestConfig testConfig;
-    private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
+	private AppiumDriver<MobileElement> driver = null;
+	private AppiumDriverLocalService service = null;
+	public boolean hasFailedStep = false;
+	private static final String TEST_CONFIG_FILE = "resources/test.properties";
+	private static TestConfig testConfig;
+	private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
-    @BeforeMethod
-    public void setUpApp() {
-        MobileDriver<MobileElement> driver = getDriver();
-        driver.closeApp();
-        MobileDriverUtils.waitInMs(500);
-        driver.launchApp();
-        hasFailedStep = false;
-    }
+	@BeforeMethod
+	public void setUpApp() {
+		MobileDriver<MobileElement> driver = getDriver();
+		driver.closeApp();
+		MobileDriverUtils.waitInMs(500);
+		driver.launchApp();
+		hasFailedStep = false;
+	}
 
-    @BeforeClass
-    public void setupAppiumService() {
-        testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
+	@BeforeClass
+	public void setupAppiumService() {
+		testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
 
-        if (testConfig.getOS().toLowerCase().equals("android")) {
-            service = AppiumServiceUtils.setupAppiumService();
-            service.start();
-        }else {
-        	service = AppiumServiceUtils.setupAppiumService();
-            service.start();
-        }
-    }
+		if (testConfig.getOS().toLowerCase().equals("android")) {
+			service = AppiumServiceUtils.setupAppiumService();
+			service.start();
+		} else {
+			service = AppiumServiceUtils.setupAppiumService();
+			service.start();
+		}
+	}
 
-    @BeforeClass(dependsOnMethods = "setupAppiumService")
-    public void setupTest() {
-        DriverFactory df = new DriverFactory();
-        this.driver = df.createDriver(
-                DevicePropertiesUtils.getDeviceProperties(testConfig.getOS(), testConfig.getDeviceType()));
-    }
+	@BeforeClass(dependsOnMethods = "setupAppiumService")
+	public void setupTest() {
+		DriverFactory df = new DriverFactory();
+		this.driver = df.createDriver(
+				DevicePropertiesUtils.getDeviceProperties(testConfig.getOS(), testConfig.getDeviceType()));
+	}
 
-    @Step()
-    public <T> void step(String stepDescription) {
-        ExtentTestManager.getTest().log(LogStatus.PASS, stepDescription, takeScreenshot());
-    }
+	public <T> void step(String stepDescription) {
+		ExtentTestManager.getTest().log(LogStatus.PASS, stepDescription, takeScreenshot());
+	}
 
-    @Step()
-    public <T> void startStep(String stepDescription) {
-        log(LogStatus.INFO, stepDescription);
-    }
+	public <T> void startStep(String stepDescription) {
+		log(LogStatus.INFO, stepDescription);
+	}
 
-    @Step()
-    public <T> void endStep() {
-        log(LogStatus.INFO, takeScreenshot());
-    }
+	public <T> void endStep() {
+		log(LogStatus.INFO, takeScreenshot());
+	}
 
-    @Step()
-    public <T> void endStep(boolean condition) {
-        if (condition) {
-            log(LogStatus.PASS, takeScreenshot());
-        } else {
-            log(LogStatus.FAIL, takeScreenshot());
-            hasFailedStep = true;
-        }
-    }
+	public <T> void endStep(boolean condition) {
+		if (condition) {
+			log(LogStatus.PASS, takeScreenshot());
+		} else {
+			log(LogStatus.FAIL, takeScreenshot());
+			hasFailedStep = true;
+		}
+	}
 
-    public MobileDriver<MobileElement> getDriver() {
-        return this.driver;
-    }
+	public MobileDriver<MobileElement> getDriver() {
+		return this.driver;
+	}
 
-    public TestConfig getTestConfig() {
-        return this.testConfig;
-    }
+	public TestConfig getTestConfig() {
+		return this.testConfig;
+	}
 
-    @AfterClass(alwaysRun = true)
-    public void stopAppiumService() {
-        if (testConfig.getOS().toLowerCase().equals("android")) {
-            service.stop();
-        }else {
-        	service.stop();
-        }
-    }
+	@AfterClass(alwaysRun = true)
+	public void stopAppiumService() {
+		if (testConfig.getOS().toLowerCase().equals("android")) {
+			service.stop();
+		} else {
+			service.stop();
+		}
+	}
 
-    protected String takeScreenshot() {
-        return ExtentTestManager.getTest().addBase64ScreenShot(
-                "data:image/png;base64," + ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64));
-    }
+	protected String takeScreenshot() {
+		return ExtentTestManager.getTest().addBase64ScreenShot(
+				"data:image/png;base64," + ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64));
+	}
 
-    /**
-     * 
-     * @param logStatus - @LogStatus
-     * @param stepInfo - screenshot string or step description
-     */
-    private void log(LogStatus logStatus, String stepInfo) {
-        ExtentTestManager.getTest().log(logStatus, stepInfo);
-    }
+	/**
+	 * 
+	 * @param logStatus - @LogStatus
+	 * @param stepInfo  - screenshot string or step description
+	 */
+	private void log(LogStatus logStatus, String stepInfo) {
+		ExtentTestManager.getTest().log(logStatus, stepInfo);
+	}
 }

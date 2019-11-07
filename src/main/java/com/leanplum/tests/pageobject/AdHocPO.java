@@ -167,11 +167,16 @@ public class AdHocPO extends BasePO {
 
 	private void sendAdHocProperties(MobileElement button, MobileElement label,
 			Map<MobileElement, String> fieldValueMap) {
+		long startTime = System.currentTimeMillis();
 		try {
 			utils.swipeToElement(this.driver, button, SwipeDirection.DOWN);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		long stopTimeFirstTry = System.currentTimeMillis();
+		long elapsedTimeFirstTry = stopTimeFirstTry - startTime;
+		System.out.println("I spent " + elapsedTimeFirstTry + " seconds to swipe first try");
+
 		fieldValueMap.entrySet().forEach(entry -> {
 			MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(entry.getKey()));
 
@@ -181,31 +186,43 @@ public class AdHocPO extends BasePO {
 			} else {
 				populateAndoridFields(entry.getKey(), entry.getValue());
 			}
+
+			long stopTimePopulate = System.currentTimeMillis();
+			long elapsedTimePopulate = stopTimePopulate - startTime;
+			System.out.println("I spent " + elapsedTimePopulate + " seconds to populate " + entry.getKey() + " "
+					+ entry.getValue());
 		});
+
 		label.click();
 
 		driver.hideKeyboard();
 
 		button.click();
 
-		try {
-			utils.swipeToElement(this.driver, descriptionText, SwipeDirection.UP);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			utils.swipeToElement(this.driver, descriptionText, SwipeDirection.UP);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		// descriptionText.click();
 	}
 
+	// Workaround after iOS13
 	private void populateIOSFields(MobileElement el, String value) {
+		long startTime = System.currentTimeMillis();
 		TouchAction action = new TouchAction(driver);
 		action.tap(new TapOptions().withElement(new ElementOption().withElement(el)))
 				.waitAction(new WaitOptions().withDuration(Duration.ofMillis(50))).release().perform()
 				.tap(new TapOptions().withElement(new ElementOption().withElement(el)))
 				.waitAction(new WaitOptions().withDuration(Duration.ofMillis(50))).release().perform();
-
+		long stopTimePopulate = System.currentTimeMillis();
+		long elapsedTimePopulate = stopTimePopulate - startTime;
+		System.out.println("I spent " + elapsedTimePopulate + " seconds to click select all");
+		
 		if (MobileDriverUtils.doesSelectorMatchAnyElements(driver, IOS_SELECT_ALL_XPATH)) {
 			driver.findElement(By.xpath(IOS_SELECT_ALL_XPATH)).click();
 		}
+		
 
 		el.sendKeys(value);
 	}

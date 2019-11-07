@@ -40,7 +40,7 @@ public class AlertPO extends InAppPopupPO {
 	@AndroidFindBy(xpath = "//*[@resource-id='android:id/message']")
 	public MobileElement alertMessage;
 
-	MobileDriver<MobileElement> driver;
+	private MobileDriver<MobileElement> driver;
 
 	public AlertPO(MobileDriver<MobileElement> driver) {
 		super(driver);
@@ -50,9 +50,6 @@ public class AlertPO extends InAppPopupPO {
 
 	public boolean verifyAlertLayout(String expectedTitle, String expectedMessage, String confirmAlertButtonText) {
 		MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(alertPopup));
-
-		// MobileDriverUtils.doesSelectorMatchAnyElements(driver,
-		// CONFIRM_ALERT_BUTTON_XPATH)
 
 		return confirmAlertButton.isDisplayed() && verifyInAppPopup(ImmutableMap.of(alertTitle, expectedTitle,
 				alertMessage, expectedMessage, confirmAlertButton, confirmAlertButtonText));

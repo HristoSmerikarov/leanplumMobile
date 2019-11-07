@@ -4,8 +4,6 @@ public interface PushNotification {
 
     boolean doesContainImage();
     
-    void openNotifications();
-    
     void waitForPresence();
     
     boolean isAbsent();

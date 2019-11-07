@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.leanplum.tests.helpers.MobileDriverUtils;
+import com.leanplum.tests.helpers.Utils;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
@@ -84,18 +85,6 @@ public class IOSPushNotification implements PushNotification {
 	@Override
 	public void dismiss() {
 		// TODO
-	}
-
-	@Override
-	public void openNotifications() {
-		if (!((IOSDriver) driver).isDeviceLocked()) {
-			((IOSDriver) driver).lockDevice();
-		}
-		MobileDriverUtils.waitInMs(10000);
-		if (((IOSDriver) driver).isDeviceLocked()) {
-			((IOSDriver) driver).unlockDevice();
-		}
-		MobileDriverUtils.swipeTopToBottom(driver);
 	}
 
 	private void swipeOpen() {

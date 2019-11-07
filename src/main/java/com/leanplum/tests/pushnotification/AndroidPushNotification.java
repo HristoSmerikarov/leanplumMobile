@@ -68,11 +68,6 @@ public class AndroidPushNotification implements PushNotification{
         // TODO to be defined
     }
     
-    @Override
-    public void openNotifications() {
-        ((AndroidDriver<MobileElement>) driver).openNotifications();
-    }
-    
     private void expand() {
         String formattedExpandButtonXpath = String.format(PUSH_NOTIFICATION_EXPAND_BUTTON_XPATH, message);
 
