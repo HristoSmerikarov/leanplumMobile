@@ -39,11 +39,11 @@ public class ConfirmInAppPO extends InAppPopupPO {
     @AndroidFindBy(xpath = "//" + CONFIRM_IN_APP + "//*[@resource-id='android:id/message']")
     public MobileElement confirmInAppMessage;
 
-    @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_BUTTON + "[2]")
+    @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_BUTTON + "[1]")
     @AndroidFindBy(xpath = "//*[@resource-id='android:id/button2']")
     public MobileElement confirmCancelButton;
 
-    @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_BUTTON + "[1]")
+    @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_BUTTON + "[2]")
     @AndroidFindBy(xpath = "//*[@resource-id='android:id/button1']")
     public MobileElement confirmAcceptButton;
 

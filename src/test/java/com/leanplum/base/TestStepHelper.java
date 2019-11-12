@@ -1,11 +1,14 @@
 package com.leanplum.base;
 
+import java.time.Duration;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.leanplum.tests.helpers.MobileDriverUtils;
+import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.BasePO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
@@ -101,18 +104,12 @@ public class TestStepHelper {
         test.endStep();
     }
 
-    public void pauseUserSession(BasePO basePage) {
-        if (basePage.getDriver() instanceof IOSDriver) {
-            basePage.getDriver().closeApp();
-        } else {
-            clickAndroidKey(AndroidKey.HOME);
-        }
+    public void backgroundApp(BasePO basePage, long millis) {
+        	basePage.getDriver().runAppInBackground(Duration.ofMillis(millis));
     }
 
     public void resumeUserSession(BasePO basePage) {
-        if (basePage.getDriver() instanceof IOSDriver) {
             basePage.getDriver().launchApp();
-        }
     }
 
     public void closeAppAndReturnToHome(BasePO basePage) {

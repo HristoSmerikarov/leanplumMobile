@@ -23,6 +23,8 @@ import com.relevantcodes.extentreports.LogStatus;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 
 @Listeners({ TestListener.class, AnnotationTransformer.class })
@@ -63,7 +65,7 @@ public class BaseTest {
 		this.driver = df.createDriver(
 				DevicePropertiesUtils.getDeviceProperties(testConfig.getOS(), testConfig.getDeviceType()));
 	}
-
+	
 	public <T> void step(String stepDescription) {
 		ExtentTestManager.getTest().log(LogStatus.PASS, stepDescription, takeScreenshot());
 	}

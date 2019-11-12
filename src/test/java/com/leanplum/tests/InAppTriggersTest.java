@@ -10,6 +10,7 @@ import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
+import com.leanplum.tests.pageobject.inapp.BannerPO;
 import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
 import com.leanplum.utils.extentreport.ExtentTestManager;
 
@@ -27,113 +28,88 @@ public class InAppTriggersTest extends CommonTestSteps {
 	private static final String[] MEZDRA = { "43.143500", "23.714600" };
 	private static final String[] VARNA = { "43.227300", "27.888400" };
 
-	// //TODO new app needed
-	// /**
-	// * @see <a
-	// href="https://teamplumqa.testrail.com/index.php?/cases/view/186456">C186456</a>
-	// */
-	// @Test(description = "Alert message triggered on start chained to new
-	// Message")
-	// public void alertTriggeredOnStartChainedToNewMessage(Method method) {
-	// ExtentTestManager.startTest(method.getName(), "Alert message triggered on
-	// start chained to new Message");
-	//
-	// TestStepHelper stepHelper = new TestStepHelper(this);
-	// MobileDriver<MobileElement> driver = getDriver();
-	//
-	// // Verify on app start alert layout
-	// AlertPO alert = new AlertPO(driver);
-	// stepHelper.verifyCondition("Verify on app start alert layout",
-	// alert.verifyAlertLayout("Triggered alert", "Triggered alert with chain", "Yes
-	// I see it!"));
-	//
-	// // Confrim alert
-	// stepHelper.clickElement(alert, alert.confirmAlertButton, "Confirm alert
-	// button");
-	//
-	// // Verify dismissed alert layout
-	// stepHelper.verifyCondition("Verify dismissed alert layout",
-	// alert.verifyAlertLayout("Dismissed action", "Dismissed alert", "Okay.."));
-	//
-	// // Confrim alert
-	// stepHelper.clickElement(alert, alert.confirmAlertButton, "Confirm alert
-	// button");
-	// }
-	//
-//	@Test(description = "Confirm message triggered on start or resume app chained to new Message")
+//	/**
+//	 * @see <ahref="https://teamplumqa.testrail.com/index.php?/cases/view/186456">C186456</a>
+//	 */
+//	@Test(description = "Alert message triggered on start")
 //	public void alertTriggeredOnStartChainedToNewMessage(Method method) {
-//		ExtentTestManager.startTest(method.getName(),
-//				"Confirm message triggered on start or resume app chained to new Message");
+//		ExtentTestManager.startTest(method.getName(), "Alert message triggered on start");
+//
+//		TestStepHelper stepHelper = new TestStepHelper(this);
+//		MobileDriver<MobileElement> driver = getDriver();
+//
+//		// Verify on app start alert layout
+//		AlertPO alert = new AlertPO(driver);
+//		stepHelper.verifyCondition("Verify on app start alert layout",
+//				alert.verifyAlertLayout("Alert on start", "Alert displayed on app start", "Тук е!"));
+//
+//		// Confrim alert
+//		stepHelper.clickElement(alert, alert.confirmAlertButton, "Confirm alert button");
+//	}
+//
+//	@Test(description = "Confirm message triggered on start or resume app")
+//	public void alertTriggeredOnStartOrResume(Method method) {
+//		ExtentTestManager.startTest(method.getName(), "Confirm message triggered on start or resume app");
 //
 //		TestStepHelper stepHelper = new TestStepHelper(this);
 //		MobileDriver<MobileElement> driver = getDriver();
 //
 //		// Verify on app start alert layout
 //		AlertPO alertPO = new AlertPO(driver);
-//		stepHelper.verifyCondition("Verify on app start alert layout", alertPO
-//				.verifyAlertLayout("Alert shown on start or resume", "You're on start or resume", "Okay, thanks!"));
+//		stepHelper.verifyCondition("Verify on app start alert layout",
+//				alertPO.verifyAlertLayout("Alert on start", "Alert displayed on app start", "Тук е!"));
 //
 //		// Confrim alert
 //		stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, " confirm alert button");
 //
-//		startStep("Close app");
-//		driver.closeApp();
-//		endStep();
+//		//stepHelper.closeAppAndReturnToHome(alertPO);
 //
-//		MobileDriverUtils.waitInMs(1000);
-//
-//		startStep("Launch app again");
-//		driver.launchApp();
-//		endStep();
-//
-//		stepHelper.verifyCondition("Verify on app start alert layout", alertPO
-//				.verifyAlertLayout("Alert shown on start or resume", "You're on start or resume", "Okay, thanks!"));
+//		stepHelper.backgroundApp(alertPO, 2000);
+//		
+//		stepHelper.verifyCondition("Verify on app start or resume alert layout", alertPO.verifyAlertLayout(
+//				"Alert on start or resume", "Alert displayed on app start or resume", "Известието е тук!"));
 //
 //		stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, " confirm alert button");
 //	}
-	//
-	// //TODO not able to locate banner
-	// /**
-	// * @see <a
-	// href="https://teamplumqa.testrail.com/index.php?/cases/view/186463">C186463</a>
-	// * @see <a
-	// href="https://teamplumqa.testrail.com/index.php?/cases/view/186458">C186458</a>
-	// */
-	// @Test(description = "Banner message triggered on event with limit per
-	// session")
-	// public void bannerTriggerEventLimitPerSession(Method method) {
-	// ExtentTestManager.startTest(method.getName(), "Banner message triggered on
-	// event with limit per session");
-	//
-	// TestStepHelper stepHelper = new TestStepHelper(this);
-	// MobileDriver<MobileElement> driver = getDriver();
-	//
-	// AlertPO alert = new AlertPO(driver);
-	// stepHelper.acceptAllAlertsOnAppStart(alert);
-	//
-	// // Track event
-	// AdHocPO adHocPO = new AdHocPO(driver);
-	// stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-	//
-	// BannerPO banner = new BannerPO(driver);
-	// for (int i = 0; i < LIMIT_PER_SESSION; i++) {
-	// stepHelper.sendTrackEvent(adHocPO, TRIGGER_EVENT);
-	//
-	// stepHelper.verifyCondition("Verify banner popup layout",
-	// banner.verifyBannerLayout("Center bottom banner",
-	// "This banner message is here to remind you something!"));
-	//
-	// stepHelper.clickElement(banner, banner.banner, "banner");
-	//
-	// MobileDriverUtils.waitInMs(100);
-	// }
-	//
-	// stepHelper.sendTrackEvent(adHocPO, TRIGGER_EVENT);
-	//
-	// startStep("Verify banner is not shown");
-	// endStep(!MobileDriverUtils.doesSelectorMatchAnyElements(driver,
-	// BannerPO.POPUP_CONTAINER_XPATH));
-	// }
+//
+//	// TODO not able to locate banner
+//	/**
+//	 * @see <a href=
+//	 *      "https://teamplumqa.testrail.com/index.php?/cases/view/186463">C186463</a>
+//	 * @see <a href=
+//	 *      "https://teamplumqa.testrail.com/index.php?/cases/view/186458">C186458</a>
+//	 */
+//	@Test(description = "Banner message triggered on event with limit per session")
+//	public void bannerTriggerEventLimitPerSession(Method method) {
+//		ExtentTestManager.startTest(method.getName(), "Banner message triggered on event with limit per session");
+//
+//		TestStepHelper stepHelper = new TestStepHelper(this);
+//		MobileDriver<MobileElement> driver = getDriver();
+//
+//		AlertPO alert = new AlertPO(driver);
+//		stepHelper.acceptAllAlertsOnAppStart(alert);
+//
+//		// Track event
+//		AdHocPO adHocPO = new AdHocPO(driver);
+//		stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+//
+//		BannerPO banner = new BannerPO(driver);
+//		for (int i = 0; i < LIMIT_PER_SESSION; i++) {
+//			stepHelper.sendTrackEvent(adHocPO, TRIGGER_EVENT);
+//
+//			stepHelper.verifyCondition("Verify banner popup layout", banner.verifyBannerLayout("Center bottom banner",
+//					"This banner message is here to remind you something!"));
+//
+//			stepHelper.clickElement(banner, banner.banner, "banner");
+//
+//			MobileDriverUtils.waitInMs(100);
+//		}
+//
+//		stepHelper.sendTrackEvent(adHocPO, TRIGGER_EVENT);
+//
+//		startStep("Verify banner is not shown");
+//		endStep(!MobileDriverUtils.doesSelectorMatchAnyElements(driver, BannerPO.POPUP_CONTAINER_XPATH));
+//	}
 
 	/**
 	 * @see <a href=
