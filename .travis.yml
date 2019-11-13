@@ -3,11 +3,19 @@ sudo: required
 jdk: openjdk8
 
 before_install:
- - sudo apt-get update
- - sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev
-      libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev
-       - sudo apt-get install nodejs
+- curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    - sudo apt-get install nodejs
     - sudo apt-get install build-essential
+    
+    # Add $JAVA_HOME/bin to PATH (for Appium executing)
     - PATH=$PATH:$JAVA_HOME/bin
+
+    # Install appium and appium-doctor
     - npm install appium
     - npm install appium-doctor
+    
+    # Run appium-doctor
+    - "./node_modules/.bin/appium-doctor"
+
+    # Run appium in background and logging to appium_log.txt file
+    - "./node_modules/.bin/appium --log-level info > appium_log.txt &"
