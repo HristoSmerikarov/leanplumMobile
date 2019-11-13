@@ -11,12 +11,6 @@
 	<name>leanplum</name>
 	<url>http://maven.apache.org</url>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<aspectj.version>1.9.1</aspectj.version>
-		<os>ios</os>
-		<deviceType>phone</deviceType>
-	</properties>
 
 	<dependencies>
 		<!-- <dependency> <groupId>com.leanplum.tests</groupId> <artifactId>Leanplum-Tests-Framework</artifactId> 
