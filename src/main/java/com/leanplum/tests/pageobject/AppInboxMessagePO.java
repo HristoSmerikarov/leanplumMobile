@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
+import com.leanplum.tests.helpers.Utils.SwipeDirection;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
@@ -72,7 +73,7 @@ public class AppInboxMessagePO extends BasePO {
     }
 
     public void performReadAction() {
-        new Utils().swipeDownToElement(driver);
+        Utils.swipeToElement(driver, performReadActionButton, SwipeDirection.DOWN);
         performReadActionButton.click();
     }
 }

@@ -53,15 +53,7 @@ public class Utils {
 				.perform();
 	}
 
-	public void swipeDownToElement(MobileDriver<MobileElement> driver) {
-		swipeVertical(driver, 0.7, 0.1, 0.5, 1000);
-	}
-
-	public void swipeUpToElement(MobileDriver<MobileElement> driver) {
-		swipeVertical(driver, 0.2, 0.7, 0.5, 1000);
-	}
-
-	public boolean swipeToElement(MobileDriver<MobileElement> driver, MobileElement element, SwipeDirection direction) {
+	public static boolean swipeToElement(MobileDriver<MobileElement> driver, MobileElement element, SwipeDirection direction) {
 		boolean isVisible = false;
 		int tries = 0;
 		while (!isVisible) {
@@ -71,7 +63,7 @@ public class Utils {
 			} catch (Exception e) {
 				switch (direction) {
 				case UP:
-					swipeUpToElement(driver);
+					swipeUp(driver);
 					break;
 				case DOWN:
 					swipeDownToElement(driver);
@@ -86,8 +78,16 @@ public class Utils {
 
 		return isVisible;
 	}
+	
+	private static void swipeDownToElement(MobileDriver<MobileElement> driver) {
+        swipeVertical(driver, 0.7, 0.1, 0.5, 1000);
+    }
 
-	private void swipeVertical(MobileDriver<MobileElement> driver, double startPercentage, double finalPercentage,
+    private static void swipeUp(MobileDriver<MobileElement> driver) {
+        swipeVertical(driver, 0.2, 0.7, 0.5, 1000);
+    }
+
+	private static void swipeVertical(MobileDriver<MobileElement> driver, double startPercentage, double finalPercentage,
 			double anchorPercentage, int duration) {
 		Dimension size = driver.manage().window().getSize();
 		int anchor = (int) (size.width * anchorPercentage);

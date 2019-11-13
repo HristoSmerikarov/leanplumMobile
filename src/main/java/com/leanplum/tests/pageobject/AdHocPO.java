@@ -127,13 +127,11 @@ public class AdHocPO extends BasePO {
 	public MobileElement viewIOSPushNotifications;
 
 	private MobileDriver<MobileElement> driver;
-	private Utils utils;
 
 	public AdHocPO(MobileDriver<MobileElement> driver) {
 		super(driver);
 		this.driver = driver;
 		PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
-		this.utils = new Utils();
 	}
 
 	public void sendTrackEvent(String eventName) {
@@ -155,14 +153,15 @@ public class AdHocPO extends BasePO {
 	}
 
 	public void sendDeviceLocation(String latitude, String longitude) {
-		utils.swipeToElement(this.driver, deviceLocationButton, SwipeDirection.DOWN);
+		Utils.swipeToElement(this.driver, deviceLocationButton, SwipeDirection.DOWN);
 		sendAdHocProperties(deviceLocationButton, locationLabel,
 				ImmutableMap.of(latitudeField, latitude, longitudeField, longitude));
 	}
 
 	public void setUserId(String userId) {
-		System.out.println("User ID: " + userId);
+	    Utils.swipeToElement(driver, userIdField, SwipeDirection.DOWN);
 		sendAdHocProperties(setUserIdButton, userIdLabel, ImmutableMap.of(userIdField, userId));
+		Utils.swipeToElement(driver, descriptionText, SwipeDirection.UP);
 	}
 
 	private void sendAdHocProperties(MobileElement button, MobileElement label,
