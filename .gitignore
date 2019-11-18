@@ -1,6 +1,6 @@
 .idea
 /target/
-/allure-result/
+/allure-results/
 /test-output/
 /.classpath
 /.project
