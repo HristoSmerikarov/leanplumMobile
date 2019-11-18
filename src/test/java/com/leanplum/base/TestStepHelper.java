@@ -107,8 +107,16 @@ public class TestStepHelper {
     public void backgroundApp(BasePO basePage, long millis) {
         	basePage.getDriver().runAppInBackground(Duration.ofMillis(millis));
     }
+    
+    public void stopAppSession(BasePO basePage) {
+        if (basePage.getDriver() instanceof IOSDriver) {
+            basePage.getDriver().closeApp();
+        } else {
+            clickAndroidKey(AndroidKey.HOME);
+        }
+    }
 
-    public void resumeUserSession(BasePO basePage) {
+    public void resumeAppSession(BasePO basePage) {
             basePage.getDriver().launchApp();
     }
 
@@ -139,6 +147,7 @@ public class TestStepHelper {
 
     public void endTest() {
         test.getDriver().closeApp();
+        test.endTest();
     }
 
     public void uninstallApp() {

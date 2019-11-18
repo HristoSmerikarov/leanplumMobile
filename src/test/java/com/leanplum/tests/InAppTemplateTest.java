@@ -15,13 +15,12 @@ import com.leanplum.tests.pageobject.inapp.InterstitialPO;
 import com.leanplum.tests.pageobject.inapp.RichInterstitialPO;
 import com.leanplum.tests.pageobject.inapp.StarRatingPO;
 import com.leanplum.tests.pageobject.inapp.WebInterstitialPO;
-import com.leanplum.utils.extentreport.ExtentTestManager;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 
-@Listeners(TestListener.class)
+@Listeners({ TestListener.class })
 public class InAppTemplateTest extends CommonTestSteps {
 
     private static final String START_EVENT = "templates";
@@ -55,52 +54,54 @@ public class InAppTemplateTest extends CommonTestSteps {
     @Test(groups = { "android", "ios", "andr",
             "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup")
     public void confirmRichInterstitialStarRatingCenterPopupTemplates(Method method) {
-        ExtentTestManager.startTest(method.getName(),
-                "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup");
+        try {
+            TestStepHelper stepHelper = new TestStepHelper(this);
+            MobileDriver<MobileElement> driver = getDriver();
 
-        TestStepHelper stepHelper = new TestStepHelper(this);
-        MobileDriver<MobileElement> driver = getDriver();
+            // Track event
+            AdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
 
-        // Track event
-        AdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
+            // Verify Confirm popup
+            ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+            verifyConfirmPopupLayout(driver, stepHelper, confirmInApp);
 
-        // Verify Confirm popup
-        ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
-        verifyConfirmPopupLayout(driver, stepHelper, confirmInApp);
+            // Click Accept button
+            clickAccept(stepHelper, confirmInApp);
 
-        // Click Accept button
-        clickAccept(stepHelper, confirmInApp);
+            // Verify rich interstitial
+            RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);
+            verifyRichInterstitialLayout(driver, stepHelper, richInterstitial);
 
-        // Verify rich interstitial
-        RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);
-        verifyRichInterstitialLayout(driver, stepHelper, richInterstitial);
+            // Click right button
+            stepHelper.clickElement(richInterstitial, richInterstitial.richInterstitialRightButton,
+                    "right button - " + RICH_INTERSTITIAL_RIGHT_BUTTON);
 
-        // Click right button
-        stepHelper.clickElement(richInterstitial, richInterstitial.richInterstitialRightButton,
-                "right button - " + RICH_INTERSTITIAL_RIGHT_BUTTON);
+            // Verify center popup layout
+            CenterPopupPO centerPopup = new CenterPopupPO(driver);
+            stepHelper.verifyCondition(VERIFY_CENTER_POPUP_LAYOUT,
+                    centerPopup.verifyCenterPopup(CENTER_POPUP_TITLE, CENTER_POPUP_MESSAGE, CENTER_POPUP_BUTTON));
 
-        // Verify center popup layout
-        CenterPopupPO centerPopup = new CenterPopupPO(driver);
-        stepHelper.verifyCondition(VERIFY_CENTER_POPUP_LAYOUT,
-                centerPopup.verifyCenterPopup(CENTER_POPUP_TITLE, CENTER_POPUP_MESSAGE, CENTER_POPUP_BUTTON));
+            // Click accept
+            stepHelper.clickElement(centerPopup, centerPopup.centerPopupAcceptButton, "Accept center popup");
 
-        // Click accept
-        stepHelper.clickElement(centerPopup, centerPopup.centerPopupAcceptButton, "Accept center popup");
+            // Star rating not visible in dom
+            StarRatingPO starRating = new StarRatingPO(driver);
+            stepHelper.verifyCondition("Verify star rating popup layout",
+                    starRating.verifyStarRating("Do you like the new update?", 3, "I hate it!", "I love it!"));
 
-        // Star rating not visible in dom
-        StarRatingPO starRating = new StarRatingPO(driver);
-        stepHelper.verifyCondition("Verify star rating popup layout",
-                starRating.verifyStarRating("Do you like the new update?", 3, "I hate it!", "I love it!"));
+            // Leave rating and submit
+            startStep("Submit 2 stars");
+            starRating.submitRating(2);
+            endStep();
 
-        // Leave rating and submit
-        startStep("Submit 2 stars");
-        starRating.submitRating(2);
-        endStep();
+            // Send end event
+            stepHelper.sendTrackEvent(adHocPO, END_EVENT);
 
-        // Send end event
-        stepHelper.sendTrackEvent(adHocPO, END_EVENT);
-
-        stepHelper.endTest();
+        } catch (Exception e) {
+            e.printStackTrace();
+            endStep(e.toString(), false);
+        }
+        endTest();
     }
 
     /**
@@ -120,41 +121,44 @@ public class InAppTemplateTest extends CommonTestSteps {
     @Test(groups = { "android", "ios",
             "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, WebInterstitial")
     public void confirmRichInterstitialWebInterstitialTemplates(Method method) {
-        ExtentTestManager.startTest(method.getName(), "In-App Templates - Confirm, RichInterstitial, WebInterstitial");
+        try {
+            TestStepHelper stepHelper = new TestStepHelper(this);
+            MobileDriver<MobileElement> driver = getDriver();
 
-        TestStepHelper stepHelper = new TestStepHelper(this);
-        MobileDriver<MobileElement> driver = getDriver();
+            // Track event
+            AdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
 
-        // Track event
-        AdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
+            // Verify Confirm popup
+            ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+            verifyConfirmPopupLayout(driver, stepHelper, confirmInApp);
 
-        // Verify Confirm popup
-        ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
-        verifyConfirmPopupLayout(driver, stepHelper, confirmInApp);
+            // Click Accept button
+            clickAccept(stepHelper, confirmInApp);
 
-        // Click Accept button
-        clickAccept(stepHelper, confirmInApp);
+            // Verify rich interstitial
+            RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);
+            verifyRichInterstitialLayout(driver, stepHelper, richInterstitial);
 
-        // Verify rich interstitial
-        RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);
-        verifyRichInterstitialLayout(driver, stepHelper, richInterstitial);
+            // Click left button
+            stepHelper.clickElement(richInterstitial, richInterstitial.richInterstitialLeftButton,
+                    "left button - " + RICH_INTERSTITIAL_LEFT_BUTTON);
 
-        // Click left button
-        stepHelper.clickElement(richInterstitial, richInterstitial.richInterstitialLeftButton,
-                "left button - " + RICH_INTERSTITIAL_LEFT_BUTTON);
+            // Verify web interstitial layout
+            WebInterstitialPO webInterstitial = new WebInterstitialPO(driver);
+            stepHelper.verifyCondition("Verify web interstitial popup layout", webInterstitial.verifyWebInterstitial());
 
-        // Verify web interstitial layout
-        WebInterstitialPO webInterstitial = new WebInterstitialPO(driver);
-        stepHelper.verifyCondition("Verify web interstitial popup layout", webInterstitial.verifyWebInterstitial());
+            // Close webInterstitial
+            stepHelper.clickElement(webInterstitial, webInterstitial.webInterstitialCloseButton,
+                    "Web Interstitial's close icon");
 
-        // Close webInterstitial
-        stepHelper.clickElement(webInterstitial, webInterstitial.webInterstitialCloseButton,
-                "Web Interstitial's close icon");
+            // Send end event
+            stepHelper.sendTrackEvent(adHocPO, END_EVENT);
 
-        // Send end event
-        stepHelper.sendTrackEvent(adHocPO, END_EVENT);
-
-        stepHelper.endTest();
+        } catch (Exception e) {
+            e.printStackTrace();
+            endStep(e.toString(), false);
+        }
+        endTest();
     }
 
     /**
@@ -174,52 +178,56 @@ public class InAppTemplateTest extends CommonTestSteps {
     @Test(groups = { "android", "ios",
             "inAppTemplates" }, description = "In-App Templates - Confirm, Interstitial, Alert, Banner")
     public void confirmInterstitialAlertBannerTemplates(Method method) {
-        ExtentTestManager.startTest(method.getName(), "In-App Templates - Confirm, Interstitial, Alert, Banner");
+        try {
+            TestStepHelper stepHelper = new TestStepHelper(this);
+            MobileDriver<MobileElement> driver = getDriver();
 
-        TestStepHelper stepHelper = new TestStepHelper(this);
-        MobileDriver<MobileElement> driver = getDriver();
+            // Track event
+            sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
 
-        // Track event
-        sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
+            // Verify Confirm popup
+            ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+            verifyConfirmPopupLayout(driver, stepHelper, confirmInApp);
 
-        // Verify Confirm popup
-        ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
-        verifyConfirmPopupLayout(driver, stepHelper, confirmInApp);
+            // Click cancel
+            clickCancel(stepHelper, confirmInApp);
 
-        // Click cancel
-        clickCancel(stepHelper, confirmInApp);
+            // Verify interstitial layout
+            InterstitialPO interstitial = new InterstitialPO(driver);
+            stepHelper.verifyCondition("Verify interstitial layout",
+                    interstitial.verifyInterstitialLayout("Reminder", "Ще ти сетнем banner за напомняне!", "Okay.."));
 
-        // Verify interstitial layout
-        InterstitialPO interstitial = new InterstitialPO(driver);
-        stepHelper.verifyCondition("Verify interstitial layout",
-                interstitial.verifyInterstitialLayout("Reminder", "Ще ти сетнем banner за напомняне!", "Okay.."));
+            // Click accept button
+            stepHelper.clickElement(interstitial, interstitial.interstitialAcceptButton,
+                    "Interstitial's Accept button");
 
-        // Click accept button
-        stepHelper.clickElement(interstitial, interstitial.interstitialAcceptButton, "Interstitial's Accept button");
+            // Verify alert layout
+            AlertPO alert = new AlertPO(driver);
+            stepHelper.verifyCondition("Verify alert layout",
+                    alert.verifyAlertLayout("Banner will be shown..", ".. as a reminder!", "Okay"));
 
-        // Verify alert layout
-        AlertPO alert = new AlertPO(driver);
-        stepHelper.verifyCondition("Verify alert layout",
-                alert.verifyAlertLayout("Banner will be shown..", ".. as a reminder!", "Okay"));
+            // Confrim alert
+            stepHelper.clickElement(alert, alert.confirmAlertButton, "Okay");
 
-        // Confrim alert
-        stepHelper.clickElement(alert, alert.confirmAlertButton, "Okay");
+            // TODO Cannot be located on Android
+            // BannerPO banner = new BannerPO(driver);
+            // stepHelper.verifyCondition("Verify banner popup layout",
+            // banner.verifyBannerLayout("New version of the app available!", "Download when
+            // you can!"));
+            //
+            // banner.clickOnBanner();
 
-        // TODO Cannot be located on Android
-        // BannerPO banner = new BannerPO(driver);
-        // stepHelper.verifyCondition("Verify banner popup layout",
-        // banner.verifyBannerLayout("New version of the app available!", "Download when
-        // you can!"));
-        //
-        // banner.clickOnBanner();
+            // stepHelper.clickElement(banner, banner.bannerCloseButton, "banner close
+            // icon");
 
-        // stepHelper.clickElement(banner, banner.bannerCloseButton, "banner close
-        // icon");
+            // Send end event
+            // stepHelper.sendEvent(adHocPO, END_EVENT);
 
-        // Send end event
-        // stepHelper.sendEvent(adHocPO, END_EVENT);
-
-        stepHelper.endTest();
+        } catch (Exception e) {
+            e.printStackTrace();
+            endStep(e.toString(), false);
+        }
+        endTest();
     }
 
     private void verifyConfirmPopupLayout(MobileDriver<MobileElement> driver, TestStepHelper stepHelper,

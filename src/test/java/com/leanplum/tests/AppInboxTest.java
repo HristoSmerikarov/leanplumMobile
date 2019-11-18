@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Set;
 
 import org.json.JSONObject;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
@@ -14,12 +15,13 @@ import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.AppInboxMessagePO;
 import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
-import com.leanplum.utils.extentreport.ExtentTestManager;
+import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.restassured.response.Response;
 
+@Listeners({ TestListener.class })
 public class AppInboxTest extends CommonTestSteps {
 
     private static final String APP_INBOX_EVENT = "appinbox";
@@ -31,67 +33,70 @@ public class AppInboxTest extends CommonTestSteps {
     */
     @Test(groups = { "android", "ios", "appinbox" }, description = "App Inbox message verifiation")
     public void confirmWithTriggerEveryTwoTimes(Method method) {
-        ExtentTestManager.startTest(method.getName(), "App Inbox message verifiation");
+        try {
+            TestStepHelper stepHelper = new TestStepHelper(this);
+            MobileDriver<MobileElement> driver = getDriver();
 
-        TestStepHelper stepHelper = new TestStepHelper(this);
-        MobileDriver<MobileElement> driver = getDriver();
+            AlertPO alert = new AlertPO(driver);
+            stepHelper.acceptAllAlertsOnAppStart(alert);
 
-        AlertPO alert = new AlertPO(driver);
-        stepHelper.acceptAllAlertsOnAppStart(alert);
+            AppSetupPO appSetupPO = new AppSetupPO(driver);
+            String deviceId = getDeviceId(appSetupPO);
+            String userId = getUserId(appSetupPO);
 
-        AppSetupPO appSetupPO = new AppSetupPO(driver);
-        String deviceId = getDeviceId(appSetupPO);
-        String userId = getUserId(appSetupPO);
+            Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
 
-        Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
+            Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
+            newsfeedIds.forEach(newsfeedId -> {
+                TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId);
+            });
 
-        Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
-        newsfeedIds.forEach(newsfeedId -> {
-            TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId);
-        });
+            AdHocPO adHocPO = new AdHocPO(driver);
+            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-        AdHocPO adHocPO = new AdHocPO(driver);
-        stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+            stepHelper.sendTrackEvent(adHocPO, APP_INBOX_EVENT);
 
-        stepHelper.sendTrackEvent(adHocPO, APP_INBOX_EVENT);
+            MobileDriverUtils.waitInMs(45000);
 
-        MobileDriverUtils.waitInMs(45000);
+            driver.closeApp();
+            MobileDriverUtils.waitInMs(1000);
+            driver.launchApp();
 
-        driver.closeApp();
-        MobileDriverUtils.waitInMs(1000);
-        driver.launchApp();
+            stepHelper.acceptAllAlertsOnAppStart(alert);
 
-        stepHelper.acceptAllAlertsOnAppStart(alert);
+            AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);
+            stepHelper.clickElement(appInbox, appInbox.appinbox, "App Inbox button");
 
-        AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);
-        stepHelper.clickElement(appInbox, appInbox.appinbox, "App Inbox button");
+            startStep("Wait for app inbox message");
+            appInbox.waitForInboxMessage();
+            endStep();
 
-        startStep("Wait for app inbox message");
-        appInbox.waitForInboxMessage();
-        endStep();
+            startStep("Verify app inbox message title is correct");
+            endStep(appInbox.isTitleCorrect("Update your profile!"));
 
-        startStep("Verify app inbox message title is correct");
-        endStep(appInbox.isTitleCorrect("Update your profile!"));
+            startStep("Verify app inbox message subtitle is correct");
+            endStep(appInbox.isSubTitleCorrect("Please add more info.."));
 
-        startStep("Verify app inbox message subtitle is correct");
-        endStep(appInbox.isSubTitleCorrect("Please add more info.."));
+            startStep("Verify app inbox message does contain image");
+            endStep(appInbox.doesContainImage());
 
-        startStep("Verify app inbox message does contain image");
-        endStep(appInbox.doesContainImage());
+            startStep("Perform read action");
+            appInbox.performReadAction();
+            endStep();
 
-        startStep("Perform read action");
-        appInbox.performReadAction();
-        endStep();
+            // Verify alert layout
+            alert = new AlertPO(driver);
+            stepHelper.verifyCondition("Verify alert layout", alert.verifyAlertLayout("AlertMessage",
+                    "Alert message after opening app inbox message", "It's here!"));
 
-        // Verify alert layout
-        alert = new AlertPO(driver);
-        stepHelper.verifyCondition("Verify alert layout",
-                alert.verifyAlertLayout("AlertMessage", "Alert message after opening app inbox message", "It's here!"));
+            // Confrim alert
+            stepHelper.clickElement(alert, alert.confirmAlertButton, "It's here!");
 
-        // Confrim alert
-        stepHelper.clickElement(alert, alert.confirmAlertButton, "It's here!");
-
-        stepHelper.endTest();
+        } catch (Exception e) {
+            e.printStackTrace();
+            endStep(e.toString(), false);
+        }
+        endTest();
     }
 
     private Set<String> getNewsfeedMessageIds(Response response) {
