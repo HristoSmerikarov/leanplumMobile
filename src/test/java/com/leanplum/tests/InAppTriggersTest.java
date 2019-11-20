@@ -37,60 +37,60 @@ public class InAppTriggersTest extends CommonTestSteps {
     private static final String[] MEZDRA = { "43.143500", "23.714600" };
     private static final String[] VARNA = { "43.227300", "27.888400" };
 
-//    /**
-//    * @see <ahref="https://teamplumqa.testrail.com/index.php?/cases/view/186456">C186456</a>
-//    */
-//    @Test(description = "Alert message triggered on start")
-//    public void alertTriggeredOnStartChainedToNewMessage(Method method) {
-//        try {
-//            TestStepHelper stepHelper = new TestStepHelper(this);
-//            MobileDriver<MobileElement> driver = getDriver();
-//
-//            // Verify on app start alert layout
-//            AlertPO alert = new AlertPO(driver);
-//            stepHelper.verifyCondition("Verify on app start alert layout",
-//                    alert.verifyAlertLayout("Alert on start", "Alert displayed on app start", "Тук е!"));
-//
-//            // Confrim alert
-//            stepHelper.clickElement(alert, alert.confirmAlertButton, "Confirm alert button");
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            endStep(e.toString(), false);
-//        }
-//        endTest();
-//    }
-//
-//    @Test(description = "Confirm message triggered on start or resume app")
-//    public void alertTriggeredOnStartOrResume(Method method) {
-//        try {
-//            TestStepHelper stepHelper = new TestStepHelper(this);
-//            MobileDriver<MobileElement> driver = getDriver();
-//
-//            // Verify on app start alert layout
-//            AlertPO alertPO = new AlertPO(driver);
-//            stepHelper.verifyCondition("Verify on app start alert layout",
-//                    alertPO.verifyAlertLayout("Alert on start", "Alert displayed on app start", "Тук е!"));
-//
-//            // Confrim alert
-//            stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, " confirm alert button");
-//
-//            // stepHelper.closeAppAndReturnToHome(alertPO);
-//
-//            stepHelper.backgroundApp(alertPO, 2000);
-//
-//            stepHelper.verifyCondition("Verify on app start or resume alert layout", alertPO.verifyAlertLayout(
-//                    "Alert on start or resume", "Alert displayed on app start or resume", "Известието е тук!"));
-//
-//            stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, " confirm alert button");
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            endStep(e.toString(), false);
-//        }
-//        endTest();
-//    }
-
+    // /**
+    // * @see <ahref="https://teamplumqa.testrail.com/index.php?/cases/view/186456">C186456</a>
+    // */
+    // @Test(description = "Alert message triggered on start")
+    // public void alertTriggeredOnStartChainedToNewMessage(Method method) {
+    // try {
+    // TestStepHelper stepHelper = new TestStepHelper(this);
+    // MobileDriver<MobileElement> driver = getDriver();
+    //
+    // // Verify on app start alert layout
+    // AlertPO alert = new AlertPO(driver);
+    // stepHelper.verifyCondition("Verify on app start alert layout",
+    // alert.verifyAlertLayout("Alert on start", "Alert displayed on app start", "Тук е!"));
+    //
+    // // Confrim alert
+    // stepHelper.clickElement(alert, alert.confirmAlertButton, "Confirm alert button");
+    //
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // endStep(e.toString(), false);
+    // }
+    // endTest();
+    // }
+    //
+    // @Test(description = "Confirm message triggered on start or resume app")
+    // public void alertTriggeredOnStartOrResume(Method method) {
+    // try {
+    // TestStepHelper stepHelper = new TestStepHelper(this);
+    // MobileDriver<MobileElement> driver = getDriver();
+    //
+    // // Verify on app start alert layout
+    // AlertPO alertPO = new AlertPO(driver);
+    // stepHelper.verifyCondition("Verify on app start alert layout",
+    // alertPO.verifyAlertLayout("Alert on start", "Alert displayed on app start", "Тук е!"));
+    //
+    // // Confrim alert
+    // stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, " confirm alert button");
+    //
+    // // stepHelper.closeAppAndReturnToHome(alertPO);
+    //
+    // stepHelper.backgroundApp(alertPO, 2000);
+    //
+    // stepHelper.verifyCondition("Verify on app start or resume alert layout", alertPO.verifyAlertLayout(
+    // "Alert on start or resume", "Alert displayed on app start or resume", "Известието е тук!"));
+    //
+    // stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, " confirm alert button");
+    //
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // endStep(e.toString(), false);
+    // }
+    // endTest();
+    // }
+    //
     // TODO not able to locate banner
     /**
      * @see <a href=

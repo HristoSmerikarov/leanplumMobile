@@ -1,6 +1,13 @@
 package com.leanplum.base;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 import org.aspectj.lang.JoinPoint;
@@ -50,12 +57,14 @@ public class BaseTest {
     private static TestConfig testConfig;
     private SoftAssert softAssertion;
     private String testIdentifier;
+    private String reportFolder = "target/allure-results";
+    private String startTestTimestamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_ms")
+            .format(new Timestamp(new Date().getTime()));
     private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
     @BeforeClass
     public void setupAppiumService() {
         testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
-
         if (testConfig.getOS().toLowerCase().equals("android")) {
             service = AppiumServiceUtils.setupAppiumService();
             service.start();
@@ -89,6 +98,7 @@ public class BaseTest {
         testIdentifier = UUID.randomUUID().toString();
         hasFailedStep = false;
         softAssertion = new SoftAssert();
+
     }
 
     public <T> void startStep(String stepDescription) {
@@ -157,10 +167,19 @@ public class BaseTest {
 
     @AfterClass(alwaysRun = true)
     public void stopAppiumService() {
-        if (testConfig.getOS().toLowerCase().equals("android")) {
-            service.stop();
+        service.stop();
+    }
+
+    @AfterClass(dependsOnMethods = "stopAppiumService", alwaysRun = true)
+    public void allureServe() {
+        File sourceFile = new File(reportFolder);
+        File destFile = new File(reportFolder + "_" + startTestTimestamp);
+
+        if (sourceFile.renameTo(destFile)) {
+            logger.info("File renamed successfully to " + destFile.getAbsolutePath());
+            System.out.println("For local report use command: allure serve allure_results_" + startTestTimestamp);
         } else {
-            service.stop();
+            logger.info("Failed to rename file");
         }
     }
 }

@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>6.11</version>
+			<version>7.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.relevantcodes</groupId>
@@ -59,6 +59,11 @@
 			<artifactId>allure-testng</artifactId>
 			<version>2.13.0</version>
 		</dependency>
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-generator</artifactId>
+			<version>2.13.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -69,6 +74,9 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					<systemPropertyVariables>
+						<allure.results.directory>${basedir}/target/allure-results</allure.results.directory>
+					</systemPropertyVariables>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -92,6 +100,12 @@
 				<groupId>io.qameta.allure</groupId>
 				<artifactId>allure-maven</artifactId>
 				<version>2.9</version>
+				<configuration>
+					<outputDirectory>${basedir}/target/allure-reports/</outputDirectory>
+					<allureResultsDirectory>${basedir}/target/allure-results</allureResultsDirectory>
+					<reportVersion>2.3.1</reportVersion>
+					<propertiesFilePath>resources/allure.properties</propertiesFilePath>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

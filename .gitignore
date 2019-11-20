@@ -1,9 +1,10 @@
-.idea
+/.idea
+/.classpath
+/.allure/
+/.settings/
 /target/
 /allure-results/
 /test-output/
-/.classpath
-/.project
 /target
 /test-output
 

@@ -17,43 +17,43 @@ import io.appium.java_client.MobileElement;
 
 @Listeners({ TestListener.class })
 public class InAppActionsTest extends CommonTestSteps {
-
-    /**
-     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186445">C186445</a>
-     */
-    @Test(groups = { "android", "ios", "openAction" }, description = "Open URL action")
-    public void openUrlAction(Method method) {
-        try {
-            TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
-
-            AlertPO alert = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alert);
-
-            // Track event
-            AdHocPO adHocPO = new AdHocPO(driver);
-            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-
-            // First trigger
-            stepHelper.sendStateEvent(adHocPO, "request");
-
-            MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
-            startStep("Verify correct URL is opened");
-            endStep(mobileBrowserPO.isCorrectURLOpened("leanplum.com"));
-
-            // Confirm on resume app
-            startStep("Go back to Rondo app");
-            mobileBrowserPO.goBack();
-            endStep();
-
-            stepHelper.acceptAllAlertsOnAppStart(alert);
-
-            stepHelper.sendTrackEvent(adHocPO, "end");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            endStep(e.toString(), false);
-        }
-        endTest();
-    }
+//
+//    /**
+//     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186445">C186445</a>
+//     */
+//    @Test(groups = { "android", "ios", "openAction" }, description = "Open URL action")
+//    public void openUrlAction(Method method) {
+//        try {
+//            TestStepHelper stepHelper = new TestStepHelper(this);
+//            MobileDriver<MobileElement> driver = getDriver();
+//
+//            AlertPO alert = new AlertPO(driver);
+//            stepHelper.acceptAllAlertsOnAppStart(alert);
+//
+//            // Track event
+//            AdHocPO adHocPO = new AdHocPO(driver);
+//            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+//
+//            // First trigger
+//            stepHelper.sendStateEvent(adHocPO, "request");
+//
+//            MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
+//            startStep("Verify correct URL is opened");
+//            endStep(mobileBrowserPO.isCorrectURLOpened("leanplum.com"));
+//
+//            // Confirm on resume app
+//            startStep("Go back to Rondo app");
+//            mobileBrowserPO.goBack();
+//            endStep();
+//
+//            stepHelper.acceptAllAlertsOnAppStart(alert);
+//
+//            stepHelper.sendTrackEvent(adHocPO, "end");
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            endStep(e.toString(), false);
+//        }
+//        endTest();
+//    }
 }
