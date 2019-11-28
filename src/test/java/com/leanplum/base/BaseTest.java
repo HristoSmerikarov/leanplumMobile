@@ -30,7 +30,9 @@ import com.leanplum.tests.appiumdriver.DevicePropertiesUtils;
 import com.leanplum.tests.appiumdriver.DriverFactory;
 import com.leanplum.tests.appiumdriver.PropertiesUtils;
 import com.leanplum.tests.appiumdriver.TestConfig;
+import com.leanplum.tests.enums.OSEnum;
 import com.leanplum.tests.helpers.MobileDriverUtils;
+import com.leanplum.tests.helpers.Utils;
 import com.leanplum.utils.listeners.TestListener;
 import com.relevantcodes.extentreports.LogStatus;
 
@@ -46,6 +48,7 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StepResult;
+import io.qameta.allure.util.ResultsUtils;
 
 @Listeners({ TestListener.class })
 public class BaseTest {
@@ -76,9 +79,26 @@ public class BaseTest {
 
     @BeforeClass(dependsOnMethods = "setupAppiumService")
     public void setupDriver() {
+        determineTestDevice();
+        
         DriverFactory df = new DriverFactory();
         this.driver = df.createDriver(
                 DevicePropertiesUtils.getDeviceProperties(testConfig.getOS(), testConfig.getDeviceType()));
+    }
+
+    private void determineTestDevice() {
+        switch (determineOS()) {
+        case WINDOWS:
+            Utils.runCommandInTerminal(OSEnum.WINDOWS, "adb devices");
+            break;
+        case MAC:
+            //TODO
+            break;
+        }
+    }
+
+    private OSEnum determineOS() {
+        return OSEnum.valueOfEnum(System.getProperty("os.name")).get();
     }
 
     @BeforeMethod()
@@ -127,6 +147,7 @@ public class BaseTest {
      */
     public <T> void endStep(String stepDescription, boolean condition) {
         softAssertion.assertTrue(condition);
+        
         if (condition) {
             endStep(stepDescription, Status.PASSED);
         } else {
@@ -177,7 +198,7 @@ public class BaseTest {
 
         if (sourceFile.renameTo(destFile)) {
             logger.info("File renamed successfully to " + destFile.getAbsolutePath());
-            System.out.println("For local report use command: allure serve allure_results_" + startTestTimestamp);
+            System.out.println("For local report use command: allure serve allure-results_" + startTestTimestamp);
         } else {
             logger.info("Failed to rename file");
         }

@@ -39,6 +39,7 @@ public class PushNotificationTest extends CommonTestSteps {
 //    private static final String OUTSIDE_APP_TRIGGER = "outsideAppTrigger";
 //    private static final String CHANNEL_DISABLED = "channelDisabled";
 //    private static final String IOS_OPTIONS = "iosoptions";
+//    private static final String OPTION = "option";
 //    private static final String ATTRIBUTE_VALUE = "testAttr" + Utils.generateRandomNumberInRange(0, 100);
 //    private static final String RONDO_PUSH_NOTIFICATION = "Rondo Push Notification";
 //    private static final String RONDO_NOTIFICATION_WITH_IMAGE = "Push Notification with image!";
@@ -249,7 +250,8 @@ public class PushNotificationTest extends CommonTestSteps {
 //    // MobileDriver<MobileElement> driver = getDriver();
 //    //
 //    // // Track event
-//    // AdHocPO adHocPO = sendEvent(driver, stepHelper, IOS_OPTIONS);
+//    // TODO CHANGE TO ADVANCE TO STATE WITH PARAMETER
+//    // AdHocPO adHocPO = sendEvent(driver, stepHelper, IOS_OPTIONS, OPTION, 5);
 //    //
 //    // // Open notification and confirm that notification is not present
 //    // PushNotifiationType pn = PushNotifiationType.valueOfEnum(getTestConfig().getOS()).get();
