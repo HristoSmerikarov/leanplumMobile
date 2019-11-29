@@ -38,6 +38,8 @@ public class Utils {
         case WINDOWS:
             Process p;
             try {
+                System.out.println("hm");
+                
                 p = Runtime.getRuntime().exec("cmd /c " + command);
 
                 p.waitFor();

@@ -31,6 +31,7 @@ import com.leanplum.tests.appiumdriver.DriverFactory;
 import com.leanplum.tests.appiumdriver.PropertiesUtils;
 import com.leanplum.tests.appiumdriver.TestConfig;
 import com.leanplum.tests.enums.OSEnum;
+import com.leanplum.tests.enums.PlatformEnum;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
 import com.leanplum.utils.listeners.TestListener;
@@ -61,29 +62,43 @@ public class BaseTest {
     private SoftAssert softAssertion;
     private String testIdentifier;
     private String reportFolder = "target/allure-results";
+    private OSEnum os;
+    private PlatformEnum platform;
     private String startTestTimestamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_ms")
             .format(new Timestamp(new Date().getTime()));
     private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
     @BeforeClass
     public void setupAppiumService() {
+        this.os = determineOS();
+        this.platform = determinePlatform();
         testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
-        if (testConfig.getOS().toLowerCase().equals("android")) {
-            service = AppiumServiceUtils.setupAppiumService();
-            service.start();
-        } else {
-            service = AppiumServiceUtils.setupAppiumService();
-            service.start();
-        }
+        configureSeleniumNode(this.platform);
+
+        // if (testConfig.getOS().toLowerCase().equals("android")) {
+        // service = AppiumServiceUtils.setupAppiumService();
+        // service.start();
+        // } else {
+        // service = AppiumServiceUtils.setupAppiumService();
+        // service.start();
+        // }
+    }
+
+    private void configureSeleniumNode(PlatformEnum platform) {
+        String jsonFileName = platform.getPlatformName() + "Node.json";
+        File jsonFile = new File("resources/"+jsonFileName);
+
+        Utils.runCommandInTerminal(os, "appium -a 127.0.0.1 -p 4723 --nodeconfig " + jsonFile.getAbsolutePath());
     }
 
     @BeforeClass(dependsOnMethods = "setupAppiumService")
     public void setupDriver() {
         determineTestDevice();
-        
+
         DriverFactory df = new DriverFactory();
+        //TODO device name!!!!!
         this.driver = df.createDriver(
-                DevicePropertiesUtils.getDeviceProperties(testConfig.getOS(), testConfig.getDeviceType()));
+                DevicePropertiesUtils.getDeviceProperties(this.platform.getPlatformName(), "phone"));
     }
 
     private void determineTestDevice() {
@@ -92,13 +107,21 @@ public class BaseTest {
             Utils.runCommandInTerminal(OSEnum.WINDOWS, "adb devices");
             break;
         case MAC:
-            //TODO
+
             break;
         }
     }
 
     private OSEnum determineOS() {
         return OSEnum.valueOfEnum(System.getProperty("os.name")).get();
+    }
+
+    private PlatformEnum determinePlatform() {
+        if (this.os == OSEnum.WINDOWS) {
+            return PlatformEnum.ANDROID_APP;
+        } else {
+            return PlatformEnum.IOS_APP;
+        }
     }
 
     @BeforeMethod()
@@ -147,7 +170,7 @@ public class BaseTest {
      */
     public <T> void endStep(String stepDescription, boolean condition) {
         softAssertion.assertTrue(condition);
-        
+
         if (condition) {
             endStep(stepDescription, Status.PASSED);
         } else {

@@ -28,6 +28,8 @@ public class DriverFactory {
 		boolean useSeleniumGrid = driverConfig.isSeleniumGrid();
 
 		String url;
+		
+		System.out.println("url");
 
 		if (useSeleniumGrid) {
 			url = driverConfig.getGridHubUrl();

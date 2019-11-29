@@ -25,7 +25,7 @@
 			"withoutServlets": [],
 			"custom": {},
 			"hubPort": 4444,
-			"hubHost": "0.0.0.0",
+			"hubHost": "192.168.128.218",
 			"hubProtocol": "http"
 		}
 }
