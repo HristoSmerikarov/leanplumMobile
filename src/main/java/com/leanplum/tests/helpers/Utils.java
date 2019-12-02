@@ -36,7 +36,6 @@ public class Utils {
         String responce;
         switch (os) {
         case WINDOWS:
-        	System.out.println("wind");
             Process p1;
             try {
                 p1 = Runtime.getRuntime().exec("cmd /c " + command);
@@ -48,15 +47,12 @@ public class Utils {
                     System.out.println(line);
                 }
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             break;
         case MAC:
-        	System.out.println("mac");
         	Process p2;
             try {
                 p2 = Runtime.getRuntime().exec("/bin/bash -c "+command);

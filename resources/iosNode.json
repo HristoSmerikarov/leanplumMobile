@@ -24,7 +24,9 @@
 			"servlets": [],
 			"withoutServlets": [],
 			"custom": {},
-			"hubPort": 4445,
+			"url": "127.0.0.10:4444/wd/hub",
+			"hub": "127.0.0.10:4444/grid/register",
+			"hubPort": 4444,
 			"hubHost": "127.0.0.10",
 			"hubProtocol": "http"
 		}

@@ -45,6 +45,8 @@ import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.qameta.allure.model.Status;
@@ -73,25 +75,21 @@ public class BaseTest {
         this.os = determineOS();
         this.platform = determinePlatform();
         testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
-        //configureSeleniumNode(this.platform);
-        
-       service =  AppiumServiceUtils.setupAppiumService();
-       service.start(); 
 
-        // if (testConfig.getOS().toLowerCase().equals("android")) {
+        AppiumServiceBuilder builder = new AppiumServiceBuilder();
+        // builder.withIPAddress(appiumServiceConfig.getAppiumServiceIp());
+        // builder.usingPort(Integer.valueOf(appiumServiceConfig.getAppiumServicePort()));
+        File jsonFile = new File("resources/androidNode.json");
+        System.out.println(jsonFile.getAbsolutePath());
+        builder.withArgument(GeneralServerFlag.CONFIGURATION_FILE, jsonFile.getAbsolutePath());
+
+        this.service = builder.build();
+        this.service.start();
+
         // service = AppiumServiceUtils.setupAppiumService();
         // service.start();
-        // } else {
-        // service = AppiumServiceUtils.setupAppiumService();
-        // service.start();
-        // }
-    }
 
-    private void configureSeleniumNode(PlatformEnum platform) {
-        String jsonFileName = platform.getPlatformName() + "Node.json";
-        File jsonFile = new File("resources/"+jsonFileName);
-
-        Utils.runCommandInTerminal(os, "appium -a 127.0.0.1 -p 4723 --nodeconfig " + jsonFile.getAbsolutePath());
+        System.out.println("IS SERVICE RUNNING: " + service.isRunning());
     }
 
     @BeforeClass(dependsOnMethods = "setupAppiumService")
@@ -99,9 +97,9 @@ public class BaseTest {
         determineTestDevice();
 
         DriverFactory df = new DriverFactory();
-        //TODO device name!!!!!
-        this.driver = df.createDriver(
-                DevicePropertiesUtils.getDeviceProperties(this.platform.getPlatformName(), "phone"));
+        // TODO device name!!!!!
+        this.driver = df
+                .createDriver(DevicePropertiesUtils.getDeviceProperties(this.platform.getPlatformName(), "phone"));
     }
 
     private void determineTestDevice() {

@@ -35,6 +35,8 @@ public class DriverFactory {
 			url = driverConfig.getAppiumServerUrl();
 		}
 
+		
+		System.out.println("APPIUM URL: "+url);
 		return initializeDriver(platform, url, deviceProperties);
 	}
 
