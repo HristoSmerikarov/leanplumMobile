@@ -73,7 +73,10 @@ public class BaseTest {
         this.os = determineOS();
         this.platform = determinePlatform();
         testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
-        configureSeleniumNode(this.platform);
+        //configureSeleniumNode(this.platform);
+        
+       service =  AppiumServiceUtils.setupAppiumService();
+       service.start(); 
 
         // if (testConfig.getOS().toLowerCase().equals("android")) {
         // service = AppiumServiceUtils.setupAppiumService();

@@ -29,8 +29,6 @@ public class DriverFactory {
 
 		String url;
 		
-		System.out.println("url");
-
 		if (useSeleniumGrid) {
 			url = driverConfig.getGridHubUrl();
 		} else {

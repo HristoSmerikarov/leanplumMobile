@@ -36,14 +36,13 @@ public class Utils {
         String responce;
         switch (os) {
         case WINDOWS:
-            Process p;
+        	System.out.println("wind");
+            Process p1;
             try {
-                System.out.println("hm");
-                
-                p = Runtime.getRuntime().exec("cmd /c " + command);
+                p1 = Runtime.getRuntime().exec("cmd /c " + command);
 
-                p.waitFor();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                p1.waitFor();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(p1.getInputStream()));
                 String line;
                 while ((line = reader.readLine()) != null) {
                     System.out.println(line);
@@ -57,7 +56,24 @@ public class Utils {
             }
             break;
         case MAC:
-            // TODO
+        	System.out.println("mac");
+        	Process p2;
+            try {
+                p2 = Runtime.getRuntime().exec("/bin/bash -c "+command);
+
+                p2.waitFor();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(p2.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             break;
         }
         return "";
