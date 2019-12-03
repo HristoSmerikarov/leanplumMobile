@@ -25,6 +25,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.asserts.SoftAssert;
 
+import com.leanplum.tests.appiumdriver.AppiumServiceConfig;
 import com.leanplum.tests.appiumdriver.AppiumServiceUtils;
 import com.leanplum.tests.appiumdriver.DevicePropertiesUtils;
 import com.leanplum.tests.appiumdriver.DriverFactory;
@@ -75,21 +76,8 @@ public class BaseTest {
         this.os = determineOS();
         this.platform = determinePlatform();
         testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
-
-        AppiumServiceBuilder builder = new AppiumServiceBuilder();
-        // builder.withIPAddress(appiumServiceConfig.getAppiumServiceIp());
-        // builder.usingPort(Integer.valueOf(appiumServiceConfig.getAppiumServicePort()));
-        File jsonFile = new File("resources/androidNode.json");
-        System.out.println(jsonFile.getAbsolutePath());
-        builder.withArgument(GeneralServerFlag.CONFIGURATION_FILE, jsonFile.getAbsolutePath());
-
-        this.service = builder.build();
-        this.service.start();
-
-        // service = AppiumServiceUtils.setupAppiumService();
-        // service.start();
-
-        System.out.println("IS SERVICE RUNNING: " + service.isRunning());
+        this.service = AppiumServiceUtils.setupAppiumService(platform);
+        service.start();
     }
 
     @BeforeClass(dependsOnMethods = "setupAppiumService")
@@ -131,7 +119,7 @@ public class BaseTest {
         driver.closeApp();
         MobileDriverUtils.waitInMs(500);
         if (driver instanceof AndroidDriver) {
-            ((AndroidDriver<MobileElement>) driver).pressKey(new KeyEvent().withKey(AndroidKey.BACK));
+            // ((AndroidDriver<MobileElement>) driver).pressKey(new KeyEvent().withKey(AndroidKey.BACK));
         }
         MobileDriverUtils.waitInMs(500);
         driver.launchApp();

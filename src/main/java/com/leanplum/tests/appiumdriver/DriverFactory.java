@@ -52,7 +52,6 @@ public class DriverFactory {
 				e.printStackTrace();
 				fail(e.getMessage());
 			}
-
 		case IOS_APP:
 			try {
 				return new IOSDriver<>(new URL(url), capabilitiesUtils.getIOSDesiredCapabilities(deviceProperties));
