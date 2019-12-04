@@ -76,6 +76,13 @@ public class BaseTest {
         this.os = determineOS();
         this.platform = determinePlatform();
         testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
+//
+//        File jsonFile = new File("resources/" + platform.getPlatformName().toLowerCase() + "Node.json");
+//
+//        System.out.println(jsonFile.getAbsolutePath());
+//        Utils.runCommandInTerminal(OSEnum.WINDOWS,
+//                "appium -a 127.0.0.1 -p 4723 --nodeconfig " + jsonFile.getAbsolutePath());
+
         this.service = AppiumServiceUtils.setupAppiumService(platform);
         service.start();
     }
@@ -200,7 +207,7 @@ public class BaseTest {
 
     @AfterClass(alwaysRun = true)
     public void stopAppiumService() {
-        service.stop();
+       service.stop();
     }
 
     @AfterClass(dependsOnMethods = "stopAppiumService", alwaysRun = true)

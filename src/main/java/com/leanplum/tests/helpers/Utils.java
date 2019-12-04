@@ -34,6 +34,7 @@ public class Utils {
 
     public static String runCommandInTerminal(OSEnum os, String command) {
         String responce;
+        System.out.println(command);
         switch (os) {
         case WINDOWS:
             Process p1;

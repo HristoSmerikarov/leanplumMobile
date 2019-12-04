@@ -2,6 +2,8 @@ package com.leanplum.tests.appiumdriver;
 
 import java.io.File;
 
+import com.leanplum.tests.enums.PlatformEnum;
+
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
@@ -12,21 +14,17 @@ public class AppiumServiceUtils {
 
     AppiumDriverLocalService service = null;
 
-    public static AppiumDriverLocalService setupAppiumService() {
+    public static AppiumDriverLocalService setupAppiumService(PlatformEnum platform) {
         AppiumServiceConfig appiumServiceConfig = (AppiumServiceConfig) PropertiesUtils
                 .loadProperties(DRIVER_CONFIG_FILE, AppiumServiceConfig.class);
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
-        // builder.withIPAddress(appiumServiceConfig.getAppiumServiceIp());
-        // builder.usingPort(Integer.valueOf(appiumServiceConfig.getAppiumServicePort()));
-        System.out.println("Configurations");
-        File jsonFile = new File("resources/androidNode.json");
+        builder.withIPAddress(appiumServiceConfig.getAppiumServiceIp());
+        builder.usingPort(Integer.valueOf(appiumServiceConfig.getAppiumServicePort()));
+        File jsonFile = new File("resources/" + platform.getPlatformName().toLowerCase() + "Node.json");
+
         System.out.println(jsonFile.getAbsolutePath());
         builder.withArgument(GeneralServerFlag.CONFIGURATION_FILE, jsonFile.getAbsolutePath());
-
-        // TODO
-        // builder.withArgument(GeneralServerFlag.CONFIGURATION_FILE,
-        // "/Users/hristosmerikarov/git/leanplumMobile/resources/iosNode.json");
         return AppiumDriverLocalService.buildService(builder);
     }
 }
