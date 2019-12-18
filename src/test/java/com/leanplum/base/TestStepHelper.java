@@ -3,6 +3,7 @@ package com.leanplum.base;
 import java.time.Duration;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +52,10 @@ public class TestStepHelper {
 
     public void sendDeviceLocation(AdHocPO adHocPO, String latitude, String longitude) {
         test.startStep("Send location coordinates: " + latitude + " and " + longitude);
-        adHocPO.sendDeviceLocation(latitude, longitude);
+        
+        adHocPO.getDriver().setLocation(new Location(Double.valueOf(latitude), Double.valueOf(longitude), 40.0));
+        
+        //adHocPO.sendDeviceLocation(latitude, longitude);
         test.endStep();
     }
 
