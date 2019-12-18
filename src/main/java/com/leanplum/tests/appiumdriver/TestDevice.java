@@ -21,7 +21,6 @@ public class TestDevice {
 		this.name = name;
 		this.platformVersion = platformVersion;
 		this.platform = platform;
-		System.out.println("ID: " + id + " NAME: " + name + " PLATFORM VERSION: " + platformVersion);
 	}
 
 	public String getId() {
