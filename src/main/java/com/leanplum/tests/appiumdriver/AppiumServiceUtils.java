@@ -21,10 +21,10 @@ public class AppiumServiceUtils {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         builder.withIPAddress(appiumServiceConfig.getAppiumServiceIp());
         builder.usingPort(Integer.valueOf(appiumServiceConfig.getAppiumServicePort()));
-        File jsonFile = new File("resources/" + platform.getPlatformName().toLowerCase() + "Node.json");
-
-        System.out.println(jsonFile.getAbsolutePath());
-        builder.withArgument(GeneralServerFlag.CONFIGURATION_FILE, jsonFile.getAbsolutePath());
+//        File jsonFile = new File("resources/" + platform.getPlatformName().toLowerCase() + "Node.json");
+//
+//        System.out.println(jsonFile.getAbsolutePath());
+//        builder.withArgument(GeneralServerFlag.CONFIGURATION_FILE, jsonFile.getAbsolutePath());
         return AppiumDriverLocalService.buildService(builder);
     }
 }

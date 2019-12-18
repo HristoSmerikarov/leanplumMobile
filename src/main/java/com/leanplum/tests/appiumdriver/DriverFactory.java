@@ -19,7 +19,7 @@ public class DriverFactory {
 	private static String DRIVER_CONFIG_FILE = "resources/driver.properties";
 	private static final String TEST_CONFIG_FILE = "resources/test.properties";
 
-	public AppiumDriver<MobileElement> createDriver(DeviceProperties deviceProperties) {
+	public AppiumDriver<MobileElement> createDriver(TestDevice testDevice, DeviceProperties deviceProperties) {
 		DriverConfig driverConfig = (DriverConfig) PropertiesUtils.loadProperties(DRIVER_CONFIG_FILE,
 				DriverConfig.class);
 		TestConfig testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
@@ -28,33 +28,33 @@ public class DriverFactory {
 		boolean useSeleniumGrid = driverConfig.isSeleniumGrid();
 
 		String url;
-		
+
 		if (useSeleniumGrid) {
 			url = driverConfig.getGridHubUrl();
 		} else {
 			url = driverConfig.getAppiumServerUrl();
 		}
 
-		
-		System.out.println("APPIUM URL: "+url);
-		return initializeDriver(platform, url, deviceProperties);
+		System.out.println("APPIUM URL: " + url);
+		return initializeDriver(url, testDevice, deviceProperties);
 	}
 
-	private AppiumDriver<MobileElement> initializeDriver(PlatformEnum platform, String url,
+	private AppiumDriver<MobileElement> initializeDriver(String url, TestDevice testDevice,
 			DeviceProperties deviceProperties) {
 		DesiredCapabilitiesUtils capabilitiesUtils = new DesiredCapabilitiesUtils();
-		switch (platform) {
+		switch (testDevice.getPlatform()) {
 		case ANDROID_APP:
 			try {
 				return new AndroidDriver<MobileElement>(new URL(url),
-						capabilitiesUtils.getAndroidDesiredCapabilities(deviceProperties));
+						capabilitiesUtils.getAndroidDesiredCapabilities(testDevice, deviceProperties));
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 				fail(e.getMessage());
 			}
 		case IOS_APP:
 			try {
-				return new IOSDriver<>(new URL(url), capabilitiesUtils.getIOSDesiredCapabilities(deviceProperties));
+				return new IOSDriver<>(new URL(url),
+						capabilitiesUtils.getIOSDesiredCapabilities(testDevice, deviceProperties));
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 				fail(e.getMessage());

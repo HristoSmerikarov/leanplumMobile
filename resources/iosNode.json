@@ -8,26 +8,15 @@
 			"maxInstances": "1"
 		}
 	],
-	"configuration":
-		{
-			"proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
-			"cleanUpCycle": 2000,
-			"timeout": 30000,
-			"maxSession": 1,
-			"register": true,
-			"registerCycle": 5000,
-			"nodeStatusCheckTimeout": 5000,
-			"unregisterIfStillDownAfter": 60000,
-			"role": "node",
-			"downPollingLimit": 2,
-			"debug": true,
-			"servlets": [],
-			"withoutServlets": [],
-			"custom": {},
-			"url": "http://127.0.0.10:4444/wd/hub",
-			"hub": "http://127.0.0.10:4444/grid/register",
-			"hubPort": 4444,
-			"hubHost": "127.0.0.10",
-			"hubProtocol": "http"
-		}
+	"configuration": {
+		"cleanUpCycle": 2000,
+		"timeout": 30000,
+		"proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+		"maxSession": 1,
+		"register": true,
+		"registerCycle": 5000,
+		"hubPort": 4444,
+		"hubHost": "169.254.190.69",
+		"hubProtocol": "http"
+	}
 }
