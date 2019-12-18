@@ -4,12 +4,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import com.leanplum.tests.appiumdriver.TestDevice;
 import com.leanplum.tests.enums.OSEnum;
+import com.leanplum.tests.enums.PlatformEnum;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
@@ -32,33 +39,105 @@ public class Utils {
         return Integer.toString(randomNumber);
     }
 
-    public static String runCommandInTerminal(OSEnum os, String command) {
-        String responce;
+    public static List<String> runCommandInTerminal(OSEnum os, String command) {
+        List<String> response = new ArrayList<>();
         switch (os) {
         case WINDOWS:
-            Process p;
+            Process p1;
             try {
-                p = Runtime.getRuntime().exec("cmd /c " + command);
-
-                p.waitFor();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                p1 = Runtime.getRuntime().exec("cmd /c " + command);
+                p1.waitFor();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(p1.getInputStream()));
                 String line;
                 while ((line = reader.readLine()) != null) {
+                    response.add(line);
                     System.out.println(line);
                 }
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             break;
         case MAC:
-            // TODO
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            processBuilder.command("bash", "-c", command);
+            try {
+                Process process = processBuilder.start();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.add(line);
+                    System.out.println(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             break;
         }
-        return "";
+        return response;
+    }
+
+    public static List<TestDevice> getConnectedAndroidDevice(OSEnum os) {
+        List<String> responseLines = runCommandInTerminal(os, "adb devices");
+        List<String> androidDeviceIds = new ArrayList<String>();
+        responseLines.forEach(line -> {
+            if (!line.equals("List of devices attached") && !line.isEmpty()) {
+                androidDeviceIds.add(findPropertyMatch(line, "^(.*?)\\W"));
+            }
+        });
+
+        List<TestDevice> androidTestDevices = new ArrayList<>();
+        androidDeviceIds.forEach(id -> {
+            List<String> deviceModel = runCommandInTerminal(os, "adb -s " + id + " shell getprop ro.product.model");
+            List<String> androidVersion = runCommandInTerminal(os,
+                    "adb -s " + id + " shell getprop ro.build.version.release");
+            androidTestDevices
+                    .add(new TestDevice(id, deviceModel.get(0), PlatformEnum.ANDROID_APP, androidVersion.get(0)));
+        });
+        return androidTestDevices;
+    }
+
+    public static List<TestDevice> getConnectedIOSDevice(OSEnum os) {
+        List<TestDevice> devices = new ArrayList<>();
+        if (os == OSEnum.MAC) {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            processBuilder.command("bash", "-c", "xcrun instruments -s devices");
+            List<String> responseLines = new ArrayList<>();
+            try {
+                Process process = processBuilder.start();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (!line.contains(":") && !line.contains("-")) {
+                        responseLines.add(line);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            responseLines.forEach(l -> {
+
+                if (!l.contains("Simulator") && !l.contains("MacBook")) {
+                    String udid = findPropertyMatch(l, TestDevice.IOS_UDID_REGEX);
+                    String platformVersion = findPropertyMatch(l, TestDevice.IOS_PLATFORM_VERSION_REGEX);
+                    String name = findPropertyMatch(l, TestDevice.IOS_NAME_REGEX);
+                    devices.add(new TestDevice(udid, name, PlatformEnum.IOS_APP, platformVersion));
+                }
+            });
+        }
+        return devices;
+    }
+
+    public static String findPropertyMatch(String line, String regex) {
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(line);
+
+        String property = "";
+        if (m.find())
+            property = m.group(1);
+
+        return property;
     }
 
     public static void swipeTopToBottom(MobileDriver<MobileElement> driver) {

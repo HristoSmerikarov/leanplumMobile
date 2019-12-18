@@ -10,10 +10,11 @@ public class DesiredCapabilitiesUtils {
 
 	private DesiredCapabilities capabilities = new DesiredCapabilities();
 
-	public DesiredCapabilities getAndroidDesiredCapabilities(DeviceProperties deviceProperties) {
+	public DesiredCapabilities getAndroidDesiredCapabilities(TestDevice testDevice, DeviceProperties deviceProperties) {
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, deviceProperties.getPlatformName());
-		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceProperties.getPlatformVersion());
-		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceProperties.getDeviceName());
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, testDevice.getPlatformVersion());
+		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, testDevice.getName());
+		capabilities.setCapability(MobileCapabilityType.UDID, testDevice.getId());
 //		File rondoAppFile = new File("./resources/RondoApp-debug.apk");
 //		System.out.println(rondoAppFile.getAbsolutePath());
 //        capabilities.setCapability(MobileCapabilityType.APP, rondoAppFile.getAbsolutePath());
@@ -25,12 +26,12 @@ public class DesiredCapabilitiesUtils {
 		return this.capabilities;
 	}
 
-	public DesiredCapabilities getIOSDesiredCapabilities(DeviceProperties deviceProperties) {
+	public DesiredCapabilities getIOSDesiredCapabilities(TestDevice testDevice, DeviceProperties deviceProperties) {
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, deviceProperties.getPlatformName());
-		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceProperties.getPlatformVersion());
-		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceProperties.getDeviceName());
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, testDevice.getPlatformVersion());
+		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, testDevice.getName());
 		capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, deviceProperties.getAutomationName());
-		capabilities.setCapability(MobileCapabilityType.UDID, deviceProperties.getUdid());
+		capabilities.setCapability(MobileCapabilityType.UDID, testDevice.getId());
 		capabilities.setCapability(MobileCapabilityType.NO_RESET, deviceProperties.getNoReset());
 
 		capabilities.setCapability("wdaLocalPort", deviceProperties.getWdaLocalPort());

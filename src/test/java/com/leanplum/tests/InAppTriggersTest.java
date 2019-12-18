@@ -7,22 +7,29 @@ import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import com.google.common.base.Strings;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
+import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.pageobject.AdHocPO;
+import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pageobject.inapp.BannerPO;
 import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
+import com.leanplum.tests.pushnotification.PushNotifiationType;
+import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.nativekey.AndroidKey;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.model.Status;
+import io.restassured.response.Response;
 
 @Listeners({ TestListener.class })
 @Feature("In-App triggers test")
@@ -92,48 +99,48 @@ public class InAppTriggersTest extends CommonTestSteps {
     // }
     //
     // TODO not able to locate banner
-    /**
-     * @see <a href=
-     *      "https://teamplumqa.testrail.com/index.php?/cases/view/186463">C186463</a>
-     * @see <a href=
-     *      "https://teamplumqa.testrail.com/index.php?/cases/view/186458">C186458</a>
-     */
-    @Test(description = "Banner message triggered on event with limit per session")
-    public void bannerTriggerEventLimitPerSession(Method method) {
-        try {
-            MobileDriver<MobileElement> driver = getDriver();
-            TestStepHelper stepHelper = new TestStepHelper(this);
-
-            AlertPO alert = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alert);
-
-            // Track event
-            AdHocPO adHocPO = new AdHocPO(driver);
-            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-
-            BannerPO banner = new BannerPO(driver);
-            for (int i = 0; i < LIMIT_PER_SESSION; i++) {
-                stepHelper.sendTrackEvent(adHocPO, TRIGGER_EVENT);
-
-                stepHelper.verifyCondition("Verify banner popup layout", banner.verifyBannerLayout(
-                        "Center bottom banner", "This banner message is here to remind you something!"));
-
-                stepHelper.clickElement(banner, banner.banner, "banner");
-
-                MobileDriverUtils.waitInMs(100);
-            }
-
-            stepHelper.sendTrackEvent(adHocPO, TRIGGER_EVENT);
-
-            startStep("Verify banner is not shown");
-            endStep(!MobileDriverUtils.doesSelectorMatchAnyElements(driver, BannerPO.POPUP_CONTAINER_XPATH));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            endStep(e.toString(), false);
-        }
-        endTest();
-    }
+    // /**
+    // * @see <a href=
+    // * "https://teamplumqa.testrail.com/index.php?/cases/view/186463">C186463</a>
+    // * @see <a href=
+    // * "https://teamplumqa.testrail.com/index.php?/cases/view/186458">C186458</a>
+    // */
+    // @Test(description = "Banner message triggered on event with limit per session")
+    // public void bannerTriggerEventLimitPerSession(Method method) {
+    // try {
+    // MobileDriver<MobileElement> driver = getDriver();
+    // TestStepHelper stepHelper = new TestStepHelper(this);
+    //
+    // AlertPO alert = new AlertPO(driver);
+    // stepHelper.acceptAllAlertsOnAppStart(alert);
+    //
+    // // Track event
+    // AdHocPO adHocPO = new AdHocPO(driver);
+    // stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+    //
+    // BannerPO banner = new BannerPO(driver);
+    // for (int i = 0; i < LIMIT_PER_SESSION; i++) {
+    // stepHelper.sendTrackEvent(adHocPO, TRIGGER_EVENT);
+    //
+    // stepHelper.verifyCondition("Verify banner popup layout", banner.verifyBannerLayout(
+    // "Center bottom banner", "This banner message is here to remind you something!"));
+    //
+    // stepHelper.clickElement(banner, banner.banner, "banner");
+    //
+    // MobileDriverUtils.waitInMs(100);
+    // }
+    //
+    // stepHelper.sendTrackEvent(adHocPO, TRIGGER_EVENT);
+    //
+    // startStep("Verify banner is not shown");
+    // endStep(!MobileDriverUtils.doesSelectorMatchAnyElements(driver, BannerPO.POPUP_CONTAINER_XPATH));
+    //
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // endStep(e.toString(), false);
+    // }
+    // endTest();
+    // }
 
     /**
     * @see <a href=
@@ -144,6 +151,7 @@ public class InAppTriggersTest extends CommonTestSteps {
     @Test(groups = { "android", "ios",
             "inAppTriggers" }, description = "Confirm in-app on attribute change every two times")
     public void confirmWithTriggerEveryTwoTimes(Method method) {
+
         try {
             TestStepHelper stepHelper = new TestStepHelper(this);
             MobileDriver<MobileElement> driver = getDriver();
@@ -244,8 +252,6 @@ public class InAppTriggersTest extends CommonTestSteps {
     // */
     // @Test(description = "Alert in app on enter region")
     // public void alertInAppOnEnterRegion(Method method) {
-    // ExtentTestManager.startTest(method.getName(), "Alert in app on enter
-    // region");
     //
     // TestStepHelper stepHelper = new TestStepHelper(this);
     // MobileDriver<MobileElement> driver = getDriver();
@@ -266,31 +272,77 @@ public class InAppTriggersTest extends CommonTestSteps {
     // }
     // endStep();
     //
-    // stepHelper.sendDeviceLocation(adHocPO, INTERPRED[0], INTERPRED[1]);
+    // // stepHelper.sendDeviceLocation(adHocPO, INTERPRED[0], INTERPRED[1]);
     //
-    // // Wait to change location
+    // stepHelper.sendDeviceLocation(adHocPO, VARNA[0], VARNA[1]);
+    //
+    // // stepHelper.sendDeviceLocation(adHocPO, MEZDRA[0], MEZDRA[1]);
+
+    // MobileDriverUtils.waitInMs(5000);
+    //
+    // startStep("Close app and wait 5 seconds");
+    // driver.closeApp();
+    // endStep();
+    //
+    // MobileDriverUtils.waitInMs(45000);
+    //
+    // startStep("Launch app and wait 45 seconds for the location to change in User info");
+    // driver.launchApp();
+    // // MobileDriverUtils.waitInMs(45000);
+    // endStep();
+    //
+    // stepHelper.acceptAllAlertsOnAppStart(alertPO);
+    // userId = alertPO.getTextFromElement(appSetupPO.userId);
+    //
+    // stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+    // startStep("Set user id, if not set");
+    // if (Strings.isNullOrEmpty(userId)) {
+    // adHocPO.setUserId(deviceId);
+    // userId = deviceId;
+    // }
+    // endStep();
+    //
     // MobileDriverUtils.waitInMs(5000);
     //
     // Response response = TemporaryAPI.getUser(userId);
     // System.out.println("Response: " + response.body().prettyPrint());
+
+    //////////////////////////////////////////////////
     //
-    // startStep("Region is " + response.jsonPath().getString("$.region"));
-    // endStep();
+    // Response response = TemporaryAPI.getUser(userId);
+    // System.out.println("Response: " + response.body().prettyPrint());
+    //
+    // // startStep("City is " + response.jsonPath().getString("$..city"));
+    // // endStep();
     //
     // // Go to interpred
     // stepHelper.sendDeviceLocation(adHocPO, VARNA[0], VARNA[1]);
+    // MobileDriverUtils.waitInMs(45000);
     //
-    // // Wait to change location
+    // startStep("Close app and wait 10 seconds");
+    // driver.closeApp();
+    // endStep();
+    //
     // MobileDriverUtils.waitInMs(5000);
+    //
+    // startStep("Launch app and wait 45 seconds for the location to change in User info");
+    // driver.launchApp();
+    // endStep();
+    //
+    // System.out.println("i'm in");
     //
     // response = TemporaryAPI.getUser(userId);
     // System.out.println("Response: " + response.body().prettyPrint());
     //
-    // startStep("Region is " + response.jsonPath().getString("$.region"));
+    // // startStep("City is " + response.jsonPath().getString("$..city"));
+    // // endStep();
+    //
+    // startStep("Accept alert on start");
+    // AlertPO alert = new AlertPO(driver);
+    // alert.click(alert.confirmAlertButton);
     // endStep();
     //
     // // Confirm alert
-    // AlertPO alert = new AlertPO(driver);
     // stepHelper.verifyCondition("Verify alert layout",
     // alert.verifyAlertLayout("Enter region", "I'm in!", "Confirm"));
     // }

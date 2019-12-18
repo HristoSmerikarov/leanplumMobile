@@ -1,0 +1,22 @@
+{
+	"capabilities":
+	[
+		{
+			"platform": "iOS",
+			"platformName": "ios",
+			"appium:automationName": "XCUITest",
+			"maxInstances": "1"
+		}
+	],
+	"configuration": {
+		"cleanUpCycle": 2000,
+		"timeout": 30000,
+		"proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+		"maxSession": 1,
+		"register": true,
+		"registerCycle": 5000,
+		"hubPort": 4444,
+		"hubHost": "169.254.190.69",
+		"hubProtocol": "http"
+	}
+}
