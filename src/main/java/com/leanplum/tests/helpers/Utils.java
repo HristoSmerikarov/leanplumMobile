@@ -14,9 +14,11 @@ import java.util.regex.Pattern;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import com.leanplum.tests.appiumdriver.TestDevice;
 import com.leanplum.tests.enums.OSEnum;
 import com.leanplum.tests.enums.PlatformEnum;
+import com.leanplum.tests.testdevices.AndroidTestDevice;
+import com.leanplum.tests.testdevices.IOSTestDevice;
+import com.leanplum.tests.testdevices.TestDevice;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
@@ -88,13 +90,14 @@ public class Utils {
         });
 
         List<TestDevice> androidTestDevices = new ArrayList<>();
-        androidDeviceIds.forEach(id -> {
+        int lastOctetNumber = 1;
+        for (String id : androidDeviceIds) {
+           // lastOctetNumber = +lastOctetNumber;
             List<String> deviceModel = runCommandInTerminal(os, "adb -s " + id + " shell getprop ro.product.model");
             List<String> androidVersion = runCommandInTerminal(os,
                     "adb -s " + id + " shell getprop ro.build.version.release");
-            androidTestDevices
-                    .add(new TestDevice(id, deviceModel.get(0), PlatformEnum.ANDROID_APP, androidVersion.get(0)));
-        });
+            androidTestDevices.add(new AndroidTestDevice(id, deviceModel.get(0), androidVersion.get(0)));
+        }
         return androidTestDevices;
     }
 
@@ -116,15 +119,16 @@ public class Utils {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            responseLines.forEach(l -> {
-
-                if (!l.contains("Simulator") && !l.contains("MacBook")) {
-                    String udid = findPropertyMatch(l, TestDevice.IOS_UDID_REGEX);
-                    String platformVersion = findPropertyMatch(l, TestDevice.IOS_PLATFORM_VERSION_REGEX);
-                    String name = findPropertyMatch(l, TestDevice.IOS_NAME_REGEX);
-                    devices.add(new TestDevice(udid, name, PlatformEnum.IOS_APP, platformVersion));
+            int wdaPort = 8100;
+            for (String line : responseLines) {
+                wdaPort = +wdaPort;
+                if (!line.contains("Simulator") && !line.contains("MacBook")) {
+                    String udid = findPropertyMatch(line, IOSTestDevice.IOS_UDID_REGEX);
+                    String platformVersion = findPropertyMatch(line, IOSTestDevice.IOS_PLATFORM_VERSION_REGEX);
+                    String name = findPropertyMatch(line, IOSTestDevice.IOS_NAME_REGEX);
+                    devices.add(new IOSTestDevice(udid, name, platformVersion, String.valueOf(wdaPort)));
                 }
-            });
+            }
         }
         return devices;
     }

@@ -2,6 +2,10 @@ package com.leanplum.tests.appiumdriver;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import com.leanplum.tests.testdevices.AndroidTestDevice;
+import com.leanplum.tests.testdevices.IOSTestDevice;
+import com.leanplum.tests.testdevices.TestDevice;
+
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -10,7 +14,7 @@ public class DesiredCapabilitiesUtils {
 
 	private DesiredCapabilities capabilities = new DesiredCapabilities();
 
-	public DesiredCapabilities getAndroidDesiredCapabilities(TestDevice testDevice, DeviceProperties deviceProperties) {
+	public DesiredCapabilities getAndroidDesiredCapabilities(AndroidTestDevice testDevice, DeviceProperties deviceProperties) {
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, deviceProperties.getPlatformName());
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, testDevice.getPlatformVersion());
 		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, testDevice.getName());
@@ -26,7 +30,7 @@ public class DesiredCapabilitiesUtils {
 		return this.capabilities;
 	}
 
-	public DesiredCapabilities getIOSDesiredCapabilities(TestDevice testDevice, DeviceProperties deviceProperties) {
+	public DesiredCapabilities getIOSDesiredCapabilities(IOSTestDevice testDevice, DeviceProperties deviceProperties) {
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, deviceProperties.getPlatformName());
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, testDevice.getPlatformVersion());
 		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, testDevice.getName());
@@ -34,7 +38,7 @@ public class DesiredCapabilitiesUtils {
 		capabilities.setCapability(MobileCapabilityType.UDID, testDevice.getId());
 		capabilities.setCapability(MobileCapabilityType.NO_RESET, deviceProperties.getNoReset());
 
-		capabilities.setCapability("wdaLocalPort", deviceProperties.getWdaLocalPort());
+		capabilities.setCapability("wdaLocalPort",testDevice.getWdaPort());
 		capabilities.setCapability("webkitDebugProxyPort", deviceProperties.getDebugProxyPort());
 		capabilities.setCapability(IOSMobileCapabilityType.USE_NEW_WDA, deviceProperties.getUseNewWda());
 

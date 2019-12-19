@@ -14,13 +14,13 @@ public class AppiumServiceUtils {
 
     AppiumDriverLocalService service = null;
 
-    public static AppiumDriverLocalService setupAppiumService(PlatformEnum platform) {
+    public static AppiumDriverLocalService setupAppiumService(PlatformEnum platform, int port) {
         AppiumServiceConfig appiumServiceConfig = (AppiumServiceConfig) PropertiesUtils
                 .loadProperties(DRIVER_CONFIG_FILE, AppiumServiceConfig.class);
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         builder.withIPAddress(appiumServiceConfig.getAppiumServiceIp());
-        builder.usingPort(Integer.valueOf(appiumServiceConfig.getAppiumServicePort()));
+        builder.usingPort(port);
 //        File jsonFile = new File("resources/" + platform.getPlatformName().toLowerCase() + "Node.json");
 //
 //        System.out.println(jsonFile.getAbsolutePath());
