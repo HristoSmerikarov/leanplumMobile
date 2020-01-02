@@ -84,14 +84,13 @@ public class Utils {
         List<String> responseLines = runCommandInTerminal(os, "adb devices");
         List<String> androidDeviceIds = new ArrayList<String>();
         responseLines.forEach(line -> {
-            if (!line.equals("List of devices attached") && !line.isEmpty()) {
+            if (!line.contains("List of devices attached") && !line.isEmpty()) {
                 androidDeviceIds.add(findPropertyMatch(line, "^(.*?)\\W"));
             }
         });
-
+        
         List<TestDevice> androidTestDevices = new ArrayList<>();
         for (String id : androidDeviceIds) {
-           // lastOctetNumber = +lastOctetNumber;
             List<String> deviceModel = runCommandInTerminal(os, "adb -s " + id + " shell getprop ro.product.model");
             List<String> androidVersion = runCommandInTerminal(os,
                     "adb -s " + id + " shell getprop ro.build.version.release");

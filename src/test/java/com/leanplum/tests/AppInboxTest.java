@@ -40,57 +40,57 @@ public class AppInboxTest extends CommonTestSteps {
             AlertPO alert = new AlertPO(driver);
             stepHelper.acceptAllAlertsOnAppStart(alert);
 
-            AppSetupPO appSetupPO = new AppSetupPO(driver);
-            String deviceId = getDeviceId(appSetupPO);
-            String userId = getUserId(appSetupPO);
-
-            Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
-
-            Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
-            newsfeedIds.forEach(newsfeedId -> {
-                TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId);
-            });
-
-            AdHocPO adHocPO = new AdHocPO(driver);
-            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-
-            stepHelper.sendTrackEvent(adHocPO, APP_INBOX_EVENT);
-
-            MobileDriverUtils.waitInMs(45000);
-
-            driver.closeApp();
-            MobileDriverUtils.waitInMs(1000);
-            driver.launchApp();
-
-            stepHelper.acceptAllAlertsOnAppStart(alert);
-
-            AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);
-            stepHelper.clickElement(appInbox, appInbox.appinbox, "App Inbox button");
-
-            startStep("Wait for app inbox message");
-            appInbox.waitForInboxMessage();
-            endStep();
-
-            startStep("Verify app inbox message title is correct");
-            endStep(appInbox.isTitleCorrect("Update your profile!"));
-
-            startStep("Verify app inbox message subtitle is correct");
-            endStep(appInbox.isSubTitleCorrect("Please add more info.."));
-
-            startStep("Verify app inbox message does contain image");
-            endStep(appInbox.doesContainImage());
-
-            startStep("Perform read action");
-            appInbox.performReadAction();
-            endStep();
-
-            // Verify alert layout
-            alert = new AlertPO(driver);
-            stepHelper.verifyCondition("Verify alert layout", alert.verifyAlertLayout("AlertMessage",
-                    "Alert message after opening app inbox message", "It's here!"));
-
-            // Confrim alert
-            stepHelper.clickElement(alert, alert.confirmAlertButton, "It's here!");
+//            AppSetupPO appSetupPO = new AppSetupPO(driver);
+//            String deviceId = getDeviceId(appSetupPO);
+//            String userId = getUserId(appSetupPO);
+//
+//            Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
+//
+//            Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
+//            newsfeedIds.forEach(newsfeedId -> {
+//                TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId);
+//            });
+//
+//            AdHocPO adHocPO = new AdHocPO(driver);
+//            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+//
+//            stepHelper.sendTrackEvent(adHocPO, APP_INBOX_EVENT);
+//
+//            MobileDriverUtils.waitInMs(45000);
+//
+//            driver.closeApp();
+//            MobileDriverUtils.waitInMs(1000);
+//            driver.launchApp();
+//
+//            stepHelper.acceptAllAlertsOnAppStart(alert);
+//
+//            AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);
+//            stepHelper.clickElement(appInbox, appInbox.appinbox, "App Inbox button");
+//
+//            startStep("Wait for app inbox message");
+//            appInbox.waitForInboxMessage();
+//            endStep();
+//
+//            startStep("Verify app inbox message title is correct");
+//            endStep(appInbox.isTitleCorrect("Update your profile!"));
+//
+//            startStep("Verify app inbox message subtitle is correct");
+//            endStep(appInbox.isSubTitleCorrect("Please add more info.."));
+//
+//            startStep("Verify app inbox message does contain image");
+//            endStep(appInbox.doesContainImage());
+//
+//            startStep("Perform read action");
+//            appInbox.performReadAction();
+//            endStep();
+//
+//            // Verify alert layout
+//            alert = new AlertPO(driver);
+//            stepHelper.verifyCondition("Verify alert layout", alert.verifyAlertLayout("AlertMessage",
+//                    "Alert message after opening app inbox message", "It's here!"));
+//
+//            // Confrim alert
+//            stepHelper.clickElement(alert, alert.confirmAlertButton, "It's here!");
 
         } catch (Exception e) {
             e.printStackTrace();
