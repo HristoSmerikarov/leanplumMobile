@@ -90,7 +90,6 @@ public class Utils {
         });
 
         List<TestDevice> androidTestDevices = new ArrayList<>();
-        int lastOctetNumber = 1;
         for (String id : androidDeviceIds) {
            // lastOctetNumber = +lastOctetNumber;
             List<String> deviceModel = runCommandInTerminal(os, "adb -s " + id + " shell getprop ro.product.model");
