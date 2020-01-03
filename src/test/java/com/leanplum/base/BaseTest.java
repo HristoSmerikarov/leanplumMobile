@@ -209,8 +209,7 @@ public class BaseTest {
         case WINDOWS:
             return Utils.runCommandInTerminal(os, String.format("netstat -ano | findStr %s", port)).isEmpty();
         case MAC:
-            // TODO
-            return false;
+            return Utils.runCommandInTerminal(os, String.format("lsof -nP -i4TCP:%s | grep LISTEN", port)).isEmpty();
         }
         return true;
     }
