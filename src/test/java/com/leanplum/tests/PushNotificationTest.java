@@ -62,8 +62,7 @@ public class PushNotificationTest extends CommonTestSteps {
 			AdHocPO adHocPO = sendUserAttribute(driver, stepHelper, ATTRIBUTE_NAME, ATTRIBUTE_VALUE);
 
 			// Open notifications and verify layout
-			PushNotifiationType pn = PushNotifiationType.valueOfEnum(getOs().getOsName()).get();
-
+			PushNotifiationType pn = determinePushNotification(driver);
 			PushNotification pushNotification = pn.initialize(driver, RONDO_NOTIFICATION_WITH_IMAGE);
 
 			stepHelper.openNotifications();
@@ -114,7 +113,7 @@ public class PushNotificationTest extends CommonTestSteps {
 			// Track event
 			AdHocPO adHocPO = sendEvent(driver, stepHelper, LOCAL_TRIGGER);
 
-			PushNotifiationType pn = PushNotifiationType.valueOfEnum(getOs().getOsName()).get();
+			PushNotifiationType pn = determinePushNotification(driver);
 
 			// Open push notification
 			openNotificationsAndOpenByMessage(stepHelper, pn.initialize(driver, RONDO_PUSH_NOTIFICATION));
@@ -153,7 +152,7 @@ public class PushNotificationTest extends CommonTestSteps {
 			// Track state
 			AdHocPO adHocPO = sendState(driver, stepHelper, OPEN_LEANPLUM_URL);
 
-			PushNotifiationType pn = PushNotifiationType.valueOfEnum(getOs().getOsName()).get();
+			PushNotifiationType pn = determinePushNotification(driver);
 			openNotificationsAndOpenByMessage(stepHelper, pn.initialize(driver, RONDO_PUSH_NOTIFICATION));
 
 			MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
@@ -208,7 +207,7 @@ public class PushNotificationTest extends CommonTestSteps {
 		stepHelper.sendTrackEvent(adHocPO, OUTSIDE_APP_TRIGGER);
 
 		// Open notification and confirm that notification is not present
-		PushNotifiationType pn = PushNotifiationType.valueOfEnum(getOs().getOsName()).get();
+		PushNotifiationType pn = determinePushNotification(driver);
 		PushNotification pushNotification = pn.initialize(driver, RONDO_PUSH_NOTIFICATION);
 
 		Utils.swipeTopToBottom(driver);
@@ -255,8 +254,7 @@ public class PushNotificationTest extends CommonTestSteps {
      AdHocPO adHocPO = sendEvent(driver, stepHelper, IOS_OPTIONS);
     
      // Open notification and confirm that notification is not present
-     PushNotifiationType pn = PushNotifiationType.valueOfEnum(getOs().getOsName()).get();
-     IOSPushNotification pushNotification = (IOSPushNotification) pn.initialize(driver, RONDO_PUSH_NOTIFICATION);
+     IOSPushNotification pushNotification = (IOSPushNotification) PushNotifiationType.IOS.initialize(driver, RONDO_PUSH_NOTIFICATION);
     
      stepHelper.openNotifications();
     
@@ -302,7 +300,7 @@ public class PushNotificationTest extends CommonTestSteps {
 //
 //            // Open notification and confirm that notification is not present
 //            PushNotifiationType pn = PushNotifiationType.valueOfEnum(getOs().getOsName()).get();
-//            PushNotification pushNotification = pn.initialize(driver, RONDO_PUSH_NOTIFICATION);
+//            PushNotification pushNotification = PushNotifiationType.ANDROID.initialize(driver, RONDO_PUSH_NOTIFICATION);
 //
 //            stepHelper.openNotifications();
 //
@@ -330,5 +328,13 @@ public class PushNotificationTest extends CommonTestSteps {
 			AppSetupPO appSetupPO = new AppSetupPO(driver);
 			appSetupPO.allowIosPushPermission();
 		}
+	}
+	
+	private PushNotifiationType determinePushNotification(MobileDriver<MobileElement> driver) {
+	    if(driver instanceof AndroidDriver) {
+	        return PushNotifiationType.ANDROID;
+	    }else {
+	        return PushNotifiationType.IOS;
+	    }
 	}
 }

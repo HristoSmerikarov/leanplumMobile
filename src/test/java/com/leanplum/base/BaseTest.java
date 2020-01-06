@@ -120,8 +120,8 @@ public class BaseTest {
         driver.closeApp();
         MobileDriverUtils.waitInMs(500);
         if (driver instanceof AndroidDriver) {
-            // ((AndroidDriver<MobileElement>) driver).pressKey(new
-            // KeyEvent().withKey(AndroidKey.BACK));
+             ((AndroidDriver<MobileElement>) driver).pressKey(new
+             KeyEvent().withKey(AndroidKey.BACK));
         }
         MobileDriverUtils.waitInMs(500);
         driver.launchApp();
