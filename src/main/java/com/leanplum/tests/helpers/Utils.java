@@ -12,6 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver.Options;
+import org.openqa.selenium.WebDriver.Window;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.leanplum.tests.enums.OSEnum;
@@ -145,7 +147,11 @@ public class Utils {
     }
 
     public static void swipeTopToBottom(MobileDriver<MobileElement> driver) {
-        Dimension screenSize = driver.manage().window().getSize();
+    	Options opt = driver.manage();
+    	Window wind = opt.window();
+    	Dimension screenSize = wind.getSize();
+    	
+        //Dimension screenSize = driver.manage().window().getSize();
         int yMargin = 5;
         int xMid = screenSize.width / 2;
         PointOption top = PointOption.point(xMid, yMargin);

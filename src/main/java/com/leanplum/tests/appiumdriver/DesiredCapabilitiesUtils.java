@@ -37,6 +37,7 @@ public class DesiredCapabilitiesUtils {
 		capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, deviceProperties.getAutomationName());
 		capabilities.setCapability(MobileCapabilityType.UDID, testDevice.getId());
 		capabilities.setCapability(MobileCapabilityType.NO_RESET, deviceProperties.getNoReset());
+		capabilities.setCapability("sessionOverride", true);
 
 		capabilities.setCapability("wdaLocalPort",testDevice.getWdaPort());
 		capabilities.setCapability("webkitDebugProxyPort", deviceProperties.getDebugProxyPort());
