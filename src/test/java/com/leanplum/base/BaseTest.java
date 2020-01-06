@@ -86,7 +86,6 @@ public class BaseTest {
     @BeforeClass(dependsOnMethods = "determineConnectedTestDevices")
     public void setupAppiumService() {
         testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
-
         File jsonFile = new File("resources/" + platform.getPlatformName().toLowerCase() + "Node.json");
 
         // System.out.println(jsonFile.getAbsolutePath());
@@ -202,6 +201,10 @@ public class BaseTest {
 
     public TestConfig getTestConfig() {
         return testConfig;
+    }
+    
+    public OSEnum getOs() {
+    	return os;
     }
 
     private boolean isPortFree(String port) {
