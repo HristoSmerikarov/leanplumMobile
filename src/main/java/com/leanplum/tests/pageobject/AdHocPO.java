@@ -16,6 +16,8 @@ import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.helpers.Utils.SwipeDirection;
 
 import groovyjarjarantlr.actions.csharp.ActionLexer;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.HasOnScreenKeyboard;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.nativekey.KeyEvent;
@@ -126,11 +128,11 @@ public class AdHocPO extends BasePO {
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"View\"]")
 	public MobileElement viewIOSPushNotifications;
 
-	private MobileDriver<MobileElement> driver;
+	private AppiumDriver<MobileElement> driver;
 
 	public AdHocPO(MobileDriver<MobileElement> driver) {
 		super(driver);
-		this.driver = driver;
+		this.driver = (AppiumDriver) driver;
 		PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
 	}
 
@@ -183,8 +185,10 @@ public class AdHocPO extends BasePO {
 
 		label.click();
 
-		driver.hideKeyboard();
-
+		if(((HasOnScreenKeyboard) driver).isKeyboardShown()) {
+			driver.hideKeyboard();
+		}
+		
 		button.click();
 	}
 

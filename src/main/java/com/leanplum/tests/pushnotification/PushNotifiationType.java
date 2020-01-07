@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
 
 public enum PushNotifiationType {
 
@@ -31,9 +32,4 @@ public enum PushNotifiationType {
     }
     
     public abstract PushNotification initialize(MobileDriver<MobileElement> driver, String message);
-    
-    public static Optional<PushNotifiationType> valueOfEnum(String os) {
-        return Arrays.stream(values())
-                .filter(optionEnum -> optionEnum.os.toLowerCase().equals(os.toLowerCase())).findFirst();
-    }
 }

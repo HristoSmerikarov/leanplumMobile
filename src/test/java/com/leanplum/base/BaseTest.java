@@ -86,7 +86,6 @@ public class BaseTest {
     @BeforeClass(dependsOnMethods = "determineConnectedTestDevices")
     public void setupAppiumService() {
         testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
-
         File jsonFile = new File("resources/" + platform.getPlatformName().toLowerCase() + "Node.json");
 
         // System.out.println(jsonFile.getAbsolutePath());
@@ -121,8 +120,8 @@ public class BaseTest {
         driver.closeApp();
         MobileDriverUtils.waitInMs(500);
         if (driver instanceof AndroidDriver) {
-            // ((AndroidDriver<MobileElement>) driver).pressKey(new
-            // KeyEvent().withKey(AndroidKey.BACK));
+             ((AndroidDriver<MobileElement>) driver).pressKey(new
+             KeyEvent().withKey(AndroidKey.BACK));
         }
         MobileDriverUtils.waitInMs(500);
         driver.launchApp();
@@ -203,14 +202,17 @@ public class BaseTest {
     public TestConfig getTestConfig() {
         return testConfig;
     }
+    
+    public OSEnum getOs() {
+    	return os;
+    }
 
     private boolean isPortFree(String port) {
         switch (os) {
         case WINDOWS:
             return Utils.runCommandInTerminal(os, String.format("netstat -ano | findStr %s", port)).isEmpty();
         case MAC:
-            // TODO
-            return false;
+            return Utils.runCommandInTerminal(os, String.format("lsof -nP -i4TCP:%s | grep LISTEN", port)).isEmpty();
         }
         return true;
     }
