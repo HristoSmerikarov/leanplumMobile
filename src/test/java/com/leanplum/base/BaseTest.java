@@ -5,11 +5,15 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.aspectj.lang.JoinPoint;
@@ -24,6 +28,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
 import org.testng.asserts.SoftAssert;
 
@@ -37,6 +42,7 @@ import com.leanplum.tests.enums.OSEnum;
 import com.leanplum.tests.enums.PlatformEnum;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
+import com.leanplum.tests.testdevices.DeviceManager;
 import com.leanplum.tests.testdevices.TestDevice;
 import com.leanplum.utils.listeners.TestListener;
 import com.relevantcodes.extentreports.LogStatus;
@@ -60,15 +66,16 @@ import io.qameta.allure.util.ResultsUtils;
 @Listeners({ TestListener.class })
 public class BaseTest {
 
-    private AppiumDriver<MobileElement> driver = null;
-    private AppiumDriverLocalService service = null;
+    protected ThreadLocal<AppiumDriver<?>> driver = new ThreadLocal<>();
     public boolean hasFailedStep = false;
     private static final String TEST_CONFIG_FILE = "resources/test.properties";
-    List<TestDevice> connectedTestDevices;
+    private List<TestDevice> connectedTestDevices = new ArrayList<>();
+    private List<AppiumDriverLocalService> appiumServices = new ArrayList<>();
+    private Map<TestDevice, AppiumDriverLocalService> testDeviceAppiumServiceMap = new HashMap<>();
+    private List<AppiumDriver<?>> appiumDrivers = new ArrayList<>();
     private static TestConfig testConfig;
     private SoftAssert softAssertion;
     private String testIdentifier;
-    private int currentPort;
     private String reportFolder = "target/allure-results";
     private OSEnum os;
     private PlatformEnum platform;
@@ -77,57 +84,94 @@ public class BaseTest {
     private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
     @BeforeClass
-    public void determineConnectedTestDevices() {
-        this.os = determineOS();
-        this.platform = determinePlatform();
-        connectedTestDevices = determineTestDevice();
-    }
+    public void init() {
+        // Get OS and
+        this.os = Utils.determineOS();
 
-    @BeforeClass(dependsOnMethods = "determineConnectedTestDevices")
-    public void setupAppiumService() {
-        testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
-        File jsonFile = new File("resources/" + platform.getPlatformName().toLowerCase() + "Node.json");
+        // Get connected devices
+        DeviceManager deviceManager = new DeviceManager();
+        this.connectedTestDevices = deviceManager.getConnectedDevices();
 
-        // System.out.println(jsonFile.getAbsolutePath());
-        // Utils.runCommandInTerminal(OSEnum.WINDOWS,
-        // "appium -a 127.0.0.1 -p 4723 --nodeconfig " + jsonFile.getAbsolutePath());
-
-        currentPort = findFreePort();
-
+        // Create and start Appium services for each test device with individual IP and port
+        AppiumServiceUtils appiumServiceUtils = new AppiumServiceUtils();
+        String initialIPAddress = "127.0.0.10";
         for (int i = 0; i < connectedTestDevices.size(); i++) {
-            System.out.println("CURRENT PORT "+currentPort);
-            this.service = AppiumServiceUtils.setupAppiumService(platform, currentPort);
+            AppiumDriverLocalService appiumService = appiumServiceUtils.setupAppiumService(platform, initialIPAddress,
+                    AppiumServiceUtils.findFreePort());
+            appiumServices.add(appiumService);
+
+            System.out.println("APPIUM SERVICE URL: " + appiumService.getUrl());
+
+            appiumService.start();
+            testDeviceAppiumServiceMap.put(connectedTestDevices.get(i), appiumService);
         }
-
-        service.start();
     }
 
-    @BeforeClass(dependsOnMethods = "setupAppiumService")
-    public void setupDriver() {
+    public void initTest() {
+        for (Entry<TestDevice, AppiumDriverLocalService> entry : testDeviceAppiumServiceMap.entrySet()) {
+            System.out.println("INITIALIZING FOR TEST DEVICE: "+entry.getKey().getId());
+            
+            AppiumDriver<?> driver = createDriver(entry.getKey(), entry.getValue());
+            
+            appiumDrivers.add(driver);
+            
+            this.driver.set(driver);
+
+            driver.closeApp();
+            MobileDriverUtils.waitInMs(500);
+            if (driver instanceof AndroidDriver) {
+                ((AndroidDriver<MobileElement>) driver).pressKey(new KeyEvent().withKey(AndroidKey.BACK));
+            }
+            MobileDriverUtils.waitInMs(500);
+            driver.launchApp();
+            
+            System.out.println("INITIALIZED FOR TEST DEVICE: "+entry.getKey().getId());
+        }
+        
+        System.out.println("APPIUM DRIVERS: "+appiumDrivers);
+    }
+
+    public AppiumDriver<MobileElement> createDriver(TestDevice device, AppiumDriverLocalService appiumService) {
         DriverFactory df = new DriverFactory();
-        // TODO device name!!!!!
-        connectedTestDevices.forEach(device -> {
-            System.out.println("Platform is: " + device.getPlatform().getPlatformName().toLowerCase());
-            System.err.println("Current port is: "+currentPort);
-            this.driver = df.createDriver(device, DevicePropertiesUtils
-                    .getDeviceProperties(device.getPlatform().getPlatformName().toLowerCase(), "phone"), currentPort);
-        });
+        AppiumDriver<MobileElement> driver = df.createDriver(device, DevicePropertiesUtils.getDeviceProperties(
+                device.getPlatform().getPlatformName().toLowerCase(), "phone"), appiumService.getUrl());
+        this.driver.set(driver);
+        System.out.println("INIT DRIVER: "+this.driver.toString());
+        return driver;
     }
+
+    // @BeforeClass(dependsOnMethods = "determineConnectedTestDevices")
+    // public void setupAppiumService() {
+    // testConfig = (TestConfig) PropertiesUtils.loadProperties(TEST_CONFIG_FILE, TestConfig.class);
+    // File jsonFile = new File("resources/" + platform.getPlatformName().toLowerCase() + "Node.json");
+    //
+    // // System.out.println(jsonFile.getAbsolutePath());
+    // // Utils.runCommandInTerminal(OSEnum.WINDOWS,
+    // // "appium -a 127.0.0.1 -p 4723 --nodeconfig " + jsonFile.getAbsolutePath());
+    //
+    // currentPort = findFreePort();
+    //
+    // for (int i = 0; i < connectedTestDevices.size(); i++) {
+    // System.out.println("CURRENT PORT " + currentPort);
+    // this.service = AppiumServiceUtils.setupAppiumService(platform, "", currentPort);
+    // }
+    //
+    // service.start();
+    // }
+    //
+    // @BeforeClass(dependsOnMethods = "init")
+    // public void setupDriver() {
+    // DriverFactory df = new DriverFactory();
+    // // TODO device name!!!!!
+    // connectedTestDevices.forEach(device -> {
+    // System.out.println("Platform is: " + device.getPlatform().getPlatformName().toLowerCase());
+    // System.err.println("Current port is: " + currentPort);
+    // this.driver = df.createDriver(device, DevicePropertiesUtils
+    // .getDeviceProperties(device.getPlatform().getPlatformName().toLowerCase(), "phone"), currentPort);
+    // });
+    // }
 
     @BeforeMethod()
-    public void setUpApp() {
-        MobileDriver<MobileElement> driver = getDriver();
-        driver.closeApp();
-        MobileDriverUtils.waitInMs(500);
-        if (driver instanceof AndroidDriver) {
-             ((AndroidDriver<MobileElement>) driver).pressKey(new
-             KeyEvent().withKey(AndroidKey.BACK));
-        }
-        MobileDriverUtils.waitInMs(500);
-        driver.launchApp();
-    }
-
-    @BeforeMethod(dependsOnMethods = "setUpApp")
     public void startTest() {
         testIdentifier = UUID.randomUUID().toString();
         hasFailedStep = false;
@@ -195,61 +239,23 @@ public class BaseTest {
         softAssertion = null;
     }
 
-    public MobileDriver<MobileElement> getDriver() {
-        return this.driver;
+    public MobileDriver<?> getDriver() {
+        return this.driver.get();
     }
 
     public TestConfig getTestConfig() {
         return testConfig;
     }
-    
+
     public OSEnum getOs() {
-    	return os;
-    }
-
-    private boolean isPortFree(String port) {
-        switch (os) {
-        case WINDOWS:
-            return Utils.runCommandInTerminal(os, String.format("netstat -ano | findStr %s", port)).isEmpty();
-        case MAC:
-            return Utils.runCommandInTerminal(os, String.format("lsof -nP -i4TCP:%s | grep LISTEN", port)).isEmpty();
-        }
-        return true;
-    }
-
-    private int findFreePort() {
-        String port = Utils.generateRandomNumberInRange(4700, 5000);
-        while (!isPortFree(port)) {
-            port = Utils.generateRandomNumberInRange(4700, 5000);
-        }
-
-        System.out.println("Free port: "+port);
-        
-        return Integer.valueOf(port);
-    }
-
-    private List<TestDevice> determineTestDevice() {
-        List<TestDevice> testDevices = new ArrayList<>();
-        testDevices.addAll(Utils.getConnectedAndroidDevice(os));
-        testDevices.addAll(Utils.getConnectedIOSDevice(os));
-        return testDevices;
-    }
-
-    private OSEnum determineOS() {
-        return OSEnum.valueOfEnum(System.getProperty("os.name")).get();
-    }
-
-    private PlatformEnum determinePlatform() {
-        if (this.os == OSEnum.WINDOWS) {
-            return PlatformEnum.ANDROID_APP;
-        } else {
-            return PlatformEnum.IOS_APP;
-        }
+        return os;
     }
 
     @AfterClass(alwaysRun = true)
     public void stopAppiumService() {
-        service.stop();
+        testDeviceAppiumServiceMap.values().forEach(service -> {
+            service.stop();
+        });
     }
 
     @AfterClass(dependsOnMethods = "stopAppiumService", alwaysRun = true)

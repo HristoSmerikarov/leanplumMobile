@@ -82,56 +82,8 @@ public class Utils {
         return response;
     }
 
-    public static List<TestDevice> getConnectedAndroidDevice(OSEnum os) {
-        List<String> responseLines = runCommandInTerminal(os, "adb devices");
-        List<String> androidDeviceIds = new ArrayList<String>();
-        responseLines.forEach(line -> {
-            if (!line.equals("List of devices attached") && !line.isEmpty()) {
-                androidDeviceIds.add(findPropertyMatch(line, "^(.*?)\\W"));
-            }
-        });
-
-        List<TestDevice> androidTestDevices = new ArrayList<>();
-        for (String id : androidDeviceIds) {
-           // lastOctetNumber = +lastOctetNumber;
-            List<String> deviceModel = runCommandInTerminal(os, "adb -s " + id + " shell getprop ro.product.model");
-            List<String> androidVersion = runCommandInTerminal(os,
-                    "adb -s " + id + " shell getprop ro.build.version.release");
-            androidTestDevices.add(new AndroidTestDevice(id, deviceModel.get(0), androidVersion.get(0)));
-        }
-        return androidTestDevices;
-    }
-
-    public static List<TestDevice> getConnectedIOSDevice(OSEnum os) {
-        List<TestDevice> devices = new ArrayList<>();
-        if (os == OSEnum.MAC) {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("bash", "-c", "xcrun instruments -s devices");
-            List<String> responseLines = new ArrayList<>();
-            try {
-                Process process = processBuilder.start();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (!line.contains(":") && !line.contains("-")) {
-                        responseLines.add(line);
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            int wdaPort = 8100;
-            for (String line : responseLines) {
-                wdaPort = +wdaPort;
-                if (!line.contains("Simulator") && !line.contains("MacBook")) {
-                    String udid = findPropertyMatch(line, IOSTestDevice.IOS_UDID_REGEX);
-                    String platformVersion = findPropertyMatch(line, IOSTestDevice.IOS_PLATFORM_VERSION_REGEX);
-                    String name = findPropertyMatch(line, IOSTestDevice.IOS_NAME_REGEX);
-                    devices.add(new IOSTestDevice(udid, name, platformVersion, String.valueOf(wdaPort)));
-                }
-            }
-        }
-        return devices;
+    public static OSEnum determineOS() {
+        return OSEnum.valueOfEnum(System.getProperty("os.name")).get();
     }
 
     public static String findPropertyMatch(String line, String regex) {

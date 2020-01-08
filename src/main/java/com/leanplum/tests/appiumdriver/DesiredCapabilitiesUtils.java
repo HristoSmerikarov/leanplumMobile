@@ -24,6 +24,7 @@ public class DesiredCapabilitiesUtils {
 //        capabilities.setCapability(MobileCapabilityType.APP, rondoAppFile.getAbsolutePath());
 		capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, deviceProperties.getAppPackage());
 		capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, deviceProperties.getAppActivity());
+		capabilities.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, AppiumServiceUtils.findFreePort());
 		// capabilities.setCapability("bundleId", deviceProperties.getBundleId());
 		capabilities.setCapability(MobileCapabilityType.NO_RESET, deviceProperties.getNoReset());
 		capabilities.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);

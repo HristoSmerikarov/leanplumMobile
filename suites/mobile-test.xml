@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Mobile Tests" verbose="3" parallel="methods"
+	thread-count="2">
+	<test name="Mobile tests">
+		<classes>
+			<class name="com.leanplum.tests.AppInboxTest">
+			</class>
+		</classes>
+	</test>
+	<!-- <test name="MobileDevice Two"> -->
+	<!-- <classes> -->
+	<!-- <class name="com.musala.examples.tests.HeaderNamesTest"> -->
+	<!-- </class> -->
+	<!-- </classes> -->
+	<!-- </test> -->
+	<!-- <test name="DeviceManager Test"> -->
+	<!-- <classes> -->
+	<!-- <class name="com.musala.unit.tests.DeviceManagerTests"> -->
+	<!-- </class> -->
+	<!-- </classes> -->
+	<!-- </test> -->
+</suite>

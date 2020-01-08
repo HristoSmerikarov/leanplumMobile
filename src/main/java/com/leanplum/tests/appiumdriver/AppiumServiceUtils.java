@@ -2,7 +2,9 @@ package com.leanplum.tests.appiumdriver;
 
 import java.io.File;
 
+import com.leanplum.tests.enums.OSEnum;
 import com.leanplum.tests.enums.PlatformEnum;
+import com.leanplum.tests.helpers.Utils;
 
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -10,21 +12,36 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 
 public class AppiumServiceUtils {
 
-    private static String DRIVER_CONFIG_FILE = "resources/appium_service.properties";
-
-    AppiumDriverLocalService service = null;
-
-    public static AppiumDriverLocalService setupAppiumService(PlatformEnum platform, int port) {
-        AppiumServiceConfig appiumServiceConfig = (AppiumServiceConfig) PropertiesUtils
-                .loadProperties(DRIVER_CONFIG_FILE, AppiumServiceConfig.class);
-
+    public AppiumDriverLocalService setupAppiumService(PlatformEnum platform, String ipAddress, int port) {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
-        builder.withIPAddress(appiumServiceConfig.getAppiumServiceIp());
+        builder.withIPAddress(ipAddress);
         builder.usingPort(port);
-//        File jsonFile = new File("resources/" + platform.getPlatformName().toLowerCase() + "Node.json");
-//
-//        System.out.println(jsonFile.getAbsolutePath());
-//        builder.withArgument(GeneralServerFlag.CONFIGURATION_FILE, jsonFile.getAbsolutePath());
         return AppiumDriverLocalService.buildService(builder);
+    }
+
+    public static int findFreePortBetween(int from, int to) {
+        String port = Utils.generateRandomNumberInRange(from, to);
+        while (!isPortFree(port)) {
+            port = Utils.generateRandomNumberInRange(from, to);
+        }
+
+        System.out.println("Free port: " + port);
+
+        return Integer.valueOf(port);
+    }
+
+    public static int findFreePort() {
+        return findFreePortBetween(4700, 5000);
+    }
+
+    private static boolean isPortFree(String port) {
+        OSEnum os = Utils.determineOS();
+        switch (os) {
+        case WINDOWS:
+            return Utils.runCommandInTerminal(os, String.format("netstat -ano | findStr %s", port)).isEmpty();
+        case MAC:
+            return Utils.runCommandInTerminal(os, String.format("lsof -nP -i4TCP:%s | grep LISTEN", port)).isEmpty();
+        }
+        return true;
     }
 }
