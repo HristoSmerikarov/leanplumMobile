@@ -100,6 +100,9 @@ public class Utils {
         }
         return androidTestDevices;
     }
+    
+    public static OSEnum determineOS() {
+        return OSEnum.valueOfEnum(System.getProperty("os.name")).get();
 
     public static String findPropertyMatch(String line, String regex) {
         Pattern p = Pattern.compile(regex);
