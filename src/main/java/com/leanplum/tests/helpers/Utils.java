@@ -82,8 +82,23 @@ public class Utils {
         return response;
     }
 
-    public static OSEnum determineOS() {
-        return OSEnum.valueOfEnum(System.getProperty("os.name")).get();
+    public static List<TestDevice> getConnectedAndroidDevice(OSEnum os) {
+        List<String> responseLines = runCommandInTerminal(os, "adb devices");
+        List<String> androidDeviceIds = new ArrayList<String>();
+        responseLines.forEach(line -> {
+            if (!line.contains("List of devices attached") && !line.isEmpty()) {
+                androidDeviceIds.add(findPropertyMatch(line, "^(.*?)\\W"));
+            }
+        });
+        
+        List<TestDevice> androidTestDevices = new ArrayList<>();
+        for (String id : androidDeviceIds) {
+            List<String> deviceModel = runCommandInTerminal(os, "adb -s " + id + " shell getprop ro.product.model");
+            List<String> androidVersion = runCommandInTerminal(os,
+                    "adb -s " + id + " shell getprop ro.build.version.release");
+            androidTestDevices.add(new AndroidTestDevice(id, deviceModel.get(0), androidVersion.get(0)));
+        }
+        return androidTestDevices;
     }
 
     public static String findPropertyMatch(String line, String regex) {
