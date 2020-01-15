@@ -9,6 +9,7 @@ import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.helpers.Utils.SwipeDirection;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -43,9 +44,9 @@ public class AppInboxMessagePO extends BasePO {
     @iOSXCUITFindBy(xpath = IOS_IN_APP_XPATH + "//XCUIElementTypeButton[@label='Perform Read Action']")
     public MobileElement performReadActionButton;
 
-    private MobileDriver<MobileElement> driver;
+    private AppiumDriver<MobileElement> driver;
 
-    public AppInboxMessagePO(MobileDriver<MobileElement> driver) {
+    public AppInboxMessagePO(AppiumDriver<MobileElement> driver) {
         super(driver);
         this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);

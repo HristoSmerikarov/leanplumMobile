@@ -1,7 +1,5 @@
 package com.leanplum.tests.enums;
 
-import static org.testng.Assert.fail;
-
 import java.util.Arrays;
 import java.util.Optional;
 

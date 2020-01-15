@@ -19,7 +19,7 @@ public class MobileDriverUtils {
 
 	private static final int WAIT_TAIMEOUT = 60;
 
-	public static boolean doesSelectorMatchAnyElements(WebDriver driver, String xpathSelector) {
+	public static boolean doesSelectorMatchAnyElements(MobileDriver<MobileElement> driver, String xpathSelector) {
 		turnOffImplicitWaits(driver);
 		boolean matchAnyElements = !driver.findElements(By.xpath(xpathSelector)).isEmpty();
 		turnOnImplicitWaits(driver);

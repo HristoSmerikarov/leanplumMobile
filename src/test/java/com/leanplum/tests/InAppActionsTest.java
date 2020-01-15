@@ -12,6 +12,7 @@ import com.leanplum.tests.pageobject.MobileBrowserPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.utils.listeners.TestListener;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 
@@ -23,9 +24,13 @@ public class InAppActionsTest extends CommonTestSteps {
      */
     @Test(groups = { "android", "ios", "openAction" }, description = "Open URL action")
     public void openUrlAction(Method method) {
+
+        AppiumDriver<MobileElement> driver = initTest();
+
+        startTest();
+
         try {
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
 
             AlertPO alert = new AlertPO(driver);
             stepHelper.acceptAllAlertsOnAppStart(alert);

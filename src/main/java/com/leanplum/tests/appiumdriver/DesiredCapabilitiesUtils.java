@@ -16,12 +16,14 @@ public class DesiredCapabilitiesUtils {
 
 	public DesiredCapabilities getAndroidDesiredCapabilities(AndroidTestDevice testDevice, DeviceProperties deviceProperties) {
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, deviceProperties.getPlatformName());
+		capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, testDevice.getPlatformVersion());
 		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, testDevice.getName());
 		capabilities.setCapability(MobileCapabilityType.UDID, testDevice.getId());
 //		File rondoAppFile = new File("./resources/RondoApp-debug.apk");
 //		System.out.println(rondoAppFile.getAbsolutePath());
 //        capabilities.setCapability(MobileCapabilityType.APP, rondoAppFile.getAbsolutePath());
+		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300");
 		capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, deviceProperties.getAppPackage());
 		capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, deviceProperties.getAppActivity());
 		capabilities.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, AppiumServiceUtils.findFreePort());

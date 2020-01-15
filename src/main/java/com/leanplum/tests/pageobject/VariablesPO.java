@@ -6,6 +6,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.leanplum.tests.helpers.MobileDriverUtils;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -64,9 +65,9 @@ public class VariablesPO extends BasePO {
 	@iOSXCUITFindBy(xpath = IOS_VAR_FILE_IMAGE_XPATH + FOLLOWING_SIBLING_IMAGE_XPATH)
 	public MobileElement fileImage;
 
-	private MobileDriver<MobileElement> driver;
+	private AppiumDriver<MobileElement> driver;
 
-	public VariablesPO(MobileDriver<MobileElement> driver) {
+	public VariablesPO(AppiumDriver<MobileElement> driver) {
 		super(driver);
 		this.driver = driver;
 		PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);

@@ -24,6 +24,7 @@ import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.listeners.TestListener;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -54,9 +55,13 @@ public class PushNotificationTest extends CommonTestSteps {
     @Test(groups = { "android", "ios",
             "pushNotifications" }, description = "Push Notification's open action is Existing action")
     public void pushNotOpenActionWExistingAction(Method method) {
+       
+        AppiumDriver<MobileElement> driver = initTest();
+
+        startTest();
+        
         try {
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
 
             // Send attribute
             AdHocPO adHocPO = sendUserAttribute(driver, stepHelper, ATTRIBUTE_NAME, ATTRIBUTE_VALUE);
@@ -106,9 +111,13 @@ public class PushNotificationTest extends CommonTestSteps {
     @Test(groups = {
             "android”, “ios”, “pushNotifications" }, description = "Push Notification’s open action is New Action")
     public void pushNotOpenActionWNewAction(Method method) {
+       
+        AppiumDriver<MobileElement> driver = initTest();
+
+        startTest();
+        
         try {
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
 
             // Track event
             AdHocPO adHocPO = sendEvent(driver, stepHelper, LOCAL_TRIGGER);
@@ -145,9 +154,13 @@ public class PushNotificationTest extends CommonTestSteps {
     @Test(groups = { "android", "ios",
             "pushNotifications" }, description = "Push Notification's open action is Open URL")
     public void pushNotOpenURL(Method method) {
+       
+        AppiumDriver<MobileElement> driver = initTest();
+
+        startTest();
+        
         try {
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
 
             // Track state
             AdHocPO adHocPO = sendState(driver, stepHelper, OPEN_LEANPLUM_URL);
@@ -185,9 +198,13 @@ public class PushNotificationTest extends CommonTestSteps {
      */
     @Test(groups = { "ios", "pushNotifications" }, description = "Push Notification's with iOS options")
     public void pushNotWithIOSOptions(Method method) {
+        
+        AppiumDriver<MobileElement> driver = initTest();
+
+        startTest();
+        
         try {
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
 
             // Track event
             // TODO CHANGE TO ADVANCE TO STATE WITH PARAMETER
@@ -323,14 +340,14 @@ public class PushNotificationTest extends CommonTestSteps {
     // endTest();
     // }
 
-    private void allowIOSPushPermission(MobileDriver<MobileElement> driver, PushNotifiationType pn) {
+    private void allowIOSPushPermission(AppiumDriver<MobileElement> driver, PushNotifiationType pn) {
         if (pn == PushNotifiationType.IOS) {
             AppSetupPO appSetupPO = new AppSetupPO(driver);
             appSetupPO.allowIosPushPermission();
         }
     }
 
-    private PushNotifiationType determinePushNotification(MobileDriver<MobileElement> driver) {
+    private PushNotifiationType determinePushNotification(AppiumDriver<MobileElement> driver) {
         if (driver instanceof AndroidDriver) {
             return PushNotifiationType.ANDROID;
         } else {

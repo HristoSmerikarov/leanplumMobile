@@ -1,6 +1,8 @@
 package com.leanplum.tests.appiumdriver;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.leanplum.tests.enums.OSEnum;
 import com.leanplum.tests.enums.PlatformEnum;
@@ -12,11 +14,18 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 
 public class AppiumServiceUtils {
 
+    public static List<AppiumDriverLocalService> appiumServices = new ArrayList<>();
+    public static AppiumDriverLocalService appiumService;
+    
     public AppiumDriverLocalService setupAppiumService(PlatformEnum platform, String ipAddress, int port) {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         builder.withIPAddress(ipAddress);
         builder.usingPort(port);
-        return AppiumDriverLocalService.buildService(builder);
+
+        appiumService = AppiumDriverLocalService.buildService(builder);
+        appiumServices.add(appiumService);
+
+        return appiumService;
     }
 
     public static int findFreePortBetween(int from, int to) {

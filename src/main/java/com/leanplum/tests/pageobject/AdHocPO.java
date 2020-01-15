@@ -130,9 +130,9 @@ public class AdHocPO extends BasePO {
 
 	private AppiumDriver<MobileElement> driver;
 
-	public AdHocPO(MobileDriver<MobileElement> driver) {
+	public AdHocPO(AppiumDriver<MobileElement> driver) {
 		super(driver);
-		this.driver = (AppiumDriver) driver;
+		this.driver = driver;
 		PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
 	}
 

@@ -90,7 +90,7 @@ public class Utils {
                 androidDeviceIds.add(findPropertyMatch(line, "^(.*?)\\W"));
             }
         });
-        
+
         List<TestDevice> androidTestDevices = new ArrayList<>();
         for (String id : androidDeviceIds) {
             List<String> deviceModel = runCommandInTerminal(os, "adb -s " + id + " shell getprop ro.product.model");
@@ -100,9 +100,10 @@ public class Utils {
         }
         return androidTestDevices;
     }
-    
+
     public static OSEnum determineOS() {
         return OSEnum.valueOfEnum(System.getProperty("os.name")).get();
+    }
 
     public static String findPropertyMatch(String line, String regex) {
         Pattern p = Pattern.compile(regex);
@@ -116,11 +117,11 @@ public class Utils {
     }
 
     public static void swipeTopToBottom(MobileDriver<MobileElement> driver) {
-    	Options opt = driver.manage();
-    	Window wind = opt.window();
-    	Dimension screenSize = wind.getSize();
-    	
-        //Dimension screenSize = driver.manage().window().getSize();
+        Options opt = driver.manage();
+        Window wind = opt.window();
+        Dimension screenSize = wind.getSize();
+
+        // Dimension screenSize = driver.manage().window().getSize();
         int yMargin = 5;
         int xMid = screenSize.width / 2;
         PointOption top = PointOption.point(xMid, yMargin);

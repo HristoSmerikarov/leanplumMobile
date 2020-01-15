@@ -1,7 +1,5 @@
 package com.leanplum.tests.appiumdriver;
 
-import static org.testng.Assert.fail;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 

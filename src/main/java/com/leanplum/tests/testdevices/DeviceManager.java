@@ -11,28 +11,33 @@ import com.leanplum.tests.helpers.Utils;
 
 public class DeviceManager {
 
-    public List<TestDevice> getConnectedDevices() {
-        List<TestDevice> testDevices = new ArrayList<>();
+    public static List<TestDevice> connectedTestDevices = new ArrayList<>();
+
+    public void determineConnectedDevices() {
         OSEnum os = Utils.determineOS();
-        testDevices.addAll(getConnectedAndroidDevice(os));
-        testDevices.addAll(getConnectedIOSDevice(os));
-        return testDevices;
+        connectedTestDevices.addAll(getConnectedAndroidDevice(os));
+        connectedTestDevices.addAll(getConnectedIOSDevice(os));
+
+        connectedTestDevices.forEach(device -> {
+            System.out.println("DEVICE LIST IDS: " + device.getId());
+        });
+
     }
-    
+
     public static List<TestDevice> getConnectedAndroidDevice(OSEnum os) {
         List<String> responseLines = Utils.runCommandInTerminal(os, "adb devices");
         List<String> androidDeviceIds = new ArrayList<String>();
         responseLines.forEach(line -> {
             if (!line.equals("List of devices attached") && !line.isEmpty()) {
-                androidDeviceIds.add( Utils.findPropertyMatch(line, "^(.*?)\\W"));
+                androidDeviceIds.add(Utils.findPropertyMatch(line, "^(.*?)\\W"));
             }
         });
 
         List<TestDevice> androidTestDevices = new ArrayList<>();
         for (String id : androidDeviceIds) {
-           // lastOctetNumber = +lastOctetNumber;
-            List<String> deviceModel =  Utils.runCommandInTerminal(os, "adb -s " + id + " shell getprop ro.product.model");
-            List<String> androidVersion =  Utils.runCommandInTerminal(os,
+            List<String> deviceModel = Utils.runCommandInTerminal(os,
+                    "adb -s " + id + " shell getprop ro.product.model");
+            List<String> androidVersion = Utils.runCommandInTerminal(os,
                     "adb -s " + id + " shell getprop ro.build.version.release");
             androidTestDevices.add(new AndroidTestDevice(id, deviceModel.get(0), androidVersion.get(0)));
         }
@@ -61,14 +66,14 @@ public class DeviceManager {
             for (String line : responseLines) {
                 wdaPort = +wdaPort;
                 if (!line.contains("Simulator") && !line.contains("MacBook")) {
-                    String udid =  Utils.findPropertyMatch(line, IOSTestDevice.IOS_UDID_REGEX);
-                    String platformVersion =  Utils.findPropertyMatch(line, IOSTestDevice.IOS_PLATFORM_VERSION_REGEX);
-                    String name =  Utils.findPropertyMatch(line, IOSTestDevice.IOS_NAME_REGEX);
+                    String udid = Utils.findPropertyMatch(line, IOSTestDevice.IOS_UDID_REGEX);
+                    String platformVersion = Utils.findPropertyMatch(line, IOSTestDevice.IOS_PLATFORM_VERSION_REGEX);
+                    String name = Utils.findPropertyMatch(line, IOSTestDevice.IOS_NAME_REGEX);
                     devices.add(new IOSTestDevice(udid, name, platformVersion, String.valueOf(wdaPort)));
                 }
             }
         }
         return devices;
     }
-    
+
 }

@@ -17,6 +17,7 @@ import com.leanplum.tests.pageobject.inapp.StarRatingPO;
 import com.leanplum.tests.pageobject.inapp.WebInterstitialPO;
 import com.leanplum.utils.listeners.TestListener;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 
@@ -54,9 +55,13 @@ public class InAppTemplateTest extends CommonTestSteps {
     @Test(groups = { "android", "ios", "andr",
             "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup")
     public void confirmRichInterstitialStarRatingCenterPopupTemplates(Method method) {
+       
+        AppiumDriver<MobileElement> driver = initTest();
+
+        startTest();
+        
         try {
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
 
             // Track event
             AdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
@@ -121,9 +126,13 @@ public class InAppTemplateTest extends CommonTestSteps {
     @Test(groups = { "android", "ios",
             "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, WebInterstitial")
     public void confirmRichInterstitialWebInterstitialTemplates(Method method) {
+        
+        AppiumDriver<MobileElement> driver = initTest();
+
+        startTest();
+        
         try {
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
 
             // Track event
             AdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
@@ -178,9 +187,13 @@ public class InAppTemplateTest extends CommonTestSteps {
     @Test(groups = { "android", "ios",
             "inAppTemplates" }, description = "In-App Templates - Confirm, Interstitial, Alert, Banner")
     public void confirmInterstitialAlertBannerTemplates(Method method) {
+       
+        AppiumDriver<MobileElement> driver = initTest();
+
+        startTest();
+        
         try {
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
 
             // Track event
             sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
