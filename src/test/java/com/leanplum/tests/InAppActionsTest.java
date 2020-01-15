@@ -3,6 +3,7 @@ package com.leanplum.tests;
 import java.lang.reflect.Method;
 
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
@@ -22,8 +23,9 @@ public class InAppActionsTest extends CommonTestSteps {
     /**
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186445">C186445</a>
      */
+    @Parameters({"id"})
     @Test(groups = { "android", "ios", "openAction" }, description = "Open URL action")
-    public void openUrlAction(Method method) {
+    public void openUrlAction(Method method, String id) {
 
         AppiumDriver<MobileElement> driver = initTest();
 

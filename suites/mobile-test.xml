@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Mobile Tests" verbose="3" parallel="tests" thread-count="2">
+<suite name="Mobile Tests" verbose="3" parallel="tests"
+	thread-count="2">
 	<test name="Device one">
+		<parameter name="id" value="Device one" />
 		<classes>
-			<!--<class name="com.leanplum.tests.InAppActionsTest" />-->
+			<class name="com.leanplum.tests.InAppActionsTest" />
 			<class name="com.leanplum.tests.AppInboxTest" />
 		</classes>
 	</test>
 	<test name="Device two">
+		<parameter name="id" value="Device two" />
 		<classes>
-			<!--<class name="com.leanplum.tests.InAppActionsTest" />-->
+			<class name="com.leanplum.tests.InAppActionsTest" />
 			<class name="com.leanplum.tests.AppInboxTest" />
 		</classes>
 	</test>

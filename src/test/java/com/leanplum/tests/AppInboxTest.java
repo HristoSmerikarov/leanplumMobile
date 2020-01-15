@@ -13,6 +13,7 @@ import org.testng.Reporter;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 
@@ -33,47 +34,22 @@ import io.qameta.allure.testng.TestInstanceParameter;
 import io.restassured.response.Response;
 
 @Listeners({ TestListener.class })
-public class AppInboxTest extends CommonTestSteps implements ITest {
+public class AppInboxTest extends CommonTestSteps {
 
     protected String description;
     private static final String APP_INBOX_EVENT = "appinbox";
-
-    // , description = "App Inbox message verifiation"
-
-    @Factory(dataProvider = "summationProvider")
-    public AppInboxTest(String description) {
-        this.description = description;
-    }
-
-    @DataProvider(name = "summationProvider")
-    public static Object[][] summationData() {
-        Object[][] testData = {
-                { Utils.generateRandomNumberInRange(0, 1000)} };
-        return testData;
-    }
-
-    @Override
-    public String getTestName() {
-        return this.description;
-    }
 
     /**
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186442">C186442</a>
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186443">C186443</a>
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186444">C186444</a>
     */
+    @Parameters({"id"})
     @Test(groups = { "android", "ios", "appinbox" })
-    public void confirmWithTriggerEveryTwoTimes(Method method) {
-        
-        ITestContext ctx = Reporter.getCurrentTestResult().getTestContext();
-        ctx.setAttribute("historyId", Utils.generateRandomNumberInRange(0, 1000));
-        Set<String> attributeNames = ctx.getAttributeNames();
-        System.out.println("ATTRIBUTES: "+attributeNames);
+    public void confirmWithTriggerEveryTwoTimes(Method method, String id) {
         
         System.out.println("THREADS: " + Thread.currentThread().getName());
 
-        // AppiumDriverLocalService freeAppiumService = findNextUnusedAppiumService();
-        // AppiumDriver<?> driver =
         AppiumDriver<MobileElement> driver = initTest();
 
         System.out.println("DRIVER IN TEST: " + driver.toString());
