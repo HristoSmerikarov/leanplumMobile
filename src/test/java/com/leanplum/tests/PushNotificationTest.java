@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.google.common.base.Strings;
@@ -52,9 +53,10 @@ public class PushNotificationTest extends CommonTestSteps {
      * @see <a href=
      *      "https://teamplumqa.testrail.com/index.php?/cases/view/186433">C186433</a>
      */
+    @Parameters({"id"})
     @Test(groups = { "android", "ios",
             "pushNotifications" }, description = "Push Notification's open action is Existing action")
-    public void pushNotOpenActionWExistingAction(Method method) {
+    public void pushNotOpenActionWExistingAction(Method method, String id) {
        
         AppiumDriver<MobileElement> driver = initTest();
 
@@ -107,10 +109,10 @@ public class PushNotificationTest extends CommonTestSteps {
      * @see <a href=
      *      “https://teamplumqa.testrail.com/index.php?/cases/view/186436”>C186436</a>
      */
-
+    @Parameters({"id"})
     @Test(groups = {
             "android”, “ios”, “pushNotifications" }, description = "Push Notification’s open action is New Action")
-    public void pushNotOpenActionWNewAction(Method method) {
+    public void pushNotOpenActionWNewAction(Method method, String id) {
        
         AppiumDriver<MobileElement> driver = initTest();
 
@@ -151,9 +153,10 @@ public class PushNotificationTest extends CommonTestSteps {
      * @see <a href=
      *      "https://teamplumqa.testrail.com/index.php?/cases/view/186430">C186430</a>
      */
+    @Parameters({"id"})
     @Test(groups = { "android", "ios",
             "pushNotifications" }, description = "Push Notification's open action is Open URL")
-    public void pushNotOpenURL(Method method) {
+    public void pushNotOpenURL(Method method, String id) {
        
         AppiumDriver<MobileElement> driver = initTest();
 
@@ -196,8 +199,9 @@ public class PushNotificationTest extends CommonTestSteps {
      * @see <a
      *      href=" https://teamplumqa.testrail.com/index.php?/cases/view/186434">C186434</a>
      */
+    @Parameters({"id"})
     @Test(groups = { "ios", "pushNotifications" }, description = "Push Notification's with iOS options")
-    public void pushNotWithIOSOptions(Method method) {
+    public void pushNotWithIOSOptions(Method method, String id) {
         
         AppiumDriver<MobileElement> driver = initTest();
 
@@ -247,9 +251,10 @@ public class PushNotificationTest extends CommonTestSteps {
     // * @see <a href=
     // * "https://teamplumqa.testrail.com/index.php?/cases/view/186431">C186431</a>
     // */
+    // @Parameters({"id"})
     // @Test(groups = { "android",
     // "pushNotifications" }, description = "Push Notification's open action is Muted Inside App")
-    // public void pushNotMuteInsideApp(Method method) {
+    // public void pushNotMuteInsideApp(Method method, String id) {
     // TestStepHelper stepHelper = new TestStepHelper(this);
     // MobileDriver<MobileElement> driver = getDriver();
     //
@@ -308,7 +313,7 @@ public class PushNotificationTest extends CommonTestSteps {
     // */
     // @Test(groups = { "android",
     // "pushNotifications" }, description = "Push Notification's open action is with disabled notification channel")
-    // public void pushNotWithDisabledChannel(Method method) {
+    // public void pushNotWithDisabledChannel(Method method, String id) {
     // try {
     // TestStepHelper stepHelper = new TestStepHelper(this);
     // MobileDriver<MobileElement> driver = getDriver();

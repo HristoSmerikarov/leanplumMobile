@@ -47,12 +47,8 @@ public class AppInboxTest extends CommonTestSteps {
     @Parameters({"id"})
     @Test(groups = { "android", "ios", "appinbox" })
     public void confirmWithTriggerEveryTwoTimes(Method method, String id) {
-        
-        System.out.println("THREADS: " + Thread.currentThread().getName());
 
         AppiumDriver<MobileElement> driver = initTest();
-
-        System.out.println("DRIVER IN TEST: " + driver.toString());
 
         startTest();
 
@@ -65,7 +61,6 @@ public class AppInboxTest extends CommonTestSteps {
 
             AppSetupPO appSetupPO = new AppSetupPO(driver);
             String deviceId = getDeviceId(appSetupPO);
-            System.out.println("I'm here!");
 
             String userId = getUserId(appSetupPO);
 
@@ -84,8 +79,6 @@ public class AppInboxTest extends CommonTestSteps {
             driver.closeApp();
             MobileDriverUtils.waitInMs(30000);
             driver.launchApp();
-
-            System.out.println("Launched");
 
             // MobileDriverUtils.waitInMs(30000);
 
@@ -148,7 +141,7 @@ public class AppInboxTest extends CommonTestSteps {
         if (userId == null || userId.isEmpty()) {
             String deviceId = getDeviceId(appSetupPO);
 
-            AdHocPO adHocPO = new AdHocPO(getCurrentDriver());
+            AdHocPO adHocPO = new AdHocPO(getDriver());
             adHocPO.click(adHocPO.adhoc);
 
             adHocPO.setUserId(deviceId);

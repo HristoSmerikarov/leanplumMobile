@@ -1,6 +1,5 @@
 package com.leanplum.tests.appiumdriver;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.openqa.selenium.remote.DesiredCapabilities;

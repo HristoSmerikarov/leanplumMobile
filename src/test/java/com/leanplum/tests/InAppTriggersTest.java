@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.google.common.base.Strings;
@@ -149,9 +150,10 @@ public class InAppTriggersTest extends CommonTestSteps {
     * @see <a href=
     * "https://teamplumqa.testrail.com/index.php?/cases/view/186460">C186460</a>
     */
+    @Parameters({"id"})
     @Test(groups = { "android", "ios",
             "inAppTriggers" }, description = "Confirm in-app on attribute change every two times")
-    public void confirmWithTriggerEveryTwoTimes(Method method) {
+    public void confirmWithTriggerEveryTwoTimes(Method method, String id) {
 
         AppiumDriver<MobileElement> driver = initTest();
 

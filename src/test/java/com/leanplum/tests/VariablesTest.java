@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Random;
 
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
@@ -24,8 +25,9 @@ public class VariablesTest extends CommonTestSteps {
 //     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186440">C186440</a>
 //     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186441">C186441</a>
 //     */
+//    @Parameters({"id"})
 //    @Test(groups = { "android", "ios", "pushNotifications" }, description = "Verification of IOS variables")
-//    public void variableSync(Method method) {
+//    public void variableSync(Method method, String id) {
 //        try {
 //            TestStepHelper stepHelper = new TestStepHelper(this);
 //            MobileDriver<MobileElement> driver = getDriver();

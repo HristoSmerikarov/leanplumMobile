@@ -3,6 +3,7 @@ package com.leanplum.tests;
 import java.lang.reflect.Method;
 
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
@@ -52,9 +53,10 @@ public class InAppTemplateTest extends CommonTestSteps {
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186466">C186466</a>
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
      */
+    @Parameters({"id"})
     @Test(groups = { "android", "ios", "andr",
             "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup")
-    public void confirmRichInterstitialStarRatingCenterPopupTemplates(Method method) {
+    public void confirmRichInterstitialStarRatingCenterPopupTemplates(Method method, String id) {
        
         AppiumDriver<MobileElement> driver = initTest();
 
@@ -123,9 +125,10 @@ public class InAppTemplateTest extends CommonTestSteps {
      * @see <a href=
      *      "https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
      */
+    @Parameters({"id"})
     @Test(groups = { "android", "ios",
             "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, WebInterstitial")
-    public void confirmRichInterstitialWebInterstitialTemplates(Method method) {
+    public void confirmRichInterstitialWebInterstitialTemplates(Method method, String id) {
         
         AppiumDriver<MobileElement> driver = initTest();
 
@@ -184,9 +187,10 @@ public class InAppTemplateTest extends CommonTestSteps {
      * @see <a href=
      *      "https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
      */
+    @Parameters({"id"})
     @Test(groups = { "android", "ios",
             "inAppTemplates" }, description = "In-App Templates - Confirm, Interstitial, Alert, Banner")
-    public void confirmInterstitialAlertBannerTemplates(Method method) {
+    public void confirmInterstitialAlertBannerTemplates(Method method, String id) {
        
         AppiumDriver<MobileElement> driver = initTest();
 

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -17,9 +16,7 @@ import org.openqa.selenium.WebDriver.Window;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.leanplum.tests.enums.OSEnum;
-import com.leanplum.tests.enums.PlatformEnum;
 import com.leanplum.tests.testdevices.AndroidTestDevice;
-import com.leanplum.tests.testdevices.IOSTestDevice;
 import com.leanplum.tests.testdevices.TestDevice;
 
 import io.appium.java_client.MobileDriver;

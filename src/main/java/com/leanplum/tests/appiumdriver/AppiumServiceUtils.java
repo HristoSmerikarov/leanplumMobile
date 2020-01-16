@@ -1,6 +1,5 @@
 package com.leanplum.tests.appiumdriver;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import com.leanplum.tests.helpers.Utils;
 
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import io.appium.java_client.service.local.flags.GeneralServerFlag;
 
 public class AppiumServiceUtils {
 

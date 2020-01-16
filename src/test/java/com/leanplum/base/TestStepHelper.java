@@ -80,7 +80,7 @@ public class TestStepHelper {
     //Clear all push notifications before
     public void openNotifications() {
         test.startStep("Open notifications");
-        PushNotificationUtils pushNotificationUtils = new PushNotificationUtils(test.getCurrentDriver());
+        PushNotificationUtils pushNotificationUtils = new PushNotificationUtils(test.getDriver());
         pushNotificationUtils.openNotifications();
         test.endStep();
     }

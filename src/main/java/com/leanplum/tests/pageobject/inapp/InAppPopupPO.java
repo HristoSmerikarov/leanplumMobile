@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 import com.leanplum.tests.pageobject.BasePO;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 

@@ -1,11 +1,7 @@
 package com.leanplum.tests.pushnotification;
 
-import java.util.Arrays;
-import java.util.Optional;
-
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 
 public enum PushNotifiationType {
 

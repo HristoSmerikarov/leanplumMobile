@@ -4,7 +4,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.leanplum.tests.testdevices.AndroidTestDevice;
 import com.leanplum.tests.testdevices.IOSTestDevice;
-import com.leanplum.tests.testdevices.TestDevice;
 
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
