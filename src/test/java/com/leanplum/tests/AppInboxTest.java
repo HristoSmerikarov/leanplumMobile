@@ -44,15 +44,15 @@ public class AppInboxTest extends CommonTestSteps {
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186443">C186443</a>
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186444">C186444</a>
     */
-    @Parameters({"id"})
+    @Parameters({ "id" })
     @Test(groups = { "android", "ios", "appinbox" })
     public void confirmWithTriggerEveryTwoTimes(Method method, String id) {
 
-        AppiumDriver<MobileElement> driver = initTest();
-
-        startTest();
-
         try {
+            AppiumDriver<MobileElement> driver = initTest();
+
+            startTest();
+
             TestStepHelper stepHelper = new TestStepHelper(this);
             // MobileDriver<MobileElement> driver = (MobileDriver<MobileElement>) getDriver();
 

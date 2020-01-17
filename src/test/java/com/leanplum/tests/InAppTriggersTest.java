@@ -155,11 +155,11 @@ public class InAppTriggersTest extends CommonTestSteps {
             "inAppTriggers" }, description = "Confirm in-app on attribute change every two times")
     public void confirmWithTriggerEveryTwoTimes(Method method, String id) {
 
+        try {
         AppiumDriver<MobileElement> driver = initTest();
 
         startTest();
         
-        try {
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             AlertPO alert = new AlertPO(driver);

@@ -2,6 +2,8 @@ package com.leanplum.base;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +57,8 @@ public class BaseTest {
     private List<AppiumDriver<MobileElement>> appiumDrivers = new ArrayList<>();
     private SoftAssert softAssert;
     private String reportFolder = "target/allure-results";
+    private boolean useGrid = true;
+    private  String serviceIpAddress;
     private OSEnum os;
     private PlatformEnum platform;
     private static String startTestTimestamp;
@@ -70,19 +74,24 @@ public class BaseTest {
         deviceManager.determineConnectedDevices();
 
         // Create and start Appium services for each test device with individual IP and port
-        String initialIPAddress = "127.0.0.10";
-        for (int i = 0; i < DeviceManager.connectedTestDevices.size(); i++) {
-            appiumServiceUtils.setupAppiumService(platform, initialIPAddress, AppiumServiceUtils.findFreePort());
+        if (useGrid) {
+            serviceIpAddress = "127.0.0.10";
 
-            System.out.println("APPIUM SERVICE URL: " + AppiumServiceUtils.appiumServices.get(i).getUrl());
+            for (int i = 0; i < DeviceManager.connectedTestDevices.size(); i++) {
+                appiumServiceUtils.setupAppiumService(platform, serviceIpAddress, AppiumServiceUtils.findFreePort());
 
-            AppiumServiceUtils.appiumServices.get(i).start();
+                System.out.println("APPIUM SERVICE URL: " + AppiumServiceUtils.appiumServices.get(i).getUrl());
+
+                AppiumServiceUtils.appiumServices.get(i).start();
+            }
+        } else {
+            serviceIpAddress = "https://127.0.0.15:4444";
         }
 
         System.out.println("DEVICE LIST SIZE: " + DeviceManager.connectedTestDevices.size());
     }
 
-    public AppiumDriver<MobileElement> initTest() {
+    public AppiumDriver<MobileElement> initTest() throws MalformedURLException {
         String currentThread = Thread.currentThread().getName();
         System.out.println("CURRENT THREAD: " + currentThread);
 
@@ -101,7 +110,12 @@ public class BaseTest {
         System.out.println("INITIALIZING FOR TEST DEVICE: " + currentTestDevice.getId());
         System.out.println("INITIALIZING FOR SERVICE: " + AppiumServiceUtils.appiumService.toString());
 
-        AppiumDriver<MobileElement> driver = createDriver(currentTestDevice, AppiumServiceUtils.appiumService);
+        AppiumDriver<MobileElement> driver;
+        if (useGrid) {
+            driver = createDriver(currentTestDevice, AppiumServiceUtils.appiumService.getUrl());
+        } else {
+            driver = createDriver(currentTestDevice, new URL(serviceIpAddress));
+        }
 
         driverToDeviceMap.put(driver, currentTestDevice);
         appiumDrivers.add(driver);
@@ -121,10 +135,10 @@ public class BaseTest {
         return driver;
     }
 
-    public AppiumDriver<MobileElement> createDriver(TestDevice device, AppiumDriverLocalService appiumService) {
+    public AppiumDriver<MobileElement> createDriver(TestDevice device, URL appiumServiceIp) {
         DriverFactory df = new DriverFactory();
-        AppiumDriver<MobileElement> driver = df.createDriver(device, DevicePropertiesUtils.getDeviceProperties(
-                device.getPlatform().getPlatformName().toLowerCase(), "phone"), appiumService.getUrl());
+        AppiumDriver<MobileElement> driver = df.createDriver(device, DevicePropertiesUtils
+                .getDeviceProperties(device.getPlatform().getPlatformName().toLowerCase(), "phone"), appiumServiceIp);
         System.out.println("INIT DRIVER: " + driver.toString());
         return driver;
     }

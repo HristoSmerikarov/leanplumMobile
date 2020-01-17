@@ -27,11 +27,11 @@ public class InAppActionsTest extends CommonTestSteps {
     @Test(groups = { "android", "ios", "openAction" }, description = "Open URL action")
     public void openUrlAction(Method method, String id) {
 
+        try {
         AppiumDriver<MobileElement> driver = initTest();
 
         startTest();
-
-        try {
+       
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             AlertPO alert = new AlertPO(driver);

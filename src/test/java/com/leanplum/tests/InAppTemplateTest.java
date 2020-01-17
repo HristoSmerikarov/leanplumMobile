@@ -53,16 +53,15 @@ public class InAppTemplateTest extends CommonTestSteps {
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186466">C186466</a>
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
      */
-    @Parameters({"id"})
+    @Parameters({ "id" })
     @Test(groups = { "android", "ios", "andr",
             "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup")
     public void confirmRichInterstitialStarRatingCenterPopupTemplates(Method method, String id) {
-       
-        AppiumDriver<MobileElement> driver = initTest();
-
-        startTest();
-        
         try {
+            AppiumDriver<MobileElement> driver = initTest();
+
+            startTest();
+
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track event
@@ -125,16 +124,16 @@ public class InAppTemplateTest extends CommonTestSteps {
      * @see <a href=
      *      "https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
      */
-    @Parameters({"id"})
+    @Parameters({ "id" })
     @Test(groups = { "android", "ios",
             "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, WebInterstitial")
     public void confirmRichInterstitialWebInterstitialTemplates(Method method, String id) {
-        
-        AppiumDriver<MobileElement> driver = initTest();
-
-        startTest();
-        
         try {
+
+            AppiumDriver<MobileElement> driver = initTest();
+
+            startTest();
+
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track event
@@ -187,16 +186,15 @@ public class InAppTemplateTest extends CommonTestSteps {
      * @see <a href=
      *      "https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
      */
-    @Parameters({"id"})
+    @Parameters({ "id" })
     @Test(groups = { "android", "ios",
             "inAppTemplates" }, description = "In-App Templates - Confirm, Interstitial, Alert, Banner")
     public void confirmInterstitialAlertBannerTemplates(Method method, String id) {
-       
-        AppiumDriver<MobileElement> driver = initTest();
-
-        startTest();
-        
         try {
+            AppiumDriver<MobileElement> driver = initTest();
+
+            startTest();
+
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track event

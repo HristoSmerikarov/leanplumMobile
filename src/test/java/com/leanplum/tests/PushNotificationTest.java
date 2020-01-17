@@ -53,16 +53,16 @@ public class PushNotificationTest extends CommonTestSteps {
      * @see <a href=
      *      "https://teamplumqa.testrail.com/index.php?/cases/view/186433">C186433</a>
      */
-    @Parameters({"id"})
+    @Parameters({ "id" })
     @Test(groups = { "android", "ios",
             "pushNotifications" }, description = "Push Notification's open action is Existing action")
     public void pushNotOpenActionWExistingAction(Method method, String id) {
-       
-        AppiumDriver<MobileElement> driver = initTest();
 
-        startTest();
-        
         try {
+            AppiumDriver<MobileElement> driver = initTest();
+
+            startTest();
+
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Send attribute
@@ -109,16 +109,16 @@ public class PushNotificationTest extends CommonTestSteps {
      * @see <a href=
      *      “https://teamplumqa.testrail.com/index.php?/cases/view/186436”>C186436</a>
      */
-    @Parameters({"id"})
+    @Parameters({ "id" })
     @Test(groups = {
             "android”, “ios”, “pushNotifications" }, description = "Push Notification’s open action is New Action")
     public void pushNotOpenActionWNewAction(Method method, String id) {
-       
-        AppiumDriver<MobileElement> driver = initTest();
 
-        startTest();
-        
         try {
+            AppiumDriver<MobileElement> driver = initTest();
+
+            startTest();
+
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track event
@@ -153,16 +153,16 @@ public class PushNotificationTest extends CommonTestSteps {
      * @see <a href=
      *      "https://teamplumqa.testrail.com/index.php?/cases/view/186430">C186430</a>
      */
-    @Parameters({"id"})
+    @Parameters({ "id" })
     @Test(groups = { "android", "ios",
             "pushNotifications" }, description = "Push Notification's open action is Open URL")
     public void pushNotOpenURL(Method method, String id) {
-       
-        AppiumDriver<MobileElement> driver = initTest();
 
-        startTest();
-        
         try {
+            AppiumDriver<MobileElement> driver = initTest();
+
+            startTest();
+
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track state
@@ -199,15 +199,15 @@ public class PushNotificationTest extends CommonTestSteps {
      * @see <a
      *      href=" https://teamplumqa.testrail.com/index.php?/cases/view/186434">C186434</a>
      */
-    @Parameters({"id"})
+    @Parameters({ "id" })
     @Test(groups = { "ios", "pushNotifications" }, description = "Push Notification's with iOS options")
     public void pushNotWithIOSOptions(Method method, String id) {
-        
-        AppiumDriver<MobileElement> driver = initTest();
 
-        startTest();
-        
         try {
+            AppiumDriver<MobileElement> driver = initTest();
+
+            startTest();
+
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track event
