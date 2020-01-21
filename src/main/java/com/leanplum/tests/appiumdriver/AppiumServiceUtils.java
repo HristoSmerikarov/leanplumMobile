@@ -1,5 +1,6 @@
 package com.leanplum.tests.appiumdriver;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class AppiumServiceUtils {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         builder.withIPAddress(ipAddress);
         builder.usingPort(port);
+        builder.withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"));
 
         appiumService = AppiumDriverLocalService.buildService(builder);
         appiumServices.add(appiumService);

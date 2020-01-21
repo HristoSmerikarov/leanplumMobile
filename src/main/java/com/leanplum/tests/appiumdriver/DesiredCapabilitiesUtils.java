@@ -15,7 +15,7 @@ public class DesiredCapabilitiesUtils {
 
 	public DesiredCapabilities getAndroidDesiredCapabilities(AndroidTestDevice testDevice, DeviceProperties deviceProperties) {
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, deviceProperties.getPlatformName());
-		capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
+		//capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
 		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, testDevice.getPlatformVersion());
 		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, testDevice.getName());
 		capabilities.setCapability(MobileCapabilityType.UDID, testDevice.getId());
@@ -29,6 +29,7 @@ public class DesiredCapabilitiesUtils {
 		// capabilities.setCapability("bundleId", deviceProperties.getBundleId());
 		capabilities.setCapability(MobileCapabilityType.NO_RESET, deviceProperties.getNoReset());
 		capabilities.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
+		capabilities.setCapability(AndroidMobileCapabilityType.NO_SIGN, "true");
 		return this.capabilities;
 	}
 
@@ -39,9 +40,10 @@ public class DesiredCapabilitiesUtils {
 		capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, deviceProperties.getAutomationName());
 		capabilities.setCapability(MobileCapabilityType.UDID, testDevice.getId());
 		capabilities.setCapability(MobileCapabilityType.NO_RESET, deviceProperties.getNoReset());
+		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300");
 		capabilities.setCapability("sessionOverride", true);
 
-		capabilities.setCapability("wdaLocalPort",testDevice.getWdaPort());
+		capabilities.setCapability("wdaLocalPort",AppiumServiceUtils.findFreePort());
 		capabilities.setCapability("webkitDebugProxyPort", deviceProperties.getDebugProxyPort());
 		capabilities.setCapability(IOSMobileCapabilityType.USE_NEW_WDA, deviceProperties.getUseNewWda());
 

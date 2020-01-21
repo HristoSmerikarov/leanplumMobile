@@ -57,7 +57,7 @@ public class BaseTest {
     private List<AppiumDriver<MobileElement>> appiumDrivers = new ArrayList<>();
     private SoftAssert softAssert;
     private String reportFolder = "target/allure-results";
-    private boolean useGrid = true;
+    private boolean useGrid = false;
     private  String serviceIpAddress;
     private OSEnum os;
     private PlatformEnum platform;
@@ -74,8 +74,8 @@ public class BaseTest {
         deviceManager.determineConnectedDevices();
 
         // Create and start Appium services for each test device with individual IP and port
-        if (useGrid) {
-            serviceIpAddress = "127.0.0.10";
+        if (!useGrid) {
+            serviceIpAddress = "127.0.0.1";
 
             for (int i = 0; i < DeviceManager.connectedTestDevices.size(); i++) {
                 appiumServiceUtils.setupAppiumService(platform, serviceIpAddress, AppiumServiceUtils.findFreePort());
@@ -107,11 +107,10 @@ public class BaseTest {
         System.out.println("DEVICE INDEX: " + threadIndex);
         TestDevice currentTestDevice = DeviceManager.connectedTestDevices.get(threadIndex);
 
-        System.out.println("INITIALIZING FOR TEST DEVICE: " + currentTestDevice.getId());
-        System.out.println("INITIALIZING FOR SERVICE: " + AppiumServiceUtils.appiumService.toString());
-
         AppiumDriver<MobileElement> driver;
-        if (useGrid) {
+        if (!useGrid) {
+        	 System.out.println("INITIALIZING FOR TEST DEVICE: " + currentTestDevice.getId());
+             System.out.println("INITIALIZING FOR SERVICE: " + AppiumServiceUtils.appiumService.toString());
             driver = createDriver(currentTestDevice, AppiumServiceUtils.appiumService.getUrl());
         } else {
             driver = createDriver(currentTestDevice, new URL(serviceIpAddress));

@@ -16,6 +16,13 @@
 			<class name="com.leanplum.tests.AppInboxTest" />
 		</classes>
 	</test>
+	<!-- <test name="Device three">
+		<parameter name="id" value="Device three" />
+		<classes>
+			<class name="com.leanplum.tests.InAppActionsTest" />
+			<class name="com.leanplum.tests.AppInboxTest" />
+		</classes>
+	</test> -->
 	<!-- <test name="MobileDevice Two"> -->
 	<!-- <classes> -->
 	<!-- <class name="com.musala.examples.tests.HeaderNamesTest"> -->
