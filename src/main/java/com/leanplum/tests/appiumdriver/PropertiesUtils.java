@@ -1,11 +1,10 @@
 package com.leanplum.tests.appiumdriver;
 
-import static org.testng.Assert.fail;
-import static org.testng.AssertJUnit.assertNotNull;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+
+import org.springframework.util.Assert;
 
 import com.pholser.util.properties.PropertyBinder;
 
@@ -19,8 +18,7 @@ public class PropertiesUtils {
             in.close();
             return prop;
         } catch (Exception e) {
-            fail("Could not load properties '" + file + "'");
-
+            Assert.isTrue(false, "Could not load properties '" + file + "'");
             return null;
         }
     }
@@ -34,9 +32,10 @@ public class PropertiesUtils {
      */
     public static Object loadProperties(String file, Class<?> clazz) {
         Object data = null;
-        assertNotNull("Expected property file to load", file);
+
+        Assert.notNull("Expected property file to load", file);
         try (FileInputStream fileStream = new FileInputStream(file)) {
-            assertNotNull("No Properties for " + file + " found");
+            Assert.notNull("No Properties for " + file + " found", file);
             PropertyBinder<?> binder = PropertyBinder.forType(clazz);
             data = binder.bind(fileStream);
             fileStream.close();

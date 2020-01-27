@@ -4,32 +4,23 @@ import java.time.Duration;
 import java.util.Map;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import io.appium.java_client.TouchAction;
 
 import com.google.common.collect.ImmutableMap;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.helpers.Utils.SwipeDirection;
 
-import groovyjarjarantlr.actions.csharp.ActionLexer;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.HasOnScreenKeyboard;
-import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.nativekey.KeyEvent;
-import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
-import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.ElementOption;
-import io.appium.java_client.touch.offset.PointOption;
 
 public class AdHocPO extends BasePO {
 
@@ -130,9 +121,9 @@ public class AdHocPO extends BasePO {
 
 	private AppiumDriver<MobileElement> driver;
 
-	public AdHocPO(MobileDriver<MobileElement> driver) {
+	public AdHocPO(AppiumDriver<MobileElement> driver) {
 		super(driver);
-		this.driver = (AppiumDriver) driver;
+		this.driver = driver;
 		PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
 	}
 

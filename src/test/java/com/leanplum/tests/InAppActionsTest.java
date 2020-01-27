@@ -3,6 +3,7 @@ package com.leanplum.tests;
 import java.lang.reflect.Method;
 
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
@@ -12,6 +13,7 @@ import com.leanplum.tests.pageobject.MobileBrowserPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.utils.listeners.TestListener;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 
@@ -21,11 +23,16 @@ public class InAppActionsTest extends CommonTestSteps {
     /**
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186445">C186445</a>
      */
+    @Parameters({"id"})
     @Test(groups = { "android", "ios", "openAction" }, description = "Open URL action")
-    public void openUrlAction(Method method) {
+    public void openUrlAction(Method method, String id) {
+
         try {
+        AppiumDriver<MobileElement> driver = initTest();
+
+        startTest();
+       
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
 
             AlertPO alert = new AlertPO(driver);
             stepHelper.acceptAllAlertsOnAppStart(alert);

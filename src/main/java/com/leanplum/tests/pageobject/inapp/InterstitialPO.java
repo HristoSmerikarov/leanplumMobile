@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import com.google.common.collect.ImmutableMap;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 
-import io.appium.java_client.MobileDriver;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -60,9 +60,9 @@ public class InterstitialPO extends InAppPopupPO {
 	@AndroidFindBy(xpath = ANDROID_INTERSTITIAL_ACCEPT_BUTTON_XPATH)
 	public MobileElement interstitialAcceptButton;
 
-	private MobileDriver<MobileElement> driver;
+	private AppiumDriver<MobileElement> driver;
 
-	public InterstitialPO(MobileDriver<MobileElement> driver) {
+	public InterstitialPO(AppiumDriver<MobileElement> driver) {
 		super(driver);
 		this.driver = driver;
 		PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);

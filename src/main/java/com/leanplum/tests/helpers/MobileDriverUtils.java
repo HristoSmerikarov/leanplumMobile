@@ -1,25 +1,20 @@
 package com.leanplum.tests.helpers;
 
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.PointOption;
 
 public class MobileDriverUtils {
 
 	private static final int WAIT_TAIMEOUT = 60;
 
-	public static boolean doesSelectorMatchAnyElements(WebDriver driver, String xpathSelector) {
+	public static boolean doesSelectorMatchAnyElements(MobileDriver<MobileElement> driver, String xpathSelector) {
 		turnOffImplicitWaits(driver);
 		boolean matchAnyElements = !driver.findElements(By.xpath(xpathSelector)).isEmpty();
 		turnOnImplicitWaits(driver);

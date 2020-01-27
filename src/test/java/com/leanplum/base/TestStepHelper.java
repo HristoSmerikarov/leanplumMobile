@@ -135,7 +135,7 @@ public class TestStepHelper {
 
     public void acceptAllAlertsOnAppStart(AlertPO page) {
         try {
-            MobileDriverUtils.waitForExpectedCondition(test.getDriver(), 10,
+            MobileDriverUtils.waitForExpectedCondition(page.getDriver(), 10,
                     ExpectedConditions.visibilityOf(page.alertPopup));
         } catch (Exception e) {
             System.out.println("Exception found: " + System.currentTimeMillis());

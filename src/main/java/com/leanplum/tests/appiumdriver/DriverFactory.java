@@ -1,8 +1,5 @@
 package com.leanplum.tests.appiumdriver;
 
-import static org.testng.Assert.fail;
-
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -21,14 +18,14 @@ public class DriverFactory {
     private static String DRIVER_CONFIG_FILE = "resources/driver.properties";
 
     public AppiumDriver<MobileElement> createDriver(TestDevice testDevice, DeviceProperties deviceProperties,
-            int port) {
+            URL appiumServiceURL) {
         DriverConfig driverConfig = (DriverConfig) PropertiesUtils.loadProperties(DRIVER_CONFIG_FILE,
                 DriverConfig.class);
 
         System.out.println("ID: " + testDevice.getId());
         System.out.println("Name: " + testDevice.getName());
-        System.out.println("PORT: " + port);
-        System.out.println("IP: " + driverConfig.getAppiumServerUrl().replace("null", String.valueOf(port)));
+        System.out.println("PORT: " + appiumServiceURL.getPort());
+        System.out.println("IP: " + appiumServiceURL.getHost());
 
         boolean useSeleniumGrid = driverConfig.isSeleniumGrid();
 
@@ -37,33 +34,23 @@ public class DriverFactory {
         if (useSeleniumGrid) {
             url = driverConfig.getGridHubUrl();
         } else {
-            url = driverConfig.getAppiumServerUrl().replace("null", String.valueOf(port));
+            url = appiumServiceURL.getHost();
         }
 
         System.out.println("APPIUM URL: " + url);
-        return initializeDriver(url, testDevice, deviceProperties);
+        return initializeDriver(testDevice, deviceProperties, appiumServiceURL);
     }
 
-    private AppiumDriver<MobileElement> initializeDriver(String url, TestDevice testDevice,
-            DeviceProperties deviceProperties) {
+    private AppiumDriver<MobileElement> initializeDriver(TestDevice testDevice, DeviceProperties deviceProperties,
+            URL appiumServiceUrl) {
         DesiredCapabilitiesUtils capabilitiesUtils = new DesiredCapabilitiesUtils();
         switch (testDevice.getPlatform()) {
         case ANDROID_APP:
-            try {
-                return new AndroidDriver<MobileElement>(new URL(url), capabilitiesUtils
-                        .getAndroidDesiredCapabilities((AndroidTestDevice) testDevice, deviceProperties));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                fail(e.getMessage());
-            }
+            return new AndroidDriver<MobileElement>(appiumServiceUrl,
+                    capabilitiesUtils.getAndroidDesiredCapabilities((AndroidTestDevice) testDevice, deviceProperties));
         case IOS_APP:
-            try {
-                return new IOSDriver<>(new URL(url),
-                        capabilitiesUtils.getIOSDesiredCapabilities((IOSTestDevice) testDevice, deviceProperties));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                fail(e.getMessage());
-            }
+            return new IOSDriver<>(appiumServiceUrl,
+                    capabilitiesUtils.getIOSDesiredCapabilities((IOSTestDevice) testDevice, deviceProperties));
         default:
             return new AppiumDriver<MobileElement>(new DesiredCapabilities());
         }

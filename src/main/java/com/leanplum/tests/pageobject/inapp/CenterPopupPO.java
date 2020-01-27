@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import com.google.common.collect.ImmutableMap;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 
-import io.appium.java_client.MobileDriver;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -45,9 +45,9 @@ public class CenterPopupPO extends InAppPopupPO {
 	@AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/accept_button']")
 	public MobileElement centerPopupCloseButton;
 
-	private MobileDriver<MobileElement> driver;
+	private AppiumDriver<MobileElement> driver;
 
-	public CenterPopupPO(MobileDriver<MobileElement> driver) {
+	public CenterPopupPO(AppiumDriver<MobileElement> driver) {
 		super(driver);
 		this.driver = driver;
 		PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);

@@ -1,29 +1,42 @@
 package com.leanplum.tests;
 
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 
 import org.json.JSONObject;
+import org.testng.ITest;
+import org.testng.ITestContext;
+import org.testng.Reporter;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
 
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
+import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.AppInboxMessagePO;
 import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.utils.listeners.TestListener;
 
-import io.appium.java_client.MobileDriver;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.qameta.allure.testng.TestInstanceParameter;
 import io.restassured.response.Response;
 
 @Listeners({ TestListener.class })
 public class AppInboxTest extends CommonTestSteps {
 
+    protected String description;
     private static final String APP_INBOX_EVENT = "appinbox";
 
     /**
@@ -31,17 +44,24 @@ public class AppInboxTest extends CommonTestSteps {
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186443">C186443</a>
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186444">C186444</a>
     */
-    @Test(groups = { "android", "ios", "appinbox" }, description = "App Inbox message verifiation")
-    public void confirmWithTriggerEveryTwoTimes(Method method) {
+    @Parameters({ "id" })
+    @Test(groups = { "android", "ios", "appinbox" })
+    public void confirmWithTriggerEveryTwoTimes(Method method, String id) {
+
         try {
+            AppiumDriver<MobileElement> driver = initTest();
+
+            startTest();
+
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
+            // MobileDriver<MobileElement> driver = (MobileDriver<MobileElement>) getDriver();
 
             AlertPO alert = new AlertPO(driver);
             stepHelper.acceptAllAlertsOnAppStart(alert);
 
             AppSetupPO appSetupPO = new AppSetupPO(driver);
             String deviceId = getDeviceId(appSetupPO);
+
             String userId = getUserId(appSetupPO);
 
             Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
@@ -56,12 +76,17 @@ public class AppInboxTest extends CommonTestSteps {
 
             stepHelper.sendTrackEvent(adHocPO, APP_INBOX_EVENT);
 
-            MobileDriverUtils.waitInMs(45000);
-
             driver.closeApp();
-            MobileDriverUtils.waitInMs(1000);
+            MobileDriverUtils.waitInMs(30000);
             driver.launchApp();
 
+            // MobileDriverUtils.waitInMs(30000);
+
+            // driver.closeApp();
+            // MobileDriverUtils.waitInMs(1000);
+            // driver.launchApp();
+
+            MobileDriverUtils.waitInMs(5000);
             stepHelper.acceptAllAlertsOnAppStart(alert);
 
             AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);
@@ -105,11 +130,11 @@ public class AppInboxTest extends CommonTestSteps {
     }
 
     /**
-     * On Android there is a chance not to have userId, logic to set one is added
-     * 
-     * @param basePage
-     * @return
-     */
+    * On Android there is a chance not to have userId, logic to set one is added
+    *
+    * @param basePage
+    * @return
+    */
     private String getUserId(AppSetupPO appSetupPO) {
         String userId = appSetupPO.getTextFromElement(appSetupPO.userId);
 

@@ -3,6 +3,7 @@ package com.leanplum.tests;
 import java.lang.reflect.Method;
 
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
@@ -17,6 +18,7 @@ import com.leanplum.tests.pageobject.inapp.StarRatingPO;
 import com.leanplum.tests.pageobject.inapp.WebInterstitialPO;
 import com.leanplum.utils.listeners.TestListener;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 
@@ -51,12 +53,16 @@ public class InAppTemplateTest extends CommonTestSteps {
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186466">C186466</a>
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
      */
+    @Parameters({ "id" })
     @Test(groups = { "android", "ios", "andr",
             "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup")
-    public void confirmRichInterstitialStarRatingCenterPopupTemplates(Method method) {
+    public void confirmRichInterstitialStarRatingCenterPopupTemplates(Method method, String id) {
         try {
+            AppiumDriver<MobileElement> driver = initTest();
+
+            startTest();
+
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
 
             // Track event
             AdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
@@ -118,12 +124,17 @@ public class InAppTemplateTest extends CommonTestSteps {
      * @see <a href=
      *      "https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
      */
+    @Parameters({ "id" })
     @Test(groups = { "android", "ios",
             "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, WebInterstitial")
-    public void confirmRichInterstitialWebInterstitialTemplates(Method method) {
+    public void confirmRichInterstitialWebInterstitialTemplates(Method method, String id) {
         try {
+
+            AppiumDriver<MobileElement> driver = initTest();
+
+            startTest();
+
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
 
             // Track event
             AdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
@@ -175,12 +186,16 @@ public class InAppTemplateTest extends CommonTestSteps {
      * @see <a href=
      *      "https://teamplumqa.testrail.com/index.php?/cases/view/186465">C186465</a>
      */
+    @Parameters({ "id" })
     @Test(groups = { "android", "ios",
             "inAppTemplates" }, description = "In-App Templates - Confirm, Interstitial, Alert, Banner")
-    public void confirmInterstitialAlertBannerTemplates(Method method) {
+    public void confirmInterstitialAlertBannerTemplates(Method method, String id) {
         try {
+            AppiumDriver<MobileElement> driver = initTest();
+
+            startTest();
+
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
 
             // Track event
             sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.google.common.base.Strings;
@@ -22,6 +23,7 @@ import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.listeners.TestListener;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.nativekey.AndroidKey;
@@ -148,13 +150,17 @@ public class InAppTriggersTest extends CommonTestSteps {
     * @see <a href=
     * "https://teamplumqa.testrail.com/index.php?/cases/view/186460">C186460</a>
     */
+    @Parameters({"id"})
     @Test(groups = { "android", "ios",
             "inAppTriggers" }, description = "Confirm in-app on attribute change every two times")
-    public void confirmWithTriggerEveryTwoTimes(Method method) {
+    public void confirmWithTriggerEveryTwoTimes(Method method, String id) {
 
         try {
+        AppiumDriver<MobileElement> driver = initTest();
+
+        startTest();
+        
             TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
 
             AlertPO alert = new AlertPO(driver);
             stepHelper.acceptAllAlertsOnAppStart(alert);

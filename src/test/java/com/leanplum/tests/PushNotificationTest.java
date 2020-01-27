@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.google.common.base.Strings;
@@ -24,6 +25,7 @@ import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.listeners.TestListener;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -33,308 +35,333 @@ import io.appium.java_client.ios.IOSDriver;
 @Listeners({ TestListener.class })
 public class PushNotificationTest extends CommonTestSteps {
 
-    private static final String LOCAL_TRIGGER = "localTrigger";
-    private static final String ATTRIBUTE_NAME = "testAttribute";
-    private static final String OPEN_LEANPLUM_URL = "openLeanURL";
-    private static final String OUTSIDE_APP_TRIGGER = "outsideAppTrigger";
-    private static final String CHANNEL_DISABLED = "channelDisabled";
-    private static final String IOS_OPTIONS = "iosoptions";
-    private static final String OPTION = "option";
-    private static final String ATTRIBUTE_VALUE = "testAttr" + Utils.generateRandomNumberInRange(0, 100);
-    private static final String RONDO_PUSH_NOTIFICATION = "Rondo Push Notification";
-    private static final String RONDO_NOTIFICATION_WITH_IMAGE = "Push Notification with image!";
-    private static final String END_TRIGGER = "endTrigger";
+	private static final String LOCAL_TRIGGER = "localTrigger";
+	private static final String ATTRIBUTE_NAME = "testAttribute";
+	private static final String OPEN_LEANPLUM_URL = "openLeanURL";
+	private static final String OUTSIDE_APP_TRIGGER = "outsideAppTrigger";
+	private static final String CHANNEL_DISABLED = "channelDisabled";
+	private static final String IOS_OPTIONS = "iosoptions";
+	private static final String OPTION = "option";
+	private static final String ATTRIBUTE_VALUE = "testAttr" + Utils.generateRandomNumberInRange(0, 100);
+	private static final String RONDO_PUSH_NOTIFICATION = "Rondo Push Notification";
+	private static final String RONDO_NOTIFICATION_WITH_IMAGE = "Push Notification with image!";
+	private static final String END_TRIGGER = "endTrigger";
 
-    /**
-     * @see <a href=
-     *      "https://teamplumqa.testrail.com/index.php?/cases/view/186429">C186429</a>
-     * @see <a href=
-     *      "https://teamplumqa.testrail.com/index.php?/cases/view/186433">C186433</a>
-     */
-    @Test(groups = { "android", "ios",
-            "pushNotifications" }, description = "Push Notification's open action is Existing action")
-    public void pushNotOpenActionWExistingAction(Method method) {
-        try {
-            TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
+	/**
+	 * @see <a href=
+	 *      "https://teamplumqa.testrail.com/index.php?/cases/view/186429">C186429</a>
+	 * @see <a href=
+	 *      "https://teamplumqa.testrail.com/index.php?/cases/view/186433">C186433</a>
+	 */
+	@Parameters({ "id" })
+	@Test(groups = { "android", "ios",
+			"pushNotifications" }, description = "Push Notification's open action is Existing action")
+	public void pushNotOpenActionWExistingAction(Method method, String id) {
 
-            // Send attribute
-            AdHocPO adHocPO = sendUserAttribute(driver, stepHelper, ATTRIBUTE_NAME, ATTRIBUTE_VALUE);
+		try {
+			AppiumDriver<MobileElement> driver = initTest();
 
-            // Open notifications and verify layout
-            PushNotifiationType pn = determinePushNotification(driver);
-            PushNotification pushNotification = pn.initialize(driver, RONDO_NOTIFICATION_WITH_IMAGE);
+			startTest();
 
-            stepHelper.openNotifications();
+			TestStepHelper stepHelper = new TestStepHelper(this);
 
-            stepHelper.waitForNotificationPresence(pushNotification);
+			// Send attribute
+			AdHocPO adHocPO = sendUserAttribute(driver, stepHelper, ATTRIBUTE_NAME, ATTRIBUTE_VALUE);
 
-            stepHelper.verifyCondition("Verify that notification contains image", pushNotification.doesContainImage());
+			// Open notifications and verify layout
+			PushNotifiationType pn = determinePushNotification(driver);
+			PushNotification pushNotification = pn.initialize(driver, RONDO_NOTIFICATION_WITH_IMAGE);
 
-            stepHelper.openPushNotification(pushNotification);
+			stepHelper.openNotifications();
 
-            // Verify center popup
-            CenterPopupPO centerPopupPO = new CenterPopupPO(driver);
-            stepHelper.verifyCondition("Verify center popup",
-                    centerPopupPO.verifyCenterPopup("Rondo Center Popup", "Rondo is ready!", "Start now!"));
+			stepHelper.waitForNotificationPresence(pushNotification);
 
-            // Click center popup accept button
-            stepHelper.clickElement(centerPopupPO, centerPopupPO.centerPopupAcceptButton, "Accept button");
+			stepHelper.verifyCondition("Verify that notification contains image", pushNotification.doesContainImage());
 
-            AlertPO alertPO = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+			stepHelper.openPushNotification(pushNotification);
 
-            // Send end event
-            stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
+			// Verify center popup
+			CenterPopupPO centerPopupPO = new CenterPopupPO(driver);
+			stepHelper.verifyCondition("Verify center popup",
+					centerPopupPO.verifyCenterPopup("Rondo Center Popup", "Rondo is ready!", "Start now!"));
 
-            stepHelper.closeAppAndReturnToHome(adHocPO);
+			// Click center popup accept button
+			stepHelper.clickElement(centerPopupPO, centerPopupPO.centerPopupAcceptButton, "Accept button");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            endStep(e.toString(), false);
-        }
-        endTest();
-    }
+			AlertPO alertPO = new AlertPO(driver);
+			stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
-    /**
-     * @see <a href=
-     *      “https://teamplumqa.testrail.com/index.php?/cases/view/186428“>C186428</a>
-     * @see <a href=
-     *      “https://teamplumqa.testrail.com/index.php?/cases/view/186436”>C186436</a>
-     */
+			// Send end event
+			stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
 
-    @Test(groups = {
-            "android”, “ios”, “pushNotifications" }, description = "Push Notification’s open action is New Action")
-    public void pushNotOpenActionWNewAction(Method method) {
-        try {
-            TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
+			stepHelper.closeAppAndReturnToHome(adHocPO);
 
-            // Track event
-            AdHocPO adHocPO = sendEvent(driver, stepHelper, LOCAL_TRIGGER);
+		} catch (Exception e) {
+			e.printStackTrace();
+			endStep(e.toString(), false);
+		}
+		endTest();
+	}
 
-            PushNotifiationType pn = determinePushNotification(driver);
+	/**
+	 * @see <a href=
+	 *      “https://teamplumqa.testrail.com/index.php?/cases/view/186428“>C186428</a>
+	 * @see <a href=
+	 *      “https://teamplumqa.testrail.com/index.php?/cases/view/186436”>C186436</a>
+	 */
+	@Parameters({ "id" })
+	@Test(groups = {
+			"android”, “ios”, “pushNotifications" }, description = "Push Notification’s open action is New Action")
+	public void pushNotOpenActionWNewAction(Method method, String id) {
 
-            // Open push notification
-            openNotificationsAndOpenByMessage(stepHelper, pn.initialize(driver, RONDO_PUSH_NOTIFICATION));
+		try {
+			AppiumDriver<MobileElement> driver = initTest();
 
-            // Verify alert layout
-            AlertPO alertPO = new AlertPO(driver);
-            stepHelper.verifyCondition("Verification of alert",
-                    alertPO.verifyAlertLayout("Rondo Alert", "Warning this is a Rondo Alert!!", "Okay, calm down!"));
+			startTest();
 
-            // Confirm alert
-            stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, "Confirm alert");
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+			TestStepHelper stepHelper = new TestStepHelper(this);
 
-            // Send end event
-            stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
+			// Track event
+			AdHocPO adHocPO = sendEvent(driver, stepHelper, LOCAL_TRIGGER);
 
-            stepHelper.closeAppAndReturnToHome(adHocPO);
-        } catch (Exception e) {
-            e.printStackTrace();
-            endStep(e.toString(), false);
-        }
-        endTest();
-    }
+			PushNotifiationType pn = determinePushNotification(driver);
 
-    /**
-     * @see <a href=
-     *      "https://teamplumqa.testrail.com/index.php?/cases/view/186430">C186430</a>
-     */
-    @Test(groups = { "android", "ios",
-            "pushNotifications" }, description = "Push Notification's open action is Open URL")
-    public void pushNotOpenURL(Method method) {
-        try {
-            TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
+			// Open push notification
+			openNotificationsAndOpenByMessage(stepHelper, pn.initialize(driver, RONDO_PUSH_NOTIFICATION));
 
-            // Track state
-            AdHocPO adHocPO = sendState(driver, stepHelper, OPEN_LEANPLUM_URL);
+			// Verify alert layout
+			AlertPO alertPO = new AlertPO(driver);
+			stepHelper.verifyCondition("Verification of alert",
+					alertPO.verifyAlertLayout("Rondo Alert", "Warning this is a Rondo Alert!!", "Okay, calm down!"));
 
-            PushNotifiationType pn = determinePushNotification(driver);
-            openNotificationsAndOpenByMessage(stepHelper, pn.initialize(driver, RONDO_PUSH_NOTIFICATION));
+			// Confirm alert
+			stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, "Confirm alert");
+			stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
-            MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
-            stepHelper.verifyCondition("Verify opened URL is correct",
-                    mobileBrowserPO.isCorrectURLOpened("leanplum.com"));
+			// Send end event
+			stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
 
-            // Confirm on resume app
-            startStep("Go back to Rondo app");
-            mobileBrowserPO.goBack();
-            endStep();
+			stepHelper.closeAppAndReturnToHome(adHocPO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			endStep(e.toString(), false);
+		}
+		endTest();
+	}
 
-            AlertPO alertPO = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+	/**
+	 * @see <a href=
+	 *      "https://teamplumqa.testrail.com/index.php?/cases/view/186430">C186430</a>
+	 */
+	@Parameters({ "id" })
+	@Test(groups = { "android", "ios",
+			"pushNotifications" }, description = "Push Notification's open action is Open URL")
+	public void pushNotOpenURL(Method method, String id) {
 
-            // Send end event
-            stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
+		try {
+			AppiumDriver<MobileElement> driver = initTest();
 
-            stepHelper.closeAppAndReturnToHome(adHocPO);
+			startTest();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            endStep(e.toString(), false);
-        }
-        endTest();
-    }
+			TestStepHelper stepHelper = new TestStepHelper(this);
 
-    /**
-     * @see <a
-     *      href=" https://teamplumqa.testrail.com/index.php?/cases/view/186434">C186434</a>
-     */
-    @Test(groups = { "ios", "pushNotifications" }, description = "Push Notification's with iOS options")
-    public void pushNotWithIOSOptions(Method method) {
-        try {
-            TestStepHelper stepHelper = new TestStepHelper(this);
-            MobileDriver<MobileElement> driver = getDriver();
+			// Track state
+			AdHocPO adHocPO = sendState(driver, stepHelper, OPEN_LEANPLUM_URL);
 
-            // Track event
-            // TODO CHANGE TO ADVANCE TO STATE WITH PARAMETER
-            AdHocPO adHocPO = sendState(driver, stepHelper, IOS_OPTIONS);
+			PushNotifiationType pn = determinePushNotification(driver);
+			openNotificationsAndOpenByMessage(stepHelper, pn.initialize(driver, RONDO_PUSH_NOTIFICATION));
 
-            // Open notification and confirm that notification is not present
-            IOSPushNotification pushNotification = (IOSPushNotification) PushNotifiationType.IOS.initialize(driver,
-                    RONDO_PUSH_NOTIFICATION);
+			MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
+			stepHelper.verifyCondition("Verify opened URL is correct",
+					mobileBrowserPO.isCorrectURLOpened("leanplum.com"));
 
-            stepHelper.openNotifications();
+			// Confirm on resume app
+			startStep("Go back to Rondo app");
+			mobileBrowserPO.goBack();
+			endStep();
 
-            stepHelper.waitForNotificationPresence(pushNotification);
+			AlertPO alertPO = new AlertPO(driver);
+			stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
-            stepHelper.verifyCondition("Verify that notification contains image", pushNotification.doesContainImage());
+			// Send end event
+			stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
 
-            stepHelper.verifyCondition("Verify that notification contains subtitle",
-                    pushNotification.doesContainContent("Push notification with iOS options subtitle"));
+			stepHelper.closeAppAndReturnToHome(adHocPO);
 
-            stepHelper.verifyCondition("Verify that notification contains title",
-                    pushNotification.doesContainContent("Push notification with iOS options title"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			endStep(e.toString(), false);
+		}
+		endTest();
+	}
 
-            stepHelper.openPushNotification(pushNotification);
+//    /**
+//     * @see <a
+//     *      href=" https://teamplumqa.testrail.com/index.php?/cases/view/186434">C186434</a>
+//     */
+//    @Parameters({ "id" })
+//    @Test(groups = { "ios", "pushNotifications" }, description = "Push Notification's with iOS options")
+//    public void pushNotWithIOSOptions(Method method, String id) {
+//
+//        try {
+//            AppiumDriver<MobileElement> driver = initTest();
+//
+//            startTest();
+//
+//            TestStepHelper stepHelper = new TestStepHelper(this);
+//
+//            // Track event
+//            // TODO CHANGE TO ADVANCE TO STATE WITH PARAMETER
+//            AdHocPO adHocPO = sendState(driver, stepHelper, IOS_OPTIONS);
+//
+//            // Open notification and confirm that notification is not present
+//            IOSPushNotification pushNotification = (IOSPushNotification) PushNotifiationType.IOS.initialize(driver,
+//                    RONDO_PUSH_NOTIFICATION);
+//
+//            stepHelper.openNotifications();
+//
+//            stepHelper.waitForNotificationPresence(pushNotification);
+//
+//            stepHelper.verifyCondition("Verify that notification contains image", pushNotification.doesContainImage());
+//
+//            stepHelper.verifyCondition("Verify that notification contains subtitle",
+//                    pushNotification.doesContainContent("Push notification with iOS options subtitle"));
+//
+//            stepHelper.verifyCondition("Verify that notification contains title",
+//                    pushNotification.doesContainContent("Push notification with iOS options title"));
+//
+//            stepHelper.openPushNotification(pushNotification);
+//
+//            AlertPO alertPO = new AlertPO(driver);
+//            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+//
+//            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+//
+//            // Send end event
+//            stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            endStep(e.toString(), false);
+//        }
+//        endTest();
+//    }
+//
+	// /**
+	// * @see <a href=
+	// * "https://teamplumqa.testrail.com/index.php?/cases/view/186431">C186431</a>
+	// */
+	// @Parameters({"id"})
+	// @Test(groups = { "android",
+	// "pushNotifications" }, description = "Push Notification's open action is
+	// Muted Inside App")
+	// public void pushNotMuteInsideApp(Method method, String id) {
+	// TestStepHelper stepHelper = new TestStepHelper(this);
+	// MobileDriver<MobileElement> driver = getDriver();
+	//
+	//// Track event
+	// AlertPO alertPO = new AlertPO(driver);
+	// stepHelper.acceptAllAlertsOnAppStart(alertPO);
+	//
+	// AppSetupPO appSetupPO = new AppSetupPO(driver);
+	// String userId = alertPO.getTextFromElement(appSetupPO.userId);
+	// String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
+	// AdHocPO adHocPO = new AdHocPO(driver);
+	// stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+	//
+	// if (Strings.isNullOrEmpty(userId)) {
+	// adHocPO.setUserId(deviceId);
+	// userId = deviceId;
+	// }
+	//
+	// stepHelper.sendTrackEvent(adHocPO, OUTSIDE_APP_TRIGGER);
+	//
+	//// Open notification and confirm that notification is not present
+	// PushNotification pushNotification =
+	// PushNotifiationType.ANDROID.initialize(driver, RONDO_PUSH_NOTIFICATION);
+	//
+	// Utils.swipeTopToBottom(driver);
+	//
+	// stepHelper.confirmNotificationAbsence(pushNotification);
+	//
+	// Utils.swipeBottomToTop(driver);
+	//
+	// stepHelper.stopAppSession(adHocPO);
+	//
+	// TemporaryAPI.track(userId, OUTSIDE_APP_TRIGGER);
+	//
+	// MobileDriverUtils.waitInMs(10000);
+	//
+	//// stepHelper.resumeAppSession(adHocPO);
+	//
+	// Utils.swipeTopToBottom(driver);
+	// stepHelper.waitForNotificationPresence(pushNotification);
+	// stepHelper.openPushNotification(pushNotification);
+	//
+	//// Confirm on resume app
+	// stepHelper.acceptAllAlertsOnAppStart(alertPO);
+	//
+	// stepHelper.clickElement(adHocPO, adHocPO.adhoc, " Ad-Hoc button");
+	//
+	//// Send end event
+	// stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
+	//
+	// stepHelper.closeAppAndReturnToHome(adHocPO);
+	// }
+	//
+	//
+	// /**
+	// * @see <a
+	// href="https://teamplumqa.testrail.com/index.php?/cases/view/186432">C186432</a>
+	// */
+	// @Test(groups = { "android",
+	// "pushNotifications" }, description = "Push Notification's open action is with
+	// disabled notification channel")
+	// public void pushNotWithDisabledChannel(Method method, String id) {
+	// try {
+	// TestStepHelper stepHelper = new TestStepHelper(this);
+	// MobileDriver<MobileElement> driver = getDriver();
+	//
+	// // Track event
+	// AdHocPO adHocPO = sendEvent(driver, stepHelper, CHANNEL_DISABLED);
+	//
+	// // Open notification and confirm that notification is not present
+	// PushNotification pushNotification =
+	// PushNotifiationType.ANDROID.initialize(driver, RONDO_PUSH_NOTIFICATION);
+	//
+	// stepHelper.openNotifications();
+	//
+	// stepHelper.confirmNotificationAbsence(pushNotification);
+	//
+	// // Confirm on resume app
+	// stepHelper.clickAndroidKey(AndroidKey.BACK);
+	//
+	// stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+	//
+	// // Send end event
+	// stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
+	//
+	// stepHelper.closeAppAndReturnToHome(adHocPO);
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// endStep(e.toString(), false);
+	// }
+	// endTest();
+	// }
 
-            AlertPO alertPO = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+	private void allowIOSPushPermission(AppiumDriver<MobileElement> driver, PushNotifiationType pn) {
+		if (pn == PushNotifiationType.IOS) {
+			AppSetupPO appSetupPO = new AppSetupPO(driver);
+			appSetupPO.allowIosPushPermission();
+		}
+	}
 
-            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-
-            // Send end event
-            stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            endStep(e.toString(), false);
-        }
-        endTest();
-    }
-
-    // /**
-    // * @see <a href=
-    // * "https://teamplumqa.testrail.com/index.php?/cases/view/186431">C186431</a>
-    // */
-    // @Test(groups = { "android",
-    // "pushNotifications" }, description = "Push Notification's open action is Muted Inside App")
-    // public void pushNotMuteInsideApp(Method method) {
-    // TestStepHelper stepHelper = new TestStepHelper(this);
-    // MobileDriver<MobileElement> driver = getDriver();
-    //
-    //// Track event
-    // AlertPO alertPO = new AlertPO(driver);
-    // stepHelper.acceptAllAlertsOnAppStart(alertPO);
-    //
-    // AppSetupPO appSetupPO = new AppSetupPO(driver);
-    // String userId = alertPO.getTextFromElement(appSetupPO.userId);
-    // String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-    // AdHocPO adHocPO = new AdHocPO(driver);
-    // stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-    //
-    // if (Strings.isNullOrEmpty(userId)) {
-    // adHocPO.setUserId(deviceId);
-    // userId = deviceId;
-    // }
-    //
-    // stepHelper.sendTrackEvent(adHocPO, OUTSIDE_APP_TRIGGER);
-    //
-    //// Open notification and confirm that notification is not present
-    // PushNotification pushNotification = PushNotifiationType.ANDROID.initialize(driver, RONDO_PUSH_NOTIFICATION);
-    //
-    // Utils.swipeTopToBottom(driver);
-    //
-    // stepHelper.confirmNotificationAbsence(pushNotification);
-    //
-    // Utils.swipeBottomToTop(driver);
-    //
-    // stepHelper.stopAppSession(adHocPO);
-    //
-    // TemporaryAPI.track(userId, OUTSIDE_APP_TRIGGER);
-    //
-    // MobileDriverUtils.waitInMs(10000);
-    //
-    //// stepHelper.resumeAppSession(adHocPO);
-    //
-    // Utils.swipeTopToBottom(driver);
-    // stepHelper.waitForNotificationPresence(pushNotification);
-    // stepHelper.openPushNotification(pushNotification);
-    //
-    //// Confirm on resume app
-    // stepHelper.acceptAllAlertsOnAppStart(alertPO);
-    //
-    // stepHelper.clickElement(adHocPO, adHocPO.adhoc, " Ad-Hoc button");
-    //
-    //// Send end event
-    // stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
-    //
-    // stepHelper.closeAppAndReturnToHome(adHocPO);
-    // }
-    //
-    //
-    // /**
-    // * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186432">C186432</a>
-    // */
-    // @Test(groups = { "android",
-    // "pushNotifications" }, description = "Push Notification's open action is with disabled notification channel")
-    // public void pushNotWithDisabledChannel(Method method) {
-    // try {
-    // TestStepHelper stepHelper = new TestStepHelper(this);
-    // MobileDriver<MobileElement> driver = getDriver();
-    //
-    // // Track event
-    // AdHocPO adHocPO = sendEvent(driver, stepHelper, CHANNEL_DISABLED);
-    //
-    // // Open notification and confirm that notification is not present
-    // PushNotification pushNotification = PushNotifiationType.ANDROID.initialize(driver, RONDO_PUSH_NOTIFICATION);
-    //
-    // stepHelper.openNotifications();
-    //
-    // stepHelper.confirmNotificationAbsence(pushNotification);
-    //
-    // // Confirm on resume app
-    // stepHelper.clickAndroidKey(AndroidKey.BACK);
-    //
-    // stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-    //
-    // // Send end event
-    // stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
-    //
-    // stepHelper.closeAppAndReturnToHome(adHocPO);
-    //
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // endStep(e.toString(), false);
-    // }
-    // endTest();
-    // }
-
-    private void allowIOSPushPermission(MobileDriver<MobileElement> driver, PushNotifiationType pn) {
-        if (pn == PushNotifiationType.IOS) {
-            AppSetupPO appSetupPO = new AppSetupPO(driver);
-            appSetupPO.allowIosPushPermission();
-        }
-    }
-
-    private PushNotifiationType determinePushNotification(MobileDriver<MobileElement> driver) {
-        if (driver instanceof AndroidDriver) {
-            return PushNotifiationType.ANDROID;
-        } else {
-            return PushNotifiationType.IOS;
-        }
-    }
+	private PushNotifiationType determinePushNotification(AppiumDriver<MobileElement> driver) {
+		if (driver instanceof AndroidDriver) {
+			return PushNotifiationType.ANDROID;
+		} else {
+			return PushNotifiationType.IOS;
+		}
+	}
 }

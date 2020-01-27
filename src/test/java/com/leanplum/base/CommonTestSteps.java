@@ -7,12 +7,13 @@ import com.leanplum.tests.pageobject.MobileBrowserPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pushnotification.PushNotification;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 
 public class CommonTestSteps extends BaseTest {
 
-    public AdHocPO sendEvent(MobileDriver<MobileElement> driver, TestStepHelper stepHelper, String message) {
+    public AdHocPO sendEvent(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper, String message) {
         AlertPO alertPO = new AlertPO(driver);
         stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
@@ -34,7 +35,7 @@ public class CommonTestSteps extends BaseTest {
         return adHocPO;
     }
 
-    public AdHocPO sendEventWithParameters(MobileDriver<MobileElement> driver, TestStepHelper stepHelper,
+    public AdHocPO sendEventWithParameters(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper,
             String message, String paramKey, String paramValue) {
         AlertPO alertPO = new AlertPO(driver);
         stepHelper.acceptAllAlertsOnAppStart(alertPO);
@@ -57,7 +58,7 @@ public class CommonTestSteps extends BaseTest {
         return adHocPO;
     }
 
-    public AdHocPO sendState(MobileDriver<MobileElement> driver, TestStepHelper stepHelper, String state) {
+    public AdHocPO sendState(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper, String state) {
         AlertPO alertPO = new AlertPO(driver);
         stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
@@ -79,7 +80,7 @@ public class CommonTestSteps extends BaseTest {
         return adHocPO;
     }
 
-    public AdHocPO sendUserAttribute(MobileDriver<MobileElement> driver, TestStepHelper stepHelper,
+    public AdHocPO sendUserAttribute(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper,
             String attributeName, String attributeValue) {
         AlertPO alertPO = new AlertPO(driver);
         stepHelper.acceptAllAlertsOnAppStart(alertPO);
@@ -108,7 +109,7 @@ public class CommonTestSteps extends BaseTest {
         stepHelper.openPushNotification(pushNotification);
     }
 
-    public boolean verifyCorrectURLIsOpened(MobileDriver<MobileElement> driver, String url) {
+    public boolean verifyCorrectURLIsOpened(AppiumDriver<MobileElement> driver, String url) {
         MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
         return mobileBrowserPO.isCorrectURLOpened(url);
     }

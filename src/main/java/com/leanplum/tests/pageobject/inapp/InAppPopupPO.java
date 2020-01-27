@@ -5,16 +5,16 @@ import java.util.Map.Entry;
 
 import com.leanplum.tests.pageobject.BasePO;
 
-import io.appium.java_client.MobileDriver;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 
 public class InAppPopupPO extends BasePO {
 
 	public static final String POPUP_CONTAINER_XPATH = "//*[@resource-id='com.leanplum.rondo:id/container_view']";
-	private MobileDriver<MobileElement> driver;
+	private AppiumDriver<MobileElement> driver;
 
-	public InAppPopupPO(MobileDriver<MobileElement> driver) {
+	public InAppPopupPO(AppiumDriver<MobileElement> driver) {
 		super(driver);
 		this.driver = driver;
 	}
