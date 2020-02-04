@@ -1,4 +1,4 @@
-package com.leanplum.tests;
+package com.leanplum.tests.release;
 
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
@@ -26,6 +26,7 @@ import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.AppInboxMessagePO;
 import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
+import com.leanplum.tests.pageobject.inapp.StarRatingPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
@@ -34,10 +35,10 @@ import io.qameta.allure.testng.TestInstanceParameter;
 import io.restassured.response.Response;
 
 @Listeners({ TestListener.class })
-public class AppInboxTest extends CommonTestSteps {
+public class AppInbox extends CommonTestSteps {
 
     protected String description;
-    private static final String APP_INBOX_EVENT = "appinbox";
+    private static final String APP_INBOX_EVENT = "appInboxAutomation";
 
     /**
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186442">C186442</a>
@@ -45,8 +46,8 @@ public class AppInboxTest extends CommonTestSteps {
     * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186444">C186444</a>
     */
     @Parameters({ "id" })
-    @Test(groups = { "android", "ios", "appinbox" })
-    public void confirmWithTriggerEveryTwoTimes(Method method, String id) {
+    @Test(groups = { "release" })
+    public void appInboxRelease(Method method, String id) {
 
         try {
             AppiumDriver<MobileElement> driver = initiateTest();
@@ -55,8 +56,8 @@ public class AppInboxTest extends CommonTestSteps {
 
             AppSetupPO appSetupPO = new AppSetupPO(driver);
             String deviceId = getDeviceId(appSetupPO);
-
-            String userId = getUserId(appSetupPO);
+            String userId = "automationUser";
+            setUserId(appSetupPO, userId);
 
             Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
 
@@ -74,12 +75,6 @@ public class AppInboxTest extends CommonTestSteps {
             MobileDriverUtils.waitInMs(30000);
             driver.launchApp();
 
-            // MobileDriverUtils.waitInMs(30000);
-
-            // driver.closeApp();
-            // MobileDriverUtils.waitInMs(1000);
-            // driver.launchApp();
-
             AlertPO alert = new AlertPO(driver);
             MobileDriverUtils.waitInMs(5000);
             stepHelper.acceptAllAlertsOnAppStart(alert);
@@ -92,10 +87,10 @@ public class AppInboxTest extends CommonTestSteps {
             endStep();
 
             startStep("Verify app inbox message title is correct");
-            endStep(appInbox.isTitleCorrect("Update your profile!"));
+            endStep(appInbox.isTitleCorrect("You've reached new milestone!"));
 
             startStep("Verify app inbox message subtitle is correct");
-            endStep(appInbox.isSubTitleCorrect("Please add more info.."));
+            endStep(appInbox.isSubTitleCorrect("You've reached new milestone!"));
 
             startStep("Verify app inbox message does contain image");
             endStep(appInbox.doesContainImage());
@@ -105,12 +100,9 @@ public class AppInboxTest extends CommonTestSteps {
             endStep();
 
             // Verify alert layout
-            alert = new AlertPO(driver);
-            stepHelper.verifyCondition("Verify alert layout", alert.verifyAlertLayout("AlertMessage",
-                    "Alert message after opening app inbox message", "It's here!"));
-
-            // Confrim alert
-            stepHelper.clickElement(alert, alert.confirmAlertButton, "It's here!");
+            StarRatingPO starRating = new StarRatingPO(driver);
+            stepHelper.verifyCondition("Verify star rating popup layout",
+                    starRating.verifyStarRating("Survey question", 5, "I hate it!", "I love it!"));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,29 +114,6 @@ public class AppInboxTest extends CommonTestSteps {
     private Set<String> getNewsfeedMessageIds(Response response) {
         return new JSONObject(response.body().asString()).getJSONArray("response").getJSONObject(0)
                 .getJSONObject("newsfeedMessages").keySet();
-    }
-
-    /**
-    * On Android there is a chance not to have userId, logic to set one is added
-    *
-    * @param basePage
-    * @return
-    */
-    private String getUserId(AppSetupPO appSetupPO) {
-        String userId = appSetupPO.getTextFromElement(appSetupPO.userId);
-
-        if (userId == null || userId.isEmpty()) {
-            String deviceId = getDeviceId(appSetupPO);
-
-            AdHocPO adHocPO = new AdHocPO(getDriver());
-            adHocPO.click(adHocPO.adhoc);
-
-            adHocPO.setUserId(deviceId);
-
-            appSetupPO.click(appSetupPO.appSetup);
-        }
-
-        return userId;
     }
 
     private String getDeviceId(AppSetupPO appSetupPO) {

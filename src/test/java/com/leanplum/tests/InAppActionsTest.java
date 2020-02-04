@@ -23,15 +23,13 @@ public class InAppActionsTest extends CommonTestSteps {
     /**
      * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186445">C186445</a>
      */
-    @Parameters({"id"})
+    @Parameters({ "id" })
     @Test(groups = { "android", "ios", "openAction" }, description = "Open URL action")
     public void openUrlAction(Method method, String id) {
 
         try {
-        AppiumDriver<MobileElement> driver = initTest();
+            AppiumDriver<MobileElement> driver = initiateTest();
 
-        startTest();
-       
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             AlertPO alert = new AlertPO(driver);

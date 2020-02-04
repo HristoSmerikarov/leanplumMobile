@@ -4,23 +4,15 @@
 	thread-count="2">
 	<test name="Device one">
 		<parameter name="id" value="Device one" />
-		<classes>
-			<class name="com.leanplum.tests.PushNotificationTest" />
-		</classes>
+		<packages>
+			<package name="com.leanplum.tests.release" />
+		</packages>
 	</test>
-	<test name="Device two">
-		<parameter name="id" value="Device two" />
-		<classes>
-			<class name="com.leanplum.tests.PushNotificationTest" />
-		</classes>
-	</test>
-	<!-- <test name="Device three">
-		<parameter name="id" value="Device three" />
-		<classes>
-			<class name="com.leanplum.tests.InAppActionsTest" />
-			<class name="com.leanplum.tests.AppInboxTest" />
-		</classes>
-	</test> -->
+	<!-- <test name="Device two"> <parameter name="id" value="Device two" /> 
+		<classes> <class name="com.leanplum.tests.PushNotificationTest" /> </classes> 
+		</test> <test name="Device three"> <parameter name="id" value="Device three" 
+		/> <classes> <class name="com.leanplum.tests.InAppActionsTest" /> <class 
+		name="com.leanplum.tests.AppInboxTest" /> </classes> </test> -->
 	<!-- <test name="MobileDevice Two"> -->
 	<!-- <classes> -->
 	<!-- <class name="com.musala.examples.tests.HeaderNamesTest"> -->

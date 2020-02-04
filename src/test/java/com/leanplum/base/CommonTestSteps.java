@@ -1,6 +1,9 @@
 package com.leanplum.base;
 
+import java.net.MalformedURLException;
+
 import com.google.common.base.Strings;
+import com.leanplum.tests.helpers.TestAppUtils;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.MobileBrowserPO;
@@ -8,10 +11,34 @@ import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pushnotification.PushNotification;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 
 public class CommonTestSteps extends BaseTest {
+
+    public AppiumDriver<MobileElement> initiateTest() throws MalformedURLException {
+        AppiumDriver<MobileElement> driver = initTest();
+
+        startTest();
+
+        TestStepHelper stepHelper = new TestStepHelper(this);
+
+        AlertPO alert = new AlertPO(driver);
+        stepHelper.acceptAllAlertsOnAppStart(alert);
+
+        TestAppUtils appUtils = new TestAppUtils();
+        appUtils.selectAppAndEnv(driver);
+
+        return driver;
+    }
+
+    public void setUserId(AppSetupPO appSetupPO, String userId) {
+        AdHocPO adHocPO = new AdHocPO(getDriver());
+        adHocPO.click(adHocPO.adhoc);
+
+        adHocPO.setUserId(userId);
+
+        appSetupPO.click(appSetupPO.appSetup);
+    }
 
     public AdHocPO sendEvent(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper, String message) {
         AlertPO alertPO = new AlertPO(driver);
@@ -102,7 +129,7 @@ public class CommonTestSteps extends BaseTest {
 
         return adHocPO;
     }
-    
+
     public void openNotificationsAndOpenByMessage(TestStepHelper stepHelper, PushNotification pushNotification) {
         stepHelper.openNotifications();
         stepHelper.waitForNotificationPresence(pushNotification);

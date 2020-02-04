@@ -59,9 +59,7 @@ public class PushNotificationTest extends CommonTestSteps {
 	public void pushNotOpenActionWExistingAction(Method method, String id) {
 
 		try {
-			AppiumDriver<MobileElement> driver = initTest();
-
-			startTest();
+		    AppiumDriver<MobileElement> driver = initiateTest();
 
 			TestStepHelper stepHelper = new TestStepHelper(this);
 
@@ -115,9 +113,7 @@ public class PushNotificationTest extends CommonTestSteps {
 	public void pushNotOpenActionWNewAction(Method method, String id) {
 
 		try {
-			AppiumDriver<MobileElement> driver = initTest();
-
-			startTest();
+		    AppiumDriver<MobileElement> driver = initiateTest();
 
 			TestStepHelper stepHelper = new TestStepHelper(this);
 
@@ -159,9 +155,7 @@ public class PushNotificationTest extends CommonTestSteps {
 	public void pushNotOpenURL(Method method, String id) {
 
 		try {
-			AppiumDriver<MobileElement> driver = initTest();
-
-			startTest();
+		    AppiumDriver<MobileElement> driver = initiateTest();
 
 			TestStepHelper stepHelper = new TestStepHelper(this);
 
@@ -195,160 +189,6 @@ public class PushNotificationTest extends CommonTestSteps {
 		endTest();
 	}
 
-//    /**
-//     * @see <a
-//     *      href=" https://teamplumqa.testrail.com/index.php?/cases/view/186434">C186434</a>
-//     */
-//    @Parameters({ "id" })
-//    @Test(groups = { "ios", "pushNotifications" }, description = "Push Notification's with iOS options")
-//    public void pushNotWithIOSOptions(Method method, String id) {
-//
-//        try {
-//            AppiumDriver<MobileElement> driver = initTest();
-//
-//            startTest();
-//
-//            TestStepHelper stepHelper = new TestStepHelper(this);
-//
-//            // Track event
-//            // TODO CHANGE TO ADVANCE TO STATE WITH PARAMETER
-//            AdHocPO adHocPO = sendState(driver, stepHelper, IOS_OPTIONS);
-//
-//            // Open notification and confirm that notification is not present
-//            IOSPushNotification pushNotification = (IOSPushNotification) PushNotifiationType.IOS.initialize(driver,
-//                    RONDO_PUSH_NOTIFICATION);
-//
-//            stepHelper.openNotifications();
-//
-//            stepHelper.waitForNotificationPresence(pushNotification);
-//
-//            stepHelper.verifyCondition("Verify that notification contains image", pushNotification.doesContainImage());
-//
-//            stepHelper.verifyCondition("Verify that notification contains subtitle",
-//                    pushNotification.doesContainContent("Push notification with iOS options subtitle"));
-//
-//            stepHelper.verifyCondition("Verify that notification contains title",
-//                    pushNotification.doesContainContent("Push notification with iOS options title"));
-//
-//            stepHelper.openPushNotification(pushNotification);
-//
-//            AlertPO alertPO = new AlertPO(driver);
-//            stepHelper.acceptAllAlertsOnAppStart(alertPO);
-//
-//            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-//
-//            // Send end event
-//            stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            endStep(e.toString(), false);
-//        }
-//        endTest();
-//    }
-//
-	// /**
-	// * @see <a href=
-	// * "https://teamplumqa.testrail.com/index.php?/cases/view/186431">C186431</a>
-	// */
-	// @Parameters({"id"})
-	// @Test(groups = { "android",
-	// "pushNotifications" }, description = "Push Notification's open action is
-	// Muted Inside App")
-	// public void pushNotMuteInsideApp(Method method, String id) {
-	// TestStepHelper stepHelper = new TestStepHelper(this);
-	// MobileDriver<MobileElement> driver = getDriver();
-	//
-	//// Track event
-	// AlertPO alertPO = new AlertPO(driver);
-	// stepHelper.acceptAllAlertsOnAppStart(alertPO);
-	//
-	// AppSetupPO appSetupPO = new AppSetupPO(driver);
-	// String userId = alertPO.getTextFromElement(appSetupPO.userId);
-	// String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-	// AdHocPO adHocPO = new AdHocPO(driver);
-	// stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-	//
-	// if (Strings.isNullOrEmpty(userId)) {
-	// adHocPO.setUserId(deviceId);
-	// userId = deviceId;
-	// }
-	//
-	// stepHelper.sendTrackEvent(adHocPO, OUTSIDE_APP_TRIGGER);
-	//
-	//// Open notification and confirm that notification is not present
-	// PushNotification pushNotification =
-	// PushNotifiationType.ANDROID.initialize(driver, RONDO_PUSH_NOTIFICATION);
-	//
-	// Utils.swipeTopToBottom(driver);
-	//
-	// stepHelper.confirmNotificationAbsence(pushNotification);
-	//
-	// Utils.swipeBottomToTop(driver);
-	//
-	// stepHelper.stopAppSession(adHocPO);
-	//
-	// TemporaryAPI.track(userId, OUTSIDE_APP_TRIGGER);
-	//
-	// MobileDriverUtils.waitInMs(10000);
-	//
-	//// stepHelper.resumeAppSession(adHocPO);
-	//
-	// Utils.swipeTopToBottom(driver);
-	// stepHelper.waitForNotificationPresence(pushNotification);
-	// stepHelper.openPushNotification(pushNotification);
-	//
-	//// Confirm on resume app
-	// stepHelper.acceptAllAlertsOnAppStart(alertPO);
-	//
-	// stepHelper.clickElement(adHocPO, adHocPO.adhoc, " Ad-Hoc button");
-	//
-	//// Send end event
-	// stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
-	//
-	// stepHelper.closeAppAndReturnToHome(adHocPO);
-	// }
-	//
-	//
-	// /**
-	// * @see <a
-	// href="https://teamplumqa.testrail.com/index.php?/cases/view/186432">C186432</a>
-	// */
-	// @Test(groups = { "android",
-	// "pushNotifications" }, description = "Push Notification's open action is with
-	// disabled notification channel")
-	// public void pushNotWithDisabledChannel(Method method, String id) {
-	// try {
-	// TestStepHelper stepHelper = new TestStepHelper(this);
-	// MobileDriver<MobileElement> driver = getDriver();
-	//
-	// // Track event
-	// AdHocPO adHocPO = sendEvent(driver, stepHelper, CHANNEL_DISABLED);
-	//
-	// // Open notification and confirm that notification is not present
-	// PushNotification pushNotification =
-	// PushNotifiationType.ANDROID.initialize(driver, RONDO_PUSH_NOTIFICATION);
-	//
-	// stepHelper.openNotifications();
-	//
-	// stepHelper.confirmNotificationAbsence(pushNotification);
-	//
-	// // Confirm on resume app
-	// stepHelper.clickAndroidKey(AndroidKey.BACK);
-	//
-	// stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-	//
-	// // Send end event
-	// stepHelper.sendTrackEvent(adHocPO, END_TRIGGER);
-	//
-	// stepHelper.closeAppAndReturnToHome(adHocPO);
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// endStep(e.toString(), false);
-	// }
-	// endTest();
-	// }
 
 	private void allowIOSPushPermission(AppiumDriver<MobileElement> driver, PushNotifiationType pn) {
 		if (pn == PushNotifiationType.IOS) {

@@ -52,8 +52,19 @@ public class InAppTriggersTest extends CommonTestSteps {
     // @Test(description = "Alert message triggered on start")
     // public void alertTriggeredOnStartChainedToNewMessage(Method method) {
     // try {
+    // AppiumDriver<MobileElement> driver = initiateTest();
+    //
     // TestStepHelper stepHelper = new TestStepHelper(this);
-    // MobileDriver<MobileElement> driver = getDriver();
+    //
+    // startStep("Close app");
+    // driver.closeApp();
+    // endStep();
+    //
+    // MobileDriverUtils.waitInMs(5000);
+    //
+    // startStep("Launch app");
+    // driver.launchApp();
+    // endStep();
     //
     // // Verify on app start alert layout
     // AlertPO alert = new AlertPO(driver);
@@ -73,8 +84,19 @@ public class InAppTriggersTest extends CommonTestSteps {
     // @Test(description = "Confirm message triggered on start or resume app")
     // public void alertTriggeredOnStartOrResume(Method method) {
     // try {
+    // AppiumDriver<MobileElement> driver = initiateTest();
+    //
     // TestStepHelper stepHelper = new TestStepHelper(this);
-    // MobileDriver<MobileElement> driver = getDriver();
+    //
+    // startStep("Close app");
+    // driver.closeApp();
+    // endStep();
+    //
+    // MobileDriverUtils.waitInMs(5000);
+    //
+    // startStep("Launch app");
+    // driver.launchApp();
+    // endStep();
     //
     // // Verify on app start alert layout
     // AlertPO alertPO = new AlertPO(driver);
@@ -100,7 +122,7 @@ public class InAppTriggersTest extends CommonTestSteps {
     // endTest();
     // }
     //
-    // TODO not able to locate banner
+    // // TODO not able to locate banner
     // /**
     // * @see <a href=
     // * "https://teamplumqa.testrail.com/index.php?/cases/view/186463">C186463</a>
@@ -108,9 +130,11 @@ public class InAppTriggersTest extends CommonTestSteps {
     // * "https://teamplumqa.testrail.com/index.php?/cases/view/186458">C186458</a>
     // */
     // @Test(description = "Banner message triggered on event with limit per session")
+    //
     // public void bannerTriggerEventLimitPerSession(Method method) {
     // try {
-    // MobileDriver<MobileElement> driver = getDriver();
+    // AppiumDriver<MobileElement> driver = initiateTest();
+    //
     // TestStepHelper stepHelper = new TestStepHelper(this);
     //
     // AlertPO alert = new AlertPO(driver);
@@ -124,12 +148,15 @@ public class InAppTriggersTest extends CommonTestSteps {
     // for (int i = 0; i < LIMIT_PER_SESSION; i++) {
     // stepHelper.sendTrackEvent(adHocPO, TRIGGER_EVENT);
     //
+    // // Stability issue
+    // MobileDriverUtils.waitInMs(500);
+    //
     // stepHelper.verifyCondition("Verify banner popup layout", banner.verifyBannerLayout(
     // "Center bottom banner", "This banner message is here to remind you something!"));
     //
     // stepHelper.clickElement(banner, banner.banner, "banner");
     //
-    // MobileDriverUtils.waitInMs(100);
+    // MobileDriverUtils.waitInMs(500);
     // }
     //
     // stepHelper.sendTrackEvent(adHocPO, TRIGGER_EVENT);
@@ -143,114 +170,118 @@ public class InAppTriggersTest extends CommonTestSteps {
     // }
     // endTest();
     // }
+    //
+    // /**
+    // * @see <a href=
+    // * "https://teamplumqa.testrail.com/index.php?/cases/view/190770">C190770</a>
+    // * @see <a href=
+    // * "https://teamplumqa.testrail.com/index.php?/cases/view/186460">C186460</a>
+    // */
+    // @Parameters({ "id" })
+    // @Test(groups = { "android", "ios",
+    // "inAppTriggers" }, description = "Confirm in-app on attribute change every two times")
+    // public void confirmWithTriggerEveryTwoTimes(Method method, String id) {
+    //
+    // try {
+    // AppiumDriver<MobileElement> driver = initiateTest();
+    //
+    // TestStepHelper stepHelper = new TestStepHelper(this);
+    //
+    // AlertPO alert = new AlertPO(driver);
+    // stepHelper.acceptAllAlertsOnAppStart(alert);
+    //
+    // // Track event
+    // AdHocPO adHocPO = new AdHocPO(driver);
+    // stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+    //
+    // // First trigger
+    // stepHelper.sendUserAttribute(adHocPO, TRIGGER_ATTRIBUTE,
+    // ATTRIBUTE_VALUE + Utils.generateRandomNumberInRange(0, 100));
+    //
+    // stepHelper.verifyCondition("Verify confirm popup layout is not present",
+    // !MobileDriverUtils.doesSelectorMatchAnyElements(driver, ConfirmInAppPO.CONFIRM_IN_APP));
+    //
+    // // Second trigger
+    // stepHelper.sendUserAttribute(adHocPO, TRIGGER_ATTRIBUTE,
+    // ATTRIBUTE_VALUE + Utils.generateRandomNumberInRange(0, 100));
+    //
+    // // Verify Confirm popup
+    // ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+    // stepHelper.verifyCondition("Verify confirm popup layout", confirmInApp.verifyConfirmInApp("ConfirmTitle",
+    // "This message appears when attribute changes every 2 times", CONFIRM_ACCEPT, "No!"));
+    //
+    // stepHelper.clickElement(confirmInApp, confirmInApp.confirmAcceptButton,
+    // "Confirm popup accept button - " + CONFIRM_ACCEPT);
+    //
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // endStep(e.toString(), false);
+    // }
+    // endTest();
+    // }
 
+    // TODO exit/enter region not working through the app
     /**
-    * @see <a href=
-    * "https://teamplumqa.testrail.com/index.php?/cases/view/190770">C190770</a>
-    * @see <a href=
-    * "https://teamplumqa.testrail.com/index.php?/cases/view/186460">C186460</a>
-    */
-    @Parameters({"id"})
-    @Test(groups = { "android", "ios",
-            "inAppTriggers" }, description = "Confirm in-app on attribute change every two times")
-    public void confirmWithTriggerEveryTwoTimes(Method method, String id) {
+      * @see <a
+      href="https://teamplumqa.testrail.com/index.php?/cases/view/186462">C186462</a>
+      */
+    @Test(description = "Alert in app on exit region")
+    public void alertInAppOnExitRegion(Method method) {
 
         try {
-        AppiumDriver<MobileElement> driver = initTest();
+            AppiumDriver<MobileElement> driver = initiateTest();
 
-        startTest();
-        
             TestStepHelper stepHelper = new TestStepHelper(this);
 
-            AlertPO alert = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alert);
+            AlertPO alertPO = new AlertPO(driver);
+            stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
-            // Track event
+            AppSetupPO appSetupPO = new AppSetupPO(driver);
+            String userId = alertPO.getTextFromElement(appSetupPO.userId);
+            String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
             AdHocPO adHocPO = new AdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-            // First trigger
-            stepHelper.sendUserAttribute(adHocPO, TRIGGER_ATTRIBUTE,
-                    ATTRIBUTE_VALUE + Utils.generateRandomNumberInRange(0, 100));
+            startStep("Set user id, if not set");
+            if (Strings.isNullOrEmpty(userId)) {
+                adHocPO.setUserId(deviceId);
+                userId = deviceId;
+            }
+            endStep();
 
-            stepHelper.verifyCondition("Verify confirm popup layout is not present",
-                    !MobileDriverUtils.doesSelectorMatchAnyElements(driver, ConfirmInAppPO.CONFIRM_IN_APP));
+            stepHelper.sendDeviceLocation(adHocPO, MEZDRA[0], MEZDRA[1]);
 
-            // Second trigger
-            stepHelper.sendUserAttribute(adHocPO, TRIGGER_ATTRIBUTE,
-                    ATTRIBUTE_VALUE + Utils.generateRandomNumberInRange(0, 100));
+            // Wait to change location
+            MobileDriverUtils.waitInMs(5000);
 
-            // Verify Confirm popup
-            ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
-            stepHelper.verifyCondition("Verify confirm popup layout", confirmInApp.verifyConfirmInApp("ConfirmTitle",
-                    "This message appears when attribute changes every 2 times", CONFIRM_ACCEPT, "No!"));
+            Response response = TemporaryAPI.getUser(userId);
+            System.out.println("Response: " + response.body().prettyPrint());
 
-            stepHelper.clickElement(confirmInApp, confirmInApp.confirmAcceptButton,
-                    "Confirm popup accept button - " + CONFIRM_ACCEPT);
+            startStep("Region is " + response.jsonPath().getString("$.region"));
+            endStep();
+
+            // Go to interpred
+            stepHelper.sendDeviceLocation(adHocPO, INTERPRED[0], INTERPRED[1]);
+
+            // Wait to change location
+            MobileDriverUtils.waitInMs(5000);
+
+            response = TemporaryAPI.getUser(userId);
+            System.out.println("Response: " + response.body().prettyPrint());
+
+            startStep("Region is " + response.jsonPath().getString("$.region"));
+            endStep();
+
+            // Confirm alert
+            AlertPO alert = new AlertPO(driver);
+            stepHelper.verifyCondition("Verify alert layout",
+                    alert.verifyAlertLayout("Exit region", "I'm out!", "Confirm"));
 
         } catch (Exception e) {
             e.printStackTrace();
             endStep(e.toString(), false);
         }
-        endTest();
     }
-
-    // //TODO exit/enter region not working through the app
-    // /**
-    // * @see <a
-    // href="https://teamplumqa.testrail.com/index.php?/cases/view/186462">C186462</a>
-    // */
-    // @Test(description = "Alert in app on exit region")
-    // public void alertInAppOnExitRegion(Method method) {
-    // ExtentTestManager.startTest(method.getName(), "Alert in app on exit region");
-    //
-    // TestStepHelper stepHelper = new TestStepHelper(this);
-    // MobileDriver<MobileElement> driver = getDriver();
-    //
-    // AlertPO alertPO = new AlertPO(driver);
-    // stepHelper.acceptAllAlertsOnAppStart(alertPO);
-    //
-    // AppSetupPO appSetupPO = new AppSetupPO(driver);
-    // String userId = alertPO.getTextFromElement(appSetupPO.userId);
-    // String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-    // AdHocPO adHocPO = new AdHocPO(driver);
-    // stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-    //
-    // startStep("Set user id, if not set");
-    // if (Strings.isNullOrEmpty(userId)) {
-    // adHocPO.setUserId(deviceId);
-    // userId = deviceId;
-    // }
-    // endStep();
-    //
-    // stepHelper.sendDeviceLocation(adHocPO, MEZDRA[0], MEZDRA[1]);
-    //
-    // // Wait to change location
-    // MobileDriverUtils.waitInMs(5000);
-    //
-    // Response response = TemporaryAPI.getUser(userId);
-    // System.out.println("Response: " + response.body().prettyPrint());
-    //
-    // startStep("Region is " + response.jsonPath().getString("$.region"));
-    // endStep();
-    //
-    // // Go to interpred
-    // stepHelper.sendDeviceLocation(adHocPO, INTERPRED[0], INTERPRED[1]);
-    //
-    // // Wait to change location
-    // MobileDriverUtils.waitInMs(5000);
-    //
-    // response = TemporaryAPI.getUser(userId);
-    // System.out.println("Response: " + response.body().prettyPrint());
-    //
-    // startStep("Region is " + response.jsonPath().getString("$.region"));
-    // endStep();
-    //
-    // // Confirm alert
-    // AlertPO alert = new AlertPO(driver);
-    // stepHelper.verifyCondition("Verify alert layout",
-    // alert.verifyAlertLayout("Exit region", "I'm out!", "Confirm"));
-    // }
     //
     // /**
     // * @see <a
@@ -283,7 +314,7 @@ public class InAppTriggersTest extends CommonTestSteps {
     // stepHelper.sendDeviceLocation(adHocPO, VARNA[0], VARNA[1]);
     //
     // // stepHelper.sendDeviceLocation(adHocPO, MEZDRA[0], MEZDRA[1]);
-
+    //
     // MobileDriverUtils.waitInMs(5000);
     //
     // startStep("Close app and wait 5 seconds");

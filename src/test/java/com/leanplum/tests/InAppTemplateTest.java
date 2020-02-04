@@ -10,6 +10,7 @@ import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
+import com.leanplum.tests.pageobject.inapp.BannerPO;
 import com.leanplum.tests.pageobject.inapp.CenterPopupPO;
 import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
 import com.leanplum.tests.pageobject.inapp.InterstitialPO;
@@ -58,9 +59,7 @@ public class InAppTemplateTest extends CommonTestSteps {
             "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, StarRating, CenterPopup")
     public void confirmRichInterstitialStarRatingCenterPopupTemplates(Method method, String id) {
         try {
-            AppiumDriver<MobileElement> driver = initTest();
-
-            startTest();
+            AppiumDriver<MobileElement> driver = initiateTest();
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
@@ -129,10 +128,7 @@ public class InAppTemplateTest extends CommonTestSteps {
             "inAppTemplates" }, description = "In-App Templates - Confirm, RichInterstitial, WebInterstitial")
     public void confirmRichInterstitialWebInterstitialTemplates(Method method, String id) {
         try {
-
-            AppiumDriver<MobileElement> driver = initTest();
-
-            startTest();
+            AppiumDriver<MobileElement> driver = initiateTest();
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
@@ -191,9 +187,7 @@ public class InAppTemplateTest extends CommonTestSteps {
             "inAppTemplates" }, description = "In-App Templates - Confirm, Interstitial, Alert, Banner")
     public void confirmInterstitialAlertBannerTemplates(Method method, String id) {
         try {
-            AppiumDriver<MobileElement> driver = initTest();
-
-            startTest();
+            AppiumDriver<MobileElement> driver = initiateTest();
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
@@ -225,18 +219,16 @@ public class InAppTemplateTest extends CommonTestSteps {
             stepHelper.clickElement(alert, alert.confirmAlertButton, "Okay");
 
             // TODO Cannot be located on Android
-            // BannerPO banner = new BannerPO(driver);
-            // stepHelper.verifyCondition("Verify banner popup layout",
-            // banner.verifyBannerLayout("New version of the app available!", "Download when
-            // you can!"));
-            //
-            // banner.clickOnBanner();
+             BannerPO banner = new BannerPO(driver);
+             stepHelper.verifyCondition("Verify banner popup layout",
+             banner.verifyBannerLayout("New version of the app available!", "Download when you can!"));
+            
+             banner.clickOnBanner();
 
-            // stepHelper.clickElement(banner, banner.bannerCloseButton, "banner close
-            // icon");
+             stepHelper.clickElement(banner, banner.bannerCloseButton, "banner close icon");
 
-            // Send end event
-            // stepHelper.sendEvent(adHocPO, END_EVENT);
+             //Send end event
+             stepHelper.sendTrackEvent(new AdHocPO(driver), END_EVENT);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -265,6 +257,6 @@ public class InAppTemplateTest extends CommonTestSteps {
             RichInterstitialPO richInterstitial) {
         stepHelper.verifyCondition(VERIFY_RICH_INTERSTITIAL,
                 richInterstitial.verifyRichInterstitial(RICH_INTERSTITIAL_TITLE, RICH_INTERSTITIAL_MESSAGE,
-                        RICH_INTERSTITIAL_LEFT_BUTTON, RICH_INTERSTITIAL_RIGHT_BUTTON));
+                        RICH_INTERSTITIAL_LEFT_BUTTON, RICH_INTERSTITIAL_RIGHT_BUTTON, true));
     }
 }

@@ -16,7 +16,9 @@ import java.util.UUID;
 import org.openqa.selenium.OutputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
 import org.testng.asserts.SoftAssert;
@@ -58,7 +60,7 @@ public class BaseTest {
     private SoftAssert softAssert;
     private String reportFolder = "target/allure-results";
     private boolean useGrid = false;
-    private  String serviceIpAddress;
+    private String serviceIpAddress;
     private OSEnum os;
     private PlatformEnum platform;
     private static String startTestTimestamp;
@@ -91,6 +93,7 @@ public class BaseTest {
         System.out.println("DEVICE LIST SIZE: " + DeviceManager.connectedTestDevices.size());
     }
 
+    @SuppressWarnings("rawtypes")
     public AppiumDriver<MobileElement> initTest() throws MalformedURLException {
         String currentThread = Thread.currentThread().getName();
         System.out.println("CURRENT THREAD: " + currentThread);
@@ -109,8 +112,8 @@ public class BaseTest {
 
         AppiumDriver<MobileElement> driver;
         if (!useGrid) {
-        	 System.out.println("INITIALIZING FOR TEST DEVICE: " + currentTestDevice.getId());
-             System.out.println("INITIALIZING FOR SERVICE: " + AppiumServiceUtils.appiumService.toString());
+            System.out.println("INITIALIZING FOR TEST DEVICE: " + currentTestDevice.getId());
+            System.out.println("INITIALIZING FOR SERVICE: " + AppiumServiceUtils.appiumService.toString());
             driver = createDriver(currentTestDevice, AppiumServiceUtils.appiumService.getUrl());
         } else {
             driver = createDriver(currentTestDevice, new URL(serviceIpAddress));
@@ -121,12 +124,13 @@ public class BaseTest {
 
         this.driver.set(driver);
 
-        driver.closeApp();
-        MobileDriverUtils.waitInMs(500);
         if (driver instanceof AndroidDriver) {
-            ((PressesKey) getDriver()).pressKey(new KeyEvent().withKey(AndroidKey.BACK));
+            ((AndroidDriver) driver).lockDevice();
+            ((AndroidDriver) driver).unlockDevice();
         }
-        MobileDriverUtils.waitInMs(500);
+
+        driver.closeApp();
+        MobileDriverUtils.waitInMs(1000);
         driver.launchApp();
 
         System.out.println("INITIALIZED FOR TEST DEVICE: " + currentTestDevice.getId());
@@ -210,11 +214,17 @@ public class BaseTest {
         return this.driver.get();
     }
 
+    @AfterMethod
+    public void quitDriver() {
+        driver.get().quit();
+    }
+
     @AfterSuite(alwaysRun = true)
     public void stopAppiumService() {
         AppiumServiceUtils.appiumServices.forEach(service -> {
             service.stop();
         });
+        AppiumServiceUtils.killNodeServer(os);
     }
 
     @AfterSuite(alwaysRun = true)

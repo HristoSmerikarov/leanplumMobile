@@ -17,8 +17,8 @@ import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 
 public class AppSetupPO extends BasePO {
 
-    private static final String ANDROID_APP_LABEL_XPATH = "//*[@resource-id='com.leanplum.rondo:id/name' and @text=\"%s\"]";
-    private static final String IOS_APP_LABEL_XPATH = "";
+    private static final String ANDROID_ENTRY_LABEL_XPATH = "//*[@resource-id='com.leanplum.rondo:id/name' and @text=\"%s\"]";
+    private static final String IOS_ENTRY_LABEL_XPATH = "";
 
     @AndroidFindBy(id = "com.android.packageinstaller:id/permission_message")
     // @iOSXCUITFindBy(xpath = ""]")
@@ -34,6 +34,10 @@ public class AppSetupPO extends BasePO {
     @AndroidFindBy(id = "com.leanplum.rondo:id/app_picker")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"App Picker\"]")
     public MobileElement appPicker;
+    
+    @AndroidFindBy(id = "com.leanplum.rondo:id/env_picker")
+    //@iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"App Picker\"]")
+    public MobileElement envPicker;
 
     @AndroidFindBy(id = "com.leanplum.rondo:id/create")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"New App\"]")
@@ -91,10 +95,16 @@ public class AppSetupPO extends BasePO {
         allowPermission();
     }
 
-    public void pickApp(String appName) {
+    public void selectApp(String appName) {
         click(appPicker);
         
-        pickAppFromList(appName);
+        pickEntryFromList(appName);
+    }
+    
+    public void selectEnvironment(String envName) {
+        click(envPicker);
+        
+        pickEntryFromList(envName);
     }
 
     public void createApp(String appName, String appId, String prodKey, String devKey) {
@@ -106,18 +116,23 @@ public class AppSetupPO extends BasePO {
         devKeyField.sendKeys(devKey);
         click(createKey);
         
-        pickAppFromList(appName);
+        pickEntryFromList(appName);
     }
     
-    private void pickAppFromList(String appName) {
-        String appXpath = "";
+    /**
+     * Can select App and Env
+     * 
+     * @param appName
+     */
+    private void pickEntryFromList(String appName) {
+        String entryXpath = "";
         if (getDriver() instanceof AndroidDriver) {
-            appXpath = String.format(ANDROID_APP_LABEL_XPATH, appName);
+            entryXpath = String.format(ANDROID_ENTRY_LABEL_XPATH, appName);
         } else {
-            appXpath = String.format(IOS_APP_LABEL_XPATH, appName);
+            entryXpath = String.format(IOS_ENTRY_LABEL_XPATH, appName);
         }
         MobileDriverUtils
-                .waitForExpectedCondition(driver, ExpectedConditions.visibilityOfElementLocated(By.xpath(appXpath)))
+                .waitForExpectedCondition(driver, ExpectedConditions.visibilityOfElementLocated(By.xpath(entryXpath)))
                 .click();
     }
 }

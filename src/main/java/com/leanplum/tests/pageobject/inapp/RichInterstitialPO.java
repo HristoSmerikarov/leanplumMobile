@@ -58,10 +58,10 @@ public class RichInterstitialPO extends InAppPopupPO {
 		PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
 	}
 
-	public boolean verifyRichInterstitial(String title, String message, String leftButtonText, String rightButtonText) {
+	public boolean verifyRichInterstitial(String title, String message, String leftButtonText, String rightButtonText, boolean hasCloseButton) {
 		MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(richInterstitial));
 
-		return isCloseButtonPresent()
+		return hasCloseButton==isCloseButtonPresent()
 				&& verifyInAppPopup(ImmutableMap.of(richInterstitialTitle, title, richInterstitialMessage, message,
 						richInterstitialLeftButton, leftButtonText, richInterstitialRightButton, rightButtonText));
 	}
