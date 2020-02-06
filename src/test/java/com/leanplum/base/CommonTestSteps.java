@@ -30,7 +30,7 @@ public class CommonTestSteps extends BaseTest {
 
         return driver;
     }
-
+    
     public void setUserId(AppSetupPO appSetupPO, String userId) {
         AdHocPO adHocPO = new AdHocPO(getDriver());
         adHocPO.click(adHocPO.adhoc);

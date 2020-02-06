@@ -23,7 +23,7 @@ public class DesiredCapabilitiesUtils {
 //		System.out.println(rondoAppFile.getAbsolutePath());
 //        capabilities.setCapability(MobileCapabilityType.APP, rondoAppFile.getAbsolutePath());
 		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300");
-		capabilities.setCapability(AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT, "60000");
+		capabilities.setCapability(AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT, "300000");
 		capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, deviceProperties.getAppPackage());
 		capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, deviceProperties.getAppActivity());
 		capabilities.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, AppiumServiceUtils.findFreePort());

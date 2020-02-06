@@ -55,7 +55,6 @@ public class TestStepHelper {
         
         adHocPO.getDriver().setLocation(new Location(Double.valueOf(latitude), Double.valueOf(longitude), 40.0));
         
-        //adHocPO.sendDeviceLocation(latitude, longitude);
         test.endStep();
     }
 

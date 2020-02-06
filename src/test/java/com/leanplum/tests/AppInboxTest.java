@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Set;
 
 import org.json.JSONObject;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.ITest;
 import org.testng.ITestContext;
 import org.testng.Reporter;
@@ -17,6 +18,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 
+import com.google.common.base.Strings;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
@@ -55,34 +57,46 @@ public class AppInboxTest extends CommonTestSteps {
 
             AppSetupPO appSetupPO = new AppSetupPO(driver);
             String deviceId = getDeviceId(appSetupPO);
-
             String userId = getUserId(appSetupPO);
 
-            Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
-
-            Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
-            newsfeedIds.forEach(newsfeedId -> {
-                TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId);
-            });
-
             AdHocPO adHocPO = new AdHocPO(driver);
+
+            if (Strings.isNullOrEmpty(userId)) {
+                stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+                adHocPO.setUserId(deviceId);
+                userId = deviceId;
+            }
+            
+            startStep("Get newsfeed messages");
+            Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
+            endStep();
+            
+            
+            Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
+            startStep("Delete newsfeed messages with IDs: "+newsfeedIds);
+            for(String newsfeedId : newsfeedIds) {
+                TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId);
+            }
+            endStep();
+
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             stepHelper.sendTrackEvent(adHocPO, APP_INBOX_EVENT);
 
+            startStep("Restart app");
             driver.closeApp();
             MobileDriverUtils.waitInMs(30000);
             driver.launchApp();
+            endStep();
 
-            // MobileDriverUtils.waitInMs(30000);
-
-            // driver.closeApp();
-            // MobileDriverUtils.waitInMs(1000);
-            // driver.launchApp();
-
+            
             AlertPO alert = new AlertPO(driver);
             MobileDriverUtils.waitInMs(5000);
             stepHelper.acceptAllAlertsOnAppStart(alert);
+            
+            startStep("Wait for device Id to appear");
+            MobileDriverUtils.waitForExpectedCondition(driver, 15, ExpectedConditions.textToBePresentInElement(appSetupPO.deviceId, deviceId));
+            endStep();
 
             AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);
             stepHelper.clickElement(appInbox, appInbox.appinbox, "App Inbox button");

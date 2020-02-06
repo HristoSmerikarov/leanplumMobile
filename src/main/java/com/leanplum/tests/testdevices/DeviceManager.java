@@ -30,7 +30,7 @@ public class DeviceManager {
         System.out.println("ANDROID DEVICES: "+androidDeviceIds);
         responseLines.forEach(line -> {
             if (!line.equals("List of devices attached") && !line.isEmpty()) {
-                androidDeviceIds.add(Utils.findPropertyMatch(line, "^(.*?)\\W"));
+                androidDeviceIds.add(Utils.findPropertyMatch(line, "^(.*?)\\s"));
             }
         });
 

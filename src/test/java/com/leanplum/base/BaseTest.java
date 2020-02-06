@@ -125,8 +125,15 @@ public class BaseTest {
         this.driver.set(driver);
 
         if (driver instanceof AndroidDriver) {
-            ((AndroidDriver) driver).lockDevice();
-            ((AndroidDriver) driver).unlockDevice();
+            // ((AndroidDriver) driver).isDeviceLocked();
+
+            ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.POWER));
+
+            // ((AndroidDriver) driver).lockDevice();
+            MobileDriverUtils.waitInMs(1000);
+
+            ((AndroidDriver) driver).pressKey(new KeyEvent(AndroidKey.POWER));
+            // ((AndroidDriver) driver).unlockDevice();
         }
 
         driver.closeApp();
