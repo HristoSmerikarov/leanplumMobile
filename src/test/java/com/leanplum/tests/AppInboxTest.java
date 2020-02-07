@@ -88,7 +88,6 @@ public class AppInboxTest extends CommonTestSteps {
             MobileDriverUtils.waitInMs(30000);
             driver.launchApp();
             endStep();
-
             
             AlertPO alert = new AlertPO(driver);
             MobileDriverUtils.waitInMs(5000);
