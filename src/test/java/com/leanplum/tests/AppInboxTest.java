@@ -94,7 +94,7 @@ public class AppInboxTest extends CommonTestSteps {
             stepHelper.acceptAllAlertsOnAppStart(alert);
             
             startStep("Wait for device Id to appear");
-            MobileDriverUtils.waitForExpectedCondition(driver, 15, ExpectedConditions.textToBePresentInElement(appSetupPO.deviceId, deviceId));
+            MobileDriverUtils.waitForExpectedCondition(driver, 30, ExpectedConditions.textToBePresentInElement(appSetupPO.deviceId, deviceId));
             endStep();
 
             AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);

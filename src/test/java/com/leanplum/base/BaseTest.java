@@ -241,6 +241,7 @@ public class BaseTest {
 
         if (sourceFile.renameTo(destFile)) {
             logger.info("File renamed successfully to " + destFile.getAbsolutePath());
+            System.out.println("File renamed successfully to " + destFile.getAbsolutePath());
             System.out.println("For local report use command: allure serve allure-results_" + startTestTimestamp);
         } else {
             logger.info("Failed to rename file");

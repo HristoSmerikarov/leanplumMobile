@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Mobile Tests" verbose="3" parallel="tests"
+       thread-count="2">
+    <test name="Device one">
+        <parameter name="id" value="Device one"/>
+        <classes>
+            <class name="com.leanplum.tests.AppInboxTest"/>
+            <class name="com.leanplum.tests.InAppTemplateTest" />
+            <class name="com.leanplum.tests.InAppTriggersTest" />
+            <class name="com.leanplum.tests.InAppActionsTest" />
+            <class name="com.leanplum.tests.PushNotificationTest" />
+            <class name="com.leanplum.tests.IosPushNotificationTest" />
+        </classes>
+    </test>
+    <!-- <test name="Device two"> <parameter name="id" value="Device two" />
+    <classes> <class name="com.leanplum.tests.PushNotificationTest" /> </classes>
+    </test> <test name="Device three"> <parameter name="id" value="Device three"
+    /> <classes> <class name="com.leanplum.tests.InAppActionsTest" /> <class
+    name="com.leanplum.tests.AppInboxTest" /> </classes> </test> -->
+    <!-- <test name="MobileDevice Two"> -->
+    <!-- <classes> -->
+    <!-- <class name="com.musala.examples.tests.HeaderNamesTest"> -->
+    <!-- </class> -->
+    <!-- </classes> -->
+    <!-- </test> -->
+    <!-- <test name="DeviceManager Test"> -->
+    <!-- <classes> -->
+    <!-- <class name="com.musala.unit.tests.DeviceManagerTests"> -->
+    <!-- </class> -->
+    <!-- </classes> -->
+    <!-- </test> -->
+</suite>

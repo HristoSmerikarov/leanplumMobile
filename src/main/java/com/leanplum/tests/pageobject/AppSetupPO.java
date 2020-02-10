@@ -18,7 +18,7 @@ import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 public class AppSetupPO extends BasePO {
 
     private static final String ANDROID_ENTRY_LABEL_XPATH = "//*[@resource-id='com.leanplum.rondo:id/name' and @text=\"%s\"]";
-    private static final String IOS_ENTRY_LABEL_XPATH = "";
+    private static final String IOS_ENTRY_LABEL_XPATH = "//XCUIElementTypeStaticText[@name=\"%s\"]";
 
     @AndroidFindBy(id = "com.android.packageinstaller:id/permission_message")
     // @iOSXCUITFindBy(xpath = ""]")
@@ -36,7 +36,7 @@ public class AppSetupPO extends BasePO {
     public MobileElement appPicker;
     
     @AndroidFindBy(id = "com.leanplum.rondo:id/env_picker")
-    //@iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"App Picker\"]")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Env Picker\"]")
     public MobileElement envPicker;
 
     @AndroidFindBy(id = "com.leanplum.rondo:id/create")
@@ -52,7 +52,7 @@ public class AppSetupPO extends BasePO {
     public MobileElement deviceId;
 
     @AndroidFindBy(id = "com.leanplum.rondo:id/app_setup")
-    // @iOSXCUITFindBy(xpath = "")
+    @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"App Setup\"]")
     public MobileElement appSetup;
     
     @AndroidFindBy(id = "com.leanplum.rondo:id/displayName")
