@@ -8,7 +8,7 @@ import org.springframework.util.Assert;
 
 import com.pholser.util.properties.PropertyBinder;
 
-public class PropertiesUtils {
+class PropertiesUtils {
 
     public static Properties loadProperties(String file) {
         try {
@@ -38,7 +38,6 @@ public class PropertiesUtils {
             Assert.notNull("No Properties for " + file + " found", file);
             PropertyBinder<?> binder = PropertyBinder.forType(clazz);
             data = binder.bind(fileStream);
-            fileStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

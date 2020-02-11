@@ -7,7 +7,7 @@ public enum OSEnum {
 
     WINDOWS("Windows"), MAC("Mac");
 
-    String osName;
+    private String osName;
 
     OSEnum(String osName) {
         this.osName = osName;

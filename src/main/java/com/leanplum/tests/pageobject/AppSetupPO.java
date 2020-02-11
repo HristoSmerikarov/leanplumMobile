@@ -22,26 +22,27 @@ public class AppSetupPO extends BasePO {
 
     @AndroidFindBy(id = "com.android.packageinstaller:id/permission_message")
     // @iOSXCUITFindBy(xpath = ""]")
-    public MobileElement permissionMessage;
+    private
+    MobileElement permissionMessage;
 
     @AndroidFindBy(id = "com.android.packageinstaller:id/permission_allow_button")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"Allow\"]")
-    public MobileElement allowPermissionButton;
+    private MobileElement allowPermissionButton;
 
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"iOS Push Permission\"]")
-    public MobileElement iosPushPermissionButton;
+    private MobileElement iosPushPermissionButton;
 
     @AndroidFindBy(id = "com.leanplum.rondo:id/app_picker")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"App Picker\"]")
-    public MobileElement appPicker;
+    private MobileElement appPicker;
     
     @AndroidFindBy(id = "com.leanplum.rondo:id/env_picker")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Env Picker\"]")
-    public MobileElement envPicker;
+    private MobileElement envPicker;
 
     @AndroidFindBy(id = "com.leanplum.rondo:id/create")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"New App\"]")
-    public MobileElement newApp;
+    private MobileElement newApp;
 
     @AndroidFindBy(id = "com.leanplum.rondo:id/userId")
     @iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@label='User ID:']/following-sibling::*")
@@ -57,23 +58,28 @@ public class AppSetupPO extends BasePO {
     
     @AndroidFindBy(id = "com.leanplum.rondo:id/displayName")
     // @iOSXCUITFindBy(xpath = "")
-    public MobileElement appNameField;
+    private
+    MobileElement appNameField;
     
     @AndroidFindBy(id = "com.leanplum.rondo:id/appId")
     // @iOSXCUITFindBy(xpath = "")
-    public MobileElement appIdField;
+    private
+    MobileElement appIdField;
     
     @AndroidFindBy(id = "com.leanplum.rondo:id/prodKey")
     // @iOSXCUITFindBy(xpath = "")
-    public MobileElement prodKeyField;
+    private
+    MobileElement prodKeyField;
     
     @AndroidFindBy(id = "com.leanplum.rondo:id/devKey")
     // @iOSXCUITFindBy(xpath = "")
-    public MobileElement devKeyField;
+    private
+    MobileElement devKeyField;
     
     @AndroidFindBy(id = "com.leanplum.rondo:id/create")
     // @iOSXCUITFindBy(xpath = "")
-    public MobileElement createKey;
+    private
+    MobileElement createKey;
 
     private AppiumDriver<MobileElement> driver;
 
@@ -83,7 +89,7 @@ public class AppSetupPO extends BasePO {
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }
 
-    public void allowPermission() {
+    private void allowPermission() {
         MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(permissionMessage));
         click(allowPermissionButton);
     }
@@ -125,7 +131,7 @@ public class AppSetupPO extends BasePO {
      * @param appName
      */
     private void pickEntryFromList(String appName) {
-        String entryXpath = "";
+        String entryXpath;
         if (getDriver() instanceof AndroidDriver) {
             entryXpath = String.format(ANDROID_ENTRY_LABEL_XPATH, appName);
         } else {

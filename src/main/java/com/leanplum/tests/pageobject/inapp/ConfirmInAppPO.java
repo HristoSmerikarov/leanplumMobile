@@ -27,17 +27,17 @@ public class ConfirmInAppPO extends InAppPopupPO {
 
     @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_XPATH)
     @AndroidFindBy(xpath = ANDROID_CONFIRM_IN_APP_XPATH)
-    public MobileElement confirmInApp;
+    private MobileElement confirmInApp;
 
     @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_XPATH
             + "//XCUIElementTypeStaticText/preceding-sibling::XCUIElementTypeStaticText")
     @AndroidFindBy(xpath = CONFIRM_IN_APP_TITLE + CONFIRM_IN_APP_ALERT_TITLE)
-    public MobileElement confirmInAppTitle;
+    private MobileElement confirmInAppTitle;
 
     @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_XPATH
             + "//XCUIElementTypeStaticText/following-sibling::XCUIElementTypeStaticText")
     @AndroidFindBy(xpath = "//" + CONFIRM_IN_APP + "//*[@resource-id='android:id/message']")
-    public MobileElement confirmInAppMessage;
+    private MobileElement confirmInAppMessage;
 
     @iOSXCUITFindBy(xpath = IOS_CONFIRM_IN_APP_BUTTON + "[1]")
     @AndroidFindBy(xpath = "//*[@resource-id='android:id/button2']")
@@ -47,7 +47,7 @@ public class ConfirmInAppPO extends InAppPopupPO {
     @AndroidFindBy(xpath = "//*[@resource-id='android:id/button1']")
     public MobileElement confirmAcceptButton;
 
-    AppiumDriver<MobileElement> driver;
+    private AppiumDriver<MobileElement> driver;
 
     public ConfirmInAppPO(AppiumDriver<MobileElement> driver) {
         super(driver);

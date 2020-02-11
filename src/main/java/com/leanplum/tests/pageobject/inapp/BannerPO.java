@@ -35,11 +35,11 @@ public class BannerPO extends InAppPopupPO {
 
     @iOSXCUITFindBy(xpath = IOS_BANNER_TEXT_XPATH + "[1]")
     @AndroidFindBy(xpath = ANDROID_BANNER_XPATH + "/*[@resource-id='title']")
-    public MobileElement bannerTitleElement;
+    private MobileElement bannerTitleElement;
 
     @iOSXCUITFindBy(xpath = IOS_BANNER_TEXT_XPATH + "[2]")
     @AndroidFindBy(xpath = ANDROID_BANNER_XPATH + "/*[@resource-id='message']")
-    public MobileElement bannerMessageElement;
+    private MobileElement bannerMessageElement;
 
     private AppiumDriver<MobileElement> driver;
 
@@ -60,7 +60,7 @@ public class BannerPO extends InAppPopupPO {
         banner.click();
     }
 
-    public boolean isCloseButtonPresent() {
+    private boolean isCloseButtonPresent() {
         if (driver instanceof AndroidDriver) {
             return MobileDriverUtils.doesSelectorMatchAnyElements(driver, ANDROID_BANNER_CLOSE_BUTTON_XPATH);
         } else {

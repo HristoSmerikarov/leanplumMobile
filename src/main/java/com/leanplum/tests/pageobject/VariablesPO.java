@@ -13,7 +13,7 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 
-public class VariablesPO extends BasePO {
+class VariablesPO extends BasePO {
 
 	private static final String IOS_VAR_STRING_XPATH = "//XCUIElementTypeStaticText[@name='varString:']";
 	private static final String IOS_VAR_NUMBER_XPATH = "//XCUIElementTypeStaticText[@name='varNumber:']";
@@ -30,7 +30,7 @@ public class VariablesPO extends BasePO {
 
 	@AndroidFindBy(id = "com.leanplum.rondo:id/varString")
 	@iOSXCUITFindBy(xpath = IOS_VAR_STRING_XPATH + FOLLOWING_SIBLING_TEXT_XPATH)
-	public MobileElement stringValue;
+  private MobileElement stringValue;
 
 	@AndroidFindBy(id = "com.leanplum.rondo:id/varNumberLabel")
 	@iOSXCUITFindBy(xpath = IOS_VAR_NUMBER_XPATH)
@@ -38,7 +38,7 @@ public class VariablesPO extends BasePO {
 
 	@AndroidFindBy(id = "com.leanplum.rondo:id/varNumber")
 	@iOSXCUITFindBy(xpath = IOS_VAR_NUMBER_XPATH + FOLLOWING_SIBLING_TEXT_XPATH)
-	public MobileElement numberValue;
+  private MobileElement numberValue;
 
 	@AndroidFindBy(id = "com.leanplum.rondo:id/varBoolLabel")
 	@iOSXCUITFindBy(xpath = IOS_VAR_BOOL_XPATH)
@@ -46,7 +46,7 @@ public class VariablesPO extends BasePO {
 
 	@AndroidFindBy(id = "com.leanplum.rondo:id/varBool")
 	@iOSXCUITFindBy(xpath = IOS_VAR_BOOL_XPATH + FOLLOWING_SIBLING_TEXT_XPATH)
-	public MobileElement boolValue;
+  private MobileElement boolValue;
 
 	@AndroidFindBy(id = "com.leanplum.rondo:id/varFileLabel")
 	@iOSXCUITFindBy(xpath = IOS_VAR_FILE_XPATH)
@@ -54,7 +54,7 @@ public class VariablesPO extends BasePO {
 
 	@AndroidFindBy(id = "com.leanplum.rondo:id/varFile")
 	@iOSXCUITFindBy(xpath = IOS_VAR_FILE_XPATH + FOLLOWING_SIBLING_TEXT_XPATH)
-	public MobileElement fileValue;
+  private MobileElement fileValue;
 
 	@AndroidFindBy(id = "com.leanplum.rondo:id/varFileImageLabel")
 	@iOSXCUITFindBy(xpath = IOS_VAR_FILE_IMAGE_XPATH)

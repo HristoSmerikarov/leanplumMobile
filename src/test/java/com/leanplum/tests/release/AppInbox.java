@@ -1,27 +1,17 @@
 package com.leanplum.tests.release;
 
 import java.lang.reflect.Method;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Set;
 
 import org.json.JSONObject;
-import org.testng.ITest;
-import org.testng.ITestContext;
-import org.testng.Reporter;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Factory;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
 
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
-import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.AppInboxMessagePO;
 import com.leanplum.tests.pageobject.AppSetupPO;
@@ -31,7 +21,6 @@ import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import io.qameta.allure.testng.TestInstanceParameter;
 import io.restassured.response.Response;
 
 @Listeners({ TestListener.class })
@@ -62,9 +51,7 @@ public class AppInbox extends CommonTestSteps {
             Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
 
             Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
-            newsfeedIds.forEach(newsfeedId -> {
-                TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId);
-            });
+            newsfeedIds.forEach(newsfeedId -> TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId));
 
             AdHocPO adHocPO = new AdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");

@@ -6,7 +6,7 @@ import java.util.Optional;
 public enum PlatformEnum {
 	ANDROID_APP("Android"), IOS_APP("iOS");
 
-	String platformName;
+	private String platformName;
 
 	PlatformEnum(String platformName) {
 		this.platformName = platformName;

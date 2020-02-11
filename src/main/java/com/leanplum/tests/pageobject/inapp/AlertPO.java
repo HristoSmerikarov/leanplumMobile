@@ -21,8 +21,8 @@ public class AlertPO extends InAppPopupPO {
 	private static final String IOS_ALERT_MESSAGE_XPATH = "//XCUIElementTypeAlert[@visible='true']//XCUIElementTypeOther[@visible='true']/XCUIElementTypeStaticText[@visible='true'][2]";
 	private static final String IOS_ALERT_TITLE_XPATH = IOS_ALERT_MESSAGE_XPATH
 			+ "/preceding-sibling::XCUIElementTypeStaticText[@visible='true']";
-	public static final String IOS_CONFIRM_ALERT_BUTTON_XPATH = "//XCUIElementTypeAlert[@visible='true']//XCUIElementTypeButton[@visible='true']";
-	public static final String CONFIRM_ALERT_BUTTON_XPATH = "//*[@resource-id='android:id/button1']";
+	private static final String IOS_CONFIRM_ALERT_BUTTON_XPATH = "//XCUIElementTypeAlert[@visible='true']//XCUIElementTypeButton[@visible='true']";
+	private static final String CONFIRM_ALERT_BUTTON_XPATH = "//*[@resource-id='android:id/button1']";
 
 	@AndroidFindBy(xpath = CONFIRM_ALERT_BUTTON_XPATH)
 	@iOSXCUITFindBy(xpath = IOS_CONFIRM_ALERT_BUTTON_XPATH)
@@ -34,11 +34,11 @@ public class AlertPO extends InAppPopupPO {
 
 	@AndroidFindBy(xpath = ANDROID_ALERT_TITLE_XPATH)
 	@iOSXCUITFindBy(xpath = IOS_ALERT_TITLE_XPATH)
-	public MobileElement alertTitle;
+	private MobileElement alertTitle;
 
 	@iOSXCUITFindBy(xpath = IOS_ALERT_MESSAGE_XPATH)
 	@AndroidFindBy(xpath = "//*[@resource-id='android:id/message']")
-	public MobileElement alertMessage;
+	private MobileElement alertMessage;
 
 	private AppiumDriver<MobileElement> driver;
 

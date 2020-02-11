@@ -25,8 +25,7 @@ public class MobileDriverUtils {
 			ExpectedCondition<T> expectedCondition) {
 		WebDriverWait wait = new WebDriverWait(driver, waitTimeout);
 		turnOffImplicitWaits(driver);
-		T result = null;
-		result = wait.until(expectedCondition);
+		T result = wait.until(expectedCondition);
 		turnOnImplicitWaits(driver);
 		return result;
 	}

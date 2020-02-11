@@ -28,7 +28,7 @@ public class RichInterstitialPO extends InAppPopupPO {
 
 	@iOSXCUITFindBy(xpath = IOS_RICH_INTERSTITIAL_XPATH)
 	@AndroidFindBy(xpath = RICH_INTERSTITIAL_XPATH)
-	public MobileElement richInterstitial;
+  private MobileElement richInterstitial;
 
 	@iOSXCUITFindBy(xpath = IOS_RICH_INTERSTITIAL_XPATH + "//XCUIElementTypeOther[not(*)]")
 	@AndroidFindBy(xpath = RICH_INTERSTITIAL_XPATH + "/*[@resource-id='close-button']")
@@ -36,11 +36,11 @@ public class RichInterstitialPO extends InAppPopupPO {
 
 	@iOSXCUITFindBy(xpath = IOS_RICH_INTERSTITIAL_TEXT_XPATH + "[1]")
 	@AndroidFindBy(xpath = RICH_INTERSTITIAL_XPATH + "/*[@resource-id='title']")
-	public MobileElement richInterstitialTitle;
+  private MobileElement richInterstitialTitle;
 
 	@iOSXCUITFindBy(xpath = IOS_RICH_INTERSTITIAL_TEXT_XPATH + "[2]")
 	@AndroidFindBy(xpath = RICH_INTERSTITIAL_XPATH + "//*[@resource-id='message']")
-	public MobileElement richInterstitialMessage;
+  private MobileElement richInterstitialMessage;
 
 	@iOSXCUITFindBy(xpath = IOS_RICH_INTERSTITIAL_TEXT_XPATH + "[3]")
 	@AndroidFindBy(xpath = RICH_INTERSTITIAL_XPATH + "//*[@resource-id='button-1']")
@@ -50,7 +50,7 @@ public class RichInterstitialPO extends InAppPopupPO {
 	@AndroidFindBy(xpath = RICH_INTERSTITIAL_XPATH + "//*[@resource-id='button-2']")
 	public MobileElement richInterstitialRightButton;
 
-	AppiumDriver<MobileElement> driver;
+	private AppiumDriver<MobileElement> driver;
 
 	public RichInterstitialPO(AppiumDriver<MobileElement> driver) {
 		super(driver);

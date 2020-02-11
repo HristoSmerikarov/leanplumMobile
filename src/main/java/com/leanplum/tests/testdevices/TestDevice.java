@@ -9,7 +9,7 @@ public class TestDevice {
     private String platformVersion;
     private PlatformEnum platform;
 
-    public TestDevice(String id, String name, String platformVersion, PlatformEnum platform) {
+    TestDevice(String id, String name, String platformVersion, PlatformEnum platform) {
         this.id = id;
         this.name = name;
         this.platformVersion = platformVersion;

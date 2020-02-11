@@ -1,9 +1,7 @@
 package com.leanplum.tests;
 
 import java.lang.reflect.Method;
-import java.util.UUID;
 
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -19,18 +17,11 @@ import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pageobject.inapp.BannerPO;
 import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
-import com.leanplum.tests.pushnotification.PushNotifiationType;
-import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.nativekey.AndroidKey;
 import io.qameta.allure.Feature;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.model.Status;
 import io.restassured.response.Response;
 
 @Listeners({ TestListener.class })
@@ -68,8 +59,13 @@ public class InAppTriggersTest extends CommonTestSteps {
 
             // Verify on app start alert layout
             AlertPO alert = new AlertPO(driver);
+            // TODO for Leanplum QA Production
             stepHelper.verifyCondition("Verify on app start alert layout",
-                    alert.verifyAlertLayout("Alert on start", "Alert displayed on app start", "Тук е!"));
+                    alert.verifyAlertLayout("Start", "IAM triggered on Start", "OK"));
+
+            // TODO for Leanplum QA Automation
+            // stepHelper.verifyCondition("Verify on app start alert layout",
+            // alert.verifyAlertLayout("Alert on start", "Alert displayed on app start", "Тук е!"));
 
             // Confrim alert
             stepHelper.clickElement(alert, alert.confirmAlertButton, "Confirm alert button");
@@ -100,8 +96,13 @@ public class InAppTriggersTest extends CommonTestSteps {
 
             // Verify on app start alert layout
             AlertPO alertPO = new AlertPO(driver);
+            // TODO for Leanplum QA Production
             stepHelper.verifyCondition("Verify on app start alert layout",
-                    alertPO.verifyAlertLayout("Alert on start", "Alert displayed on app start", "Тук е!"));
+                    alertPO.verifyAlertLayout("Start", "IAM triggered on Start", "OK"));
+
+            // TODO for Leanplum QA Automation
+            // stepHelper.verifyCondition("Verify on app start alert layout",
+            // alert.verifyAlertLayout("Alert on start", "Alert displayed on app start", "Тук е!"));
 
             // Confrim alert
             stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, " confirm alert button");
@@ -109,9 +110,13 @@ public class InAppTriggersTest extends CommonTestSteps {
             // stepHelper.closeAppAndReturnToHome(alertPO);
 
             stepHelper.backgroundApp(alertPO, 2000);
+            // TODO for Leanplum QA Production
+            stepHelper.verifyCondition("Verify on app start alert layout",
+                    alertPO.verifyAlertLayout("Resume", "IAM triggered on above", "OK"));
 
-            stepHelper.verifyCondition("Verify on app start or resume alert layout", alertPO.verifyAlertLayout(
-                    "Alert on start or resume", "Alert displayed on app start or resume", "Известието е тук!"));
+            // TODO for Leanplum QA Automation
+            // stepHelper.verifyCondition("Verify on app start or resume alert layout", alertPO.verifyAlertLayout(
+            // "Alert on start or resume", "Alert displayed on app start or resume", "Известието е тук!"));
 
             stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, " confirm alert button");
 

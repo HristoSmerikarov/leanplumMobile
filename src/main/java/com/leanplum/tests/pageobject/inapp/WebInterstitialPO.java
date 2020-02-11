@@ -22,7 +22,7 @@ public class WebInterstitialPO extends InAppPopupPO {
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeWebView[@visible='true']")
 	@AndroidFindBy(xpath = WEB_INTERSTITIAL_CONTENT_XPATH)
-	public MobileElement webInterstitialWindow;
+  private MobileElement webInterstitialWindow;
 
 	@iOSXCUITFindBy(xpath = IOS_WEB_INTERSTITIAL_CLOSE_BUTTON)
 	@AndroidFindBy(xpath = WEB_INTERSTITIAL_CONTENT_XPATH + WEB_INTERSTITIAL_CLOSE_BUTTON)
@@ -45,7 +45,7 @@ public class WebInterstitialPO extends InAppPopupPO {
 		webInterstitialCloseButton.click();
 	}
 
-	public boolean isWebInterstitialCloseButtonPresent() {
+	private boolean isWebInterstitialCloseButtonPresent() {
 		if (driver instanceof AndroidDriver) {
 			return MobileDriverUtils.doesSelectorMatchAnyElements(driver, WEB_INTERSTITIAL_CLOSE_BUTTON);
 		} else {

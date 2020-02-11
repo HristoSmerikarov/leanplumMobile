@@ -1,6 +1,5 @@
 package com.leanplum.tests.appiumdriver;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class AppiumServiceUtils {
         return appiumService;
     }
 
-    public static int findFreePortBetween(int from, int to) {
+    private static int findFreePortBetween(int from, int to) {
         String port = Utils.generateRandomNumberInRange(from, to);
         while (!isPortFree(port)) {
             port = Utils.generateRandomNumberInRange(from, to);

@@ -13,7 +13,7 @@ public class BasePO {
 
     private AppiumDriver<MobileElement> driver;
 
-    public BasePO(AppiumDriver<MobileElement> driver) {
+    protected BasePO(AppiumDriver<MobileElement> driver) {
         this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }

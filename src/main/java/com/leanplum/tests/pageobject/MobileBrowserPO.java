@@ -23,11 +23,11 @@ public class MobileBrowserPO extends BasePO {
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeApplication[@label='Safari']")
 	@AndroidFindBy(id = "com.android.chrome:id/action_bar_root")
-	public MobileElement browser;
+  private MobileElement browser;
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@label='Address']")
 	@AndroidFindBy(id = "com.android.chrome:id/url_bar")
-	public MobileElement browserUrlBar;
+  private MobileElement browserUrlBar;
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeOther[@label='Network connection in progress']")
 	@AndroidFindBy(xpath = "//*[@class='android.widget.ProgressBar']")

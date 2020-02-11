@@ -5,48 +5,36 @@ import com.pholser.util.properties.BoundProperty;
 public interface DeviceProperties {
 
     @BoundProperty("platformName")
-    public String getPlatformName();
-
-    @BoundProperty("platformVersion")
-    public String getPlatformVersion();
-
-    @BoundProperty("deviceName")
-    public String getDeviceName();
+    String getPlatformName();
 
     @BoundProperty("appPackage")
-    public String getAppPackage();
+    String getAppPackage();
     
     @BoundProperty("appActivity")
-    public String getAppActivity();
+    String getAppActivity();
     
     @BoundProperty("noreset")
-    public String getNoReset();
+    String getNoReset();
     
     @BoundProperty("app")
-    public String getApp();
+    String getApp();
     
     @BoundProperty("bundleId")
-    public String getBundleId();
+    String getBundleId();
     
     @BoundProperty("automationName")
-    public String getAutomationName();
-    
-    @BoundProperty("udid")
-    public String getUdid();
-    
+    String getAutomationName();
+
     @BoundProperty("xcodeOrgId")
-	public String getXcodeOrgId();
+    String getXcodeOrgId();
     
     @BoundProperty("xcodeSigningId")
-	public String getXcodeSigningId();
+    String getXcodeSigningId();
 
-    @BoundProperty("wdaLocalPort")
-	public String getWdaLocalPort();
-    
     @BoundProperty("debugProxyPort")
-	public String getDebugProxyPort();
+    String getDebugProxyPort();
 
     @BoundProperty("useNewWDA")
-	public String getUseNewWda();
+    String getUseNewWda();
     
 }

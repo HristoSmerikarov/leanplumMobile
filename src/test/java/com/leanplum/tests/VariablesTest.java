@@ -1,22 +1,9 @@
 package com.leanplum.tests;
 
-import java.lang.reflect.Method;
-import java.util.Random;
-
 import org.testng.annotations.Listeners;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
-import com.leanplum.base.TestStepHelper;
-import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.pageobject.VariablesPO;
-import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.utils.listeners.TestListener;
-
-import io.appium.java_client.MobileDriver;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 
 @Listeners({ TestListener.class })
 public class VariablesTest extends CommonTestSteps {

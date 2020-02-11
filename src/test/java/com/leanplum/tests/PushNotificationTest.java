@@ -1,36 +1,25 @@
 package com.leanplum.tests;
 
-import java.io.File;
 import java.lang.reflect.Method;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.google.common.base.Strings;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
-import com.leanplum.tests.api.TemporaryAPI;
-import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.MobileBrowserPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pageobject.inapp.CenterPopupPO;
-import com.leanplum.tests.pushnotification.IOSPushNotification;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.nativekey.AndroidKey;
-import io.appium.java_client.ios.IOSDriver;
 
 @Listeners({ TestListener.class })
 public class PushNotificationTest extends CommonTestSteps {
@@ -38,10 +27,6 @@ public class PushNotificationTest extends CommonTestSteps {
 	private static final String LOCAL_TRIGGER = "localTrigger";
 	private static final String ATTRIBUTE_NAME = "testAttribute";
 	private static final String OPEN_LEANPLUM_URL = "openLeanURL";
-	private static final String OUTSIDE_APP_TRIGGER = "outsideAppTrigger";
-	private static final String CHANNEL_DISABLED = "channelDisabled";
-	private static final String IOS_OPTIONS = "iosoptions";
-	private static final String OPTION = "option";
 	private static final String ATTRIBUTE_VALUE = "testAttr" + Utils.generateRandomNumberInRange(0, 100);
 	private static final String RONDO_PUSH_NOTIFICATION = "Rondo Push Notification";
 	private static final String RONDO_NOTIFICATION_WITH_IMAGE = "Push Notification with image!";
@@ -187,14 +172,6 @@ public class PushNotificationTest extends CommonTestSteps {
 			endStep(e.toString(), false);
 		}
 		endTest();
-	}
-
-
-	private void allowIOSPushPermission(AppiumDriver<MobileElement> driver, PushNotifiationType pn) {
-		if (pn == PushNotifiationType.IOS) {
-			AppSetupPO appSetupPO = new AppSetupPO(driver);
-			appSetupPO.allowIosPushPermission();
-		}
 	}
 
 	private PushNotifiationType determinePushNotification(AppiumDriver<MobileElement> driver) {

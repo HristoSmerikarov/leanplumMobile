@@ -17,9 +17,6 @@ public class TestAppUtils {
         String appName = System.getProperty("application");
         String envName = System.getProperty("environment");
 
-        System.out.println("APPLICATION: " + appName);
-        System.out.println("ENVIRONMENT: " + envName);
-
         if (!appName.equals("") && !envName.equals("")) {
             AppSetupPO appSetup = new AppSetupPO(driver);
 
@@ -30,11 +27,11 @@ public class TestAppUtils {
         }
     }
 
-    public void selectApp(AppSetupPO appSetup, String appName) {
+    private void selectApp(AppSetupPO appSetup, String appName) {
         appSetup.selectApp(appName);
     }
 
-    public void selectEnvironment(AppSetupPO appSetup, String envName) {
+    private void selectEnvironment(AppSetupPO appSetup, String envName) {
         appSetup.selectEnvironment(envName);
     }
 }

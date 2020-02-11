@@ -8,16 +8,12 @@ import org.testng.annotations.Test;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
-import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
-import com.leanplum.tests.pageobject.inapp.CenterPopupPO;
 import com.leanplum.tests.pushnotification.AndroidPushNotification;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import io.restassured.response.Response;
 
 public class PushNotification extends CommonTestSteps {
     @Parameters({ "id" })

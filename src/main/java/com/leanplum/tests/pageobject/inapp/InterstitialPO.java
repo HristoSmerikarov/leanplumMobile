@@ -31,13 +31,13 @@ public class InterstitialPO extends InAppPopupPO {
 	private static final String IOS_INTERSTITIAL_TITLE_XPATH = IOS_INTERSTITIAL_XPATH
 			+ "//XCUIElementTypeStaticText[1]";
 	private static final String IOS_INTERSTITIAL_MESSAGE_XPATH = IOS_INTERSTITIAL_XPATH
-			+ "//XCUIElementTypeStaticText[2]";;
+			+ "//XCUIElementTypeStaticText[2]";
 	private static final String IOS_INTERSTITIAL_ACCEPT_BUTTON_XPATH = IOS_INTERSTITIAL_XPATH
 			+ "//XCUIElementTypeButton[@name]";
 
 	@iOSXCUITFindBy(xpath = IOS_INTERSTITIAL_XPATH)
 	@AndroidFindBy(xpath = ANDROID_INTERSTITIAL_XPATH)
-	public MobileElement interstitial;
+	private MobileElement interstitial;
 
 	@iOSXCUITFindBy(xpath = IOS_INTERSTITIAL_XPATH)
 	@AndroidFindBy(xpath = ANDROID_INTERSTITIAL_CLOSE_BUTTON_XPATH)
@@ -46,7 +46,7 @@ public class InterstitialPO extends InAppPopupPO {
 	@iOSXCUITFindBy(xpath = IOS_INTERSTITIAL_TITLE_XPATH)
 	@AndroidFindBy(xpath = ANDROID_INTERSTITIAL_XPATH
 			+ "//*[@resource-id='com.leanplum.rondo:id/title_view']/*[@class='android.widget.TextView']")
-	public MobileElement interstitialTitleElement;
+	private MobileElement interstitialTitleElement;
 
 	@iOSXCUITFindBy(xpath = IOS_INTERSTITIAL_IMAGE_XPATH)
 	@AndroidFindBy(xpath = ANDROID_INTERSTITIAL_IMAGE_XPATH)
@@ -54,7 +54,7 @@ public class InterstitialPO extends InAppPopupPO {
 
 	@iOSXCUITFindBy(xpath = IOS_INTERSTITIAL_MESSAGE_XPATH)
 	@AndroidFindBy(xpath = ANDROID_INTERSTITIAL_XPATH + "/*[@class='android.widget.TextView' and not(@recource-id)]")
-	public MobileElement interstitialMessageElement;
+	private MobileElement interstitialMessageElement;
 
 	@iOSXCUITFindBy(xpath = IOS_INTERSTITIAL_ACCEPT_BUTTON_XPATH)
 	@AndroidFindBy(xpath = ANDROID_INTERSTITIAL_ACCEPT_BUTTON_XPATH)
@@ -79,7 +79,7 @@ public class InterstitialPO extends InAppPopupPO {
 		interstitialAcceptButton.click();
 	}
 
-	public boolean isInterstitialLayoutCorrect() {
+	private boolean isInterstitialLayoutCorrect() {
 		if (driver instanceof AndroidDriver) {
 			return MobileDriverUtils.doesSelectorMatchAnyElements(driver, ANDROID_INTERSTITIAL_CLOSE_BUTTON_XPATH)
 					&& MobileDriverUtils.doesSelectorMatchAnyElements(driver, ANDROID_INTERSTITIAL_ACCEPT_BUTTON_XPATH)

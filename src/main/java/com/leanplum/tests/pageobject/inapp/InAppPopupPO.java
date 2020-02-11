@@ -14,7 +14,7 @@ public class InAppPopupPO extends BasePO {
 	public static final String POPUP_CONTAINER_XPATH = "//*[@resource-id='com.leanplum.rondo:id/container_view']";
 	private AppiumDriver<MobileElement> driver;
 
-	public InAppPopupPO(AppiumDriver<MobileElement> driver) {
+	InAppPopupPO(AppiumDriver<MobileElement> driver) {
 		super(driver);
 		this.driver = driver;
 	}
@@ -25,7 +25,7 @@ public class InAppPopupPO extends BasePO {
 	 * @param elementTextMap
 	 * @return
 	 */
-	protected boolean verifyInAppPopup(Map<MobileElement, String> elementTextMap) {
+  boolean verifyInAppPopup(Map<MobileElement, String> elementTextMap) {
 		for (Entry<MobileElement, String> entry : elementTextMap.entrySet()) {
 			String actual;
 			if (driver instanceof AndroidDriver) {

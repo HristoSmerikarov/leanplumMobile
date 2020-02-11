@@ -17,7 +17,7 @@ public enum PushNotifiationType {
         }
     };
     
-    String os;
+    private String os;
     
     PushNotifiationType(String os){
         this.os = os;

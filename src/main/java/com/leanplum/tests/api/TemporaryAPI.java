@@ -9,7 +9,7 @@ import io.restassured.response.Response;
 
 public class TemporaryAPI {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(TemporaryAPI.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TemporaryAPI.class);
     private static ApiKeysEnum apiKeys =  ApiKeysEnum.valueOfEnum(System.getProperty("application")).get();
     private static String testAppKey = apiKeys.getTestAppKey();
     private static String apiVersion = "1.0.6";
@@ -38,91 +38,61 @@ public class TemporaryAPI {
     public static Response track(String userId, String trackEvent) {
         String formattedEndpoint = String.format(path, trackAction, testAppKey, apiVersion, testProdKey)
                 + String.format(userIdParameter, userId) + String.format(eventParameter, trackEvent);
-        System.out.println("FORMATTED: " + formattedEndpoint);
-
-        Response response = RestAssured.given().contentType(ContentType.JSON).log().all().post(formattedEndpoint);
-        System.out.println("Post Response:" + response.getBody().asString());
-        LOGGER.info("Post Response:" + response.getBody().asString());
-
-        return response;
-    }
-
-    public static Response getUser(String userId) {
-        String formattedEndpoint = String.format(path, exportUserAction, testAppKey, apiVersion, exportKey)
-                + String.format(userIdParameter, userId);
-        System.out.println("FORMATTED: " + formattedEndpoint);
-
-        Response response = RestAssured.given().contentType(ContentType.JSON).log().all().get(formattedEndpoint);
-        System.out.println("Post Response:" + response.getBody().asString());
-        LOGGER.info("Post Response:" + response.getBody().asString());
-        return response;
+        return post(formattedEndpoint);
     }
 
     public static Response getNewsfeedMessages(String deviceId) {
         String formattedEndpoint = String.format(path, getNewsfeedMessages, testAppKey, apiVersion, testProdKey)
                 + String.format(deviceIdParameter, deviceId);
-        System.out.println("FORMATTED: " + formattedEndpoint);
-
-        Response response = RestAssured.given().contentType(ContentType.JSON).log().all().post(formattedEndpoint);
-        System.out.println("Post Response:" + response.getBody().asString());
-        LOGGER.info("Post Response:" + response.getBody().asString());
-
-        return response;
+        return post(formattedEndpoint);
     }
 
     public static Response deleteNewsfeedMessage(String deviceId, String userId, String newsfeedId) {
         String formattedEndpoint = String.format(path, deleteNewsfeedMessage, testAppKey, apiVersion, testProdKey)
                 + String.format(deviceIdParameter, deviceId) + String.format(userIdParameter, userId)
                 + String.format(newsfeedIdParameter, newsfeedId);
-        System.out.println("FORMATTED: " + formattedEndpoint);
-
-        Response response = RestAssured.given().contentType(ContentType.JSON).log().all().post(formattedEndpoint);
-
-        System.out.println("Post Response:" + response.getBody().asString());
-        LOGGER.info("Post Response:" + response.getBody().asString());
-
-        return response;
+        return post(formattedEndpoint);
     }
 
     public static Response pauseSession(String userId) {
         String formattedEndpoint = String.format(path, pauseSession, testAppKey, apiVersion, testProdKey)
                 + String.format(userIdParameter, userId);
-
-        System.out.println("FORMATTED: " + formattedEndpoint);
-
-        Response response = RestAssured.given().contentType(ContentType.JSON).log().all().post(formattedEndpoint);
-
-        System.out.println("Post Response:" + response.getBody().asString());
-        LOGGER.info("Post Response:" + response.getBody().asString());
-
-        return response;
+        return post(formattedEndpoint);
     }
 
     public static Response deleteUser(String userId) {
         String formattedEndpoint = String.format(path, deleteUser, testAppKey, apiVersion, testProdKey)
                 + String.format(userIdParameter, userId);
-
-        System.out.println("FORMATTED: " + formattedEndpoint);
-
-        Response response = RestAssured.given().contentType(ContentType.JSON).log().all().post(formattedEndpoint);
-
-        System.out.println("Post Response:" + response.getBody().asString());
-        LOGGER.info("Post Response:" + response.getBody().asString());
-
-        return response;
+        return post(formattedEndpoint);
     }
 
     public static Response sendMessage(String userId, String deviceId) {
         String formattedEndpoint = String.format(path, sendMessage, testAppKey, apiVersion, testProdKey)
                 + String.format(userIdParameter, userId) + String.format(deviceIdParameter, deviceId);
-
-        System.out.println("FORMATTED: " + formattedEndpoint);
-
-        Response response = RestAssured.given().contentType(ContentType.JSON).log().all().post(formattedEndpoint);
-
+        return post(formattedEndpoint);
+    }
+    
+    public static Response getUser(String userId) {
+        String formattedEndpoint = String.format(path, exportUserAction, testAppKey, apiVersion, exportKey)
+                + String.format(userIdParameter, userId);
+        return get(formattedEndpoint);
+    }
+    
+    private static Response post(String endpoint) {
+        System.out.println("POST TO ENDPOINT: " + endpoint);
+        Response response = RestAssured.given().contentType(ContentType.JSON).log().all().post(endpoint);
         System.out.println("Post Response:" + response.getBody().asString());
         LOGGER.info("Post Response:" + response.getBody().asString());
-
+        
+        return response;
+    }
+    
+    private static Response get(String endpoint) {
+        System.out.println("POST TO ENDPOINT: " + endpoint);
+        Response response = RestAssured.given().contentType(ContentType.JSON).log().all().get(endpoint);
+        System.out.println("Post Response:" + response.getBody().asString());
+        LOGGER.info("Post Response:" + response.getBody().asString());
+        
         return response;
     }
 

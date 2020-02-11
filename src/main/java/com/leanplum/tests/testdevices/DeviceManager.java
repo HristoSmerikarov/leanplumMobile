@@ -6,12 +6,16 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.leanplum.tests.enums.OSEnum;
 import com.leanplum.tests.helpers.Utils;
 
 public class DeviceManager {
 
     public static List<TestDevice> connectedTestDevices = new ArrayList<>();
+    private static final Logger logger = LoggerFactory.getLogger(DeviceManager.class);
 
     public void determineConnectedDevices() {
         OSEnum os = Utils.determineOS();
@@ -20,13 +24,15 @@ public class DeviceManager {
         connectedTestDevices.addAll(getConnectedIOSDevice(os));
 
         connectedTestDevices.forEach(device -> {
+            logger.info("Device list ids: " + device.getId());
             System.out.println("DEVICE LIST IDS: " + device.getId());
         });
     }
 
-    public static List<TestDevice> getConnectedAndroidDevice(OSEnum os) {
+    private static List<TestDevice> getConnectedAndroidDevice(OSEnum os) {
         List<String> responseLines = Utils.runCommandInTerminal(os, "adb devices");
         List<String> androidDeviceIds = new ArrayList<String>();
+        logger.info("Android devices: " + androidDeviceIds);
         System.out.println("ANDROID DEVICES: "+androidDeviceIds);
         responseLines.forEach(line -> {
             if (!line.equals("List of devices attached") && !line.isEmpty()) {
@@ -45,7 +51,7 @@ public class DeviceManager {
         return androidTestDevices;
     }
 
-    public static List<TestDevice> getConnectedIOSDevice(OSEnum os) {
+    private static List<TestDevice> getConnectedIOSDevice(OSEnum os) {
         List<TestDevice> devices = new ArrayList<>();
         if (os == OSEnum.MAC) {
             ProcessBuilder processBuilder = new ProcessBuilder();

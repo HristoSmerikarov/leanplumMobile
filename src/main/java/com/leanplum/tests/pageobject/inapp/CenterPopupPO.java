@@ -27,15 +27,15 @@ public class CenterPopupPO extends InAppPopupPO {
 
 	@iOSXCUITFindBy(xpath = IOS_CENTER_POPUP_XPATH)
 	@AndroidFindBy(xpath = CENTER_POPUP_TITLE_XPATH + "/*[@text]/ancestor::" + CENTER_POPUP_XPATH)
-	public MobileElement centerPopup;
+  private MobileElement centerPopup;
 
 	@iOSXCUITFindBy(xpath = IOS_CENTER_POPUP_XPATH + "//" + IOS_STATIC_TEXT_XPATH + "[1]")
 	@AndroidFindBy(xpath = CENTER_POPUP_TITLE_XPATH + "/*[@text]")
-	public MobileElement centerPopupTitle;
+  private MobileElement centerPopupTitle;
 
 	@iOSXCUITFindBy(xpath = IOS_CENTER_POPUP_XPATH + "//" + IOS_STATIC_TEXT_XPATH + "[2]")
 	@AndroidFindBy(xpath = "//" + CENTER_POPUP_XPATH + "/*[@class='android.widget.TextView']")
-	public MobileElement centerPopupMessage;
+  private MobileElement centerPopupMessage;
 
 	@iOSXCUITFindBy(xpath = IOS_CENTER_POPUP_ACCEPT_BUTTON_XPATH)
 	@AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/accept_button']")

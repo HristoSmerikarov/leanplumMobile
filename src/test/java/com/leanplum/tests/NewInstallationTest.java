@@ -1,173 +1,172 @@
 package com.leanplum.tests;
 
-import java.io.File;
 import java.lang.reflect.Method;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.google.common.base.Strings;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
+import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.listeners.TestListener;
 
-import io.appium.java_client.MobileDriver;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 
 @Listeners({ TestListener.class })
 public class NewInstallationTest extends CommonTestSteps {
-//
-//    private static final String IN_APP_LIMIT_STATE = "inapplimit";
-//    private static final String RONDO_PUSH_NOTIFICATION = "Push notification";
-//
-//    @BeforeMethod
-//    public void installApp() {
-//        File rondoAppFile = new File("./resources/RondoApp-debug.apk");
-//        System.out.println(rondoAppFile.getAbsolutePath());
-//
-//        if (this.getDriver().isAppInstalled("com.leanplum.rondo")) {
-//            this.getDriver().removeApp("com.leanplum.rondo");
-//        }
-//
-//        this.getDriver().installApp(rondoAppFile.getAbsolutePath());
-//
-//        this.getDriver().launchApp();
-//    }
-//
-//    @Test(description = "In-app with limit two times ever")
-//    public void inAppWithLimitTwoTimes(Method method) {
-//        try {
-//            TestStepHelper stepHelper = new TestStepHelper(this);
-//            MobileDriver<MobileElement> driver = getDriver();
-//
-//            // Track state
-//            AlertPO alertPO = new AlertPO(driver);
-//            stepHelper.acceptAllAlertsOnAppStart(alertPO);
-//
-//            AppSetupPO appSetupPO = new AppSetupPO(driver);
-//            String userId = alertPO.getTextFromElement(appSetupPO.userId);
-//            String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-//            AdHocPO adHocPO = new AdHocPO(driver);
-//            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-//
-//            if (Strings.isNullOrEmpty(userId)) {
-//                adHocPO.setUserId(deviceId);
-//                userId = deviceId;
-//            }
-//
-//            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-//
-//            ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
-//            for (int i = 0; i < 2; i++) {
-//                stepHelper.sendTrackEvent(adHocPO, IN_APP_LIMIT_STATE);
-//
-//                stepHelper.verifyCondition("Verify confirm popup is present",
-//                        confirmInApp.verifyConfirmInApp("In-App with Limit", "2 times ever", "Виждам го!", "Не!"));
-//
-//                stepHelper.clickElement(confirmInApp, confirmInApp.confirmAcceptButton, "Accept in-app");
-//            }
-//
-//            // Trigger third time the state
-//            stepHelper.sendTrackEvent(adHocPO, IN_APP_LIMIT_STATE);
-//
-//            stepHelper.verifyCondition("Verify confirm popup is present", confirmInApp.verifyConfirmInAppIsAbsent());
-//
-//            // Restart app to verify new session does not affect the limit
-//            driver.closeApp();
-//
-//            MobileDriverUtils.waitInMs(5000);
-//
-//            driver.launchApp();
-//
-//            stepHelper.acceptAllAlertsOnAppStart(alertPO);
-//
-//            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-//
-//            for (int i = 0; i < 2; i++) {
-//                stepHelper.sendTrackEvent(adHocPO, IN_APP_LIMIT_STATE);
-//
-//                stepHelper.verifyCondition("Verify confirm popup is present",
-//                        confirmInApp.verifyConfirmInAppIsAbsent());
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            endStep(e.toString(), false);
-//        }
-//        endTest();
-//    }
-//
-//    @Test(description = "Push Notification's on user first open app")
-//    public void pushNotificationOnUserFirstStartApp(Method method) {
-//        try {
-//            TestStepHelper stepHelper = new TestStepHelper(this);
-//            MobileDriver<MobileElement> driver = getDriver();
-//
-//            // Track state
-//            AlertPO alertPO = new AlertPO(driver);
-//            stepHelper.acceptAllAlertsOnAppStart(alertPO);
-//
-//            AdHocPO adHocPO = new AdHocPO(driver);
-//            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-//
-//            String userId = "RondoTestUser" + Utils.generateRandomNumberInRange(0, 100);
-//
-//            startStep("Set User ID: " + userId);
-//            adHocPO.setUserId(userId);
-//            endStep();
-//
-//            PushNotifiationType pn = PushNotifiationType.valueOfEnum(getTestConfig().getOS()).get();
-//
-//            // Open push notification
-//            openNotificationsAndOpenByMessage(stepHelper, pn.initialize(driver, RONDO_PUSH_NOTIFICATION));
-//
-//            stepHelper.acceptAllAlertsOnAppStart(alertPO);
-//
-//            stepHelper.closeAppAndReturnToHome(adHocPO);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            endStep(e.toString(), false);
-//        }
-//        endTest();
-//    }
-//    
-//     // TODO Uncomment when new app is created
-//     // /**
-//     // * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186428">C186428</a>
-//     // * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186436">C186436</a>
-//     // */
-//     // @Test(groups = { "android", "ios",
-//     // "pushNotifications" }, description = "Push Notification's open action is New Action")
-//     // public void pushNotOpenActionWNewAction(Method method) {
-//     // ExtentTestManager.startTest(method.getName(), "Push Notification's open action is New Action");
-//     //
-//     // TestStepHelper stepHelper = new TestStepHelper(this);
-//     // MobileDriver<MobileElement> driver = getDriver();
-//     //
-//     // // Track event
-//     // AlertPO alertPO = new AlertPO(driver);
-//     // stepHelper.acceptAllAlertsOnAppStart(alertPO);
-//     //
-//     // PushNotifiationType pn = PushNotifiationType.valueOfEnum(getTestConfig().getOS()).get();
-//     //
-//     // // Open push notification
-//     // openNotificationsAndOpenByMessage(stepHelper, pn.initialize(driver, RONDO_PUSH_NOTIFICATION));
-//     //
-//     // // Verify alert layout
-//     // stepHelper.verifyCondition("Verification of alert",
-//     // alertPO.verifyAlertLayout("Rondo Alert", "Warning this is a Rondo Alert!!", "Okay, calm down!"));
-//     //
-//     // // Confirm alert
-//     // stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, "Confirm alert");
-//     // stepHelper.acceptAllAlertsOnAppStart(alertPO);
-//     //
-//     // stepHelper.closeAppAndReturnToHome(alertPO);
-//     // }
+
+    private static final String IN_APP_LIMIT_STATE = "inapplimit";
+    private static final String RONDO_PUSH_NOTIFICATION = "Push notification on first start";
+    private static String userID = "";
+
+    @Parameters({ "id" })
+    @Test(description = "Push Notification's on user first open app", alwaysRun = true)
+    public void pushNotificationOnUserFirstStartApp(Method method, String id) {
+        try {
+            AppiumDriver<MobileElement> driver = initiateTestWithFreshInstallation();
+
+            TestStepHelper stepHelper = new TestStepHelper(this);
+
+            // Track state
+            AlertPO alertPO = new AlertPO(driver);
+            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+
+            AdHocPO adHocPO = new AdHocPO(driver);
+            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+
+            if (userID.equals("")) {
+                userID = "RondoTestUser" + Utils.generateRandomNumberInRange(0, 1000);
+            }
+
+            startStep("Set User ID: " + userID);
+            adHocPO.setUserId(userID);
+            endStep();
+            
+            //Sleep for 5 seconds to wait for UserId change
+            MobileDriverUtils.waitInMs(5000);
+
+            // Open push notification
+            PushNotification pushNotification = PushNotifiationType.ANDROID.initialize(driver, RONDO_PUSH_NOTIFICATION);
+            openNotificationsAndOpenByMessage(stepHelper, pushNotification);
+
+            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+
+            stepHelper.closeAppAndReturnToHome(adHocPO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            endStep(e.toString(), false);
+        }
+        endTest();
+    }
+
+    @Parameters({ "id" })
+    @Test(description = "In-app with limit two times ever", dependsOnMethods = "pushNotificationOnUserFirstStartApp")
+    public void inAppWithLimitTwoTimes(Method method, String id) {
+        try {
+            AppiumDriver<MobileElement> driver = initiateTestWithFreshInstallation();
+
+            TestStepHelper stepHelper = new TestStepHelper(this);
+
+            // Track state
+            AlertPO alertPO = new AlertPO(driver);
+            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+
+            AdHocPO adHocPO = new AdHocPO(driver);
+            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+
+            if (userID.equals("")) {
+                userID = "RondoTestUser" + Utils.generateRandomNumberInRange(0, 1000);
+            }
+
+            startStep("Set User ID: " + userID);
+            adHocPO.setUserId(userID);
+            endStep();
+
+            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+
+            ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+            for (int i = 0; i < 2; i++) {
+                stepHelper.sendTrackEvent(adHocPO, IN_APP_LIMIT_STATE);
+
+                stepHelper.verifyCondition("Verify confirm popup is present",
+                        confirmInApp.verifyConfirmInApp("In-App with Limit", "2 times ever", "Виждам го!", "Не!"));
+
+                stepHelper.clickElement(confirmInApp, confirmInApp.confirmAcceptButton, "Accept in-app");
+            }
+
+            // Trigger third time the state
+            stepHelper.sendTrackEvent(adHocPO, IN_APP_LIMIT_STATE);
+
+            stepHelper.verifyCondition("Verify confirm popup is present", confirmInApp.verifyConfirmInAppIsAbsent());
+
+            // Restart app to verify new session does not affect the limit
+            driver.closeApp();
+
+            MobileDriverUtils.waitInMs(5000);
+
+            driver.launchApp();
+
+            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+
+            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+
+            for (int i = 0; i < 2; i++) {
+                stepHelper.sendTrackEvent(adHocPO, IN_APP_LIMIT_STATE);
+
+                stepHelper.verifyCondition("Verify confirm popup is present",
+                        confirmInApp.verifyConfirmInAppIsAbsent());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            endStep(e.toString(), false);
+        }
+        endTest();
+    }
+
+    // // TODO Uncomment when new app is created
+    // /**
+    // * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186428">C186428</a>
+    // * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186436">C186436</a>
+    // */
+    // @Parameters({ "id" })
+    // @Test(groups = { "android", "ios",
+    // "pushNotifications" }, description = "Push Notification's open action is New Action")
+    // public void pushNotOpenActionWNewAction(Method method) {
+    // try {
+    // AppiumDriver<MobileElement> driver = initiateTest();
+    //
+    // TestStepHelper stepHelper = new TestStepHelper(this);
+    //
+    // // Track event
+    // AlertPO alertPO = new AlertPO(driver);
+    // stepHelper.acceptAllAlertsOnAppStart(alertPO);
+    //
+    // // Open push notification
+    // PushNotification pushNotification = PushNotifiationType.ANDROID.initialize(driver, RONDO_PUSH_NOTIFICATION);
+    // openNotificationsAndOpenByMessage(stepHelper, pushNotification);
+    //
+    // // Verify alert layout
+    // stepHelper.verifyCondition("Verification of alert",
+    // alertPO.verifyAlertLayout("Rondo Alert", "Warning this is a Rondo Alert!!", "Okay, calm down!"));
+    //
+    // // Confirm alert
+    // stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, "Confirm alert");
+    // stepHelper.acceptAllAlertsOnAppStart(alertPO);
+    //
+    // stepHelper.closeAppAndReturnToHome(alertPO);
+    //
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // endStep(e.toString(), false);
+    // }
+    // endTest();
+    // }
 }

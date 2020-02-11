@@ -31,7 +31,7 @@ public class AdHocPO extends BasePO {
 
 	@AndroidFindBy(id = "com.leanplum.rondo:id/info")
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@label='You can type in custom events, sessions and attributes to send from here.']")
-	public MobileElement descriptionText;
+	private MobileElement descriptionText;
 
 	@AndroidFindBy(id = "com.leanplum.rondo:id/adhoc")
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"Adhoc\"]")
@@ -39,79 +39,79 @@ public class AdHocPO extends BasePO {
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Send track Event:\"]//following-sibling::XCUIElementTypeTextField")
 	@AndroidFindBy(id = "com.leanplum.rondo:id/trackName")
-	public MobileElement trackEventField;
+	private MobileElement trackEventField;
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@label='Params']/following-sibling::XCUIElementTypeTextField[1]")
 	@AndroidFindBy(id = "com.leanplum.rondo:id/paramKey")
-	public MobileElement trackEventParamKey;
+	private MobileElement trackEventParamKey;
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@label='Params']/following-sibling::XCUIElementTypeTextField[2]")
 	@AndroidFindBy(id = "com.leanplum.rondo:id/paramValue")
-	public MobileElement trackEventParamValue;
+	private MobileElement trackEventParamValue;
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@label=\"Send track Event:\"]")
 	@AndroidFindBy(xpath = "//*[@text='Send Track Event']")
-	public MobileElement trackEventLabel;
+	private MobileElement trackEventLabel;
 
 	@AndroidFindBy(id = "com.leanplum.rondo:id/buttonTrack")
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@name=\"Send Track Event\"]")
-	public MobileElement trackEventButton;
+	private MobileElement trackEventButton;
 
 	@iOSXCUITFindBy(xpath = IOS_ADVANCE_TO_STATE_LABEL_XPATH + "/following-sibling::XCUIElementTypeTextField")
 	@AndroidFindBy(id = "com.leanplum.rondo:id/stateName")
-	public MobileElement stateNameField;
+	private MobileElement stateNameField;
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@label='Advance to State:']")
 	@AndroidFindBy(xpath = "//*[@text='Set Session State']")
-	public MobileElement stateNameLabel;
+	private MobileElement stateNameLabel;
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@label=\"Send State Event\"]")
 	@AndroidFindBy(id = "com.leanplum.rondo:id/buttonState")
-	public MobileElement stateNameButton;
+	private MobileElement stateNameButton;
 
 	@iOSXCUITFindBy(xpath = USER_ATTRIBUTE_FIELD_XPATH + "[1]")
 	@AndroidFindBy(id = "com.leanplum.rondo:id/attrKey")
-	public MobileElement attributeKeyField;
+	private MobileElement attributeKeyField;
 
 	@iOSXCUITFindBy(xpath = USER_ATTRIBUTE_FIELD_XPATH + "[2]")
 	@AndroidFindBy(id = "com.leanplum.rondo:id/attrValue")
-	public MobileElement attributeValueField;
+	private MobileElement attributeValueField;
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@label=\"User attrib:\"]")
 	@AndroidFindBy(xpath = "//*[@text='Set User Attribute']")
-	public MobileElement attributeLabel;
+	private MobileElement attributeLabel;
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@label='Set User Attribute']")
 	@AndroidFindBy(id = "com.leanplum.rondo:id/buttonUserAttr")
-	public MobileElement userAttributeButton;
+	private MobileElement userAttributeButton;
 
 	// @iOSXCUITFindBy(xpath = "")
 	@AndroidFindBy(xpath = "//*[@text='Set Device Location']")
-	public MobileElement locationLabel;
+	private MobileElement locationLabel;
 
 	// @iOSXCUITFindBy(xpath = "")
 	@AndroidFindBy(id = "com.leanplum.rondo:id/locLatitude")
-	public MobileElement latitudeField;
+	private MobileElement latitudeField;
 
 	// @iOSXCUITFindBy(xpath = "")
 	@AndroidFindBy(id = "com.leanplum.rondo:id/locLongitude")
-	public MobileElement longitudeField;
+	private MobileElement longitudeField;
 
 	// @iOSXCUITFindBy(xpath = "")
 	@AndroidFindBy(id = "com.leanplum.rondo:id/buttonDeviceLocation")
-	public MobileElement deviceLocationButton;
+	private MobileElement deviceLocationButton;
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeButton[@label='Set UserId']")
 	@AndroidFindBy(id = "com.leanplum.rondo:id/buttonUserId")
-	public MobileElement setUserIdButton;
+	private MobileElement setUserIdButton;
 
 	@iOSXCUITFindBy(xpath = IOS_USER_ID_LABEL_XPATH)
 	@AndroidFindBy(id = "com.leanplum.rondo:id/userIdKey")
-	public MobileElement userIdLabel;
+	private MobileElement userIdLabel;
 
 	@iOSXCUITFindBy(xpath = IOS_USER_ID_LABEL_XPATH + "/following-sibling::XCUIElementTypeTextField")
 	@AndroidFindBy(id = "com.leanplum.rondo:id/userIdKey")
-	public MobileElement userIdField;
+	private MobileElement userIdField;
 
 	@iOSXCUITFindBy(xpath = "//XCUIElementTypeStaticText[@name=\"Rondo Push Notification's\"]")
 	public MobileElement iosPushNotifications;
@@ -165,9 +165,9 @@ public class AdHocPO extends BasePO {
 		long elapsedTimeFirstTry = stopTimeFirstTry - startTime;
 		System.out.println("I spent " + elapsedTimeFirstTry + " seconds to swipe first try");
 
-		fieldValueMap.entrySet().forEach(entry -> {
-			entry.getKey().clear();
-			entry.getKey().sendKeys(entry.getValue());
+		fieldValueMap.forEach((key, value) -> {
+			key.clear();
+			key.sendKeys(value);
 		});
 
 		long stopTimePopulate = System.currentTimeMillis();

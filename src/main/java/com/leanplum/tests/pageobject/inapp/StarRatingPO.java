@@ -32,27 +32,27 @@ public class StarRatingPO extends InAppPopupPO {
 
 	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_XPATH)
 	@AndroidFindBy(xpath = ANDROID_STAR_RATING_POPUP_XPATH)
-	public MobileElement starRatingPopupXpath;
+  private MobileElement starRatingPopupXpath;
 
 	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_TEXT_XPATH + "[1]")
 	@AndroidFindBy(xpath = ANDROID_STAR_RATING_POPUP_XPATH + "//*[@resource-id='survey-question']")
-	public MobileElement starRatingSurveyQuestion;
+  private MobileElement starRatingSurveyQuestion;
 
 	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_TEXT_XPATH + "[2]")
 	@AndroidFindBy(xpath = "//*[@resource-id='low-rating-text']")
-	public MobileElement lowRatingTextElement;
+  private MobileElement lowRatingTextElement;
 
 	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_TEXT_XPATH + "[3]")
 	@AndroidFindBy(xpath = "//*[@resource-id='high-rating-text']")
-	public MobileElement highRatingTextElement;
+  private MobileElement highRatingTextElement;
 
 	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_SUBMIT_BUTTON_XPATH)
 	@AndroidFindBy(xpath = ANDROID_STAR_RATING_SUBMIT_BUTTON_XPATH)
-	public MobileElement ratingSubmitButton;
+  private MobileElement ratingSubmitButton;
 
 	@iOSXCUITFindBy(xpath = IOS_STAR_RATING_XPATH + "//XCUIElementTypeOther[not(*)]")
 	@AndroidFindBy(xpath = ANDROID_RATING_STAR_XPATH)
-	public List<MobileElement> ratingStars;
+  private List<MobileElement> ratingStars;
 
 	private AppiumDriver<MobileElement> driver;
 
@@ -86,7 +86,7 @@ public class StarRatingPO extends InAppPopupPO {
 		submitRating();
 	}
 
-	public void submitRating() {
+	private void submitRating() {
 		ratingSubmitButton.click();
 	}
 

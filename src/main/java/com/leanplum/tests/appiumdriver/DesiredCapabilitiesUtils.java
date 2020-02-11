@@ -9,7 +9,7 @@ import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 
-public class DesiredCapabilitiesUtils {
+class DesiredCapabilitiesUtils {
 
 	private DesiredCapabilities capabilities = new DesiredCapabilities();
 

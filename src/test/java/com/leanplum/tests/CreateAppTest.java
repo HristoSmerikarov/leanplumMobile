@@ -1,21 +1,9 @@
 package com.leanplum.tests;
 
-import java.lang.reflect.Method;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
-import com.leanplum.base.TestStepHelper;
-import com.leanplum.tests.helpers.MobileDriverUtils;
-import com.leanplum.tests.pageobject.AppSetupPO;
-import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.utils.listeners.TestListener;
-
-import io.appium.java_client.MobileDriver;
-import io.appium.java_client.MobileElement;
 
 @Listeners({ TestListener.class })
 public class CreateAppTest extends CommonTestSteps {

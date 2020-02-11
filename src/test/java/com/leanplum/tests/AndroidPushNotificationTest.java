@@ -1,10 +1,7 @@
 package com.leanplum.tests;
 
-import java.io.File;
 import java.lang.reflect.Method;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -17,20 +14,14 @@ import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.AppSetupPO;
-import com.leanplum.tests.pageobject.MobileBrowserPO;
 import com.leanplum.tests.pageobject.inapp.AlertPO;
-import com.leanplum.tests.pageobject.inapp.CenterPopupPO;
-import com.leanplum.tests.pushnotification.IOSPushNotification;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
-import io.appium.java_client.ios.IOSDriver;
 
 @Listeners({ TestListener.class })
 public class AndroidPushNotificationTest extends CommonTestSteps {
@@ -81,13 +72,14 @@ public class AndroidPushNotificationTest extends CommonTestSteps {
 
             stepHelper.stopAppSession(adHocPO);
 
+            //Technical wait to actually background the app
+            MobileDriverUtils.waitInMs(5000);
+            
             startStep("Track event "+OUTSIDE_APP_TRIGGER+" with API call");
             TemporaryAPI.track(userId, OUTSIDE_APP_TRIGGER);
             endStep();
 
             MobileDriverUtils.waitInMs(10000);
-
-            // stepHelper.resumeAppSession(adHocPO);
 
             Utils.swipeTopToBottom(driver);
             stepHelper.waitForNotificationPresence(pushNotification);

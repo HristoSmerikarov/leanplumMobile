@@ -12,6 +12,7 @@
 			<class name="com.leanplum.tests.InAppActionsTest" />
 			<class name="com.leanplum.tests.PushNotificationTest" />
 			<class name="com.leanplum.tests.AndroidPushNotificationTest" />
+			<class name="com.leanplum.tests.NewInstallationTest" />
 		</classes>
 	</test>
 </suite>

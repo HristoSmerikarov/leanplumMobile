@@ -1,5 +1,6 @@
 package com.leanplum.base;
 
+import java.io.File;
 import java.net.MalformedURLException;
 
 import com.google.common.base.Strings;
@@ -15,11 +16,37 @@ import io.appium.java_client.MobileElement;
 
 public class CommonTestSteps extends BaseTest {
 
-    public AppiumDriver<MobileElement> initiateTest() throws MalformedURLException {
+    protected AppiumDriver<MobileElement> initiateTest() throws MalformedURLException {
         AppiumDriver<MobileElement> driver = initTest();
 
         startTest();
 
+        setupApp(driver);
+
+        return driver;
+    }
+
+    protected AppiumDriver<MobileElement> initiateTestWithFreshInstallation() throws MalformedURLException {
+        AppiumDriver<MobileElement> driver = initTest();
+
+        startTest();
+
+        File rondoAppFile = new File("./resources/RondoApp-debug.apk");
+
+        if (driver.isAppInstalled("com.leanplum.rondo")) {
+            driver.removeApp("com.leanplum.rondo");
+        }
+
+        driver.installApp(rondoAppFile.getAbsolutePath());
+
+        driver.launchApp();
+
+        setupApp(driver);
+
+        return driver;
+    }
+    
+    private void setupApp(AppiumDriver<MobileElement> driver) {
         TestStepHelper stepHelper = new TestStepHelper(this);
 
         AlertPO alert = new AlertPO(driver);
@@ -27,11 +54,9 @@ public class CommonTestSteps extends BaseTest {
 
         TestAppUtils appUtils = new TestAppUtils();
         appUtils.selectAppAndEnv(driver);
-
-        return driver;
     }
-    
-    public void setUserId(AppSetupPO appSetupPO, String userId) {
+
+    protected void setUserId(AppSetupPO appSetupPO, String userId) {
         AdHocPO adHocPO = new AdHocPO(getDriver());
         adHocPO.click(adHocPO.adhoc);
 
@@ -40,7 +65,8 @@ public class CommonTestSteps extends BaseTest {
         appSetupPO.click(appSetupPO.appSetup);
     }
 
-    public AdHocPO sendEvent(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper, String message) {
+    protected AdHocPO sendEvent(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper,
+        String message) {
         AlertPO alertPO = new AlertPO(driver);
         stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
@@ -52,7 +78,6 @@ public class CommonTestSteps extends BaseTest {
 
         if (Strings.isNullOrEmpty(userId)) {
             adHocPO.setUserId(deviceId);
-            userId = deviceId;
         }
 
         stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
@@ -62,8 +87,9 @@ public class CommonTestSteps extends BaseTest {
         return adHocPO;
     }
 
-    public AdHocPO sendEventWithParameters(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper,
-            String message, String paramKey, String paramValue) {
+    protected AdHocPO sendEventWithParameters(AppiumDriver<MobileElement> driver,
+        TestStepHelper stepHelper,
+        String message, String paramKey, String paramValue) {
         AlertPO alertPO = new AlertPO(driver);
         stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
@@ -75,7 +101,6 @@ public class CommonTestSteps extends BaseTest {
 
         if (Strings.isNullOrEmpty(userId)) {
             adHocPO.setUserId(deviceId);
-            userId = deviceId;
         }
 
         stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
@@ -85,7 +110,8 @@ public class CommonTestSteps extends BaseTest {
         return adHocPO;
     }
 
-    public AdHocPO sendState(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper, String state) {
+    protected AdHocPO sendState(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper,
+        String state) {
         AlertPO alertPO = new AlertPO(driver);
         stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
@@ -97,7 +123,6 @@ public class CommonTestSteps extends BaseTest {
 
         if (Strings.isNullOrEmpty(userId)) {
             adHocPO.setUserId(deviceId);
-            userId = deviceId;
         }
 
         stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
@@ -107,8 +132,9 @@ public class CommonTestSteps extends BaseTest {
         return adHocPO;
     }
 
-    public AdHocPO sendUserAttribute(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper,
-            String attributeName, String attributeValue) {
+    protected AdHocPO sendUserAttribute(AppiumDriver<MobileElement> driver,
+        TestStepHelper stepHelper,
+        String attributeName, String attributeValue) {
         AlertPO alertPO = new AlertPO(driver);
         stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
@@ -120,7 +146,6 @@ public class CommonTestSteps extends BaseTest {
 
         if (Strings.isNullOrEmpty(userId)) {
             adHocPO.setUserId(deviceId);
-            userId = deviceId;
         }
 
         stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
@@ -130,7 +155,8 @@ public class CommonTestSteps extends BaseTest {
         return adHocPO;
     }
 
-    public void openNotificationsAndOpenByMessage(TestStepHelper stepHelper, PushNotification pushNotification) {
+    protected void openNotificationsAndOpenByMessage(TestStepHelper stepHelper,
+        PushNotification pushNotification) {
         stepHelper.openNotifications();
         stepHelper.waitForNotificationPresence(pushNotification);
         stepHelper.openPushNotification(pushNotification);

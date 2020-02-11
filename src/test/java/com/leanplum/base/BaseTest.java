@@ -11,14 +11,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.openqa.selenium.OutputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
 import org.testng.asserts.SoftAssert;
@@ -26,7 +24,6 @@ import org.testng.asserts.SoftAssert;
 import com.leanplum.tests.appiumdriver.AppiumServiceUtils;
 import com.leanplum.tests.appiumdriver.DevicePropertiesUtils;
 import com.leanplum.tests.appiumdriver.DriverFactory;
-import com.leanplum.tests.appiumdriver.TestConfig;
 import com.leanplum.tests.enums.OSEnum;
 import com.leanplum.tests.enums.PlatformEnum;
 import com.leanplum.tests.helpers.MobileDriverUtils;
@@ -36,29 +33,23 @@ import com.leanplum.tests.testdevices.TestDevice;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
-import io.appium.java_client.android.nativekey.PressesKey;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.qameta.allure.model.Status;
-import io.qameta.allure.model.StepResult;
 
 @Listeners({ TestListener.class })
 public class BaseTest {
 
-    protected ThreadLocal<AppiumDriver<MobileElement>> driver = new ThreadLocal<>();
+    private ThreadLocal<AppiumDriver<MobileElement>> driver = new ThreadLocal<>();
     public boolean hasFailedStep = false;
-    private DeviceManager deviceManager;
     private AppiumServiceUtils appiumServiceUtils = new AppiumServiceUtils();
-    protected Map<AppiumDriver<MobileElement>, TestDevice> driverToDeviceMap = new HashMap<>();
+    private Map<AppiumDriver<MobileElement>, TestDevice> driverToDeviceMap = new HashMap<>();
     private List<AppiumDriver<MobileElement>> appiumDrivers = new ArrayList<>();
     private SoftAssert softAssert;
-    private String reportFolder = "target/allure-results";
     private boolean useGrid = false;
     private String serviceIpAddress;
     private OSEnum os;
@@ -72,7 +63,7 @@ public class BaseTest {
         this.os = Utils.determineOS();
 
         // Get connected devices
-        deviceManager = new DeviceManager();
+        DeviceManager deviceManager = new DeviceManager();
         deviceManager.determineConnectedDevices();
 
         // Create and start Appium services for each test device with individual IP and port
@@ -94,7 +85,7 @@ public class BaseTest {
     }
 
     @SuppressWarnings("rawtypes")
-    public AppiumDriver<MobileElement> initTest() throws MalformedURLException {
+    AppiumDriver<MobileElement> initTest() throws MalformedURLException {
         String currentThread = Thread.currentThread().getName();
         System.out.println("CURRENT THREAD: " + currentThread);
 
@@ -145,7 +136,7 @@ public class BaseTest {
         return driver;
     }
 
-    public AppiumDriver<MobileElement> createDriver(TestDevice device, URL appiumServiceIp) {
+    private AppiumDriver<MobileElement> createDriver(TestDevice device, URL appiumServiceIp) {
         DriverFactory df = new DriverFactory();
         AppiumDriver<MobileElement> driver = df.createDriver(device, DevicePropertiesUtils
                 .getDeviceProperties(device.getPlatform().getPlatformName().toLowerCase(), "phone"), appiumServiceIp);
@@ -159,14 +150,14 @@ public class BaseTest {
         System.out.println("StartTestTimestamp: " + startTestTimestamp);
     }
 
-    public void startTest() {
+    void startTest() {
         startTest(new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_ms").format(new Timestamp(new Date().getTime())),
                 driverToDeviceMap.get(getDriver()).getName());
         softAssert = new SoftAssert();
     }
 
     @Step("Started on: {currentTime} Device/Browser : {deviceName}")
-    public void startTest(String currentTime, String deviceName) {
+    private void startTest(String currentTime, String deviceName) {
     }
 
     public <T> void startStep(String stepDescription) {
@@ -195,7 +186,7 @@ public class BaseTest {
      * @param condition
      */
     @Step
-    public <T> void endStep(String stepDescription, boolean condition) {
+    protected <T> void endStep(String stepDescription, boolean condition) {
         Allure.addAttachment(stepDescription, new ByteArrayInputStream(getDriver().getScreenshotAs(OutputType.BYTES)));
 
         softAssert.assertTrue(condition);
@@ -213,7 +204,7 @@ public class BaseTest {
      * Asserts all soft asserts made throughout the test
      */
     @Step
-    public void endTest() {
+    protected void endTest() {
         softAssert.assertAll();
     }
 
@@ -228,14 +219,18 @@ public class BaseTest {
 
     @AfterSuite(alwaysRun = true)
     public void stopAppiumService() {
+        AppiumServiceUtils.appiumServices.forEach(service -> service.stop());
+
         AppiumServiceUtils.appiumServices.forEach(service -> {
             service.stop();
         });
+
         AppiumServiceUtils.killNodeServer(os);
     }
 
     @AfterSuite(alwaysRun = true)
     public void allureServe() {
+        String reportFolder = "target/allure-results";
         File sourceFile = new File(reportFolder);
         File destFile = new File(reportFolder + "_" + startTestTimestamp);
 

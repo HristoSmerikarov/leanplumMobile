@@ -16,8 +16,6 @@ import org.openqa.selenium.WebDriver.Window;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.leanplum.tests.enums.OSEnum;
-import com.leanplum.tests.testdevices.AndroidTestDevice;
-import com.leanplum.tests.testdevices.TestDevice;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
@@ -171,6 +169,6 @@ public class Utils {
 	}
 
 	public enum SwipeDirection {
-		UP, DOWN;
+		UP, DOWN
 	}
 }

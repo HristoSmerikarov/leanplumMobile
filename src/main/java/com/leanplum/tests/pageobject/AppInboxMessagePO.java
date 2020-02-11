@@ -25,23 +25,23 @@ public class AppInboxMessagePO extends BasePO {
 
     @AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/listview']")
     @iOSXCUITFindBy(xpath = IOS_IN_APP_XPATH)
-    public MobileElement appInboxList;
+    private MobileElement appInboxList;
 
     @AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/title']")
     @iOSXCUITFindBy(xpath = IOS_IN_APP_XPATH + "//XCUIElementTypeStaticText[@label][1]")
-    public MobileElement appInboxMessageTitle;
+    private MobileElement appInboxMessageTitle;
 
     @AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/subtitle']")
     @iOSXCUITFindBy(xpath = IOS_IN_APP_XPATH + "//XCUIElementTypeStaticText[@label][2]")
-    public MobileElement appInboxMessageSubTitle;
+    private MobileElement appInboxMessageSubTitle;
 
     @AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/image']")
     @iOSXCUITFindBy(xpath = IOS_IN_APP_XPATH + "//XCUIElementTypeImage")
-    public MobileElement appInboxImage;
+    private MobileElement appInboxImage;
 
     @AndroidFindBy(xpath = "//*[@resource-id='com.leanplum.rondo:id/button']")
     @iOSXCUITFindBy(xpath = IOS_IN_APP_XPATH + "//XCUIElementTypeButton[@label='Perform Read Action']")
-    public MobileElement performReadActionButton;
+    private MobileElement performReadActionButton;
 
     private AppiumDriver<MobileElement> driver;
 

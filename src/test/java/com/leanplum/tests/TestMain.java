@@ -6,9 +6,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.leanplum.tests.enums.OSEnum;
-import com.leanplum.tests.helpers.Utils;
-
 public class TestMain {
 
 	public static void main(String[] args) {
