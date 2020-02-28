@@ -166,4 +166,32 @@ public class CommonTestSteps extends BaseTest {
         MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
         return mobileBrowserPO.isCorrectURLOpened(url);
     }
+    
+    
+    /**
+     * On Android there is a chance not to have userId, logic to set one is added
+     *
+     * @param appSetupPO
+     * @return
+     */
+     public String getUserId(AppSetupPO appSetupPO) {
+         String userId = appSetupPO.getTextFromElement(appSetupPO.userId);
+
+         if (userId == null || userId.isEmpty()) {
+             String deviceId = getDeviceId(appSetupPO);
+
+             AdHocPO adHocPO = new AdHocPO(getDriver());
+             adHocPO.click(adHocPO.adhoc);
+
+             adHocPO.setUserId(deviceId);
+
+             appSetupPO.click(appSetupPO.appSetup);
+         }
+
+         return userId;
+     }
+
+    public String getDeviceId(AppSetupPO appSetupPO) {
+        return appSetupPO.getTextFromElement(appSetupPO.deviceId);
+    }
 }

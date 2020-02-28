@@ -16,7 +16,13 @@ public enum ApiKeysEnum {
             "https://www.leanplum.com",
             "app_UQcFGVeXzOCVsovrlUebad9R67hFJqzDegfQPZRnVZM",
             "prod_lL8RSFzmHy0iVYXQpzjUVEHDlaUz5idT0H7BVs6Bn1Q",
-            "exp_1ZPbuh5w3jialtNpuuqd42jEuLcnw5CTVDCP2pIqX8E");
+            "exp_1ZPbuh5w3jialtNpuuqd42jEuLcnw5CTVDCP2pIqX8E"),
+    MUSALA_QA(
+            "Musala QA",
+            "https://leanplum-qa-1372.appspot.com/",
+            "app_qA781mPlJYjzlZLDlTh68cdNDUOf31kcTg1TCbSXSS0",
+            "prod_kInQHXLJ0Dju7QJRocsD5DYMdYAVbdGGwhl6doTfH0k",
+            "exp_4aL9mZQGcRdbA1NhVHIMNC3XpqfL2zmTS2TvgvupCVo");
 
     private String appName;
     private String url;

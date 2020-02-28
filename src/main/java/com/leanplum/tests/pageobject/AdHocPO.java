@@ -86,7 +86,7 @@ public class AdHocPO extends BasePO {
 	private MobileElement userAttributeButton;
 
 	// @iOSXCUITFindBy(xpath = "")
-	@AndroidFindBy(xpath = "//*[@text='Set Device Location']")
+	@AndroidFindBy(id = "com.leanplum.rondo:id/buttonDeviceLocation")
 	private MobileElement locationLabel;
 
 	// @iOSXCUITFindBy(xpath = "")

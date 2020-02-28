@@ -5,7 +5,7 @@
 	<test name="Device one">
 		<parameter name="id" value="Device one" />
 		<packages>
-			<package name="com.leanplum.tests.release" />
+			<package name="com.leanplum.tests.campaigncomposer" />
 		</packages>
 	</test>
 	<!-- <test name="Device two"> <parameter name="id" value="Device two" /> 

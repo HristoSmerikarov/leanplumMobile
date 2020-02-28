@@ -125,31 +125,4 @@ public class AppInboxTest extends CommonTestSteps {
         return new JSONObject(response.body().asString()).getJSONArray("response").getJSONObject(0)
                 .getJSONObject("newsfeedMessages").keySet();
     }
-
-    /**
-    * On Android there is a chance not to have userId, logic to set one is added
-    *
-    * @param appSetupPO
-    * @return
-    */
-    private String getUserId(AppSetupPO appSetupPO) {
-        String userId = appSetupPO.getTextFromElement(appSetupPO.userId);
-
-        if (userId == null || userId.isEmpty()) {
-            String deviceId = getDeviceId(appSetupPO);
-
-            AdHocPO adHocPO = new AdHocPO(getDriver());
-            adHocPO.click(adHocPO.adhoc);
-
-            adHocPO.setUserId(deviceId);
-
-            appSetupPO.click(appSetupPO.appSetup);
-        }
-
-        return userId;
-    }
-
-    private String getDeviceId(AppSetupPO appSetupPO) {
-        return appSetupPO.getTextFromElement(appSetupPO.deviceId);
-    }
 }

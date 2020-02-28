@@ -1,4 +1,4 @@
-package com.leanplum.tests.release;
+package com.leanplum.tests.classic;
 
 import java.lang.reflect.Method;
 
@@ -19,11 +19,6 @@ import io.appium.java_client.MobileElement;
 @Listeners({ TestListener.class })
 public class InApp extends CommonTestSteps {
 
-    /**
-    * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186442">C186442</a>
-    * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186443">C186443</a>
-    * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186444">C186444</a>
-    */
     @Parameters({ "id" })
     @Test(groups = { "release" })
     public void confirmWithTriggerEveryTwoTimes(Method method, String id) {
@@ -43,7 +38,7 @@ public class InApp extends CommonTestSteps {
          // Verify rich interstitial
             RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);
             stepHelper.verifyCondition("Verify rich interstitial popup layout",
-                    richInterstitial.verifyRichInterstitial("There is a new update!", "Искаш ли да го свалиш?",
+                    richInterstitial.verifyRichInterstitial("There is a new update!", "Do you want to download it?",
                             "Accept", "Decline", true));
             
         } catch (Exception e) {

@@ -11,7 +11,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
+import org.allurefw.allure1.AllureUtils;
 import org.openqa.selenium.OutputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +40,12 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.qameta.allure.Allure;
+import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.Step;
+import io.qameta.allure.environment.Allure1EnvironmentPlugin;
 import io.qameta.allure.model.Status;
+import io.qameta.allure.model.StepResult;
+import io.qameta.allure.testng.AllureTestNg;
 
 @Listeners({ TestListener.class })
 public class BaseTest {
@@ -85,7 +91,7 @@ public class BaseTest {
     }
 
     @SuppressWarnings("rawtypes")
-    AppiumDriver<MobileElement> initTest() throws MalformedURLException {
+    public AppiumDriver<MobileElement> initTest() throws MalformedURLException {
         String currentThread = Thread.currentThread().getName();
         System.out.println("CURRENT THREAD: " + currentThread);
 
@@ -150,7 +156,7 @@ public class BaseTest {
         System.out.println("StartTestTimestamp: " + startTestTimestamp);
     }
 
-    void startTest() {
+    public void startTest() {
         startTest(new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_ms").format(new Timestamp(new Date().getTime())),
                 driverToDeviceMap.get(getDriver()).getName());
         softAssert = new SoftAssert();
@@ -171,14 +177,26 @@ public class BaseTest {
         endStep("End step", true);
     }
 
+    public <T> void endStep(boolean condition) {
+        endStep("End step assertion", condition);
+    }
+
     /**
      * End step verifying an assertion
      * @param condition
      */
-    public <T> void endStep(boolean condition) {
-        endStep("Assertion", condition);
-    }
+    public <T> void endStep(String description, boolean condition) {
+        softAssert.assertTrue(condition);
 
+        screenshot("Screenshot");
+        
+        if (condition) {
+            Allure.step(description, Status.PASSED);
+        } else {
+            Allure.step(description, Status.FAILED);
+        }
+    }
+    
     /**
      * End step with custom description and verifying a condition
      * 
@@ -186,25 +204,15 @@ public class BaseTest {
      * @param condition
      */
     @Step
-    protected <T> void endStep(String stepDescription, boolean condition) {
+    public <T> void screenshot(String stepDescription) {
         Allure.addAttachment(stepDescription, new ByteArrayInputStream(getDriver().getScreenshotAs(OutputType.BYTES)));
-
-        softAssert.assertTrue(condition);
-
-        System.out.println("condition: " + condition);
-
-        if (condition) {
-            Allure.step(stepDescription, Status.PASSED);
-        } else {
-            Allure.step(stepDescription, Status.FAILED);
-        }
     }
 
     /**
      * Asserts all soft asserts made throughout the test
      */
     @Step
-    protected void endTest() {
+    public void endTest() {
         softAssert.assertAll();
     }
 

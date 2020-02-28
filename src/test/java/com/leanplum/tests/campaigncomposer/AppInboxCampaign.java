@@ -1,4 +1,4 @@
-package com.leanplum.tests.release;
+package com.leanplum.tests.campaigncomposer;
 
 import java.lang.reflect.Method;
 import java.util.Set;
@@ -8,10 +8,12 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import com.google.common.base.Strings;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
+import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.AppInboxMessagePO;
 import com.leanplum.tests.pageobject.AppSetupPO;
@@ -24,42 +26,38 @@ import io.appium.java_client.MobileElement;
 import io.restassured.response.Response;
 
 @Listeners({ TestListener.class })
-public class AppInbox extends CommonTestSteps {
+public class AppInboxCampaign extends CommonTestSteps {
 
-    protected String description;
-    private static final String APP_INBOX_EVENT = "appInboxAutomation";
-
-    /**
-    * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186442">C186442</a>
-    * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186443">C186443</a>
-    * @see <a href="https://teamplumqa.testrail.com/index.php?/cases/view/186444">C186444</a>
-    */
     @Parameters({ "id" })
-    @Test(groups = { "release" })
-    public void appInboxRelease(Method method, String id) {
+    @Test(groups = { "release" }, description = "Verification of automatically created campaign with App Inbox message")
+    public void appInboxCampaignComposer(Method method, String id) {
 
         try {
             AppiumDriver<MobileElement> driver = initiateTest();
-            
+
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             AppSetupPO appSetupPO = new AppSetupPO(driver);
+            String userId = "rondoTestUser" + Utils.generateRandomNumberInRange(0, 10);
             String deviceId = getDeviceId(appSetupPO);
-            String userId = "automationUser";
             setUserId(appSetupPO, userId);
-
-            Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
-
-            Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
-            newsfeedIds.forEach(newsfeedId -> TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId));
 
             AdHocPO adHocPO = new AdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-            stepHelper.sendTrackEvent(adHocPO, APP_INBOX_EVENT);
+            stepHelper.sendTrackEvent(adHocPO, "inAppVerified");
+            MobileDriverUtils.waitInMs(5000);
+            
+            Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
+
+            Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
+            System.out.println("NEWSFEED IDs: " + newsfeedIds);
+            for (String newsfeedId : newsfeedIds) {
+                TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId);
+            }
 
             driver.closeApp();
-            MobileDriverUtils.waitInMs(30000);
+            MobileDriverUtils.waitInMs(15000);
             driver.launchApp();
 
             AlertPO alert = new AlertPO(driver);
@@ -69,28 +67,19 @@ public class AppInbox extends CommonTestSteps {
             AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);
             stepHelper.clickElement(appInbox, appInbox.appinbox, "App Inbox button");
 
-            startStep("Wait for app inbox message");
-            appInbox.waitForInboxMessage();
-            endStep();
-
             startStep("Verify app inbox message title is correct");
-            endStep(appInbox.isTitleCorrect("You've reached new milestone!"));
+            endStep(appInbox.isTitleCorrect("Rondo App Inbox message"));
 
             startStep("Verify app inbox message subtitle is correct");
-            endStep(appInbox.isSubTitleCorrect("You've reached new milestone!"));
+            endStep(appInbox.isSubTitleCorrect("App inbox subtitle"));
 
             startStep("Verify app inbox message does contain image");
             endStep(appInbox.doesContainImage());
 
-            startStep("Perform read action");
-            appInbox.performReadAction();
-            endStep();
+            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-            // Verify alert layout
-            StarRatingPO starRating = new StarRatingPO(driver);
-            stepHelper.verifyCondition("Verify star rating popup layout",
-                    starRating.verifyStarRating("Survey question", 5, "I hate it!", "I love it!"));
-
+            stepHelper.sendTrackEvent(adHocPO, "inAppVerified");
+            MobileDriverUtils.waitInMs(5000);
         } catch (Exception e) {
             e.printStackTrace();
             endStep(e.toString(), false);
@@ -101,9 +90,5 @@ public class AppInbox extends CommonTestSteps {
     private Set<String> getNewsfeedMessageIds(Response response) {
         return new JSONObject(response.body().asString()).getJSONArray("response").getJSONObject(0)
                 .getJSONObject("newsfeedMessages").keySet();
-    }
-
-    private String getDeviceId(AppSetupPO appSetupPO) {
-        return appSetupPO.getTextFromElement(appSetupPO.deviceId);
     }
 }

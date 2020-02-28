@@ -41,17 +41,16 @@ public class TestStepHelper {
         test.endStep();
     }
 
-    public void sendTrackEventWithParameters(AdHocPO adHocPO, String message, String paramKey, String paramValue) {
-        test.startStep("Send track event: " + message);
-        adHocPO.sendTrackEventWithParameter(message, paramKey, paramValue);
+    public void sendTrackEventWithParameters(AdHocPO adHocPO, String eventName, String paramKey, String paramValue) {
+        test.startStep("Send track event: " + eventName);
+        adHocPO.sendTrackEventWithParameter(eventName, paramKey, paramValue);
         test.endStep();
     }
 
     public void sendDeviceLocation(AdHocPO adHocPO, String latitude, String longitude) {
         test.startStep("Send location coordinates: " + latitude + " and " + longitude);
-        
+        System.out.println("SEND COORDINATES: "+latitude + " and " + longitude);
         adHocPO.getDriver().setLocation(new Location(Double.valueOf(latitude), Double.valueOf(longitude), 40.0));
-        
         test.endStep();
     }
 

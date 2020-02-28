@@ -44,7 +44,7 @@ public class TemporaryAPI {
     public static Response getNewsfeedMessages(String deviceId) {
         String formattedEndpoint = String.format(path, getNewsfeedMessages, testAppKey, apiVersion, testProdKey)
                 + String.format(deviceIdParameter, deviceId);
-        return post(formattedEndpoint);
+        return get(formattedEndpoint);
     }
 
     public static Response deleteNewsfeedMessage(String deviceId, String userId, String newsfeedId) {
@@ -88,10 +88,10 @@ public class TemporaryAPI {
     }
     
     private static Response get(String endpoint) {
-        System.out.println("POST TO ENDPOINT: " + endpoint);
+        System.out.println("GET FROM ENDPOINT: " + endpoint);
         Response response = RestAssured.given().contentType(ContentType.JSON).log().all().get(endpoint);
-        System.out.println("Post Response:" + response.getBody().asString());
-        LOGGER.info("Post Response:" + response.getBody().asString());
+        System.out.println("Get Response:" + response.getBody().asString());
+        LOGGER.info("Get Response:" + response.getBody().asString());
         
         return response;
     }
