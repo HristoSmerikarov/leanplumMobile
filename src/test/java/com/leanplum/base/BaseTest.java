@@ -56,7 +56,7 @@ public class BaseTest {
     private Map<AppiumDriver<MobileElement>, TestDevice> driverToDeviceMap = new HashMap<>();
     private List<AppiumDriver<MobileElement>> appiumDrivers = new ArrayList<>();
     private SoftAssert softAssert;
-    private boolean useGrid = false;
+    private boolean useGrid = true;
     private String serviceIpAddress;
     private OSEnum os;
     private PlatformEnum platform;
@@ -84,7 +84,7 @@ public class BaseTest {
                 AppiumServiceUtils.appiumServices.get(i).start();
             }
         } else {
-            serviceIpAddress = "https://127.0.0.15:4444";
+            serviceIpAddress = "https://jenkins-staging.leanplum.com:4444";
         }
 
         System.out.println("DEVICE LIST SIZE: " + DeviceManager.connectedTestDevices.size());

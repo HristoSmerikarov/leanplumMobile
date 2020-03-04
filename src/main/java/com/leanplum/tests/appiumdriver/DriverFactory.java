@@ -1,5 +1,6 @@
 package com.leanplum.tests.appiumdriver;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -32,7 +33,7 @@ public class DriverFactory {
         String url;
 
         if (useSeleniumGrid) {
-            url = driverConfig.getGridHubUrl();
+            url = appiumServiceURL.getHost();
         } else {
             url = appiumServiceURL.getHost();
         }
@@ -46,8 +47,17 @@ public class DriverFactory {
         DesiredCapabilitiesUtils capabilitiesUtils = new DesiredCapabilitiesUtils();
         switch (testDevice.getPlatform()) {
         case ANDROID_APP:
-            return new AndroidDriver<MobileElement>(appiumServiceUrl,
-                    capabilitiesUtils.getAndroidDesiredCapabilities((AndroidTestDevice) testDevice, deviceProperties));
+
+            try {
+                return new AndroidDriver(new URL("http://jenkins-staging.leanplum.com:4444/wd/hub"),
+                        capabilitiesUtils.getAndroidDesiredCapabilities((AndroidTestDevice) testDevice, deviceProperties));
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        // return new AndroidDriver<MobileElement>(appiumServiceUrl,
+        // capabilitiesUtils.getAndroidDesiredCapabilities((AndroidTestDevice) testDevice, deviceProperties));
         case IOS_APP:
             return new IOSDriver<>(appiumServiceUrl,
                     capabilitiesUtils.getIOSDesiredCapabilities((IOSTestDevice) testDevice, deviceProperties));
