@@ -1,11 +1,9 @@
 {
 	"capabilities": [
 		{
-			"platform": "Android",
-			"platformName": "Android",
-			"appium:automationName": "UiAutomator2",
-			"maxInstances": "1",
-			 "deviceName": "711KPSL0832798"
+			"platform": "android",
+			"platformName": "android",
+			"maxInstances": "5"
 		}
 	],
 	"configuration": {
@@ -16,7 +14,7 @@
 		"register": true,
 		"registerCycle": 5000,
 		"hubPort": 4444,
-		"hubHost": "jenkins-staging.leanplum.com",
+		"hubHost": "192.168.128.218",
 		"hubProtocol": "http"
 	}
 }

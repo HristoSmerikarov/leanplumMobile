@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,7 +46,7 @@ public class Utils {
 			Process p1;
 			try {
 				p1 = Runtime.getRuntime().exec("cmd /c " + command);
-				p1.waitFor();
+				p1.waitFor(500, TimeUnit.MILLISECONDS);
 				BufferedReader reader = new BufferedReader(new InputStreamReader(p1.getInputStream()));
 				String line;
 				while ((line = reader.readLine()) != null) {
