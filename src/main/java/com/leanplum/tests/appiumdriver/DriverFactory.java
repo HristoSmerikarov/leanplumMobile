@@ -23,17 +23,7 @@ public class DriverFactory {
     private String NODE_CONFIG_FILE_ANDROID_MAC = "resources/androidNode.json";
     private String NODE_CONFIG_FILE_IOS_MAC = "resources/iosNode.json";
 
-    public AppiumDriver<MobileElement> createDriver(TestDevice testDevice, DeviceProperties deviceProperties,
-            URL appiumServiceURL) {
-
-        System.out.println("APPIUM URL: " + appiumServiceURL);
-
-        AppiumDriver<MobileElement> driver = initializeDriver(testDevice, deviceProperties, appiumServiceURL);
-
-        return driver;
-    }
-
-    private AppiumDriver<MobileElement> initializeDriver(TestDevice testDevice, DeviceProperties deviceProperties,
+    public AppiumDriver<MobileElement> initializeDriver(TestDevice testDevice, DeviceProperties deviceProperties,
             URL appiumServiceUrl) {
         System.out.println("ID: " + testDevice.getId());
         System.out.println("Name: " + testDevice.getName());

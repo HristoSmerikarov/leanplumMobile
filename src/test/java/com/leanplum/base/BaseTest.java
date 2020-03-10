@@ -52,8 +52,8 @@ public class BaseTest {
     private SoftAssert softAssert;
     private boolean useGrid = Boolean.valueOf(System.getProperty("useGrid"));
     private String serviceIpAddress;
-    protected OSEnum os;
-    protected PlatformEnum platform;
+    private OSEnum os;
+    private PlatformEnum platform;
     private static String startTestTimestamp;
     private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
@@ -80,7 +80,7 @@ public class BaseTest {
             serviceIpAddress = "http://"+serviceIpAddress+":%s/wd/hub";
             for (int i = 0; i < DeviceManager.connectedTestDevices.size(); i++) {
                 GridManager.addUrlForGrid(new URL(String.format(serviceIpAddress, AppiumServiceUtils.findFreePort())));
-                System.out.println("URL ADDED: "+GridManager.getGridURL(i));
+                System.out.println("GRID URL ADDED: "+GridManager.getGridURL(i));
             }
         }
 
@@ -143,7 +143,7 @@ public class BaseTest {
 
     private AppiumDriver<MobileElement> createDriver(TestDevice device, URL appiumServiceIp) {
         DriverFactory df = new DriverFactory();
-        AppiumDriver<MobileElement> driver = df.createDriver(device, DevicePropertiesUtils
+        AppiumDriver<MobileElement> driver = df.initializeDriver(device, DevicePropertiesUtils
                 .getDeviceProperties(device.getPlatform().getPlatformName().toLowerCase(), "phone"), appiumServiceIp);
         System.out.println("INIT DRIVER: " + driver.toString());
         return driver;
