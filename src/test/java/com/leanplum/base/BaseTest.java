@@ -11,9 +11,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
-
-import org.allurefw.allure1.AllureUtils;
 import org.openqa.selenium.OutputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +23,7 @@ import org.testng.asserts.SoftAssert;
 import com.leanplum.tests.appiumdriver.AppiumServiceUtils;
 import com.leanplum.tests.appiumdriver.DevicePropertiesUtils;
 import com.leanplum.tests.appiumdriver.DriverFactory;
+import com.leanplum.tests.appiumdriver.GridManager;
 import com.leanplum.tests.enums.OSEnum;
 import com.leanplum.tests.enums.PlatformEnum;
 import com.leanplum.tests.helpers.MobileDriverUtils;
@@ -39,14 +37,9 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.qameta.allure.Allure;
-import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.Step;
-import io.qameta.allure.environment.Allure1EnvironmentPlugin;
 import io.qameta.allure.model.Status;
-import io.qameta.allure.model.StepResult;
-import io.qameta.allure.testng.AllureTestNg;
 
 @Listeners({ TestListener.class })
 public class BaseTest {
@@ -59,7 +52,6 @@ public class BaseTest {
     private SoftAssert softAssert;
     private boolean useGrid = Boolean.valueOf(System.getProperty("useGrid"));
     private String serviceIpAddress;
-    private List<URL> urlsForGrid = new ArrayList<>();
     protected OSEnum os;
     protected PlatformEnum platform;
     private static String startTestTimestamp;
@@ -87,7 +79,8 @@ public class BaseTest {
         } else {
             serviceIpAddress = "http://"+serviceIpAddress+":%s/wd/hub";
             for (int i = 0; i < DeviceManager.connectedTestDevices.size(); i++) {
-                urlsForGrid.add(new URL(String.format(serviceIpAddress, AppiumServiceUtils.findFreePort())));
+                GridManager.addUrlForGrid(new URL(String.format(serviceIpAddress, AppiumServiceUtils.findFreePort())));
+                System.out.println("URL ADDED: "+GridManager.getGridURL(i));
             }
         }
 
@@ -118,7 +111,8 @@ public class BaseTest {
             driver = createDriver(currentTestDevice, AppiumServiceUtils.appiumService.getUrl());
         } else {
             System.out.println("INITIALIZING FOR TEST DEVICE GRID: " + currentTestDevice.getId());
-            driver = createDriver(currentTestDevice, urlsForGrid.get(threadIndex));
+            GridManager.getGridURLs().forEach(url->{System.out.println("PORT: "+url.getPort());});
+            driver = createDriver(currentTestDevice, GridManager.getGridURL(threadIndex));
         }
 
         driverToDeviceMap.put(driver, currentTestDevice);
