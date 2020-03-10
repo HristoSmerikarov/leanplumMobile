@@ -11,9 +11,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
-
-import org.allurefw.allure1.AllureUtils;
 import org.openqa.selenium.OutputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +23,7 @@ import org.testng.asserts.SoftAssert;
 import com.leanplum.tests.appiumdriver.AppiumServiceUtils;
 import com.leanplum.tests.appiumdriver.DevicePropertiesUtils;
 import com.leanplum.tests.appiumdriver.DriverFactory;
+import com.leanplum.tests.appiumdriver.GridManager;
 import com.leanplum.tests.enums.OSEnum;
 import com.leanplum.tests.enums.PlatformEnum;
 import com.leanplum.tests.helpers.MobileDriverUtils;
@@ -40,12 +38,8 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.qameta.allure.Allure;
-import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.Step;
-import io.qameta.allure.environment.Allure1EnvironmentPlugin;
 import io.qameta.allure.model.Status;
-import io.qameta.allure.model.StepResult;
-import io.qameta.allure.testng.AllureTestNg;
 
 @Listeners({ TestListener.class })
 public class BaseTest {
@@ -56,7 +50,7 @@ public class BaseTest {
     private Map<AppiumDriver<MobileElement>, TestDevice> driverToDeviceMap = new HashMap<>();
     private List<AppiumDriver<MobileElement>> appiumDrivers = new ArrayList<>();
     private SoftAssert softAssert;
-    private boolean useGrid = false;
+    private boolean useGrid = Boolean.valueOf(System.getProperty("useGrid"));
     private String serviceIpAddress;
     private OSEnum os;
     private PlatformEnum platform;
@@ -64,7 +58,7 @@ public class BaseTest {
     private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
     @BeforeSuite
-    public void init() {
+    public void init() throws Exception {
         // Get OS and
         this.os = Utils.determineOS();
 
@@ -73,9 +67,8 @@ public class BaseTest {
         deviceManager.determineConnectedDevices();
 
         // Create and start Appium services for each test device with individual IP and port
+        serviceIpAddress = "127.0.0.1";
         if (!useGrid) {
-            serviceIpAddress = "127.0.0.1";
-
             for (int i = 0; i < DeviceManager.connectedTestDevices.size(); i++) {
                 appiumServiceUtils.setupAppiumService(platform, serviceIpAddress, AppiumServiceUtils.findFreePort());
 
@@ -84,7 +77,11 @@ public class BaseTest {
                 AppiumServiceUtils.appiumServices.get(i).start();
             }
         } else {
-            serviceIpAddress = "https://127.0.0.15:4444";
+            serviceIpAddress = "http://"+serviceIpAddress+":%s/wd/hub";
+            for (int i = 0; i < DeviceManager.connectedTestDevices.size(); i++) {
+                GridManager.addUrlForGrid(new URL(String.format(serviceIpAddress, AppiumServiceUtils.findFreePort())));
+                System.out.println("GRID URL ADDED: "+GridManager.getGridURL(i));
+            }
         }
 
         System.out.println("DEVICE LIST SIZE: " + DeviceManager.connectedTestDevices.size());
@@ -113,7 +110,9 @@ public class BaseTest {
             System.out.println("INITIALIZING FOR SERVICE: " + AppiumServiceUtils.appiumService.toString());
             driver = createDriver(currentTestDevice, AppiumServiceUtils.appiumService.getUrl());
         } else {
-            driver = createDriver(currentTestDevice, new URL(serviceIpAddress));
+            System.out.println("INITIALIZING FOR TEST DEVICE GRID: " + currentTestDevice.getId());
+            GridManager.getGridURLs().forEach(url->{System.out.println("PORT: "+url.getPort());});
+            driver = createDriver(currentTestDevice, GridManager.getGridURL(threadIndex));
         }
 
         driverToDeviceMap.put(driver, currentTestDevice);
@@ -144,7 +143,7 @@ public class BaseTest {
 
     private AppiumDriver<MobileElement> createDriver(TestDevice device, URL appiumServiceIp) {
         DriverFactory df = new DriverFactory();
-        AppiumDriver<MobileElement> driver = df.createDriver(device, DevicePropertiesUtils
+        AppiumDriver<MobileElement> driver = df.initializeDriver(device, DevicePropertiesUtils
                 .getDeviceProperties(device.getPlatform().getPlatformName().toLowerCase(), "phone"), appiumServiceIp);
         System.out.println("INIT DRIVER: " + driver.toString());
         return driver;
@@ -189,19 +188,18 @@ public class BaseTest {
         softAssert.assertTrue(condition);
 
         screenshot("Screenshot");
-        
+
         if (condition) {
             Allure.step(description, Status.PASSED);
         } else {
             Allure.step(description, Status.FAILED);
         }
     }
-    
+
     /**
      * End step with custom description and verifying a condition
      * 
      * @param stepDescription
-     * @param condition
      */
     @Step
     public <T> void screenshot(String stepDescription) {

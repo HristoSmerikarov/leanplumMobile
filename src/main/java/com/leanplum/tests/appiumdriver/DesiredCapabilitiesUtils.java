@@ -1,5 +1,6 @@
 package com.leanplum.tests.appiumdriver;
 
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.leanplum.tests.testdevices.AndroidTestDevice;
@@ -26,7 +27,8 @@ class DesiredCapabilitiesUtils {
 		capabilities.setCapability(AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT, "300000");
 		capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, deviceProperties.getAppPackage());
 		capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, deviceProperties.getAppActivity());
-		capabilities.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, AppiumServiceUtils.findFreePort());
+		//TODO Might not be used
+		//capabilities.setCapability(AndroidMobileCapabilityType.SYSTEM_PORT, AppiumServiceUtils.findFreePort());
 		// capabilities.setCapability("bundleId", deviceProperties.getBundleId());
 		capabilities.setCapability(MobileCapabilityType.NO_RESET, deviceProperties.getNoReset());
 		capabilities.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);

@@ -41,7 +41,7 @@ public class AppInboxTest extends CommonTestSteps {
 
         try {
             AppiumDriver<MobileElement> driver = initiateTest();
-            
+
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             AppSetupPO appSetupPO = new AppSetupPO(driver);
@@ -55,15 +55,14 @@ public class AppInboxTest extends CommonTestSteps {
                 adHocPO.setUserId(deviceId);
                 userId = deviceId;
             }
-            
+
             startStep("Get newsfeed messages");
             Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
             endStep();
-            
-            
+
             Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
-            startStep("Delete newsfeed messages with IDs: "+newsfeedIds);
-            for(String newsfeedId : newsfeedIds) {
+            startStep("Delete newsfeed messages with IDs: " + newsfeedIds);
+            for (String newsfeedId : newsfeedIds) {
                 TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId);
             }
             endStep();
@@ -77,13 +76,14 @@ public class AppInboxTest extends CommonTestSteps {
             MobileDriverUtils.waitInMs(30000);
             driver.launchApp();
             endStep();
-            
+
             AlertPO alert = new AlertPO(driver);
             MobileDriverUtils.waitInMs(5000);
             stepHelper.acceptAllAlertsOnAppStart(alert);
-            
+
             startStep("Wait for device Id to appear");
-            MobileDriverUtils.waitForExpectedCondition(driver, 30, ExpectedConditions.textToBePresentInElement(appSetupPO.deviceId, deviceId));
+            MobileDriverUtils.waitForExpectedCondition(driver, 30,
+                    ExpectedConditions.textToBePresentInElement(appSetupPO.deviceId, deviceId));
             endStep();
 
             AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);
