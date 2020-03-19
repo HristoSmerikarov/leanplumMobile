@@ -6,13 +6,12 @@
 	<test name="Device one">
 		<parameter name="id" value="Device one" />
 		<classes>
-			<class name="com.leanplum.tests.AppInboxTest" />
+			 <class name="com.leanplum.tests.AppInboxTest" />
 			<class name="com.leanplum.tests.InAppTemplateTest" />
 			<class name="com.leanplum.tests.InAppTriggersTest" />
 			<class name="com.leanplum.tests.InAppActionsTest" />
-			<class name="com.leanplum.tests.PushNotificationTest" />
 			<class name="com.leanplum.tests.AndroidPushNotificationTest" />
-			<class name="com.leanplum.tests.NewInstallationTest" />
+			<class name="com.leanplum.tests.PushNotificationTest" />
 		</classes>
 	</test>
 </suite>

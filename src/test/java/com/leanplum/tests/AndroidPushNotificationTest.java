@@ -79,7 +79,7 @@ public class AndroidPushNotificationTest extends CommonTestSteps {
             TemporaryAPI.track(userId, OUTSIDE_APP_TRIGGER);
             endStep();
 
-            MobileDriverUtils.waitInMs(10000);
+            MobileDriverUtils.waitInMs(15000);
 
             Utils.swipeTopToBottom(driver);
             stepHelper.waitForNotificationPresence(pushNotification);

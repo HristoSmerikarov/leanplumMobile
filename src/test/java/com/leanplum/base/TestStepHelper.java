@@ -119,7 +119,6 @@ public class TestStepHelper {
         if (basePage.getDriver() instanceof IOSDriver) {
             basePage.getDriver().closeApp();
         } else {
-            basePage.getDriver().closeApp();
             clickAndroidKey(AndroidKey.HOME);
         }
     }

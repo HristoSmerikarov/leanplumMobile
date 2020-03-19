@@ -5,26 +5,26 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TestMain {
 
 	public static void main(String[] args) {
-		ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command("bash", "-c", "xcrun instruments -s devices");
-        List<String> responseLines = new ArrayList<>();
-        try {
-            Process process = processBuilder.start();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (!line.contains(":") && !line.contains("-")) {
-                	System.out.println(line);
-                    responseLines.add(line);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+	    
+	    String line = "https://www.leanplum.com/dashboard#/5474349233864704/messaging/4994758225035264";
+	      String pattern = "(\\b[\\d]+$)";
+
+	      // Create a Pattern object
+	      Pattern r = Pattern.compile(pattern);
+
+	      // Now create matcher object.
+	      Matcher m = r.matcher(line);
+	      if (m.find( )) {
+	         System.out.println("Found value: " + m.group(0) );
+	      }else {
+	         System.out.println("NO MATCH");
+	      }
 	}
 
 }

@@ -40,7 +40,7 @@ public class CommonTestSteps extends BaseTest {
         driver.installApp(rondoAppFile.getAbsolutePath());
 
         driver.launchApp();
-
+        
         setupApp(driver);
 
         return driver;
