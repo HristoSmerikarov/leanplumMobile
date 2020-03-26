@@ -5,14 +5,7 @@
 	<test name="Device one">
 		<parameter name="id" value="Device one" />
 		<classes>
-			<class name="com.leanplum.tests.AppInboxTest">
-			</class>
-		</classes>
-	</test>
-	<test name="Device two">
-		<parameter name="id" value="Device two" />
-		<classes>
-			<class name="com.leanplum.tests.AppInboxTest">
+			<class name="com.leanplum.tests.campaigncomposer.AppFunctionCampaign">
 			</class>
 		</classes>
 	</test>

@@ -231,139 +231,154 @@ public class InAppTriggersTest extends CommonTestSteps {
         endTest();
     }
 
-//    /**
-//      * @see <a
-//      href="https://teamplumqa.testrail.com/index.php?/cases/view/186462">C186462</a>
-//      */
-//    @Test(description = "Alert in app on exit region")
-//    public void alertInAppOnExitRegion(Method method) {
-//        try {
-//            AppiumDriver<MobileElement> driver = initiateTest();
-//
-//            TestStepHelper stepHelper = new TestStepHelper(this);
-//
-//            AlertPO alertPO = new AlertPO(driver);
-//            stepHelper.acceptAllAlertsOnAppStart(alertPO);
-//
-//            AppSetupPO appSetupPO = new AppSetupPO(driver);
-//            String userId = alertPO.getTextFromElement(appSetupPO.userId);
-//            String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-//            AdHocPO adHocPO = new AdHocPO(driver);
-//            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-//
-//            startStep("Set user id, if not set");
-//            if (Strings.isNullOrEmpty(userId)) {
-//                adHocPO.setUserId(deviceId);
-//                userId = deviceId;
-//            }
-//            endStep();
-//            
-//            startStep("Send device location: "+MEZDRA[0] + MEZDRA[1]);
-//            adHocPO.sendDeviceLocation(MEZDRA[0], MEZDRA[1]);
-//            endStep();
-//            
-//            Response response = TemporaryAPI.getUser(userId);
-//            System.out.println("Response: " + response.body().prettyPrint());
-//
-//            startStep("Region is " + response.jsonPath().getString("$.region"));
-//            endStep();
-//            
-//            driver.terminateApp("com.leanplum.rondo");
-//            MobileDriverUtils.waitInMs(2000);
-//            driver.activateApp("com.leanplum.rondo");
-//            MobileDriverUtils.waitInMs(2000);
-//
-//            stepHelper.acceptAllAlertsOnAppStart(alertPO);
-//            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-//            MobileDriverUtils.waitInMs(1000);
-//            stepHelper.clickElement(appSetupPO, appSetupPO.appSetup, "Ad-Hoc button");
-//            
-//            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-//            
-//            startStep("Send device location: "+INTERPRED[0] + INTERPRED[1]);
-//            adHocPO.sendDeviceLocation(INTERPRED[0], INTERPRED[1]);
-//            endStep();
-//            
-//            MobileDriverUtils.waitInMs(10000);
-//            
-//            driver.terminateApp("com.leanplum.rondo");
-//            MobileDriverUtils.waitInMs(2000);
-//            driver.activateApp("com.leanplum.rondo");
-//            MobileDriverUtils.waitInMs(2000);
-//            
-//            // Confirm alert
-//            AlertPO alert = new AlertPO(driver);
-//            stepHelper.verifyCondition("Verify alert layout",
-//            alert.verifyAlertLayout("Exit region", "I'm out!", "Confirm"));
-//            
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            endStep(e.toString(), false);
-//        }
-//        endTest();
-//    }
-//
-//    /**
-//    * @see <a
-//    href="https://teamplumqa.testrail.com/index.php?/cases/view/186461">C186461</a>
-//    */
-//    @Test(description = "Alert in app on enter region")
-//    public void alertInAppOnEnterRegion(Method method) {
-//
-//        try {
-//            AppiumDriver<MobileElement> driver = initiateTest();
-//
-//            TestStepHelper stepHelper = new TestStepHelper(this);
-//
-//            AlertPO alertPO = new AlertPO(driver);
-//            stepHelper.acceptAllAlertsOnAppStart(alertPO);
-//            
-//            AppSetupPO appSetupPO = new AppSetupPO(driver);
-//            String userId = alertPO.getTextFromElement(appSetupPO.userId);
-//            String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-//            AdHocPO adHocPO = new AdHocPO(driver);
-//            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-//
-//            startStep("Set user id, if not set");
-//            if (Strings.isNullOrEmpty(userId)) {
-//                adHocPO.setUserId(deviceId);
-//                userId = deviceId;
-//            }
-//            endStep();
-//
-//            
-//            startStep("Send device location: "+MEZDRA[0] + MEZDRA[1]);
-//            adHocPO.sendDeviceLocation(MEZDRA[0], MEZDRA[1]);
-//            endStep();
-//
-//            startStep("Restart app");
-//            driver.closeApp();
-//            // Wait to change location
-//            MobileDriverUtils.waitInMs(5000);
-//            driver.launchApp();
-//            endStep();
-//
-//            Response response = TemporaryAPI.getUser(userId);
-//            System.out.println("Response: " + response.body().prettyPrint());
-//
-//            startStep("Region is " + response.jsonPath().getString("$.region"));
-//            endStep();
-//
-//            startStep("Send device location: "+VARNA[0] + VARNA[1]);
-//            adHocPO.sendDeviceLocation(VARNA[0], VARNA[1]);
-//            endStep();
-//
-//            startStep("Restart app");
-//            driver.closeApp();
-//            // Wait to change location
-//            MobileDriverUtils.waitInMs(5000);
-//            driver.launchApp();
-//            endStep();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            endStep(e.toString(), false);
-//        }
-//        endTest();
-//    }
+    /**
+      * @see <a
+      href="https://teamplumqa.testrail.com/index.php?/cases/view/186462">C186462</a>
+      */
+    @Test(description = "Alert in app on exit region")
+    public void alertInAppOnExitRegion(Method method) {
+        try {
+            AppiumDriver<MobileElement> driver = initiateTest();
+
+            TestStepHelper stepHelper = new TestStepHelper(this);
+
+            AlertPO alertPO = new AlertPO(driver);
+            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+
+            AppSetupPO appSetupPO = new AppSetupPO(driver);
+            String userId = alertPO.getTextFromElement(appSetupPO.userId);
+            String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
+            AdHocPO adHocPO = new AdHocPO(driver);
+            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+
+            startStep("Set user id, if not set");
+            if (Strings.isNullOrEmpty(userId)) {
+                adHocPO.setUserId(deviceId);
+                userId = deviceId;
+            }
+            endStep();
+
+            if(driver instanceof AndroidDriver) {
+                startStep("Send device location: " + MEZDRA[0] + MEZDRA[1]);
+                adHocPO.sendDeviceLocation(MEZDRA[0], MEZDRA[1]);
+                endStep();
+            }else {
+                stepHelper.sendDeviceLocation(adHocPO, MEZDRA[0], MEZDRA[1]);
+            }
+
+            Response response = TemporaryAPI.getUser(userId);
+            System.out.println("Response: " + response.body().prettyPrint());
+
+            startStep("Region is " + response.jsonPath().getString("$.region"));
+            endStep();
+
+            driver.terminateApp("com.leanplum.rondo");
+            MobileDriverUtils.waitInMs(2000);
+            driver.activateApp("com.leanplum.rondo");
+            MobileDriverUtils.waitInMs(2000);
+
+            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+            MobileDriverUtils.waitInMs(1000);
+            stepHelper.clickElement(appSetupPO, appSetupPO.appSetup, "Ad-Hoc button");
+
+            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+
+            if(driver instanceof AndroidDriver) {
+                startStep("Send device location: " + INTERPRED[0] + INTERPRED[1]);
+                adHocPO.sendDeviceLocation(INTERPRED[0], INTERPRED[1]);
+                endStep();
+            }else {
+                stepHelper.sendDeviceLocation(adHocPO, INTERPRED[0], INTERPRED[1]);
+            }
+            
+            MobileDriverUtils.waitInMs(10000);
+
+            driver.terminateApp("com.leanplum.rondo");
+            MobileDriverUtils.waitInMs(2000);
+            driver.activateApp("com.leanplum.rondo");
+            MobileDriverUtils.waitInMs(2000);
+
+            // Confirm alert
+            AlertPO alert = new AlertPO(driver);
+            stepHelper.verifyCondition("Verify alert layout",
+                    alert.verifyAlertLayout("Exit region", "I'm out!", "Confirm"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            endStep(e.toString(), false);
+        }
+        endTest();
+    }
+
+    /**
+    * @see <a
+    href="https://teamplumqa.testrail.com/index.php?/cases/view/186461">C186461</a>
+    */
+    @Test(description = "Alert in app on enter region")
+    public void alertInAppOnEnterRegion(Method method) {
+
+        try {
+            AppiumDriver<MobileElement> driver = initiateTest();
+
+            TestStepHelper stepHelper = new TestStepHelper(this);
+
+            AlertPO alertPO = new AlertPO(driver);
+            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+
+            AppSetupPO appSetupPO = new AppSetupPO(driver);
+            String userId = alertPO.getTextFromElement(appSetupPO.userId);
+            String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
+            AdHocPO adHocPO = new AdHocPO(driver);
+            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+
+            startStep("Set user id, if not set");
+            if (Strings.isNullOrEmpty(userId)) {
+                adHocPO.setUserId(deviceId);
+                userId = deviceId;
+            }
+            endStep();
+            
+            if(driver instanceof AndroidDriver) {
+                startStep("Send device location: " + MEZDRA[0] + MEZDRA[1]);
+                adHocPO.sendDeviceLocation(MEZDRA[0], MEZDRA[1]);
+                endStep();
+            }else {
+                stepHelper.sendDeviceLocation(adHocPO, MEZDRA[0], MEZDRA[1]);
+            }
+
+            startStep("Restart app");
+            driver.closeApp();
+            // Wait to change location
+            MobileDriverUtils.waitInMs(5000);
+            driver.launchApp();
+            endStep();
+
+            Response response = TemporaryAPI.getUser(userId);
+            System.out.println("Response: " + response.body().prettyPrint());
+
+            startStep("Region is " + response.jsonPath().getString("$.region"));
+            endStep();
+
+            if(driver instanceof AndroidDriver) {
+                startStep("Send device location: " + VARNA[0] + VARNA[1]);
+                adHocPO.sendDeviceLocation(VARNA[0], VARNA[1]);
+                endStep();
+            }else {
+                stepHelper.sendDeviceLocation(adHocPO, VARNA[0], VARNA[1]);
+            }
+
+            startStep("Restart app");
+            driver.closeApp();
+            // Wait to change location
+            MobileDriverUtils.waitInMs(5000);
+            driver.launchApp();
+            endStep();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            endStep(e.toString(), false);
+        }
+        endTest();
+    }
 }

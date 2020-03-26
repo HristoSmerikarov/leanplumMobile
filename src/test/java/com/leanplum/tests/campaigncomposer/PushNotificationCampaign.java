@@ -35,7 +35,7 @@ public class PushNotificationCampaign extends CommonTestSteps {
             AdHocPO adHocPO = new AdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-            // Exit campaign
+            // Exit campaign, if entered before
             stepHelper.sendTrackEvent(adHocPO, "pushVerified");
             MobileDriverUtils.waitInMs(5000);
 
