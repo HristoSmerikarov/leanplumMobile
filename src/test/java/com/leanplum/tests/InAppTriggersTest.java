@@ -292,12 +292,13 @@ public class InAppTriggersTest extends CommonTestSteps {
                 stepHelper.sendDeviceLocation(adHocPO, INTERPRED[0], INTERPRED[1]);
             }
             
-            MobileDriverUtils.waitInMs(10000);
-
             driver.terminateApp("com.leanplum.rondo");
             MobileDriverUtils.waitInMs(2000);
             driver.activateApp("com.leanplum.rondo");
             MobileDriverUtils.waitInMs(2000);
+            
+            response = TemporaryAPI.getUser(userId);
+            System.out.println("Response: " + response.body().prettyPrint());
 
             // Confirm alert
             AlertPO alert = new AlertPO(driver);
@@ -353,12 +354,26 @@ public class InAppTriggersTest extends CommonTestSteps {
             MobileDriverUtils.waitInMs(5000);
             driver.launchApp();
             endStep();
+            
+            stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
             Response response = TemporaryAPI.getUser(userId);
             System.out.println("Response: " + response.body().prettyPrint());
 
             startStep("Region is " + response.jsonPath().getString("$.region"));
             endStep();
+
+            driver.terminateApp("com.leanplum.rondo");
+            MobileDriverUtils.waitInMs(2000);
+            driver.activateApp("com.leanplum.rondo");
+            MobileDriverUtils.waitInMs(2000);
+
+            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+            MobileDriverUtils.waitInMs(1000);
+            stepHelper.clickElement(appSetupPO, appSetupPO.appSetup, "Ad-Hoc button");
+
+            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             if(driver instanceof AndroidDriver) {
                 startStep("Send device location: " + VARNA[0] + VARNA[1]);
@@ -367,13 +382,19 @@ public class InAppTriggersTest extends CommonTestSteps {
             }else {
                 stepHelper.sendDeviceLocation(adHocPO, VARNA[0], VARNA[1]);
             }
+            
 
-            startStep("Restart app");
-            driver.closeApp();
-            // Wait to change location
-            MobileDriverUtils.waitInMs(5000);
-            driver.launchApp();
-            endStep();
+            MobileDriverUtils.waitInMs(10000);
+
+            driver.terminateApp("com.leanplum.rondo");
+            MobileDriverUtils.waitInMs(2000);
+            driver.activateApp("com.leanplum.rondo");
+            MobileDriverUtils.waitInMs(2000);
+
+            // Confirm alert
+            AlertPO alert = new AlertPO(driver);
+            stepHelper.verifyCondition("Verify alert layout",
+                    alert.verifyAlertLayout("Enter region", "I'm in!", "Confirm"));
 
         } catch (Exception e) {
             e.printStackTrace();

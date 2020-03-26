@@ -17,6 +17,7 @@ public class TemporaryAPI {
     private static String exportKey = apiKeys.getExportKey();
     private static String path = "api?action=%s&appId=%s&apiVersion=%s&clientKey=%s";
     private static String trackAction = "track";
+    private static String start = "start";
     private static String exportUserAction = "exportUser";
     private static String getNewsfeedMessages = "getNewsfeedMessages";
     private static String deleteNewsfeedMessage = "deleteNewsfeedMessage";
@@ -76,6 +77,12 @@ public class TemporaryAPI {
         String formattedEndpoint = String.format(path, exportUserAction, testAppKey, apiVersion, exportKey)
                 + String.format(userIdParameter, userId);
         return get(formattedEndpoint);
+    }
+    
+    public static Response start(String userId) {
+        String formattedEndpoint = String.format(path, start, testAppKey, apiVersion, exportKey)
+                + String.format(userIdParameter, userId);
+        return post(formattedEndpoint);
     }
     
     private static Response post(String endpoint) {
