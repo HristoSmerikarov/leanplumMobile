@@ -9,10 +9,10 @@ import org.testng.annotations.Test;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.MobileBrowserPO;
-import com.leanplum.tests.pageobject.inapp.AlertPO;
-import com.leanplum.tests.pageobject.inapp.CenterPopupPO;
+import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.CenterPopupPO;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.listeners.TestListener;
@@ -49,7 +49,7 @@ public class PushNotificationTest extends CommonTestSteps {
 			TestStepHelper stepHelper = new TestStepHelper(this);
 
 			// Send attribute
-			AdHocPO adHocPO = sendUserAttribute(driver, stepHelper, ATTRIBUTE_NAME, ATTRIBUTE_VALUE);
+			NAdHocPO adHocPO = sendUserAttribute(driver, stepHelper, ATTRIBUTE_NAME, ATTRIBUTE_VALUE);
 
 			// Open notifications and verify layout
 			PushNotifiationType pn = determinePushNotification(driver);
@@ -103,7 +103,7 @@ public class PushNotificationTest extends CommonTestSteps {
 			TestStepHelper stepHelper = new TestStepHelper(this);
 
 			// Track event
-			AdHocPO adHocPO = sendEvent(driver, stepHelper, LOCAL_TRIGGER);
+			NAdHocPO adHocPO = sendEvent(driver, stepHelper, LOCAL_TRIGGER);
 
 			PushNotifiationType pn = determinePushNotification(driver);
 
@@ -145,7 +145,7 @@ public class PushNotificationTest extends CommonTestSteps {
 			TestStepHelper stepHelper = new TestStepHelper(this);
 
 			// Track state
-			AdHocPO adHocPO = sendState(driver, stepHelper, OPEN_LEANPLUM_URL);
+			NAdHocPO adHocPO = sendState(driver, stepHelper, OPEN_LEANPLUM_URL);
 
 			PushNotifiationType pn = determinePushNotification(driver);
 			openNotificationsAndOpenByMessage(stepHelper, pn.initialize(driver, RONDO_PUSH_NOTIFICATION));

@@ -10,9 +10,9 @@ import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.AppSetupPO;
-import com.leanplum.tests.pageobject.inapp.AlertPO;
+import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
+import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
 import com.leanplum.tests.pushnotification.AndroidPushNotification;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
 import io.appium.java_client.AppiumDriver;
@@ -29,10 +29,10 @@ public class PushNotificationCampaign extends CommonTestSteps {
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             AppSetupPO appSetupPO = new AppSetupPO(driver);
-            String userId = "automationUser";
+            String userId = "rondoTestUser" + Utils.generateRandomNumberInRange(0, 10);
             setUserId(appSetupPO, userId);
 
-            AdHocPO adHocPO = new AdHocPO(driver);
+            NAdHocPO adHocPO = new NAdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             // Exit campaign, if entered before

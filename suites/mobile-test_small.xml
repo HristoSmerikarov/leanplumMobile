@@ -5,7 +5,7 @@
 	<test name="Device one">
 		<parameter name="id" value="Device one" />
 		<classes>
-			<class name="com.leanplum.tests.campaigncomposer.AppFunctionCampaign">
+			<class name="com.leanplum.tests.campaigncomposer.InAppTemplatesCampaignComposer">
 			</class>
 		</classes>
 	</test>

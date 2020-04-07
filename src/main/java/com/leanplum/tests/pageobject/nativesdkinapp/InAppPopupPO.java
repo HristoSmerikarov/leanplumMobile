@@ -1,4 +1,4 @@
-package com.leanplum.tests.pageobject.inapp;
+package com.leanplum.tests.pageobject.nativesdkinapp;
 
 import java.util.Map;
 import java.util.Map.Entry;

@@ -12,9 +12,9 @@ import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.AppSetupPO;
-import com.leanplum.tests.pageobject.inapp.AlertPO;
+import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
+import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.listeners.TestListener;
@@ -51,7 +51,7 @@ public class AndroidPushNotificationTest extends CommonTestSteps {
             AppSetupPO appSetupPO = new AppSetupPO(driver);
             String userId = alertPO.getTextFromElement(appSetupPO.userId);
             String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-            AdHocPO adHocPO = new AdHocPO(driver);
+            NAdHocPO adHocPO = new NAdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             if (Strings.isNullOrEmpty(userId)) {
@@ -116,7 +116,7 @@ public class AndroidPushNotificationTest extends CommonTestSteps {
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track event
-            AdHocPO adHocPO = sendEvent(driver, stepHelper, CHANNEL_DISABLED);
+            NAdHocPO adHocPO = sendEvent(driver, stepHelper, CHANNEL_DISABLED);
 
             // Open notification and confirm that notification is not present
             PushNotification pushNotification = PushNotifiationType.ANDROID.initialize(driver, RONDO_PUSH_NOTIFICATION);

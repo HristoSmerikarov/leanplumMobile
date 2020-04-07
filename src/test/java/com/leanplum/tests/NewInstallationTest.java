@@ -10,9 +10,9 @@ import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.inapp.AlertPO;
-import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
+import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.ConfirmInAppPO;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.listeners.TestListener;
@@ -39,7 +39,7 @@ public class NewInstallationTest extends CommonTestSteps {
             AlertPO alertPO = new AlertPO(driver);
             stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
-            AdHocPO adHocPO = new AdHocPO(driver);
+            NAdHocPO adHocPO = new NAdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             if (userID.equals("")) {
@@ -79,7 +79,7 @@ public class NewInstallationTest extends CommonTestSteps {
             AlertPO alertPO = new AlertPO(driver);
             stepHelper.acceptAllAlertsOnAppStart(alertPO);
 
-            AdHocPO adHocPO = new AdHocPO(driver);
+            NAdHocPO adHocPO = new NAdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             if (userID.equals("")) {

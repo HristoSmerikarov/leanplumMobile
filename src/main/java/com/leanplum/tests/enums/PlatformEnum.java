@@ -20,5 +20,4 @@ public enum PlatformEnum {
 		return Arrays.stream(values())
 				.filter(optionEnum -> optionEnum.platformName.toLowerCase().equals(name.toLowerCase())).findFirst();
 	}
-
 }

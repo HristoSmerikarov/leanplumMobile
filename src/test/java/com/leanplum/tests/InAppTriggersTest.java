@@ -15,11 +15,11 @@ import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.AppSetupPO;
-import com.leanplum.tests.pageobject.inapp.AlertPO;
-import com.leanplum.tests.pageobject.inapp.BannerPO;
-import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
+import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
+import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.BannerPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.ConfirmInAppPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
@@ -152,7 +152,7 @@ public class InAppTriggersTest extends CommonTestSteps {
             stepHelper.acceptAllAlertsOnAppStart(alert);
 
             // Track event
-            AdHocPO adHocPO = new AdHocPO(driver);
+            NAdHocPO adHocPO = new NAdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             BannerPO banner = new BannerPO(driver);
@@ -202,7 +202,7 @@ public class InAppTriggersTest extends CommonTestSteps {
             stepHelper.acceptAllAlertsOnAppStart(alert);
 
             // Track event
-            AdHocPO adHocPO = new AdHocPO(driver);
+            NAdHocPO adHocPO = new NAdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             // First trigger
@@ -248,7 +248,7 @@ public class InAppTriggersTest extends CommonTestSteps {
             AppSetupPO appSetupPO = new AppSetupPO(driver);
             String userId = alertPO.getTextFromElement(appSetupPO.userId);
             String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-            AdHocPO adHocPO = new AdHocPO(driver);
+            NAdHocPO adHocPO = new NAdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             startStep("Set user id, if not set");
@@ -330,7 +330,7 @@ public class InAppTriggersTest extends CommonTestSteps {
             AppSetupPO appSetupPO = new AppSetupPO(driver);
             String userId = alertPO.getTextFromElement(appSetupPO.userId);
             String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-            AdHocPO adHocPO = new AdHocPO(driver);
+            NAdHocPO adHocPO = new NAdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             startStep("Set user id, if not set");

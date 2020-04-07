@@ -3,7 +3,7 @@ package com.leanplum.tests.helpers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.leanplum.tests.pageobject.AppSetupPO;
+import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;

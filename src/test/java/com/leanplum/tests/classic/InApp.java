@@ -8,9 +8,9 @@ import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
-import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.AppSetupPO;
-import com.leanplum.tests.pageobject.inapp.RichInterstitialPO;
+import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
+import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.RichInterstitialPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
@@ -33,7 +33,7 @@ public class InApp extends CommonTestSteps {
             setUserId(appSetupPO, userId);
 
             // Track event
-            AdHocPO adHocPO = sendEvent(driver, stepHelper, "richInterstitial");
+            NAdHocPO adHocPO = sendEvent(driver, stepHelper, "richInterstitial");
             
          // Verify rich interstitial
             RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);

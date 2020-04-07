@@ -14,11 +14,11 @@ import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.AppInboxMessagePO;
-import com.leanplum.tests.pageobject.AppSetupPO;
-import com.leanplum.tests.pageobject.inapp.AlertPO;
-import com.leanplum.tests.pageobject.inapp.StarRatingPO;
+import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
+import com.leanplum.tests.pageobject.nativesdk.AppInboxMessagePO;
+import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.StarRatingPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
@@ -42,7 +42,7 @@ public class AppInboxCampaign extends CommonTestSteps {
             String deviceId = getDeviceId(appSetupPO);
             setUserId(appSetupPO, userId);
 
-            AdHocPO adHocPO = new AdHocPO(driver);
+            NAdHocPO adHocPO = new NAdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             stepHelper.sendTrackEvent(adHocPO, "inAppVerified");

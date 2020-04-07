@@ -13,11 +13,11 @@ import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
-import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.AppInboxMessagePO;
-import com.leanplum.tests.pageobject.AppSetupPO;
-import com.leanplum.tests.pageobject.inapp.AlertPO;
-import com.leanplum.tests.pageobject.inapp.StarRatingPO;
+import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
+import com.leanplum.tests.pageobject.nativesdk.AppInboxMessagePO;
+import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.StarRatingPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
@@ -42,7 +42,7 @@ public class AppInbox extends CommonTestSteps {
             String deviceId = getDeviceId(appSetupPO);
             String userId = getUserId(appSetupPO);
 
-            AdHocPO adHocPO = new AdHocPO(driver);
+            NAdHocPO adHocPO = new NAdHocPO(driver);
 
             if (Strings.isNullOrEmpty(userId)) {
                 stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");

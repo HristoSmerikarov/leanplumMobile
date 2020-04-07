@@ -1,10 +1,11 @@
-package com.leanplum.tests.pageobject;
+package com.leanplum.tests.pageobject.nativesdk;
 
 import java.time.Duration;
 
 import org.openqa.selenium.support.PageFactory;
 
 import com.leanplum.tests.helpers.MobileDriverUtils;
+import com.leanplum.tests.pageobject.BasePO;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;

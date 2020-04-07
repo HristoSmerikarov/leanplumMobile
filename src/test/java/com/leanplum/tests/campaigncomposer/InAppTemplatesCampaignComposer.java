@@ -14,17 +14,17 @@ import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.AppInboxMessagePO;
-import com.leanplum.tests.pageobject.AppSetupPO;
-import com.leanplum.tests.pageobject.inapp.AlertPO;
-import com.leanplum.tests.pageobject.inapp.BannerPO;
-import com.leanplum.tests.pageobject.inapp.CenterPopupPO;
-import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
-import com.leanplum.tests.pageobject.inapp.InterstitialPO;
-import com.leanplum.tests.pageobject.inapp.RichInterstitialPO;
-import com.leanplum.tests.pageobject.inapp.StarRatingPO;
-import com.leanplum.tests.pageobject.inapp.WebInterstitialPO;
+import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
+import com.leanplum.tests.pageobject.nativesdk.AppInboxMessagePO;
+import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.BannerPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.CenterPopupPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.ConfirmInAppPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.InterstitialPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.RichInterstitialPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.StarRatingPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.WebInterstitialPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
@@ -34,7 +34,7 @@ import io.restassured.response.Response;
 @Listeners({ TestListener.class })
 public class InAppTemplatesCampaignComposer extends CommonTestSteps {
 
-    private static final String IN_APP_ENTER = "inAppEnter";
+    private static final String IN_APP_ENTER = "inAppTemplateTrigger";
     private static final String CONVERSION_EVENT = "inAppTemplates";
     private static final String TEMPLATE_VERIFICATION = "templateVerification";
     private static final String CONFIRM_TITLE = "Confirm message title";
@@ -52,14 +52,14 @@ public class InAppTemplatesCampaignComposer extends CommonTestSteps {
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             AppSetupPO appSetupPO = new AppSetupPO(driver);
-            String userId = "rondoTestUser" + Utils.generateRandomNumberInRange(0, 100);
+            String userId = "rondoTestUser" + Utils.generateRandomNumberInRange(0, 10);
             setUserId(appSetupPO, userId);
 
-            AdHocPO adHocPO = new AdHocPO(driver);
+            NAdHocPO adHocPO = new NAdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             // Send conversion event
-            stepHelper.sendTrackEvent(new AdHocPO(driver), CONVERSION_EVENT);
+            stepHelper.sendTrackEvent(new NAdHocPO(driver), CONVERSION_EVENT);
             MobileDriverUtils.waitInMs(2000);
 
             stepHelper.sendTrackEvent(adHocPO, IN_APP_ENTER);
@@ -76,7 +76,7 @@ public class InAppTemplatesCampaignComposer extends CommonTestSteps {
 
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-            stepHelper.sendUserAttribute(adHocPO, "templateAttribute",
+            stepHelper.sendUserAttribute(adHocPO, "testAttribute",
                     "attrb" + Utils.generateRandomNumberInRange(0, 100));
             MobileDriverUtils.waitInMs(2000);
 
@@ -125,7 +125,7 @@ public class InAppTemplatesCampaignComposer extends CommonTestSteps {
 
             // Send conversion event
             MobileDriverUtils.waitInMs(2000);
-            stepHelper.sendTrackEvent(new AdHocPO(driver), CONVERSION_EVENT);
+            stepHelper.sendTrackEvent(new NAdHocPO(driver), CONVERSION_EVENT);
             MobileDriverUtils.waitInMs(2000);
 
         } catch (Exception e) {
@@ -148,11 +148,11 @@ public class InAppTemplatesCampaignComposer extends CommonTestSteps {
             String userId = "rondoTestUser" + Utils.generateRandomNumberInRange(0, 10);
             setUserId(appSetupPO, userId);
 
-            AdHocPO adHocPO = new AdHocPO(driver);
+            NAdHocPO adHocPO = new NAdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             // Send conversion event
-            stepHelper.sendTrackEvent(new AdHocPO(driver), CONVERSION_EVENT);
+            stepHelper.sendTrackEvent(new NAdHocPO(driver), CONVERSION_EVENT);
             MobileDriverUtils.waitInMs(2000);
 
             stepHelper.sendTrackEvent(adHocPO, IN_APP_ENTER);
@@ -169,7 +169,7 @@ public class InAppTemplatesCampaignComposer extends CommonTestSteps {
 
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-            stepHelper.sendUserAttribute(adHocPO, "templateAttribute",
+            stepHelper.sendUserAttribute(adHocPO, "testAttribute",
                     "attrb" + Utils.generateRandomNumberInRange(0, 100));
             MobileDriverUtils.waitInMs(2000);
 
@@ -189,7 +189,7 @@ public class InAppTemplatesCampaignComposer extends CommonTestSteps {
             stepHelper.clickElement(alert, alert.confirmAlertButton, "Thanks!");
 
             // Send conversion event
-            stepHelper.sendTrackEvent(new AdHocPO(driver), CONVERSION_EVENT);
+            stepHelper.sendTrackEvent(new NAdHocPO(driver), CONVERSION_EVENT);
             MobileDriverUtils.waitInMs(2000);
 
         } catch (Exception e) {

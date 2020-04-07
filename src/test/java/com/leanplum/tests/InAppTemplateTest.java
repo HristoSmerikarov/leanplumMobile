@@ -8,15 +8,15 @@ import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
-import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.inapp.AlertPO;
-import com.leanplum.tests.pageobject.inapp.BannerPO;
-import com.leanplum.tests.pageobject.inapp.CenterPopupPO;
-import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
-import com.leanplum.tests.pageobject.inapp.InterstitialPO;
-import com.leanplum.tests.pageobject.inapp.RichInterstitialPO;
-import com.leanplum.tests.pageobject.inapp.StarRatingPO;
-import com.leanplum.tests.pageobject.inapp.WebInterstitialPO;
+import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.BannerPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.CenterPopupPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.ConfirmInAppPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.InterstitialPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.RichInterstitialPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.StarRatingPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.WebInterstitialPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
@@ -64,7 +64,7 @@ public class InAppTemplateTest extends CommonTestSteps {
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track event
-            AdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
+            NAdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
 
             // Verify Confirm popup
             ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
@@ -133,7 +133,7 @@ public class InAppTemplateTest extends CommonTestSteps {
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track event
-            AdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
+            NAdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
 
             // Verify Confirm popup
             ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
@@ -228,7 +228,7 @@ public class InAppTemplateTest extends CommonTestSteps {
              stepHelper.clickElement(banner, banner.bannerCloseButton, "banner close icon");
 
              //Send end event
-             stepHelper.sendTrackEvent(new AdHocPO(driver), END_EVENT);
+             stepHelper.sendTrackEvent(new NAdHocPO(driver), END_EVENT);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -8,9 +8,9 @@ import org.testng.annotations.Test;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
-import com.leanplum.tests.pageobject.AdHocPO;
-import com.leanplum.tests.pageobject.AppSetupPO;
-import com.leanplum.tests.pageobject.inapp.AlertPO;
+import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
+import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
 import com.leanplum.tests.pushnotification.AndroidPushNotification;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
 import io.appium.java_client.AppiumDriver;
@@ -30,7 +30,7 @@ public class PushNotification extends CommonTestSteps {
             String userId = "automationUser";
             setUserId(appSetupPO, userId);
 
-            AdHocPO adHocPO = sendEvent(driver, stepHelper, "pushNotification");
+            NAdHocPO adHocPO = sendEvent(driver, stepHelper, "pushNotification");
             
             // Send attribute
             //TemporaryAPI.sendMessage(userId, "5718727950598144");

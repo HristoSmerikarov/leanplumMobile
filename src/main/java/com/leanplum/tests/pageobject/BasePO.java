@@ -21,7 +21,7 @@ public class BasePO {
     public AppiumDriver<MobileElement> getDriver() {
         return this.driver;
     }
-
+    
     public void click(MobileElement element) {
         long startTime = System.currentTimeMillis();
         element.click();
