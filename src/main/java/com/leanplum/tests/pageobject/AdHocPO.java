@@ -1,40 +1,29 @@
 package com.leanplum.tests.pageobject;
 
-import java.time.Duration;
 import java.util.Map;
 
-import org.openqa.selenium.By;
-
-import com.google.common.collect.ImmutableMap;
 import com.leanplum.tests.enums.SdkEnum;
-import com.leanplum.tests.helpers.MobileDriverUtils;
-import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.helpers.Utils.SwipeDirection;
 import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
 import com.leanplum.tests.pageobject.reactnativesdk.RNAdHocPO;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.HasOnScreenKeyboard;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.TapOptions;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.ElementOption;
 
-public abstract class AdHocPO extends BasePO{
-    
+public abstract class AdHocPO extends BasePO {
+
     protected AdHocPO(AppiumDriver<MobileElement> driver) {
         super(driver);
     }
-    
-    public static <T extends AdHocPO>AdHocPO initialize(AppiumDriver<MobileElement> driver, SdkEnum sdk){
-        if(sdk.equals(SdkEnum.NATIVE)) {
+
+    public static <T extends AdHocPO> AdHocPO initialize(AppiumDriver<MobileElement> driver, SdkEnum sdk) {
+        if (sdk.equals(SdkEnum.NATIVE)) {
             return new NAdHocPO(driver);
-        }else {
+        } else {
             return new RNAdHocPO(driver);
         }
     }
-    
+
     public abstract void sendTrackEvent(String eventName);
 
     public abstract void sendStateEvent(String stateName);
@@ -46,7 +35,7 @@ public abstract class AdHocPO extends BasePO{
     public abstract void sendDeviceLocation(String latitude, String longitude);
 
     public abstract void setUserId(String userId);
-    
+
     protected void sendAdHocProperties(AppiumDriver<MobileElement> driver, MobileElement button, MobileElement label,
             Map<MobileElement, String> fieldValueMap) {
         long startTime = System.currentTimeMillis();
@@ -66,10 +55,10 @@ public abstract class AdHocPO extends BasePO{
 
         label.click();
 
-        if(((HasOnScreenKeyboard) driver).isKeyboardShown()) {
+        if (((HasOnScreenKeyboard) driver).isKeyboardShown()) {
             driver.hideKeyboard();
         }
-        
+
         button.click();
     }
 }

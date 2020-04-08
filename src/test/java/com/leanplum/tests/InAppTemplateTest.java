@@ -8,15 +8,16 @@ import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
+import com.leanplum.tests.pageobject.AdHocPO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
+import com.leanplum.tests.pageobject.inapp.BannerPO;
+import com.leanplum.tests.pageobject.inapp.CenterPopupPO;
+import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
+import com.leanplum.tests.pageobject.inapp.InterstitialPO;
+import com.leanplum.tests.pageobject.inapp.RichInterstitialPO;
+import com.leanplum.tests.pageobject.inapp.StarRatingPO;
+import com.leanplum.tests.pageobject.inapp.WebInterstitialPO;
 import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.BannerPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.CenterPopupPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.ConfirmInAppPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.InterstitialPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.RichInterstitialPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.StarRatingPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.WebInterstitialPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
@@ -64,33 +65,36 @@ public class InAppTemplateTest extends CommonTestSteps {
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track event
-            NAdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
+            AdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
 
             // Verify Confirm popup
-            ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+            ConfirmInAppPO confirmInApp = ConfirmInAppPO.initialize(driver, sdk);
             verifyConfirmPopupLayout(driver, stepHelper, confirmInApp);
 
             // Click Accept button
-            clickAccept(stepHelper, confirmInApp);
+            clickAccept(confirmInApp);
 
             // Verify rich interstitial
-            RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);
+            RichInterstitialPO richInterstitial = RichInterstitialPO.initialize(driver, sdk);
             verifyRichInterstitialLayout(driver, stepHelper, richInterstitial);
 
             // Click right button
-            stepHelper.clickElement(richInterstitial, richInterstitial.richInterstitialRightButton,
-                    "right button - " + RICH_INTERSTITIAL_RIGHT_BUTTON);
+            startStep("Click right button on rich interstitial message");
+            richInterstitial.clickRightButton();
+            endStep();
 
             // Verify center popup layout
-            CenterPopupPO centerPopup = new CenterPopupPO(driver);
+            CenterPopupPO centerPopup = CenterPopupPO.initialize(driver, sdk);
             stepHelper.verifyCondition(VERIFY_CENTER_POPUP_LAYOUT,
                     centerPopup.verifyCenterPopup(CENTER_POPUP_TITLE, CENTER_POPUP_MESSAGE, CENTER_POPUP_BUTTON));
 
             // Click accept
-            stepHelper.clickElement(centerPopup, centerPopup.centerPopupAcceptButton, "Accept center popup");
+            startStep("Click accept on center popup message");
+            centerPopup.clickAcceptButton();
+            endStep();
 
             // Star rating not visible in dom
-            StarRatingPO starRating = new StarRatingPO(driver);
+            StarRatingPO starRating = StarRatingPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify star rating popup layout",
                     starRating.verifyStarRating("Do you like the new update?", 3, "I hate it!", "I love it!"));
 
@@ -133,30 +137,32 @@ public class InAppTemplateTest extends CommonTestSteps {
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track event
-            NAdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
+            AdHocPO adHocPO = sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
 
             // Verify Confirm popup
-            ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+            ConfirmInAppPO confirmInApp = ConfirmInAppPO.initialize(driver, sdk);
             verifyConfirmPopupLayout(driver, stepHelper, confirmInApp);
 
             // Click Accept button
-            clickAccept(stepHelper, confirmInApp);
+            clickAccept(confirmInApp);
 
             // Verify rich interstitial
-            RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);
+            RichInterstitialPO richInterstitial = RichInterstitialPO.initialize(driver, sdk);
             verifyRichInterstitialLayout(driver, stepHelper, richInterstitial);
 
             // Click left button
-            stepHelper.clickElement(richInterstitial, richInterstitial.richInterstitialLeftButton,
-                    "left button - " + RICH_INTERSTITIAL_LEFT_BUTTON);
+            startStep("Click left button on rich interstitial message");
+            richInterstitial.clickLeftButton();
+            endStep();
 
             // Verify web interstitial layout
-            WebInterstitialPO webInterstitial = new WebInterstitialPO(driver);
+            WebInterstitialPO webInterstitial = WebInterstitialPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify web interstitial popup layout", webInterstitial.verifyWebInterstitial());
 
             // Close webInterstitial
-            stepHelper.clickElement(webInterstitial, webInterstitial.webInterstitialCloseButton,
-                    "Web Interstitial's close icon");
+            startStep("Close web interstitial message");
+            webInterstitial.closeWebInterstitial();
+            endStep();
 
             // Send end event
             stepHelper.sendTrackEvent(adHocPO, END_EVENT);
@@ -195,40 +201,44 @@ public class InAppTemplateTest extends CommonTestSteps {
             sendEventWithParameters(driver, stepHelper, START_EVENT, PARAM_KEY, PARAM_VALUE);
 
             // Verify Confirm popup
-            ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+            ConfirmInAppPO confirmInApp = ConfirmInAppPO.initialize(driver, sdk);
             verifyConfirmPopupLayout(driver, stepHelper, confirmInApp);
 
             // Click cancel
-            clickCancel(stepHelper, confirmInApp);
+            clickCancel(confirmInApp);
 
             // Verify interstitial layout
-            InterstitialPO interstitial = new InterstitialPO(driver);
+            InterstitialPO interstitial = InterstitialPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify interstitial layout",
                     interstitial.verifyInterstitialLayout("Reminder", "Ще ти сетнем banner за напомняне!", "Okay.."));
 
             // Click accept button
-            stepHelper.clickElement(interstitial, interstitial.interstitialAcceptButton,
-                    "Interstitial's Accept button");
+            startStep("Click accept button on interstitial message");
+            interstitial.clickAcceptButton();
+            endStep();
 
             // Verify alert layout
-            AlertPO alert = new AlertPO(driver);
+            AlertPO alert = AlertPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify alert layout",
                     alert.verifyAlertLayout("Banner will be shown..", ".. as a reminder!", "Okay"));
 
             // Confrim alert
-            stepHelper.clickElement(alert, alert.confirmAlertButton, "Okay");
+            stepHelper.dismissAlert(alert);
 
             // TODO Cannot be located on Android
-             BannerPO banner = new BannerPO(driver);
-             stepHelper.verifyCondition("Verify banner popup layout",
-             banner.verifyBannerLayout("New version of the app available!", "Download when you can!"));
-            
-             banner.clickOnBanner();
+            BannerPO banner = BannerPO.initialize(driver, sdk);
+            stepHelper.verifyCondition("Verify banner popup layout",
+                    banner.verifyBannerLayout("New version of the app available!", "Download when you can!"));
 
-             stepHelper.clickElement(banner, banner.bannerCloseButton, "banner close icon");
+            banner.clickOnBanner();
 
-             //Send end event
-             stepHelper.sendTrackEvent(new NAdHocPO(driver), END_EVENT);
+            // Click accept button
+            startStep("Close banner");
+            banner.closeBanner();
+            endStep();
+
+            // Send end event
+            stepHelper.sendTrackEvent(new NAdHocPO(driver), END_EVENT);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -243,14 +253,16 @@ public class InAppTemplateTest extends CommonTestSteps {
                 confirmInApp.verifyConfirmInApp(NEW_UPDATE, THE_NEW_UPDATE_IS_HERE, CONFIRM_ACCEPT, CONFIRM_CANCEL));
     }
 
-    private void clickAccept(TestStepHelper stepHelper, ConfirmInAppPO confirmInApp) {
-        stepHelper.clickElement(confirmInApp, confirmInApp.confirmAcceptButton,
-                "Confirm popup accept button - " + CONFIRM_ACCEPT);
+    private void clickAccept(ConfirmInAppPO confirmInApp) {
+        startStep("Click accept on confirm message");
+        confirmInApp.acceptConfirmMessage();
+        endStep();
     }
 
-    private void clickCancel(TestStepHelper stepHelper, ConfirmInAppPO confirmInApp) {
-        stepHelper.clickElement(confirmInApp, confirmInApp.confirmCancelButton,
-                "Confirm popup cancel button - " + CONFIRM_CANCEL);
+    private void clickCancel(ConfirmInAppPO confirmInApp) {
+        startStep("Click cancel on confirm message");
+        confirmInApp.cancelConfirmMessage();
+        endStep();
     }
 
     private void verifyRichInterstitialLayout(MobileDriver<MobileElement> driver, TestStepHelper stepHelper,

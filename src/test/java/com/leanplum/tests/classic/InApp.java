@@ -8,9 +8,10 @@ import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
-import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.RichInterstitialPO;
+import com.leanplum.tests.helpers.Utils;
+import com.leanplum.tests.pageobject.AdHocPO;
+import com.leanplum.tests.pageobject.AppSetupPO;
+import com.leanplum.tests.pageobject.inapp.RichInterstitialPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
@@ -25,22 +26,21 @@ public class InApp extends CommonTestSteps {
 
         try {
             AppiumDriver<MobileElement> driver = initiateTest();
-            
+
             TestStepHelper stepHelper = new TestStepHelper(this);
 
-            AppSetupPO appSetupPO = new AppSetupPO(driver);
-            String userId = "automationUser";
-            setUserId(appSetupPO, userId);
+            AppSetupPO appSetupPO = AppSetupPO.initialize(driver, sdk);
+            String userId = "rondoTestUser" + Utils.generateRandomNumberInRange(0, 10);
+            setUserId(driver, appSetupPO, userId);
 
             // Track event
-            NAdHocPO adHocPO = sendEvent(driver, stepHelper, "richInterstitial");
-            
-         // Verify rich interstitial
-            RichInterstitialPO richInterstitial = new RichInterstitialPO(driver);
-            stepHelper.verifyCondition("Verify rich interstitial popup layout",
-                    richInterstitial.verifyRichInterstitial("There is a new update!", "Do you want to download it?",
-                            "Accept", "Decline", true));
-            
+            AdHocPO adHocPO = sendEvent(driver, stepHelper, "richInterstitial");
+
+            // Verify rich interstitial
+            RichInterstitialPO richInterstitial = RichInterstitialPO.initialize(driver, sdk);
+            stepHelper.verifyCondition("Verify rich interstitial popup layout", richInterstitial.verifyRichInterstitial(
+                    "There is a new update!", "Do you want to download it?", "Accept", "Decline", true));
+
         } catch (Exception e) {
             e.printStackTrace();
             endStep(e.toString(), false);

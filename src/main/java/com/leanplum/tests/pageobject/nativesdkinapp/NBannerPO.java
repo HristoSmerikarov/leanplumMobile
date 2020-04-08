@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.google.common.collect.ImmutableMap;
 import com.leanplum.tests.helpers.MobileDriverUtils;
+import com.leanplum.tests.pageobject.inapp.BannerPO;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -15,19 +16,13 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 
-public class BannerPO extends InAppPopupPO {
+public class NBannerPO extends BannerPO {
 
-    private static final String ANDROID_BANNER_XPATH = "//*[@resource-id='title']/ancestor::*[@class='android.view.View']";
     private static final String ANDROID_BANNER_CLOSE_BUTTON_XPATH = ANDROID_BANNER_XPATH
             + "/*[@resource-id='close-button']";
-    private static final String IOS_BANNER_XPATH = "//XCUIElementTypeWebView[@visible='true']";
     private static final String IOS_BANNER_TEXT_XPATH = "(" + IOS_BANNER_XPATH
             + "//XCUIElementTypeOther/XCUIElementTypeStaticText)";
     private static final String IOS_BANNER_CLOSE_BUTTON = IOS_BANNER_XPATH + "//XCUIElementTypeOther[not(*)]";
-
-    @iOSXCUITFindBy(xpath = IOS_BANNER_XPATH)
-    @AndroidFindBy(xpath = ANDROID_BANNER_XPATH)
-    public MobileElement banner;
 
     @iOSXCUITFindBy(xpath = IOS_BANNER_CLOSE_BUTTON)
     @AndroidFindBy(xpath = ANDROID_BANNER_CLOSE_BUTTON_XPATH)
@@ -43,28 +38,36 @@ public class BannerPO extends InAppPopupPO {
 
     private AppiumDriver<MobileElement> driver;
 
-    public BannerPO(AppiumDriver<MobileElement> driver) {
+    public NBannerPO(AppiumDriver<MobileElement> driver) {
         super(driver);
         this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }
 
+    @Override
     public boolean verifyBannerLayout(String bannerTitle, String bannerMessage) {
-		MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(banner));
+        MobileDriverUtils.waitForExpectedCondition(driver, ExpectedConditions.visibilityOf(banner));
 
-		return isCloseButtonPresent() && verifyInAppPopup(
-				ImmutableMap.of(bannerTitleElement, bannerTitle, bannerMessageElement, bannerMessage));
-	}
+        return isCloseButtonPresent() && verifyInAppPopup(driver,
+                ImmutableMap.of(bannerTitleElement, bannerTitle, bannerMessageElement, bannerMessage));
+    }
 
+    @Override
     public void clickOnBanner() {
         banner.click();
     }
 
-    private boolean isCloseButtonPresent() {
+    @Override
+    public boolean isCloseButtonPresent() {
         if (driver instanceof AndroidDriver) {
             return MobileDriverUtils.doesSelectorMatchAnyElements(driver, ANDROID_BANNER_CLOSE_BUTTON_XPATH);
         } else {
             return MobileDriverUtils.doesSelectorMatchAnyElements(driver, IOS_BANNER_CLOSE_BUTTON);
         }
+    }
+
+    @Override
+    public void closeBanner() {
+        click(bannerCloseButton);
     }
 }

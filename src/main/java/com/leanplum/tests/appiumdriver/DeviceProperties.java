@@ -9,25 +9,25 @@ public interface DeviceProperties {
 
     @BoundProperty("appPackage")
     String getAppPackage();
-    
+
     @BoundProperty("appActivity")
     String getAppActivity();
-    
+
     @BoundProperty("noreset")
     String getNoReset();
-    
+
     @BoundProperty("app")
     String getApp();
-    
+
     @BoundProperty("bundleId")
     String getBundleId();
-    
+
     @BoundProperty("automationName")
     String getAutomationName();
 
     @BoundProperty("xcodeOrgId")
     String getXcodeOrgId();
-    
+
     @BoundProperty("xcodeSigningId")
     String getXcodeSigningId();
 
@@ -36,5 +36,5 @@ public interface DeviceProperties {
 
     @BoundProperty("useNewWDA")
     String getUseNewWda();
-    
+
 }

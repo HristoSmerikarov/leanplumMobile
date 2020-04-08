@@ -8,8 +8,8 @@ import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
-import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
+import com.leanplum.tests.pageobject.AdHocPO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pushnotification.IOSPushNotification;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.utils.listeners.TestListener;
@@ -39,7 +39,7 @@ public class IosPushNotificationTest extends CommonTestSteps {
 
             // Track event
             // TODO CHANGE TO ADVANCE TO STATE WITH PARAMETER
-            NAdHocPO adHocPO = sendState(driver, stepHelper, IOS_OPTIONS);
+            AdHocPO adHocPO = sendState(driver, stepHelper, IOS_OPTIONS);
 
             // Open notification and confirm that notification is not present
             IOSPushNotification pushNotification = (IOSPushNotification) PushNotifiationType.IOS.initialize(driver,
@@ -59,8 +59,8 @@ public class IosPushNotificationTest extends CommonTestSteps {
 
             stepHelper.openPushNotification(pushNotification);
 
-            AlertPO alertPO = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+            AlertPO alert = AlertPO.initialize(driver, sdk);
+            stepHelper.dismissAllAlertsOnAppStart(alert);
 
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 

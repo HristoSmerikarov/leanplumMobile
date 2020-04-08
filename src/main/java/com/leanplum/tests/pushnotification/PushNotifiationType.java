@@ -10,22 +10,23 @@ public enum PushNotifiationType {
         public PushNotification initialize(MobileDriver<MobileElement> driver, String message) {
             return new AndroidPushNotification(driver, message);
         }
-    }, IOS("ios") {
+    },
+    IOS("ios") {
         @Override
         public PushNotification initialize(MobileDriver<MobileElement> driver, String message) {
             return new IOSPushNotification(driver, message);
         }
     };
-    
+
     private String os;
-    
-    PushNotifiationType(String os){
+
+    PushNotifiationType(String os) {
         this.os = os;
     }
-    
+
     public String getOs() {
         return this.os;
     }
-    
+
     public abstract PushNotification initialize(MobileDriver<MobileElement> driver, String message);
 }

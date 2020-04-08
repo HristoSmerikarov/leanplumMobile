@@ -2,7 +2,7 @@ package com.leanplum.tests.testdevices;
 
 import com.leanplum.tests.enums.PlatformEnum;
 
-public class IOSTestDevice extends TestDevice{
+public class IOSTestDevice extends TestDevice {
 
     private String wdaPort;
     public static final String IOS_UDID_REGEX = "\\[(.*?)\\]";
@@ -13,7 +13,7 @@ public class IOSTestDevice extends TestDevice{
         super(id, name, platformVersion, PlatformEnum.IOS_APP);
         this.wdaPort = wdaPort;
     }
-   
+
     public String getWdaPort() {
         return wdaPort;
     }

@@ -19,7 +19,7 @@ public class DeviceManager {
 
     public void determineConnectedDevices() {
         OSEnum os = Utils.determineOS();
-        System.out.println("OS: "+os.getOsName());
+        System.out.println("OS: " + os.getOsName());
         connectedTestDevices.addAll(getConnectedAndroidDevice(os));
         connectedTestDevices.addAll(getConnectedIOSDevice(os));
 
@@ -33,7 +33,7 @@ public class DeviceManager {
         List<String> responseLines = Utils.runCommandInTerminal(os, "adb devices");
         List<String> androidDeviceIds = new ArrayList<String>();
         logger.info("Android devices: " + androidDeviceIds);
-        System.out.println("ANDROID DEVICES: "+androidDeviceIds);
+        System.out.println("ANDROID DEVICES: " + androidDeviceIds);
         responseLines.forEach(line -> {
             if (!line.equals("List of devices attached") && !line.isEmpty()) {
                 androidDeviceIds.add(Utils.findPropertyMatch(line, "^(.*?)\\s"));

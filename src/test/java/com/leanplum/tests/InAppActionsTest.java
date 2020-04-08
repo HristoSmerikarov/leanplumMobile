@@ -8,9 +8,9 @@ import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
+import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.MobileBrowserPO;
-import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
@@ -31,11 +31,11 @@ public class InAppActionsTest extends CommonTestSteps {
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
-            AlertPO alert = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alert);
+            AlertPO alert = AlertPO.initialize(driver, sdk);
+            stepHelper.dismissAllAlertsOnAppStart(alert);
 
             // Track event
-            NAdHocPO adHocPO = new NAdHocPO(driver);
+            AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             // First trigger
@@ -50,7 +50,7 @@ public class InAppActionsTest extends CommonTestSteps {
             mobileBrowserPO.goBack();
             endStep();
 
-            stepHelper.acceptAllAlertsOnAppStart(alert);
+            stepHelper.dismissAllAlertsOnAppStart(alert);
 
             stepHelper.sendTrackEvent(adHocPO, "end");
 

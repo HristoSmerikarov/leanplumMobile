@@ -14,12 +14,12 @@ public class AppiumServiceUtils {
 
     public static List<AppiumDriverLocalService> appiumServices = new ArrayList<>();
     public static AppiumDriverLocalService appiumService;
-    
+
     public AppiumDriverLocalService setupAppiumService(PlatformEnum platform, String ipAddress, int port) {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         builder.withIPAddress(ipAddress);
         builder.usingPort(port);
-       // builder.withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"));
+        // builder.withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"));
 
         appiumService = AppiumDriverLocalService.buildService(builder);
         appiumServices.add(appiumService);
@@ -41,12 +41,12 @@ public class AppiumServiceUtils {
     public static int findFreePort() {
         return findFreePortBetween(4700, 5000);
     }
-    
+
     public static void killNodeServer(OSEnum os) {
-        if(os==OSEnum.WINDOWS) {
-            Utils.runCommandInTerminal(os, "taskkill /f /im node.exe"); 
-        }else {
-            Utils.runCommandInTerminal(os, "killall node"); 
+        if (os == OSEnum.WINDOWS) {
+            Utils.runCommandInTerminal(os, "taskkill /f /im node.exe");
+        } else {
+            Utils.runCommandInTerminal(os, "killall node");
         }
     }
 

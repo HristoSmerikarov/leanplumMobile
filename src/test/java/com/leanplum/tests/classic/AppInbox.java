@@ -14,10 +14,10 @@ import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdk.AppInboxMessagePO;
-import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.StarRatingPO;
+import com.leanplum.tests.pageobject.nativesdk.NAppInboxMessagePO;
+import com.leanplum.tests.pageobject.nativesdk.NAppSetupPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.NAlertPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.NStarRatingPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
@@ -38,7 +38,7 @@ public class AppInbox extends CommonTestSteps {
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
-            AppSetupPO appSetupPO = new AppSetupPO(driver);
+            NAppSetupPO appSetupPO = new NAppSetupPO(driver);
             String deviceId = getDeviceId(appSetupPO);
             String userId = getUserId(appSetupPO);
 
@@ -54,46 +54,46 @@ public class AppInbox extends CommonTestSteps {
 
             Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
             System.out.println("NEWSFEED IDs: " + newsfeedIds);
-            for(String newsfeedId : newsfeedIds) {
+            for (String newsfeedId : newsfeedIds) {
                 TemporaryAPI.deleteNewsfeedMessage(deviceId, userId, newsfeedId);
             }
-            
-             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-            
-             stepHelper.sendTrackEvent(adHocPO, APP_INBOX_EVENT);
-            
-             driver.closeApp();
-             MobileDriverUtils.waitInMs(30000);
-             driver.launchApp();
-            
-             AlertPO alert = new AlertPO(driver);
-             MobileDriverUtils.waitInMs(5000);
-             stepHelper.acceptAllAlertsOnAppStart(alert);
-            
-             AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);
-             stepHelper.clickElement(appInbox, appInbox.appinbox, "App Inbox button");
-            
-             startStep("Wait for app inbox message");
-             appInbox.waitForInboxMessage();
-             endStep();
-            
-             startStep("Verify app inbox message title is correct");
-             endStep(appInbox.isTitleCorrect("You've reached new milestone!"));
-            
-             startStep("Verify app inbox message subtitle is correct");
-             endStep(appInbox.isSubTitleCorrect("You've reached new milestone!"));
-            
-             startStep("Verify app inbox message does contain image");
-             endStep(appInbox.doesContainImage());
-            
-             startStep("Perform read action");
-             appInbox.performReadAction();
-             endStep();
-            
-             // Verify alert layout
-             StarRatingPO starRating = new StarRatingPO(driver);
-             stepHelper.verifyCondition("Verify star rating popup layout",
-             starRating.verifyStarRating("Survey question", 5, "I hate it", "I love it"));
+
+            stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
+
+            stepHelper.sendTrackEvent(adHocPO, APP_INBOX_EVENT);
+
+            driver.closeApp();
+            MobileDriverUtils.waitInMs(30000);
+            driver.launchApp();
+
+            NAlertPO alert = new NAlertPO(driver);
+            MobileDriverUtils.waitInMs(5000);
+            stepHelper.dismissAllAlertsOnAppStart(alert);
+
+            NAppInboxMessagePO appInbox = new NAppInboxMessagePO(driver);
+            stepHelper.clickElement(appInbox, appInbox.appinbox, "App Inbox button");
+
+            startStep("Wait for app inbox message");
+            appInbox.waitForInboxMessage();
+            endStep();
+
+            startStep("Verify app inbox message title is correct");
+            endStep(appInbox.isTitleCorrect("You've reached new milestone!"));
+
+            startStep("Verify app inbox message subtitle is correct");
+            endStep(appInbox.isSubTitleCorrect("You've reached new milestone!"));
+
+            startStep("Verify app inbox message does contain image");
+            endStep(appInbox.doesContainImage());
+
+            startStep("Perform read action");
+            appInbox.performReadAction();
+            endStep();
+
+            // Verify alert layout
+            NStarRatingPO starRating = new NStarRatingPO(driver);
+            stepHelper.verifyCondition("Verify star rating popup layout",
+                    starRating.verifyStarRating("Survey question", 5, "I hate it", "I love it"));
 
         } catch (Exception e) {
             e.printStackTrace();

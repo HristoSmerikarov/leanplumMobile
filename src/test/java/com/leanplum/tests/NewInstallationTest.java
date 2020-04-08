@@ -10,9 +10,9 @@ import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.ConfirmInAppPO;
+import com.leanplum.tests.pageobject.AdHocPO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
+import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.listeners.TestListener;
@@ -36,10 +36,10 @@ public class NewInstallationTest extends CommonTestSteps {
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track state
-            AlertPO alertPO = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+            AlertPO alertPO = AlertPO.initialize(driver, sdk);
+            stepHelper.dismissAllAlertsOnAppStart(alertPO);
 
-            NAdHocPO adHocPO = new NAdHocPO(driver);
+            AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             if (userID.equals("")) {
@@ -49,15 +49,15 @@ public class NewInstallationTest extends CommonTestSteps {
             startStep("Set User ID: " + userID);
             adHocPO.setUserId(userID);
             endStep();
-            
-            //Sleep for 5 seconds to wait for UserId change
+
+            // Sleep for 5 seconds to wait for UserId change
             MobileDriverUtils.waitInMs(5000);
 
             // Open push notification
             PushNotification pushNotification = PushNotifiationType.ANDROID.initialize(driver, RONDO_PUSH_NOTIFICATION);
             openNotificationsAndOpenByMessage(stepHelper, pushNotification);
 
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+            stepHelper.dismissAllAlertsOnAppStart(alertPO);
 
             stepHelper.closeAppAndReturnToHome(adHocPO);
         } catch (Exception e) {
@@ -76,10 +76,10 @@ public class NewInstallationTest extends CommonTestSteps {
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track state
-            AlertPO alertPO = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+            AlertPO alertPO = AlertPO.initialize(driver, sdk);
+            stepHelper.dismissAllAlertsOnAppStart(alertPO);
 
-            NAdHocPO adHocPO = new NAdHocPO(driver);
+            AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             if (userID.equals("")) {
@@ -92,14 +92,16 @@ public class NewInstallationTest extends CommonTestSteps {
 
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-            ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+            ConfirmInAppPO confirmInApp = ConfirmInAppPO.initialize(driver, sdk);
             for (int i = 0; i < 2; i++) {
                 stepHelper.sendTrackEvent(adHocPO, IN_APP_LIMIT_STATE);
 
                 stepHelper.verifyCondition("Verify confirm popup is present",
                         confirmInApp.verifyConfirmInApp("In-App with Limit", "2 times ever", "Виждам го!", "Не!"));
 
-                stepHelper.clickElement(confirmInApp, confirmInApp.confirmAcceptButton, "Accept in-app");
+                startStep("Click accept on confirm message");
+                confirmInApp.acceptConfirmMessage();
+                endStep();
             }
 
             // Trigger third time the state
@@ -114,7 +116,7 @@ public class NewInstallationTest extends CommonTestSteps {
 
             driver.launchApp();
 
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+            stepHelper.dismissAllAlertsOnAppStart(alertPO);
 
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 

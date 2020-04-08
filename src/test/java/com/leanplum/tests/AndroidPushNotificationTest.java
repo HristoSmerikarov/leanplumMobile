@@ -12,9 +12,10 @@ import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
+import com.leanplum.tests.pageobject.AdHocPO;
+import com.leanplum.tests.pageobject.AppSetupPO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
 import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.utils.listeners.TestListener;
@@ -45,12 +46,12 @@ public class AndroidPushNotificationTest extends CommonTestSteps {
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track event
-            AlertPO alertPO = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+            AlertPO alertPO = AlertPO.initialize(driver, sdk);
+            stepHelper.dismissAllAlertsOnAppStart(alertPO);
 
-            AppSetupPO appSetupPO = new AppSetupPO(driver);
-            String userId = alertPO.getTextFromElement(appSetupPO.userId);
-            String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
+            AppSetupPO appSetupPO = AppSetupPO.initialize(driver, sdk);
+            String userId = appSetupPO.getUserId();
+            String deviceId = appSetupPO.getDeviceId();
             NAdHocPO adHocPO = new NAdHocPO(driver);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
@@ -72,10 +73,10 @@ public class AndroidPushNotificationTest extends CommonTestSteps {
 
             stepHelper.stopAppSession(adHocPO);
 
-            //Technical wait to actually background the app
+            // Technical wait to actually background the app
             MobileDriverUtils.waitInMs(5000);
-            
-            startStep("Track event "+OUTSIDE_APP_TRIGGER+" with API call");
+
+            startStep("Track event " + OUTSIDE_APP_TRIGGER + " with API call");
             TemporaryAPI.track(userId, OUTSIDE_APP_TRIGGER);
             endStep();
 
@@ -86,7 +87,7 @@ public class AndroidPushNotificationTest extends CommonTestSteps {
             stepHelper.openPushNotification(pushNotification);
 
             // Confirm on resume app
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+            stepHelper.dismissAllAlertsOnAppStart(alertPO);
 
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, " Ad-Hoc button");
 
@@ -116,7 +117,7 @@ public class AndroidPushNotificationTest extends CommonTestSteps {
             TestStepHelper stepHelper = new TestStepHelper(this);
 
             // Track event
-            NAdHocPO adHocPO = sendEvent(driver, stepHelper, CHANNEL_DISABLED);
+            AdHocPO adHocPO = sendEvent(driver, stepHelper, CHANNEL_DISABLED);
 
             // Open notification and confirm that notification is not present
             PushNotification pushNotification = PushNotifiationType.ANDROID.initialize(driver, RONDO_PUSH_NOTIFICATION);

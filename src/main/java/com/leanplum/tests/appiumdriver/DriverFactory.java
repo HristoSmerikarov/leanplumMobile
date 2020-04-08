@@ -1,21 +1,22 @@
 package com.leanplum.tests.appiumdriver;
 
+import java.net.URL;
+
+import org.openqa.selenium.remote.DesiredCapabilities;
+
 import com.leanplum.tests.enums.OSEnum;
 import com.leanplum.tests.enums.PlatformEnum;
 import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.testdevices.AndroidTestDevice;
 import com.leanplum.tests.testdevices.IOSTestDevice;
 import com.leanplum.tests.testdevices.TestDevice;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
-
-import java.net.URL;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class DriverFactory {
 
@@ -29,12 +30,13 @@ public class DriverFactory {
         System.out.println("Name: " + testDevice.getName());
         System.out.println("PORT: " + appiumServiceUrl.getPort());
         System.out.println("IP: " + appiumServiceUrl.getHost());
-        
+
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         builder.withIPAddress(appiumServiceUrl.getHost()).usingPort(appiumServiceUrl.getPort());
 
         if (System.getProperty("useGrid").equals("true")) {
-            builder.withArgument(GeneralServerFlag.CONFIGURATION_FILE, getNodeConfigFilePath(Utils.determineOS(), testDevice.getPlatform()));
+            builder.withArgument(GeneralServerFlag.CONFIGURATION_FILE,
+                    getNodeConfigFilePath(Utils.determineOS(), testDevice.getPlatform()));
         }
 
         DesiredCapabilitiesUtils capabilitiesUtils = new DesiredCapabilitiesUtils();
@@ -49,8 +51,7 @@ public class DriverFactory {
             return new AppiumDriver<MobileElement>(new DesiredCapabilities());
         }
     }
-    
-    
+
     private String getNodeConfigFilePath(OSEnum os, PlatformEnum platform) {
         switch (os) {
         case WINDOWS:
@@ -62,7 +63,8 @@ public class DriverFactory {
             case IOS_APP:
                 return NODE_CONFIG_FILE_IOS_MAC;
             }
-            default: return "";
+        default:
+            return "";
         }
     }
 }

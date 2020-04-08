@@ -11,11 +11,11 @@ public enum InAppMessageEnum {
     WEB_INTERSTITIAL("webInterstitial");
 
     private String inAppMessage;
-    
+
     InAppMessageEnum(String inAppMessage) {
         this.inAppMessage = inAppMessage;
     }
-    
+
     public String getInAppMessage() {
         return this.inAppMessage;
     }

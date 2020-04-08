@@ -10,7 +10,7 @@ import io.restassured.response.Response;
 public class TemporaryAPI {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TemporaryAPI.class);
-    private static ApiKeysEnum apiKeys =  ApiKeysEnum.valueOfEnum(System.getProperty("application")).get();
+    private static ApiKeysEnum apiKeys = ApiKeysEnum.valueOfEnum(System.getProperty("application")).get();
     private static String testAppKey = apiKeys.getTestAppKey();
     private static String apiVersion = "1.0.6";
     private static String testProdKey = apiKeys.getTestProdKey();
@@ -72,34 +72,34 @@ public class TemporaryAPI {
                 + String.format(userIdParameter, userId) + String.format(deviceIdParameter, deviceId);
         return post(formattedEndpoint);
     }
-    
+
     public static Response getUser(String userId) {
         String formattedEndpoint = String.format(path, exportUserAction, testAppKey, apiVersion, exportKey)
                 + String.format(userIdParameter, userId);
         return get(formattedEndpoint);
     }
-    
+
     public static Response start(String userId) {
         String formattedEndpoint = String.format(path, start, testAppKey, apiVersion, exportKey)
                 + String.format(userIdParameter, userId);
         return post(formattedEndpoint);
     }
-    
+
     private static Response post(String endpoint) {
         System.out.println("POST TO ENDPOINT: " + endpoint);
         Response response = RestAssured.given().contentType(ContentType.JSON).log().all().post(endpoint);
         System.out.println("Post Response:" + response.getBody().asString());
         LOGGER.info("Post Response:" + response.getBody().asString());
-        
+
         return response;
     }
-    
+
     private static Response get(String endpoint) {
         System.out.println("GET FROM ENDPOINT: " + endpoint);
         Response response = RestAssured.given().contentType(ContentType.JSON).log().all().get(endpoint);
         System.out.println("Get Response:" + response.getBody().asString());
         LOGGER.info("Get Response:" + response.getBody().asString());
-        
+
         return response;
     }
 

@@ -1,35 +1,28 @@
 package com.leanplum.tests.campaigncomposer;
 
 import java.lang.reflect.Method;
-import java.util.Set;
 
-import org.json.JSONObject;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.google.common.base.Strings;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
-import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
+import com.leanplum.tests.pageobject.AdHocPO;
+import com.leanplum.tests.pageobject.AppSetupPO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
+import com.leanplum.tests.pageobject.inapp.CenterPopupPO;
+import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
+import com.leanplum.tests.pageobject.inapp.InterstitialPO;
+import com.leanplum.tests.pageobject.inapp.StarRatingPO;
+import com.leanplum.tests.pageobject.inapp.WebInterstitialPO;
 import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdk.AppInboxMessagePO;
-import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.BannerPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.CenterPopupPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.ConfirmInAppPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.InterstitialPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.RichInterstitialPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.StarRatingPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.WebInterstitialPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import io.restassured.response.Response;
 
 @Listeners({ TestListener.class })
 public class InAppTemplatesCampaignComposer extends CommonTestSteps {
@@ -51,11 +44,11 @@ public class InAppTemplatesCampaignComposer extends CommonTestSteps {
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
-            AppSetupPO appSetupPO = new AppSetupPO(driver);
+            AppSetupPO appSetupPO = AppSetupPO.initialize(driver, sdk);
             String userId = "rondoTestUser" + Utils.generateRandomNumberInRange(0, 10);
-            setUserId(appSetupPO, userId);
+            setUserId(driver, appSetupPO, userId);
 
-            NAdHocPO adHocPO = new NAdHocPO(driver);
+            AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             // Send conversion event
@@ -71,34 +64,35 @@ public class InAppTemplatesCampaignComposer extends CommonTestSteps {
             driver.launchApp();
             endStep();
 
-            AlertPO alert = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alert);
+            AlertPO alert = AlertPO.initialize(driver, sdk);
+            stepHelper.dismissAllAlertsOnAppStart(alert);
 
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-            stepHelper.sendUserAttribute(adHocPO, "testAttribute",
-                    "attrb" + Utils.generateRandomNumberInRange(0, 100));
+            stepHelper.sendUserAttribute(adHocPO, "testAttribute", "attrb" + Utils.generateRandomNumberInRange(0, 100));
             MobileDriverUtils.waitInMs(2000);
 
             // Verify Confirm popup
-            ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+            ConfirmInAppPO confirmInApp = ConfirmInAppPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify Confirm message template",
                     confirmInApp.verifyConfirmInApp(CONFIRM_TITLE, CONFIRM_MESSAGE, CONFIRM_ACCEPT, CONFIRM_CANCEL));
 
             // Click Accept button
-            stepHelper.clickElement(confirmInApp, confirmInApp.confirmAcceptButton,
-                    "Confirm popup cancel button - " + CONFIRM_ACCEPT);
+            startStep("Click accept on confirm message");
+            confirmInApp.acceptConfirmMessage();
+            endStep();
 
-            InterstitialPO interstitial = new InterstitialPO(driver);
+            InterstitialPO interstitial = InterstitialPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify interstitial layout", interstitial.verifyInterstitialLayout(
                     "Остави ни обратна връзка!", "Interstitial message goes here.", "Okay 👍"));
 
             // Click accept button
-            stepHelper.clickElement(interstitial, interstitial.interstitialAcceptButton,
-                    "Interstitial's Accept button");
+            startStep("Click accept on interstitial message");
+            interstitial.clickAcceptButton();
+            endStep();
 
             // Star rating not visible in dom
-            StarRatingPO starRating = new StarRatingPO(driver);
+            StarRatingPO starRating = StarRatingPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify star rating popup layout",
                     starRating.verifyStarRating("Do you our product?", 7, "No, I hate it!", "Yes, I like it!"));
 
@@ -108,24 +102,27 @@ public class InAppTemplatesCampaignComposer extends CommonTestSteps {
             endStep();
 
             // Verify center popup layout
-            CenterPopupPO centerPopup = new CenterPopupPO(driver);
+            CenterPopupPO centerPopup = CenterPopupPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify center popup layout",
                     centerPopup.verifyCenterPopup("Many thanks!", "💙💙", "Благодарим много!"));
 
             // Click accept
-            stepHelper.clickElement(centerPopup, centerPopup.centerPopupAcceptButton, "Accept center popup");
+            startStep("Click accept on center popup message");
+            centerPopup.clickAcceptButton();
+            endStep();
 
             // Verify web interstitial layout
-            WebInterstitialPO webInterstitial = new WebInterstitialPO(driver);
+            WebInterstitialPO webInterstitial = WebInterstitialPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify web interstitial popup layout", webInterstitial.verifyWebInterstitial());
 
             // Close webInterstitial
-            stepHelper.clickElement(webInterstitial, webInterstitial.webInterstitialCloseButton,
-                    "Web Interstitial's close icon");
+            startStep("Close web interstitial message");
+            webInterstitial.closeWebInterstitial();
+            endStep();
 
             // Send conversion event
             MobileDriverUtils.waitInMs(2000);
-            stepHelper.sendTrackEvent(new NAdHocPO(driver), CONVERSION_EVENT);
+            stepHelper.sendTrackEvent(AdHocPO.initialize(driver, sdk), CONVERSION_EVENT);
             MobileDriverUtils.waitInMs(2000);
 
         } catch (Exception e) {
@@ -144,11 +141,11 @@ public class InAppTemplatesCampaignComposer extends CommonTestSteps {
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
-            AppSetupPO appSetupPO = new AppSetupPO(driver);
+            AppSetupPO appSetupPO = AppSetupPO.initialize(driver, sdk);
             String userId = "rondoTestUser" + Utils.generateRandomNumberInRange(0, 10);
-            setUserId(appSetupPO, userId);
+            setUserId(driver, appSetupPO, userId);
 
-            NAdHocPO adHocPO = new NAdHocPO(driver);
+            AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             // Send conversion event
@@ -164,29 +161,29 @@ public class InAppTemplatesCampaignComposer extends CommonTestSteps {
             driver.launchApp();
             endStep();
 
-            AlertPO alert = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alert);
+            AlertPO alert = AlertPO.initialize(driver, sdk);
+            stepHelper.dismissAllAlertsOnAppStart(alert);
 
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-            stepHelper.sendUserAttribute(adHocPO, "testAttribute",
-                    "attrb" + Utils.generateRandomNumberInRange(0, 100));
+            stepHelper.sendUserAttribute(adHocPO, "testAttribute", "attrb" + Utils.generateRandomNumberInRange(0, 100));
             MobileDriverUtils.waitInMs(2000);
 
             // Verify Confirm popup
-            ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+            ConfirmInAppPO confirmInApp = ConfirmInAppPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify Confirm message template",
                     confirmInApp.verifyConfirmInApp(CONFIRM_TITLE, CONFIRM_MESSAGE, CONFIRM_ACCEPT, CONFIRM_CANCEL));
 
             // Click Accept button
-            stepHelper.clickElement(confirmInApp, confirmInApp.confirmCancelButton,
-                    "Confirm popup cancel button - " + CONFIRM_CANCEL);
+            startStep("Click cancel on confirm message");
+            confirmInApp.cancelConfirmMessage();
+            endStep();
 
             // Verify alert layout
             stepHelper.verifyCondition("Verify alert layout", alert.verifyAlertLayout("Bye bye", "🖖", "Thanks!"));
 
             // Confrim alert
-            stepHelper.clickElement(alert, alert.confirmAlertButton, "Thanks!");
+            stepHelper.dismissAlert(alert);
 
             // Send conversion event
             stepHelper.sendTrackEvent(new NAdHocPO(driver), CONVERSION_EVENT);

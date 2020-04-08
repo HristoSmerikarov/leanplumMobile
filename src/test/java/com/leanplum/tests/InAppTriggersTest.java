@@ -2,9 +2,6 @@ package com.leanplum.tests;
 
 import java.lang.reflect.Method;
 
-import javax.sound.midi.Soundbank;
-
-import org.openqa.selenium.html5.Location;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -15,18 +12,18 @@ import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.BannerPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.ConfirmInAppPO;
+import com.leanplum.tests.pageobject.AdHocPO;
+import com.leanplum.tests.pageobject.AppSetupPO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
+import com.leanplum.tests.pageobject.inapp.BannerPO;
+import com.leanplum.tests.pageobject.inapp.ConfirmInAppPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.NBannerPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.NConfirmInAppPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.nativekey.AndroidKey;
-import io.appium.java_client.android.nativekey.KeyEvent;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 
@@ -64,7 +61,7 @@ public class InAppTriggersTest extends CommonTestSteps {
             endStep();
 
             // Verify on app start alert layout
-            AlertPO alert = new AlertPO(driver);
+            AlertPO alert = AlertPO.initialize(driver, sdk);
             // TODO for Leanplum QA Production
             stepHelper.verifyCondition("Verify on app start alert layout",
                     alert.verifyAlertLayout("Start", "IAM triggered on Start", "OK"));
@@ -74,7 +71,7 @@ public class InAppTriggersTest extends CommonTestSteps {
             // alert.verifyAlertLayout("Alert on start", "Alert displayed on app start", "Тук е!"));
 
             // Confrim alert
-            stepHelper.clickElement(alert, alert.confirmAlertButton, "Confirm alert button");
+            stepHelper.dismissAlert(alert);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,7 +98,7 @@ public class InAppTriggersTest extends CommonTestSteps {
             endStep();
 
             // Verify on app start alert layout
-            AlertPO alertPO = new AlertPO(driver);
+            AlertPO alertPO = AlertPO.initialize(driver, sdk);
             // TODO for Leanplum QA Production
             stepHelper.verifyCondition("Verify on app start alert layout",
                     alertPO.verifyAlertLayout("Start", "IAM triggered on Start", "OK"));
@@ -111,7 +108,7 @@ public class InAppTriggersTest extends CommonTestSteps {
             // alert.verifyAlertLayout("Alert on start", "Alert displayed on app start", "Тук е!"));
 
             // Confrim alert
-            stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, " confirm alert button");
+            stepHelper.dismissAlert(alertPO);
 
             // stepHelper.closeAppAndReturnToHome(alertPO);
 
@@ -124,8 +121,8 @@ public class InAppTriggersTest extends CommonTestSteps {
             // stepHelper.verifyCondition("Verify on app start or resume alert layout", alertPO.verifyAlertLayout(
             // "Alert on start or resume", "Alert displayed on app start or resume", "Известието е тук!"));
 
-            stepHelper.clickElement(alertPO, alertPO.confirmAlertButton, " confirm alert button");
-
+            // Confrim alert
+            stepHelper.dismissAlert(alertPO);
         } catch (Exception e) {
             e.printStackTrace();
             endStep(e.toString(), false);
@@ -148,14 +145,14 @@ public class InAppTriggersTest extends CommonTestSteps {
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
-            AlertPO alert = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alert);
+            AlertPO alert = AlertPO.initialize(driver, sdk);
+            stepHelper.dismissAllAlertsOnAppStart(alert);
 
             // Track event
-            NAdHocPO adHocPO = new NAdHocPO(driver);
+            AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-            BannerPO banner = new BannerPO(driver);
+            BannerPO banner = BannerPO.initialize(driver, sdk);
             for (int i = 0; i < LIMIT_PER_SESSION; i++) {
                 stepHelper.sendTrackEvent(adHocPO, TRIGGER_EVENT);
 
@@ -173,7 +170,7 @@ public class InAppTriggersTest extends CommonTestSteps {
             stepHelper.sendTrackEvent(adHocPO, TRIGGER_EVENT);
 
             startStep("Verify banner is not shown");
-            endStep(!MobileDriverUtils.doesSelectorMatchAnyElements(driver, BannerPO.POPUP_CONTAINER_XPATH));
+            endStep(!MobileDriverUtils.doesSelectorMatchAnyElements(driver, NBannerPO.POPUP_CONTAINER_XPATH));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -198,11 +195,11 @@ public class InAppTriggersTest extends CommonTestSteps {
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
-            AlertPO alert = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alert);
+            AlertPO alert = AlertPO.initialize(driver, sdk);
+            stepHelper.dismissAllAlertsOnAppStart(alert);
 
             // Track event
-            NAdHocPO adHocPO = new NAdHocPO(driver);
+            AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             // First trigger
@@ -210,20 +207,20 @@ public class InAppTriggersTest extends CommonTestSteps {
                     ATTRIBUTE_VALUE + Utils.generateRandomNumberInRange(0, 100));
 
             stepHelper.verifyCondition("Verify confirm popup layout is not present",
-                    !MobileDriverUtils.doesSelectorMatchAnyElements(driver, ConfirmInAppPO.CONFIRM_IN_APP));
+                    !MobileDriverUtils.doesSelectorMatchAnyElements(driver, NConfirmInAppPO.CONFIRM_IN_APP));
 
             // Second trigger
             stepHelper.sendUserAttribute(adHocPO, TRIGGER_ATTRIBUTE,
                     ATTRIBUTE_VALUE + Utils.generateRandomNumberInRange(0, 100));
 
             // Verify Confirm popup
-            ConfirmInAppPO confirmInApp = new ConfirmInAppPO(driver);
+            ConfirmInAppPO confirmInApp = ConfirmInAppPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify confirm popup layout", confirmInApp.verifyConfirmInApp("ConfirmTitle",
                     "This message appears when attribute changes every 2 times", CONFIRM_ACCEPT, "No!"));
 
-            stepHelper.clickElement(confirmInApp, confirmInApp.confirmAcceptButton,
-                    "Confirm popup accept button - " + CONFIRM_ACCEPT);
-
+            startStep("Click accept on confirm message");
+            confirmInApp.acceptConfirmMessage();
+            endStep();
         } catch (Exception e) {
             e.printStackTrace();
             endStep(e.toString(), false);
@@ -242,13 +239,13 @@ public class InAppTriggersTest extends CommonTestSteps {
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
-            AlertPO alertPO = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+            AlertPO alertPO = AlertPO.initialize(driver, sdk);
+            stepHelper.dismissAllAlertsOnAppStart(alertPO);
 
-            AppSetupPO appSetupPO = new AppSetupPO(driver);
-            String userId = alertPO.getTextFromElement(appSetupPO.userId);
-            String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-            NAdHocPO adHocPO = new NAdHocPO(driver);
+            AppSetupPO appSetupPO = AppSetupPO.initialize(driver, sdk);
+            String userId = appSetupPO.getUserId();
+            String deviceId = appSetupPO.getDeviceId();
+            AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             startStep("Set user id, if not set");
@@ -258,11 +255,11 @@ public class InAppTriggersTest extends CommonTestSteps {
             }
             endStep();
 
-            if(driver instanceof AndroidDriver) {
+            if (driver instanceof AndroidDriver) {
                 startStep("Send device location: " + MEZDRA[0] + MEZDRA[1]);
                 adHocPO.sendDeviceLocation(MEZDRA[0], MEZDRA[1]);
                 endStep();
-            }else {
+            } else {
                 stepHelper.sendDeviceLocation(adHocPO, MEZDRA[0], MEZDRA[1]);
             }
 
@@ -277,31 +274,31 @@ public class InAppTriggersTest extends CommonTestSteps {
             driver.activateApp("com.leanplum.rondo");
             MobileDriverUtils.waitInMs(2000);
 
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+            stepHelper.dismissAllAlertsOnAppStart(alertPO);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
             MobileDriverUtils.waitInMs(1000);
             stepHelper.clickElement(appSetupPO, appSetupPO.appSetup, "Ad-Hoc button");
 
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-            if(driver instanceof AndroidDriver) {
+            if (driver instanceof AndroidDriver) {
                 startStep("Send device location: " + INTERPRED[0] + INTERPRED[1]);
                 adHocPO.sendDeviceLocation(INTERPRED[0], INTERPRED[1]);
                 endStep();
-            }else {
+            } else {
                 stepHelper.sendDeviceLocation(adHocPO, INTERPRED[0], INTERPRED[1]);
             }
-            
+
             driver.terminateApp("com.leanplum.rondo");
             MobileDriverUtils.waitInMs(2000);
             driver.activateApp("com.leanplum.rondo");
             MobileDriverUtils.waitInMs(2000);
-            
+
             response = TemporaryAPI.getUser(userId);
             System.out.println("Response: " + response.body().prettyPrint());
 
             // Confirm alert
-            AlertPO alert = new AlertPO(driver);
+            AlertPO alert = AlertPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify alert layout",
                     alert.verifyAlertLayout("Exit region", "I'm out!", "Confirm"));
 
@@ -324,13 +321,13 @@ public class InAppTriggersTest extends CommonTestSteps {
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
-            AlertPO alertPO = new AlertPO(driver);
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+            AlertPO alertPO = AlertPO.initialize(driver, sdk);
+            stepHelper.dismissAllAlertsOnAppStart(alertPO);
 
-            AppSetupPO appSetupPO = new AppSetupPO(driver);
-            String userId = alertPO.getTextFromElement(appSetupPO.userId);
-            String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-            NAdHocPO adHocPO = new NAdHocPO(driver);
+            AppSetupPO appSetupPO = AppSetupPO.initialize(driver, sdk);
+            String userId = appSetupPO.getUserId();
+            String deviceId = appSetupPO.getDeviceId();
+            AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             startStep("Set user id, if not set");
@@ -339,12 +336,12 @@ public class InAppTriggersTest extends CommonTestSteps {
                 userId = deviceId;
             }
             endStep();
-            
-            if(driver instanceof AndroidDriver) {
+
+            if (driver instanceof AndroidDriver) {
                 startStep("Send device location: " + MEZDRA[0] + MEZDRA[1]);
                 adHocPO.sendDeviceLocation(MEZDRA[0], MEZDRA[1]);
                 endStep();
-            }else {
+            } else {
                 stepHelper.sendDeviceLocation(adHocPO, MEZDRA[0], MEZDRA[1]);
             }
 
@@ -354,8 +351,8 @@ public class InAppTriggersTest extends CommonTestSteps {
             MobileDriverUtils.waitInMs(5000);
             driver.launchApp();
             endStep();
-            
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+
+            stepHelper.dismissAllAlertsOnAppStart(alertPO);
 
             Response response = TemporaryAPI.getUser(userId);
             System.out.println("Response: " + response.body().prettyPrint());
@@ -368,21 +365,20 @@ public class InAppTriggersTest extends CommonTestSteps {
             driver.activateApp("com.leanplum.rondo");
             MobileDriverUtils.waitInMs(2000);
 
-            stepHelper.acceptAllAlertsOnAppStart(alertPO);
+            stepHelper.dismissAllAlertsOnAppStart(alertPO);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
             MobileDriverUtils.waitInMs(1000);
             stepHelper.clickElement(appSetupPO, appSetupPO.appSetup, "Ad-Hoc button");
 
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
-            if(driver instanceof AndroidDriver) {
+            if (driver instanceof AndroidDriver) {
                 startStep("Send device location: " + VARNA[0] + VARNA[1]);
                 adHocPO.sendDeviceLocation(VARNA[0], VARNA[1]);
                 endStep();
-            }else {
+            } else {
                 stepHelper.sendDeviceLocation(adHocPO, VARNA[0], VARNA[1]);
             }
-            
 
             MobileDriverUtils.waitInMs(10000);
 
@@ -392,7 +388,7 @@ public class InAppTriggersTest extends CommonTestSteps {
             MobileDriverUtils.waitInMs(2000);
 
             // Confirm alert
-            AlertPO alert = new AlertPO(driver);
+            AlertPO alert = AlertPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify alert layout",
                     alert.verifyAlertLayout("Enter region", "I'm in!", "Confirm"));
 

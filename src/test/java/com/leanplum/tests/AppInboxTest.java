@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.Set;
 
 import org.json.JSONObject;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -13,14 +12,12 @@ import com.google.common.base.Strings;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
-import com.leanplum.tests.enums.SdkEnum;
 import com.leanplum.tests.helpers.MobileDriverUtils;
-import com.leanplum.tests.pageobject.TestPO;
-import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdk.AppInboxMessagePO;
-import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
-import com.leanplum.tests.pageobject.nativesdk.NTestPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
+import com.leanplum.tests.pageobject.AdHocPO;
+import com.leanplum.tests.pageobject.AppInboxMessagePO;
+import com.leanplum.tests.pageobject.AppSetupPO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
+import com.leanplum.tests.pageobject.nativesdkinapp.NAlertPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
@@ -47,15 +44,12 @@ public class AppInboxTest extends CommonTestSteps {
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
-            TestPO testPO = TestPO.initialize(driver, SdkEnum.NATIVE);
-            
-            testPO.click();
-            
-            AppSetupPO appSetupPO = new AppSetupPO(driver);
+            AppSetupPO appSetupPO = AppSetupPO.initialize(driver, sdk);
+
             String deviceId = getDeviceId(appSetupPO);
             String userId = getUserId(appSetupPO);
 
-            NAdHocPO adHocPO = new NAdHocPO(driver);
+            AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
 
             if (Strings.isNullOrEmpty(userId)) {
                 stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
@@ -84,16 +78,15 @@ public class AppInboxTest extends CommonTestSteps {
             driver.launchApp();
             endStep();
 
-            AlertPO alert = new AlertPO(driver);
+            AlertPO alert = AlertPO.initialize(driver, sdk);
             MobileDriverUtils.waitInMs(5000);
-            stepHelper.acceptAllAlertsOnAppStart(alert);
+            stepHelper.dismissAllAlertsOnAppStart(alert);
 
             startStep("Wait for device Id to appear");
-            MobileDriverUtils.waitForExpectedCondition(driver, 30,
-                    ExpectedConditions.textToBePresentInElement(appSetupPO.deviceId, deviceId));
+            appSetupPO.waitForDeviceIdIUpdate(deviceId);
             endStep();
 
-            AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);
+            AppInboxMessagePO appInbox = AppInboxMessagePO.initialize(driver, sdk);
             stepHelper.clickElement(appInbox, appInbox.appinbox, "App Inbox button");
 
             startStep("Wait for app inbox message");
@@ -114,12 +107,13 @@ public class AppInboxTest extends CommonTestSteps {
             endStep();
 
             // Verify alert layout
-            alert = new AlertPO(driver);
+            alert = new NAlertPO(driver);
             stepHelper.verifyCondition("Verify alert layout", alert.verifyAlertLayout("AlertMessage",
                     "Alert message after opening app inbox message", "It's here!"));
 
             // Confrim alert
-            stepHelper.clickElement(alert, alert.confirmAlertButton, "It's here!");
+            alert.dismissAlert();
+            stepHelper.dismissAlert(alert);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -7,12 +7,13 @@ import org.testng.annotations.Test;
 
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
-import com.leanplum.tests.api.TemporaryAPI;
-import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
+import com.leanplum.tests.helpers.Utils;
+import com.leanplum.tests.pageobject.AdHocPO;
+import com.leanplum.tests.pageobject.AppSetupPO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pushnotification.AndroidPushNotification;
 import com.leanplum.tests.pushnotification.PushNotifiationType;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 
@@ -26,14 +27,14 @@ public class PushNotification extends CommonTestSteps {
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
-            AppSetupPO appSetupPO = new AppSetupPO(driver);
-            String userId = "automationUser";
-            setUserId(appSetupPO, userId);
+            AppSetupPO appSetupPO = AppSetupPO.initialize(driver, sdk);
+            String userId = "rondoTestUser" + Utils.generateRandomNumberInRange(0, 10);
+            setUserId(driver, appSetupPO, userId);
 
-            NAdHocPO adHocPO = sendEvent(driver, stepHelper, "pushNotification");
-            
+            AdHocPO adHocPO = sendEvent(driver, stepHelper, "pushNotification");
+
             // Send attribute
-            //TemporaryAPI.sendMessage(userId, "5718727950598144");
+            // TemporaryAPI.sendMessage(userId, "5718727950598144");
 
             // Open notifications and verify layout
             AndroidPushNotification pushNotification = (AndroidPushNotification) PushNotifiationType.ANDROID
@@ -48,7 +49,7 @@ public class PushNotification extends CommonTestSteps {
             stepHelper.openPushNotification(pushNotification);
 
             // Verify center popup
-            AlertPO alert = new AlertPO(driver);
+            AlertPO alert = AlertPO.initialize(driver, sdk);
             stepHelper.verifyCondition("Verify alert layout", alert.verifyAlertLayout("Congrats!",
                     "You will acuire your present on next purchase.", "Thank you!"));
 

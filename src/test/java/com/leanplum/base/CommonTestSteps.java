@@ -5,10 +5,11 @@ import java.net.MalformedURLException;
 
 import com.google.common.base.Strings;
 import com.leanplum.tests.helpers.TestAppUtils;
+import com.leanplum.tests.pageobject.AdHocPO;
+import com.leanplum.tests.pageobject.AppSetupPO;
 import com.leanplum.tests.pageobject.MobileBrowserPO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
 import com.leanplum.tests.pushnotification.PushNotification;
 
 import io.appium.java_client.AppiumDriver;
@@ -40,24 +41,24 @@ public class CommonTestSteps extends BaseTest {
         driver.installApp(rondoAppFile.getAbsolutePath());
 
         driver.launchApp();
-        
+
         setupApp(driver);
 
         return driver;
     }
-    
+
     private void setupApp(AppiumDriver<MobileElement> driver) {
         TestStepHelper stepHelper = new TestStepHelper(this);
 
-        AlertPO alert = new AlertPO(driver);
-        stepHelper.acceptAllAlertsOnAppStart(alert);
+        AlertPO alert = AlertPO.initialize(driver, sdk);
+        stepHelper.dismissAllAlertsOnAppStart(alert);
 
         TestAppUtils appUtils = new TestAppUtils();
         appUtils.selectAppAndEnv(driver);
     }
 
-    protected void setUserId(AppSetupPO appSetupPO, String userId) {
-        NAdHocPO adHocPO = new NAdHocPO(getDriver());
+    protected void setUserId(AppiumDriver<MobileElement> driver, AppSetupPO appSetupPO, String userId) {
+        AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
         adHocPO.click(adHocPO.adhoc);
 
         adHocPO.setUserId(userId);
@@ -65,15 +66,14 @@ public class CommonTestSteps extends BaseTest {
         appSetupPO.click(appSetupPO.appSetup);
     }
 
-    protected NAdHocPO sendEvent(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper,
-        String message) {
-        AlertPO alertPO = new AlertPO(driver);
-        stepHelper.acceptAllAlertsOnAppStart(alertPO);
+    protected AdHocPO sendEvent(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper, String message) {
+        AlertPO alertPO = AlertPO.initialize(driver, sdk);
+        stepHelper.dismissAllAlertsOnAppStart(alertPO);
 
-        AppSetupPO appSetupPO = new AppSetupPO(driver);
-        String userId = alertPO.getTextFromElement(appSetupPO.userId);
-        String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-        NAdHocPO adHocPO = new NAdHocPO(driver);
+        AppSetupPO appSetupPO = AppSetupPO.initialize(driver, sdk);
+        String userId = appSetupPO.getUserId();
+        String deviceId = appSetupPO.getDeviceId();
+        AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
         stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
         if (Strings.isNullOrEmpty(userId)) {
@@ -87,16 +87,15 @@ public class CommonTestSteps extends BaseTest {
         return adHocPO;
     }
 
-    protected NAdHocPO sendEventWithParameters(AppiumDriver<MobileElement> driver,
-        TestStepHelper stepHelper,
-        String message, String paramKey, String paramValue) {
-        AlertPO alertPO = new AlertPO(driver);
-        stepHelper.acceptAllAlertsOnAppStart(alertPO);
+    protected AdHocPO sendEventWithParameters(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper,
+            String message, String paramKey, String paramValue) {
+        AlertPO alertPO = AlertPO.initialize(driver, sdk);
+        stepHelper.dismissAllAlertsOnAppStart(alertPO);
 
-        AppSetupPO appSetupPO = new AppSetupPO(driver);
-        String userId = alertPO.getTextFromElement(appSetupPO.userId);
-        String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-        NAdHocPO adHocPO = new NAdHocPO(driver);
+        AppSetupPO appSetupPO = AppSetupPO.initialize(driver, sdk);
+        String userId = appSetupPO.getUserId();
+        String deviceId = appSetupPO.getDeviceId();
+        AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
         stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
         if (Strings.isNullOrEmpty(userId)) {
@@ -104,21 +103,19 @@ public class CommonTestSteps extends BaseTest {
         }
 
         stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
-
         stepHelper.sendTrackEventWithParameters(adHocPO, message, paramKey, paramValue);
 
         return adHocPO;
     }
 
-    protected NAdHocPO sendState(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper,
-        String state) {
-        AlertPO alertPO = new AlertPO(driver);
-        stepHelper.acceptAllAlertsOnAppStart(alertPO);
+    protected AdHocPO sendState(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper, String state) {
+        AlertPO alertPO = AlertPO.initialize(driver, sdk);
+        stepHelper.dismissAllAlertsOnAppStart(alertPO);
 
-        AppSetupPO appSetupPO = new AppSetupPO(driver);
-        String userId = alertPO.getTextFromElement(appSetupPO.userId);
-        String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-        NAdHocPO adHocPO = new NAdHocPO(driver);
+        AppSetupPO appSetupPO = AppSetupPO.initialize(driver, sdk);
+        String userId = appSetupPO.getUserId();
+        String deviceId = appSetupPO.getDeviceId();
+        AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
         stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
         if (Strings.isNullOrEmpty(userId)) {
@@ -132,16 +129,15 @@ public class CommonTestSteps extends BaseTest {
         return adHocPO;
     }
 
-    protected NAdHocPO sendUserAttribute(AppiumDriver<MobileElement> driver,
-        TestStepHelper stepHelper,
-        String attributeName, String attributeValue) {
-        AlertPO alertPO = new AlertPO(driver);
-        stepHelper.acceptAllAlertsOnAppStart(alertPO);
+    protected AdHocPO sendUserAttribute(AppiumDriver<MobileElement> driver, TestStepHelper stepHelper,
+            String attributeName, String attributeValue) {
+        AlertPO alertPO = AlertPO.initialize(driver, sdk);
+        stepHelper.dismissAllAlertsOnAppStart(alertPO);
 
-        AppSetupPO appSetupPO = new AppSetupPO(driver);
-        String userId = alertPO.getTextFromElement(appSetupPO.userId);
-        String deviceId = alertPO.getTextFromElement(appSetupPO.deviceId);
-        NAdHocPO adHocPO = new NAdHocPO(driver);
+        AppSetupPO appSetupPO = AppSetupPO.initialize(driver, sdk);
+        String userId = appSetupPO.getUserId();
+        String deviceId = appSetupPO.getDeviceId();
+        AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
         stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
         if (Strings.isNullOrEmpty(userId)) {
@@ -155,8 +151,7 @@ public class CommonTestSteps extends BaseTest {
         return adHocPO;
     }
 
-    protected void openNotificationsAndOpenByMessage(TestStepHelper stepHelper,
-        PushNotification pushNotification) {
+    protected void openNotificationsAndOpenByMessage(TestStepHelper stepHelper, PushNotification pushNotification) {
         stepHelper.openNotifications();
         stepHelper.waitForNotificationPresence(pushNotification);
         stepHelper.openPushNotification(pushNotification);
@@ -166,32 +161,31 @@ public class CommonTestSteps extends BaseTest {
         MobileBrowserPO mobileBrowserPO = new MobileBrowserPO(driver);
         return mobileBrowserPO.isCorrectURLOpened(url);
     }
-    
-    
+
     /**
      * On Android there is a chance not to have userId, logic to set one is added
      *
      * @param appSetupPO
      * @return
      */
-     public String getUserId(AppSetupPO appSetupPO) {
-         String userId = appSetupPO.getTextFromElement(appSetupPO.userId);
+    public String getUserId(AppSetupPO appSetupPO) {
+        String userId = appSetupPO.getUserId();
 
-         if (userId == null || userId.isEmpty()) {
-             String deviceId = getDeviceId(appSetupPO);
+        if (userId == null || userId.isEmpty()) {
+            String deviceId = getDeviceId(appSetupPO);
 
-             NAdHocPO adHocPO = new NAdHocPO(getDriver());
-             adHocPO.click(adHocPO.adhoc);
+            NAdHocPO adHocPO = new NAdHocPO(getDriver());
+            adHocPO.click(adHocPO.adhoc);
 
-             adHocPO.setUserId(deviceId);
+            adHocPO.setUserId(deviceId);
 
-             appSetupPO.click(appSetupPO.appSetup);
-         }
+            appSetupPO.clickAppStatus();
+        }
 
-         return userId;
-     }
+        return userId;
+    }
 
     public String getDeviceId(AppSetupPO appSetupPO) {
-        return appSetupPO.getTextFromElement(appSetupPO.deviceId);
+        return appSetupPO.getDeviceId();
     }
 }

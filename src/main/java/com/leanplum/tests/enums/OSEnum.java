@@ -18,7 +18,7 @@ public enum OSEnum {
     }
 
     public static Optional<OSEnum> valueOfEnum(String name) {
-        return Arrays.stream(values()).filter(optionEnum -> name.toLowerCase().contains(optionEnum.osName.toLowerCase()))
-                .findFirst();
+        return Arrays.stream(values())
+                .filter(optionEnum -> name.toLowerCase().contains(optionEnum.osName.toLowerCase())).findFirst();
     }
 }

@@ -3,7 +3,7 @@ package com.leanplum.tests.helpers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
+import com.leanplum.tests.pageobject.nativesdk.NAppSetupPO;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -18,7 +18,7 @@ public class TestAppUtils {
         String envName = System.getProperty("environment");
 
         if (!appName.equals("") && !envName.equals("")) {
-            AppSetupPO appSetup = new AppSetupPO(driver);
+            NAppSetupPO appSetup = new NAppSetupPO(driver);
 
             selectApp(appSetup, appName);
             selectEnvironment(appSetup, envName);
@@ -27,11 +27,11 @@ public class TestAppUtils {
         }
     }
 
-    private void selectApp(AppSetupPO appSetup, String appName) {
+    private void selectApp(NAppSetupPO appSetup, String appName) {
         appSetup.selectApp(appName);
     }
 
-    private void selectEnvironment(AppSetupPO appSetup, String envName) {
+    private void selectEnvironment(NAppSetupPO appSetup, String envName) {
         appSetup.selectEnvironment(envName);
     }
 }

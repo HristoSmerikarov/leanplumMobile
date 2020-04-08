@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.openqa.selenium.OutputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import com.leanplum.tests.appiumdriver.DriverFactory;
 import com.leanplum.tests.appiumdriver.GridManager;
 import com.leanplum.tests.enums.OSEnum;
 import com.leanplum.tests.enums.PlatformEnum;
+import com.leanplum.tests.enums.SdkEnum;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
 import com.leanplum.tests.testdevices.DeviceManager;
@@ -51,6 +53,7 @@ public class BaseTest {
     private List<AppiumDriver<MobileElement>> appiumDrivers = new ArrayList<>();
     private SoftAssert softAssert;
     private boolean useGrid = Boolean.valueOf(System.getProperty("useGrid"));
+    protected SdkEnum sdk = SdkEnum.valueOfEnum(System.getProperty("sdk")).get();
     private String serviceIpAddress;
     private OSEnum os;
     private PlatformEnum platform;
@@ -77,10 +80,10 @@ public class BaseTest {
                 AppiumServiceUtils.appiumServices.get(i).start();
             }
         } else {
-            serviceIpAddress = "http://"+serviceIpAddress+":%s/wd/hub";
+            serviceIpAddress = "http://" + serviceIpAddress + ":%s/wd/hub";
             for (int i = 0; i < DeviceManager.connectedTestDevices.size(); i++) {
                 GridManager.addUrlForGrid(new URL(String.format(serviceIpAddress, AppiumServiceUtils.findFreePort())));
-                System.out.println("GRID URL ADDED: "+GridManager.getGridURL(i));
+                System.out.println("GRID URL ADDED: " + GridManager.getGridURL(i));
             }
         }
 
@@ -111,7 +114,9 @@ public class BaseTest {
             driver = createDriver(currentTestDevice, AppiumServiceUtils.appiumService.getUrl());
         } else {
             System.out.println("INITIALIZING FOR TEST DEVICE GRID: " + currentTestDevice.getId());
-            GridManager.getGridURLs().forEach(url->{System.out.println("PORT: "+url.getPort());});
+            GridManager.getGridURLs().forEach(url -> {
+                System.out.println("PORT: " + url.getPort());
+            });
             driver = createDriver(currentTestDevice, GridManager.getGridURL(threadIndex));
         }
 
@@ -147,6 +152,10 @@ public class BaseTest {
                 .getDeviceProperties(device.getPlatform().getPlatformName().toLowerCase(), "phone"), appiumServiceIp);
         System.out.println("INIT DRIVER: " + driver.toString());
         return driver;
+    }
+
+    public SdkEnum getSdk() {
+        return this.sdk;
     }
 
     @BeforeSuite()

@@ -8,17 +8,15 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.google.common.base.Strings;
 import com.leanplum.base.CommonTestSteps;
 import com.leanplum.base.TestStepHelper;
 import com.leanplum.tests.api.TemporaryAPI;
 import com.leanplum.tests.helpers.MobileDriverUtils;
 import com.leanplum.tests.helpers.Utils;
-import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdk.AppInboxMessagePO;
-import com.leanplum.tests.pageobject.nativesdk.AppSetupPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.StarRatingPO;
+import com.leanplum.tests.pageobject.AdHocPO;
+import com.leanplum.tests.pageobject.AppInboxMessagePO;
+import com.leanplum.tests.pageobject.AppSetupPO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.utils.listeners.TestListener;
 
 import io.appium.java_client.AppiumDriver;
@@ -37,17 +35,17 @@ public class AppInboxCampaign extends CommonTestSteps {
 
             TestStepHelper stepHelper = new TestStepHelper(this);
 
-            AppSetupPO appSetupPO = new AppSetupPO(driver);
+            AppSetupPO appSetupPO = AppSetupPO.initialize(driver, sdk);
             String userId = "rondoTestUser" + Utils.generateRandomNumberInRange(0, 10);
             String deviceId = getDeviceId(appSetupPO);
-            setUserId(appSetupPO, userId);
+            setUserId(driver, appSetupPO, userId);
 
-            NAdHocPO adHocPO = new NAdHocPO(driver);
+            AdHocPO adHocPO = AdHocPO.initialize(driver, sdk);
             stepHelper.clickElement(adHocPO, adHocPO.adhoc, "Ad-Hoc button");
 
             stepHelper.sendTrackEvent(adHocPO, "inAppVerified");
             MobileDriverUtils.waitInMs(5000);
-            
+
             Response newsfeedIdResponse = TemporaryAPI.getNewsfeedMessages(deviceId);
 
             Set<String> newsfeedIds = getNewsfeedMessageIds(newsfeedIdResponse);
@@ -60,11 +58,11 @@ public class AppInboxCampaign extends CommonTestSteps {
             MobileDriverUtils.waitInMs(15000);
             driver.launchApp();
 
-            AlertPO alert = new AlertPO(driver);
+            AlertPO alert = AlertPO.initialize(driver, sdk);
             MobileDriverUtils.waitInMs(5000);
-            stepHelper.acceptAllAlertsOnAppStart(alert);
+            stepHelper.dismissAllAlertsOnAppStart(alert);
 
-            AppInboxMessagePO appInbox = new AppInboxMessagePO(driver);
+            AppInboxMessagePO appInbox = AppInboxMessagePO.initialize(driver, sdk);
             stepHelper.clickElement(appInbox, appInbox.appinbox, "App Inbox button");
 
             startStep("Verify app inbox message title is correct");

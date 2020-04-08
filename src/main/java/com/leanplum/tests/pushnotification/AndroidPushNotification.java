@@ -8,7 +8,7 @@ import com.leanplum.tests.helpers.MobileDriverUtils;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 
-public class AndroidPushNotification implements PushNotification{
+public class AndroidPushNotification implements PushNotification {
 
     private static final String PUSH_NOTIFICATION_MESSAGE_XPATH = "//*[contains(@resource-id,'text') and contains(@text,'%s')]";
     private static final String PUSH_NOTIFICATION_BY_MESSAGE_XPATH = PUSH_NOTIFICATION_MESSAGE_XPATH
@@ -17,7 +17,7 @@ public class AndroidPushNotification implements PushNotification{
             + "//*[@resource-id='android:id/expand_button']";
     private static final String PICTURE_IN_PUSH_NOTIFICATION_XPATH = PUSH_NOTIFICATION_BY_MESSAGE_XPATH
             + "//*[@resource-id='android:id/big_picture']";
-    
+
     private MobileDriver<MobileElement> driver;
     private String message;
 
@@ -30,7 +30,7 @@ public class AndroidPushNotification implements PushNotification{
         this.driver = driver;
         this.message = message;
     }
-    
+
     @Override
     public boolean doesContainImage() {
         expand();
@@ -66,7 +66,7 @@ public class AndroidPushNotification implements PushNotification{
     public void dismiss() {
         // TODO to be defined
     }
-    
+
     private void expand() {
         String formattedExpandButtonXpath = String.format(PUSH_NOTIFICATION_EXPAND_BUTTON_XPATH, message);
 

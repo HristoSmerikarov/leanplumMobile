@@ -3,14 +3,12 @@ package com.leanplum.base;
 import java.time.Duration;
 
 import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.leanplum.tests.helpers.MobileDriverUtils;
+import com.leanplum.tests.pageobject.AdHocPO;
 import com.leanplum.tests.pageobject.BasePO;
-import com.leanplum.tests.pageobject.nativesdk.NAdHocPO;
-import com.leanplum.tests.pageobject.nativesdkinapp.AlertPO;
+import com.leanplum.tests.pageobject.inapp.AlertPO;
 import com.leanplum.tests.pushnotification.PushNotification;
 import com.leanplum.tests.pushnotification.PushNotificationUtils;
 
@@ -35,32 +33,32 @@ public class TestStepHelper {
         test.endStep();
     }
 
-    public void sendTrackEvent(NAdHocPO adHocPO, String message) {
+    public void sendTrackEvent(AdHocPO adHocPO, String message) {
         test.startStep("Send track event: " + message);
         adHocPO.sendTrackEvent(message);
         test.endStep();
     }
 
-    public void sendTrackEventWithParameters(NAdHocPO adHocPO, String eventName, String paramKey, String paramValue) {
+    public void sendTrackEventWithParameters(AdHocPO adHocPO, String eventName, String paramKey, String paramValue) {
         test.startStep("Send track event: " + eventName);
         adHocPO.sendTrackEventWithParameter(eventName, paramKey, paramValue);
         test.endStep();
     }
 
-    public void sendDeviceLocation(NAdHocPO adHocPO, String latitude, String longitude) {
+    public void sendDeviceLocation(AdHocPO adHocPO, String latitude, String longitude) {
         test.startStep("Send location coordinates: " + latitude + " and " + longitude);
-        System.out.println("SEND COORDINATES: "+latitude + " and " + longitude);
+        System.out.println("SEND COORDINATES: " + latitude + " and " + longitude);
         adHocPO.getDriver().setLocation(new Location(Double.valueOf(latitude), Double.valueOf(longitude), 40.0));
         test.endStep();
     }
 
-    public void sendStateEvent(NAdHocPO adHocPO, String state) {
+    public void sendStateEvent(AdHocPO adHocPO, String state) {
         test.startStep("Advance to state: " + state);
         adHocPO.sendStateEvent(state);
         test.endStep();
     }
 
-    public void sendUserAttribute(NAdHocPO adHocPO, String attributeName, String attributeValue) {
+    public void sendUserAttribute(AdHocPO adHocPO, String attributeName, String attributeValue) {
         test.startStep("Send user attribute: " + attributeName + " with value: " + attributeValue);
         adHocPO.sendUserAttribute(attributeName, attributeValue);
         test.endStep();
@@ -71,8 +69,8 @@ public class TestStepHelper {
         test.endStep(condition);
     }
 
-    //TODO
-    //Clear all push notifications before
+    // TODO
+    // Clear all push notifications before
     public void openNotifications() {
         test.startStep("Open notifications");
         PushNotificationUtils pushNotificationUtils = new PushNotificationUtils(test.getDriver());
@@ -104,9 +102,9 @@ public class TestStepHelper {
     }
 
     public void backgroundApp(BasePO basePage, long millis) {
-        	basePage.getDriver().runAppInBackground(Duration.ofMillis(millis));
+        basePage.getDriver().runAppInBackground(Duration.ofMillis(millis));
     }
-    
+
     public void stopAppSession(BasePO basePage) {
         if (basePage.getDriver() instanceof IOSDriver) {
             basePage.getDriver().closeApp();
@@ -123,17 +121,11 @@ public class TestStepHelper {
         }
     }
 
-    public void acceptAllAlertsOnAppStart(AlertPO page) {
-        try {
-            MobileDriverUtils.waitForExpectedCondition(page.getDriver(), 10,
-                    ExpectedConditions.visibilityOf(page.alertPopup));
-        } catch (Exception e) {
-            logger.info("No alerts were detected on app start");
-        }
+    public void dismissAllAlertsOnAppStart(AlertPO page) {
+        page.dismissAllAlertsOnStart();
+    }
 
-        while (page.isAlertPresent()) {
-            clickElement(page, page.confirmAlertButton, "Confirm Alert button");
-            MobileDriverUtils.waitInMs(500);
-        }
+    public void dismissAlert(AlertPO page) {
+        page.dismissAlert();
     }
 }
